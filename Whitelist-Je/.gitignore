@@ -111,3 +111,9 @@ buildNumber.properties
 
 # Common working directory
 run/
+
+
+# ide related
+.vs/
+.vscode/
+.history/
