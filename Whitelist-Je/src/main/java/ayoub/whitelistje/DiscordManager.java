@@ -23,10 +23,11 @@ public class DiscordManager {
     public void connect() {
         try {
             jda = JDABuilder.create(
-                            "OTk1OTg5NTkxNzAwMDI5NDYw.Gd-Yfh.kg0heHU5f_Xzt-K6u30u-Z3WtzcnHa250L0q9w",
-                            EnumSet.allOf(GatewayIntent.class))
-                    .build()
-                    .awaitReady();
+            "OTk1OTg5NTkxNzAwMDI5NDYw.Gd-Yfh.kg0heHU5f_Xzt-K6u30u-Z3WtzcnHa250L0q9w",
+            EnumSet.allOf(GatewayIntent.class))
+            .build()
+            .awaitReady();
+            
         } catch (LoginException | InterruptedException e) {
             e.printStackTrace();
             Bukkit.shutdown();
