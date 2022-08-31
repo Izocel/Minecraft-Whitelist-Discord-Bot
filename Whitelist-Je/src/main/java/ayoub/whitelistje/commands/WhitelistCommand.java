@@ -1,14 +1,11 @@
 package ayoub.whitelistje.commands;
 
 import ayoub.whitelistje.WhitelistJe;
-import ayoub.whitelistje.functions.Alphanumeric;
 import ayoub.whitelistje.functions.WhitelistManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class WhitelistCommand extends ListenerAdapter
@@ -17,7 +14,6 @@ public class WhitelistCommand extends ListenerAdapter
     public WhitelistCommand(WhitelistJe main) {
         this.main = main;
     }
-    private Alphanumeric alphanumeric = new Alphanumeric();
     private WhitelistManager whitelistManager;
 
     @Override

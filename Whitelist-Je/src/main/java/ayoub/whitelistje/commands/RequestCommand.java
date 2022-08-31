@@ -7,7 +7,9 @@ import ayoub.whitelistje.functions.WhitelistManager;
 import ayoub.whitelistje.mysql.dbConnection;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
@@ -26,6 +28,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 public class RequestCommand extends ListenerAdapter {
     private JDA jda;
     private WhitelistJe main;
@@ -34,24 +38,19 @@ public class RequestCommand extends ListenerAdapter {
     private RoleManager roleManager = new RoleManager();
     private Alphanumeric alphanumeric = new Alphanumeric();
 
-    private HashMap<String, String> roles = new HashMap<>();
-    hashmap.put("Owner", "807839780309172255");
-    hashmap.put("Admins ", "809003930884505602");
-    hashmap.put("Host & Développeur-Je", "926270775298752512");
-    hashmap.put("Modérateurs ", "783839953372053516 ");
 
-
-    private HashMap<String, String> allowedRoles = roles;
-
-    private List<Role> getuserRole(Interaction event)  {
+    private List<Role> getuserRoles(Interaction event)  {
         return event.getMember().getRoles();
     }
 
-    private boolean userIsValid(String userRole, HashMap<String, String> validRoles) {
-
+    private boolean rolesAreValid(List<Role> userRoles, HashMap<String, String> validRoles) {
         
+        boolean isValid = false;
+        for (Role role : userRoles) {
+            //String found = if(validRoles.get(role.getId()));
+        }
 
-        return true;
+        return isValid;
     }
 
     private boolean handleRoleValidation() {
@@ -130,12 +129,17 @@ public class RequestCommand extends ListenerAdapter {
 
         if (event.getChannel().getId().equals("1013374066540941362")) {
 
+            List<Role> userRoles = this.getuserRoles(event);
+            JsonObject jsonObject = new JsonObject();
+
+            event.reply(jsonObject.toString()).setEphemeral(true).queue();
+            return;
+
             if(!roleManager.hasRole(event.getMember(), "807839780309172255") ||
                     !roleManager.hasRole(event.getMember(), "809003930884505602") ||
                     !roleManager.hasRole(event.getMember(), "926270775298752512") ||
                     !roleManager.hasRole(event.getMember(), "783839953372053516")) {
                 event.reply("Dommage... ¯\\_(ツ)_/¯").setEphemeral(true).queue();
-                return;
             }
 
             String message = event.getMessage().getId();
