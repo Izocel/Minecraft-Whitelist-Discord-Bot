@@ -7,14 +7,10 @@ import ayoub.whitelistje.functions.WhitelistManager;
 import ayoub.whitelistje.mysql.dbConnection;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.Interaction;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -25,49 +21,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-
-import com.google.gson.JsonObject;
 
 public class RequestCommand extends ListenerAdapter {
-    private JDA jda;
     private WhitelistJe main;
-    private dbConnection userinfo;
-    private WhitelistManager whitelistManager;
-    private RoleManager roleManager = new RoleManager();
-    private Alphanumeric alphanumeric = new Alphanumeric();
-
-
-    private List<Role> getuserRoles(Interaction event)  {
-        return event.getMember().getRoles();
-    }
-
-    private boolean rolesAreValid(List<Role> userRoles, HashMap<String, String> validRoles) {
-        
-        boolean isValid = false;
-        for (Role role : userRoles) {
-            //String found = if(validRoles.get(role.getId()));
-        }
-
-        return isValid;
-    }
-
-    private boolean handleRoleValidation() {
-        return false;
-    }
-
     public RequestCommand(WhitelistJe main) {
         this.main = main;
     }
-    
-    public String requestMsg(String message) {
-        return "**Demande d'accès**\n\n" + message;
-    }
-
-    @Override public void onSlashCommand(SlashCommandEvent event) {
+    private dbConnection userinfo;
+    private JDA jda;
+    private WhitelistManager whitelistManager;
+    private RoleManager roleManager = new RoleManager();
+    private Alphanumeric alphanumeric = new Alphanumeric();
+    @Override
+    public void onSlashCommand(SlashCommandEvent event) {
         if (event.getName().equals("request")) {
-
             String pseudo = event.getOption("pseudo").getAsString();
             if (pseudo.length() <= 2 || pseudo.length() > 16) {
                 event.reply(requestMsg("Ce pseudo doit comporter entre 3 et 16 caractères")).setEphemeral(true).queue();
@@ -121,25 +88,20 @@ public class RequestCommand extends ListenerAdapter {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            return;
         }
     }
 
     @Override
     public void onButtonClick(ButtonClickEvent event) {
-
         if (event.getChannel().getId().equals("1013374066540941362")) {
-
-            List<Role> userRoles = this.getuserRoles(event);
-            JsonObject jsonObject = new JsonObject();
-
-            event.reply(jsonObject.toString()).setEphemeral(true).queue();
-            return;
-
-            if(!roleManager.hasRole(event.getMember(), "807839780309172255") ||
-                    !roleManager.hasRole(event.getMember(), "809003930884505602") ||
-                    !roleManager.hasRole(event.getMember(), "926270775298752512") ||
-                    !roleManager.hasRole(event.getMember(), "783839953372053516")) {
+            if(!roleManager.hasRole(event.getMember(), "807839780309172255") &&
+                !roleManager.hasRole(event.getMember(), "809003930884505602") &&
+                !roleManager.hasRole(event.getMember(), "926270775298752512") &&
+                !roleManager.hasRole(event.getMember(), "783839953372053516")) 
+            {
                 event.reply("Dommage... ¯\\_(ツ)_/¯").setEphemeral(true).queue();
+                return;
             }
 
             String message = event.getMessage().getId();
@@ -208,5 +170,9 @@ public class RequestCommand extends ListenerAdapter {
                 }
             }
         }
+    }
+
+    public String requestMsg(String message) {
+        return "**Demande d'accès**\n\n" + message;
     }
 }
