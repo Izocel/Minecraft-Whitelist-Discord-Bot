@@ -1,0 +1,4 @@
+name: WhitelistJe
+version: '${project.version}'
+main: ayoub.whitelistje.WhitelistJe
+api-version: 1.15
