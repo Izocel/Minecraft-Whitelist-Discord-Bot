@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.Interaction;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.dv8tion.jda.api.requests.ErrorResponse;
@@ -42,11 +43,14 @@ public class RequestCommand extends ListenerAdapter {
 
     private HashMap<String, String> allowedRoles = roles;
 
-    private String getuserRole(AWTEvent event)  {
-        return "role";
+    private List<Role> getuserRole(Interaction event)  {
+        return event.getMember().getRoles();
     }
 
     private boolean userIsValid(String userRole, HashMap<String, String> validRoles) {
+
+        
+
         return true;
     }
 
@@ -125,8 +129,6 @@ public class RequestCommand extends ListenerAdapter {
     public void onButtonClick(ButtonClickEvent event) {
 
         if (event.getChannel().getId().equals("1013374066540941362")) {
-
-            List<Role> userRoles = event.getMember().getRoles();
 
             if(!roleManager.hasRole(event.getMember(), "807839780309172255") ||
                     !roleManager.hasRole(event.getMember(), "809003930884505602") ||
