@@ -114,6 +114,6 @@ run/
 
 
 # ide related
-.vs/*
-.vscode/*
-.history/*
+.vs/
+.vscode/
+.history/
