@@ -1,11 +1,11 @@
-package Whitelist_Je.events.bukkit;
+package WhitelistJe.events.bukkit;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-import Whitelist_Je.WhitelistJe;
-import Whitelist_Je.functions.WhitelistManager;
+import WhitelistJe.WhitelistJe;
+import WhitelistJe.functions.WhitelistManager;
 
 public class PlayerJoin {
     private WhitelistJe main;

@@ -1,4 +1,4 @@
-package Whitelist_Je.functions;
+package WhitelistJe.functions;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;

@@ -1,14 +1,14 @@
-package Whitelist_Je.commands;
+package WhitelistJe.commands;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
 
-import Whitelist_Je.WhitelistJe;
-import Whitelist_Je.functions.RoleManager;
-import Whitelist_Je.functions.WhitelistManager;
-import Whitelist_Je.mysql.dbConnection;
+import WhitelistJe.WhitelistJe;
+import WhitelistJe.functions.RoleManager;
+import WhitelistJe.functions.WhitelistManager;
+import WhitelistJe.mysql.dbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
