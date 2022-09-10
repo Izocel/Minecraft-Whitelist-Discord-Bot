@@ -24,14 +24,14 @@ public class ServerCommand extends ListenerAdapter {
     public void onSlashCommand(SlashCommandEvent event) {
 
         final Integer msgDelaySec = 120;
-        final String serverId = Configs.get("discordServerId", null);
+        final String serverName = event.getGuild().getName();
         final String protJ = Configs.get("portJava", null);
         final String portB = Configs.get("portBedrock", null);
         final String paperMcIp = Configs.get("paperMcIp", null);
 
         if (!event.getName().equals("serveur"))
             return; // make sure we handle the right command
-        event.reply("** 📝<@" + serverId + "> Informations**" +
+        event.reply("** 📝<@" + serverName + "> Informations**" +
                 "\n**Adresse I.P. :** `" + paperMcIp + "`" +
                 "\n**Port Java:** `" + protJ + "` " +
                 "\n**Port Bedrock:** `" + portB + "` " +

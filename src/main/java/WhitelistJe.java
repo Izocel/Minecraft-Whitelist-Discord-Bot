@@ -18,8 +18,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         this.instance = this;
         this.discordManager = new DiscordManager(this);
         
-        UsersDao dao = new UsersDao();
-        dao.find(1);
+        // UsersDao dao = new UsersDao();
+        // dao.find(1);
     }
 
     @Override
