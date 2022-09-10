@@ -1,16 +1,12 @@
 package WhitelistJe;
 
-import org.bukkit.event.Listener;
+import java.net.http.WebSocket.Listener;
+import java.sql.ResultSet;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
-import WhitelistJe.functions.WhitelistManager;
-import WhitelistJe.mysql.DatabaseManager;
-import WhitelistJe.mysql.dbConnection;
+import dao.UsersDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
@@ -21,6 +17,9 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     public void onEnable() {
         this.instance = this;
         this.discordManager = new DiscordManager(this);
+        
+        UsersDao dao = new UsersDao();
+        dao.findAll();
     }
 
     @Override

@@ -7,7 +7,7 @@ public final class DbCredentials {
     private String dbName;
     private int port;
 
-    public dbCredentials(String host, String user, String pass, String dbName, int port) {
+    public DbCredentials(String host, String user, String pass, String dbName, int port) {
         this.host = host;
         this.user = user;
         this.pass = pass;

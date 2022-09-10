@@ -1,98 +1,168 @@
-package WhitelistJe.dao;
+package dao;
 
-import java.lang.System.Logger;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-import dbCredentials;
+import WhitelistJe.mysql.DbCredentials;
 import configs.ConfigManager;
+
+import org.json.*;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+import org.jooq.Record;
+import org.jooq.RecordMapper;
 
 public class BaseDao {
 
-	static private ConfigManager Configs = new ConfigManager();
-	private Connection connection;
-	private DbCredentials creds;
+    static private ConfigManager Configs = new ConfigManager();
+    protected Connection connection;
+    protected DbCredentials creds;
     protected String tablename;
+    private Logger logger;
 
-	public BaseDao () {
+    public BaseDao() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
-		this.creds = this.getCredentials();
-	}
+        this.creds = this.getCredentials();
+    }
 
-	private DbCredentials getCredentials() {
-		return new DbCredentials(
-			Configs.get("mysqlHost", "127.0.0.1"),
-			Configs.get("mysqlUser", "root"),
-			Configs.get("mysqlPass", "mysql"),
-			Configs.get("mysqlDb", "whitelist_je"),
-			Integer.parseInt(Configs.get("mysqlPort", "3306"))
-		);
-	}
+    protected DbCredentials getCredentials() {
+        return new DbCredentials(
+                Configs.get("mysqlHost", "127.0.0.1"),
+                Configs.get("mysqlUser", "root"),
+                Configs.get("mysqlPass", "mysql"),
+                Configs.get("mysqlDb", "whitelist_je"),
+                Integer.parseInt(Configs.get("mysqlPort", "3306")));
+    }
 
-	private Connection open() {
+    protected Connection open() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
             this.connection = DriverManager.getConnection(
-                this.creds.toURI(), 
-                this.creds.getUser(),
-                this.creds.getPass()
-            );
-            
+                    this.creds.toURI(),
+                    this.creds.getUser(),
+                    this.creds.getPass());
+
             this.logger.info("Connecté à la base de donnée !");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             this.logger.warning("Connexion impossible à la base de donnée !");
         }
+        return this.connection;
 
     }
 
-    private void close() throws SQLException {
+    protected void close() throws SQLException {
         try {
             this.connection.close();
-        } catch (SQLException  e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             this.logger.warning("Déconnexion impossible à la base de donnée !");
         }
     }
 
-    protected ResultSet find(Integer id) {
+    public JSONArray toJsonArray(ResultSet resultSet) {
+
+        JSONArray results = new JSONArray();
+
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE id = ?";
-            final Connection con = this.open();
+            ResultSetMetaData md = resultSet.getMetaData();
+
+            int numCols = md.getColumnCount();
+            List<String> colNames = IntStream.range(0, numCols)
+                    .mapToObj(i -> {
+                        try {
+                            return md.getColumnName(i + 1);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            return "?";
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            while (resultSet.next()) {
+                JSONObject row = new JSONObject();
+                colNames.forEach(cn -> {
+                    try {
+                        row.put(cn, resultSet.getObject(cn));
+                    } catch (JSONException | SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+                results.put(row);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return results;
+    }
+
+    public JSONArray find(Integer id) {
+
+        JSONArray results = new JSONArray();
+
+        try {
+            String sql = "SELECT * FROM " + this.tablename + " WHERE id = ?;";
+            this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
             pstmt.setInt(1, id);
 
-            pstmt.executeQuery();
-            final ResultSet resultset = pstmt.getResultSet(); con.close();
-
-            this.logger.info(resultset);
-            return resultset;
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = this.toJsonArray(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
-            con.close();
         }
+
+        try {
+            this.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.logger.info(results.toString());
+        return results;
     }
 
-    protected ResultSet findAll() {
+    public JSONArray findAll() {
+        
+        JSONArray results = new JSONArray();
+
         try {
-            String sql = "SELECT * FROM " + this.tablename;
-            final Connection con = this.open();
+            String sql = "SELECT * FROM " + this.tablename + ";";
+
+            this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-
             pstmt.executeQuery();
-            final ResultSet resultset = pstmt.getResultSet(); con.close();
 
-            this.logger.info(resultset);
-            return resultset;
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = this.toJsonArray(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
-            con.close();
         }
+
+        try {
+            this.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.logger.info(results.toString());
+        return results;
     }
 }

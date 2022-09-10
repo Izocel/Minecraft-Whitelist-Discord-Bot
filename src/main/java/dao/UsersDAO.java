@@ -1,38 +1,59 @@
-package WhitelistJe.dao;
+package dao;
 
-import java.lang.System.Logger;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
 
-import WhitelistJe.dao.BaseDao;
+import dao.BaseDao;
 
-public class UsersDAO extends BaseDao {
+import org.json.*;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
-    protected String tablename = "users";
+import org.jooq.Record;
+import org.jooq.RecordMapper;
 
-	public UsersDAO () {
+
+public class UsersDao extends BaseDao {
+
+    private Logger logger;
+
+	public UsersDao () {
+        super();
+        this.tablename = "users";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
 		this.creds = this.getCredentials();
 	}
 
-    public findAllowed() {
+    public JSONArray findAllowed() {
+
+        JSONArray results = new JSONArray();
+
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE checked = 1;";
-            final Connection con = this.open();
+            String sql = "SELECT * FROM " + this.tablename + " WHERE checked = 1";
+            this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-
             pstmt.executeQuery();
-            final ResultSet resultset = pstmt.getResultSet(); con.close();
 
-            this.logger.info(resultset);
-            return resultset;
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = this.toJsonArray(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
-            con.close();
         }
+
+        try {
+            this.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        this.logger.info(results.toString());
+        return results;
     }
 
 }
