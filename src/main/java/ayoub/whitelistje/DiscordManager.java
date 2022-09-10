@@ -6,10 +6,7 @@ import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
 
-import ayoub.whitelistje.commands.DenyCommand;
-import ayoub.whitelistje.commands.RequestCommand;
 import ayoub.whitelistje.commands.ServerCommand;
-import ayoub.whitelistje.commands.WhitelistCommand;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
