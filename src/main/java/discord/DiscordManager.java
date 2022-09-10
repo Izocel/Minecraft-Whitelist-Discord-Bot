@@ -1,11 +1,13 @@
-package WhitelistJe;
+package discord;
+
 
 import java.util.EnumSet;
 import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 
 import configs.ConfigManager;
-import WhitelistJe.commands.ServerCommand;
+import main.WhitelistJe;
+import commands.ServerCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -16,7 +18,7 @@ public class DiscordManager {
 
     static private ConfigManager Configs = new ConfigManager();
 
-    DiscordManager(WhitelistJe main) {
+    public DiscordManager(WhitelistJe main) {
         this.main = main;
         this.connect();
     }

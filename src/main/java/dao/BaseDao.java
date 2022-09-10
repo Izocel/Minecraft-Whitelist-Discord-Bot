@@ -6,22 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import WhitelistJe.mysql.DbCredentials;
+import mysql.DbCredentials;
 import configs.ConfigManager;
 
 import org.json.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
-import org.jooq.Record;
-import org.jooq.RecordMapper;
 
 public class BaseDao {
 

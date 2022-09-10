@@ -1,21 +1,12 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
-import dao.BaseDao;
 
-import org.json.*;
-import org.json.JSONObject;
 import org.json.JSONArray;
-
-import org.jooq.Record;
-import org.jooq.RecordMapper;
 
 
 public class UsersDao extends BaseDao {
