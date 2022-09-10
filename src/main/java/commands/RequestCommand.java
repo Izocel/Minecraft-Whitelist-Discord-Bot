@@ -24,56 +24,69 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RequestCommand extends ListenerAdapter {
+    private JDA jda;
     private WhitelistJe main;
+    private RoleManager roleManager = new RoleManager();
+
     public RequestCommand(WhitelistJe main) {
         this.main = main;
     }
-    private dbConnection userinfo;
-    private JDA jda;
-    private WhitelistManager whitelistManager;
-    private RoleManager roleManager = new RoleManager();
-    private Alphanumeric alphanumeric = new Alphanumeric();
+
+    private boolean validatePseudo(String pseudo) {
+        
+        if (pseudo.length() <= 2 || pseudo.length() > 16) {
+            event.reply(requestMsg("Votre pseudo devrait comporter entre 3 et 16 caractères")).setEphemeral(true).queue();
+            return false;
+        }
+
+        if (!alphanumeric.isAlphanumeric(pseudo)) {
+            event.reply(requestMsg("Ce pseudo ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`")).setEphemeral(true).queue();
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
         if (event.getName().equals("request")) {
-            String pseudo = event.getOption("pseudo").getAsString();
-            if (pseudo.length() <= 2 || pseudo.length() > 16) {
-                event.reply(requestMsg("Ce pseudo doit comporter entre 3 et 16 caractères")).setEphemeral(true).queue();
+
+            final String pseudo = event.getOption("pseudo").getAsString();
+            if(this.validatePseudo(pseudo)) {
                 return;
             }
-            if (!alphanumeric.isAlphanumeric(pseudo)) {
-                event.reply(requestMsg("Ce pseudo ne doit pas comporter de caractères spéciaux à part les underscores _ et tirets -")).setEphemeral(true).queue();
-                return;
-            }
+
             jda = main.getDiscordManager().jda;
-            userinfo = main.getDatabaseManager().getUserinfo();
-            final Connection connection;
+
             try {
-                connection = userinfo.getConnection();
-                PreparedStatement preparedstatement;
-                preparedstatement = connection.prepareStatement("SELECT * FROM users");
-                preparedstatement.executeQuery();
-                final ResultSet resultset = preparedstatement.executeQuery();
+                //preparedstatement = connection.prepareStatement("SELECT * FROM users");
+
                 while (resultset.next()) {
+
+                    //TODO: use DAO 
                     final String discord = resultset.getString("users.discord");
                     final String name = resultset.getString("users.name");
-                    if (name.equalsIgnoreCase(pseudo) && discord.equalsIgnoreCase(event.getMember().getId())) {
-                        event.reply(requestMsg("*Vous êtes déjà identifié sur le serveur avec ce pseudo*")).setEphemeral(true).queue();
+
+                    final boolean isAlreadyChecked = name.equalsIgnoreCase(pseudo) && discord.equalsIgnoreCase(event.getMember().getId()
+                     && event.getMember().getId().equals(discord));
+
+                    if (isAlreadyChecked) {
+                        event.reply(requestMsg("*Vous êtes déjà accepté sur le serveur*")).setEphemeral(true).queue();
                         return;
                     }
-                    if (event.getMember().getId().equals(discord)) {
-                        event.reply(requestMsg("*Vous êtes déjà identifié sur le serveur sous un autre pseudo*")).setEphemeral(true).queue();
-                        return;
-                    }
+
                     if (name.equalsIgnoreCase(pseudo)) {
                         event.reply(requestMsg("*Ce pseudo est déjà pris par un autre joueur*")).setEphemeral(true).queue();
                         return;
                     }
                 }
+
                 EmbedBuilder builder = new EmbedBuilder().setTitle("Une demande a été transmise").addField("Pseudo", pseudo, true).addField("Discord", "<@" + event.getMember().getId() + ">", true).setThumbnail(event.getMember().getUser().getAvatarUrl()).setFooter("ID " + event.getMember().getId()).setColor(new Color(0x9b7676));
                 event.reply(requestMsg("*Votre demande d'accès pour `" + pseudo + "` a été envoyé aux modérateurs.*\n*Merci de patienter jusqu'à une prise de décision de leur part.*")).setEphemeral(true).queue();
                 jda.getTextChannelById("1013374066540941362").sendMessage(builder.build()).setActionRows(ActionRow.of(net.dv8tion.jda.api.interactions.components.Button.primary("yes", "Accepter"), net.dv8tion.jda.api.interactions.components.Button.secondary("no", "Refuser"))).queue(message -> {
+
                     final PreparedStatement preparedstatement2;
+
                     try {
                         preparedstatement2 = connection.prepareStatement("INSERT INTO users (name, discord, messageid)" + "VALUES (?, ?, ?)");
                         preparedstatement2.setString(1, pseudo);
@@ -84,12 +97,13 @@ public class RequestCommand extends ListenerAdapter {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+
                 });
-                //jda.getTextChannelById("990582849281355796").sendMessage("Demande - Une demande d'accès a été envoyé par `" + pseudo + "` - <@" + event.getMember().getId() + ">").queue();
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            return;
+
         }
     }
 

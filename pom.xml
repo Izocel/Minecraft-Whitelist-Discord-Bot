@@ -4,7 +4,7 @@
 
     <groupId>com.rvdprojects.whitelistje</groupId>
     <artifactId>Whitelist-Je</artifactId>
-    <version>1.0</version>
+    <version>1.0 ${maven.build.timestamp}</version>
     <packaging>jar</packaging>
 
     <name>Whitelist Je</name>
@@ -12,6 +12,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
     <build>
