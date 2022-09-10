@@ -1,12 +1,12 @@
 package WhitelistJe.commands;
 
-import WhitelistJe.functions.WhitelistManager;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import WhitelistJe.WhitelistJe;
+import WhitelistJe.functions.WhitelistManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +27,7 @@ public class ServerCommand extends ListenerAdapter {
                 "\n**Port Java:** `25565` " +
                 "\n**Port Bedrock:** `19132` " +
                 "\n\n" + getPlayersOnline() + "\n" + getTime() +
-                "\n\n*© 👨‍💻 Développeurs: <@982971022640840806> et <@272924120142970892> ! 👨‍💻*\n\n"
+                "\n\n* Développeurs: <@272924120142970892> 👨‍💻*\n\n"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(30, TimeUnit.SECONDS));
     }

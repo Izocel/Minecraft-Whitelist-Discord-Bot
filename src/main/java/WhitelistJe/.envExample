@@ -1,1 +1,16 @@
-disccordBotToken=YOURFUCKINGLONGBNOTTOKKENGOESHERE
+discordBotToken=YOURFUCKINGLONGBNOTTOKKENGOESHERE
+discordInviteLink=https://discord.com/api/oauth2/authorize?client_id=111111111&permissions=8&scope=applications.commands%20bot
+
+discordServerId=123456789
+discordOwnerUserId=12345679
+discordTextChanelId=12345679
+discordAdminChanelId=12345679
+discordWhitelistChanelId=12345679
+discordAdminRoleId=123456789
+discordModeratorRoleId=123456789
+discordDevRoleId=123456789
+
+mysqlIp=127.0.0.1
+mySqlDb=whitelist_je
+mysqlUser=whitelist_je
+mysqlPass=whitelist_je

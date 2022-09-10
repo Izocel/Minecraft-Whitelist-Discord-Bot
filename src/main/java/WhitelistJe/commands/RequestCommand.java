@@ -1,9 +1,5 @@
 package WhitelistJe.commands;
 
-import WhitelistJe.functions.Alphanumeric;
-import WhitelistJe.functions.RoleManager;
-import WhitelistJe.functions.WhitelistManager;
-import WhitelistJe.mysql.dbConnection;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
@@ -16,6 +12,10 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.bukkit.Bukkit;
 
 import WhitelistJe.WhitelistJe;
+import WhitelistJe.functions.Alphanumeric;
+import WhitelistJe.functions.RoleManager;
+import WhitelistJe.functions.WhitelistManager;
+import WhitelistJe.mysql.dbConnection;
 
 import java.awt.*;
 import java.sql.Connection;

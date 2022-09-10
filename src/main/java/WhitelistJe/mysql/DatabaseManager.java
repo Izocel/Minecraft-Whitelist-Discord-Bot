@@ -8,9 +8,9 @@ public class DatabaseManager {
     public DatabaseManager() {
         this.userinfo = new dbConnection(new dbCredentials(
                 "127.0.0.1",
-                "minecraft",
-                "h6u9effkcj735vcypxxj8durh9rjzkjz",
-                "minecraft", 3306));
+                "whitelist_je",
+                "@whitelist_je2022",
+                "whitelist_je", 3306));
     }
 
     public dbConnection getUserinfo() {

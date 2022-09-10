@@ -1,17 +1,18 @@
 package WhitelistJe;
 
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import WhitelistJe.functions.WhitelistManager;
 import WhitelistJe.mysql.DatabaseManager;
 import WhitelistJe.mysql.dbConnection;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public final class WhitelistJe extends JavaPlugin {
+public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public WhitelistJe instance;
     private DiscordManager discordManager;
