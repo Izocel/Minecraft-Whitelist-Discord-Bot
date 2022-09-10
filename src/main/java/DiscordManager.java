@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 
+import Whconfigs.ConfigManager;
 import WhitelistJe.commands.ServerCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -14,13 +15,15 @@ public class DiscordManager {
     public JDA jda;
 
     DiscordManager(WhitelistJe main) {
+        this.configs = new ConfigManager();
         this.main = main;
+        this.connect();
     }
 
     public void connect() {
         try {
 
-            jda = JDABuilder.create("MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ",
+            jda = JDABuilder.create(this.configs.get("discordBotToken"),
                     EnumSet.allOf(GatewayIntent.class))
                     .build()
                     .awaitReady();
