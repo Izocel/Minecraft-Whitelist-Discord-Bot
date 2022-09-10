@@ -6,7 +6,6 @@ import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 
 import WhitelistJe.commands.ServerCommand;
-import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -15,17 +14,14 @@ public class DiscordManager {
     public WhitelistJe main;
     public JDA jda;
 
-    Dotenv dotenv = Dotenv.load();
-
     DiscordManager(WhitelistJe main) {
         this.main = main;
-
     }
 
     public void connect() {
         try {
 
-            jda = JDABuilder.create(dotenv.get("disccordBotToken"),
+            jda = JDABuilder.create("disccordBotToken",
                 EnumSet.allOf(GatewayIntent.class))
                 .build()
                 .awaitReady();
