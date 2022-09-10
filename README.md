@@ -18,4 +18,4 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
                             
 ```
 
-## Copy and setup (private vars) the [ConfigurationManager]()
+## Copy rename and setup (private vars) within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
