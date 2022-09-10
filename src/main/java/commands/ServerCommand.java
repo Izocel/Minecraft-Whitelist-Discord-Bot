@@ -31,7 +31,7 @@ public class ServerCommand extends ListenerAdapter {
 
         if (!event.getName().equals("serveur"))
             return; // make sure we handle the right command
-        event.reply("** 📝<@" + serverName + "> Informations**" +
+        event.reply("** 📝`" + serverName + "` | Informations**" +
                 "\n**Adresse I.P. :** `" + paperMcIp + "`" +
                 "\n**Port Java:** `" + protJ + "` " +
                 "\n**Port Bedrock:** `" + portB + "` " +
