@@ -21,8 +21,7 @@ public class ServerCommand extends ListenerAdapter {
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
         if (!event.getName().equals("serveur")) return; // make sure we handle the right command
-        event.reply("**Tu me Niaises\n" +
-                "**\n⎯ 📝<@258071819108614144> Informations**" +
+        event.reply("** 📝<@258071819108614144> Informations**" +
                 "\n**Adresse I.P. :** `server.minecraft.tumeniaises.ca`" +
                 "\n**Port Java:** `25565` " +
                 "\n**Port Bedrock:** `19132` " +

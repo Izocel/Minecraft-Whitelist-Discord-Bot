@@ -24,10 +24,10 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-       discordManager.disconnect();
+       this.discordManager.disconnect();
     }
 
     public DiscordManager getDiscordManager() {
-        return discordManager;
+        return this.discordManager;
     }
 }
