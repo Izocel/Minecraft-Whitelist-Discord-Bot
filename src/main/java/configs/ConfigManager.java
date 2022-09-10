@@ -26,6 +26,10 @@ public final class ConfigManager {
     private String mysqlPass="@whitelist_je2022";
     private String mysqlDefTable="users";
 
+    private String portJava="25565";
+    private String portBedrock="19132";
+    private String paperMcIp="server.minecraft.tumeniaises.ca";
+
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private HashMap<String, String> configs = new HashMap<>();
@@ -47,6 +51,9 @@ public final class ConfigManager {
         configs.put("mysqlUser", this.mysqlUser);
         configs.put("mysqlPass", this.mysqlPass);
         configs.put("mysqlDefTable", this.mysqlDefTable);
+        configs.put("portJava", this.portJava);
+        configs.put("portBedrock", this.portBedrock);
+        configs.put("paperMcIp", this.paperMcIp);
     }
 
     public String get(String key, String defaultValue) {
