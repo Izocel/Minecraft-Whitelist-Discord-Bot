@@ -1,8 +1,7 @@
-package ayoub.whitelistje.commands;
+package WhitelistJe.commands;
 
-import ayoub.whitelistje.WhitelistJe;
-import ayoub.whitelistje.functions.Alphanumeric;
-import ayoub.whitelistje.functions.WhitelistManager;
+import WhitelistJe.functions.Alphanumeric;
+import WhitelistJe.functions.WhitelistManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -10,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import WhitelistJe.WhitelistJe;
 
 public class WhitelistCommand extends ListenerAdapter
 {

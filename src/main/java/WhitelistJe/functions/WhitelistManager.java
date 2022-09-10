@@ -1,13 +1,11 @@
-package ayoub.whitelistje.functions;
-
-import ayoub.whitelistje.WhitelistJe;
+package WhitelistJe.functions;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WhitelistManager {
-    private WhitelistJe main;
-    public WhitelistManager(WhitelistJe main) {
+    private WhitelistJe.WhitelistJe main;
+    public WhitelistManager(WhitelistJe.WhitelistJe main) {
         this.main = main;
     }
 

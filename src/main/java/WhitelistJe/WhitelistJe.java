@@ -1,8 +1,9 @@
-package ayoub.whitelistje;
+package WhitelistJe;
 
-import ayoub.whitelistje.functions.WhitelistManager;
-import ayoub.whitelistje.mysql.DatabaseManager;
-import ayoub.whitelistje.mysql.dbConnection;
+
+import WhitelistJe.functions.WhitelistManager;
+import WhitelistJe.mysql.DatabaseManager;
+import WhitelistJe.mysql.dbConnection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;

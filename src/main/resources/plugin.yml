@@ -1,4 +1,4 @@
 name: WhitelistJe
 version: '${project.version}'
-main: ayoub.whitelistje.WhitelistJe
+main: WhitelistJe
 api-version: 1.15

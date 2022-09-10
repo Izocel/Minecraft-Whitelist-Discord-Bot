@@ -1,4 +1,4 @@
-package ayoub.whitelistje.mysql;
+package WhitelistJe.mysql;
 
 public class dbCredentials {
     private String host;

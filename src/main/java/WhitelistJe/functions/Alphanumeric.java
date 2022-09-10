@@ -1,4 +1,4 @@
-package ayoub.whitelistje.functions;
+package WhitelistJe.functions;
 
 public class Alphanumeric {
     public boolean isAlphanumeric(String string) {

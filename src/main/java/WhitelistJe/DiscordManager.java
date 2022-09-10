@@ -1,12 +1,11 @@
-package ayoub.whitelistje;
-
+package WhitelistJe;
 import java.util.EnumSet;
 
 import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
 
-import ayoub.whitelistje.commands.ServerCommand;
+import WhitelistJe.commands.ServerCommand;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
