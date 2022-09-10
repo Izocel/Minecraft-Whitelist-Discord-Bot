@@ -134,7 +134,6 @@ public class BaseDao {
             e.printStackTrace();
         }
 
-        this.logger.info(results.toString());
         return results;
     }
 
@@ -162,7 +161,6 @@ public class BaseDao {
             e.printStackTrace();
         }
 
-        this.logger.info(results.toString());
         return results;
     }
 }
