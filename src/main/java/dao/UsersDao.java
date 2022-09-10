@@ -52,7 +52,6 @@ public class UsersDao extends BaseDao {
             e.printStackTrace();
         }
 
-        this.logger.info(results.toString());
         return results;
     }
 

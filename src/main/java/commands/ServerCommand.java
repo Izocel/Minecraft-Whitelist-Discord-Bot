@@ -13,6 +13,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class ServerCommand extends ListenerAdapter {
     private WhitelistJe main;
     private WhitelistManager whitelistManager;
+    static private ConfigManager Configs = new ConfigManager();
+
     
     public ServerCommand(WhitelistJe main) {
         this.main = main;
@@ -28,7 +30,7 @@ public class ServerCommand extends ListenerAdapter {
                 "\n\n" + getPlayersOnline() + "\n" + getTime() +
                 "\n\n* Développeurs: <@272924120142970892> 👨‍💻*\n\n"
 
-        ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(30, TimeUnit.SECONDS));
+        ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(120, TimeUnit.SECONDS));
     }
 
     public String getTime() {
