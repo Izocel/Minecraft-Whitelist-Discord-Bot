@@ -10,7 +10,9 @@ discordAdminRoleId=123456789
 discordModeratorRoleId=123456789
 discordDevRoleId=123456789
 
-mysqlIp=127.0.0.1
+mysqlHost=127.0.0.1
+mysqlPort=3306
 mySqlDb=whitelist_je
-mysqlUser=whitelist_je
-mysqlPass=whitelist_je
+mysqlUser=root
+mysqlPass=mysql
+mySqlDefTable=users

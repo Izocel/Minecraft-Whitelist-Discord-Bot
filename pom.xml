@@ -76,5 +76,10 @@
             <artifactId>JDA</artifactId>
             <version>4.3.0_277</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>2.2.4</version>
+        </dependency>
     </dependencies>
 </project>
