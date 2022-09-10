@@ -13,7 +13,9 @@ public class DiscordManager {
     public WhitelistJe main;
     public JDA jda;
 
-    DiscordManager(WhitelistJe main) { this.main = main; }
+    DiscordManager(WhitelistJe main) {
+        this.main = main;
+    }
 
     public void connect() {
         try {

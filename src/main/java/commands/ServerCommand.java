@@ -1,14 +1,14 @@
 package WhitelistJe.commands;
 
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import WhitelistJe.WhitelistJe;
 import WhitelistJe.functions.WhitelistManager;
-
-import java.util.concurrent.TimeUnit;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class ServerCommand extends ListenerAdapter {
     private WhitelistJe main;
@@ -54,7 +54,6 @@ public class ServerCommand extends ListenerAdapter {
     }
 
     public String getPlayersOnline() {
-        whitelistManager = main.getWhitelistManager();
         return "**⎯ 🌿 Activités du serveur**\n`" + (Bukkit.getOnlinePlayers().size() <= 1 ? Bukkit.getOnlinePlayers().size() + " joueurs connectés" : Bukkit.getOnlinePlayers().size() + " joueurs connectés") + "`\n" + (Bukkit.getOnlinePlayers().size() != 0 ? Bukkit.getOnlinePlayers().toString().replace("CraftPlayer{name=", "")
                 .replace("}", "")
                 .replace("]", "")
