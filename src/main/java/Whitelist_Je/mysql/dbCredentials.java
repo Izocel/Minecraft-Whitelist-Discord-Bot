@@ -1,4 +1,4 @@
-package WhitelistJe.mysql;
+package Whitelist_Je.mysql;
 
 public class dbCredentials {
     private String host;

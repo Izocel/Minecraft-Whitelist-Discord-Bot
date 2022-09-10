@@ -1,12 +1,12 @@
-package WhitelistJe.commands;
+package Whitelist_Je.commands;
 
-import WhitelistJe.functions.WhitelistManager;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import WhitelistJe.WhitelistJe;
+import Whitelist_Je.WhitelistJe;
+import Whitelist_Je.functions.WhitelistManager;
 
 import java.util.concurrent.TimeUnit;
 

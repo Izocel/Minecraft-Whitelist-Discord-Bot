@@ -1,4 +1,4 @@
-package WhitelistJe.functions;
+package Whitelist_Je.functions;
 
 public class Alphanumeric {
     public boolean isAlphanumeric(String string) {

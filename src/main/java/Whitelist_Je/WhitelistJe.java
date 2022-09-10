@@ -1,10 +1,11 @@
-package WhitelistJe;
+package Whitelist_Je;
 
 
-import WhitelistJe.functions.WhitelistManager;
-import WhitelistJe.mysql.DatabaseManager;
-import WhitelistJe.mysql.dbConnection;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import Whitelist_Je.functions.WhitelistManager;
+import Whitelist_Je.mysql.DatabaseManager;
+import Whitelist_Je.mysql.dbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

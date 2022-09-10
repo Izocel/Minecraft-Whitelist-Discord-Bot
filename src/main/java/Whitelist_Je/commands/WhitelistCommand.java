@@ -1,7 +1,5 @@
-package WhitelistJe.commands;
+package Whitelist_Je.commands;
 
-import WhitelistJe.functions.Alphanumeric;
-import WhitelistJe.functions.WhitelistManager;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -10,7 +8,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import WhitelistJe.WhitelistJe;
+import Whitelist_Je.WhitelistJe;
+import Whitelist_Je.functions.Alphanumeric;
+import Whitelist_Je.functions.WhitelistManager;
 
 public class WhitelistCommand extends ListenerAdapter
 {
