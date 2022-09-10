@@ -1,11 +1,13 @@
-package WhitelistJe.functions;
+package functions;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import main.WhitelistJe;
+
 public class WhitelistManager {
-    private WhitelistJe.WhitelistJe main;
-    public WhitelistManager(WhitelistJe.WhitelistJe main) {
+    private WhitelistJe main;
+    public WhitelistManager(WhitelistJe main) {
         this.main = main;
     }
 

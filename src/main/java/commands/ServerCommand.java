@@ -1,19 +1,17 @@
-package WhitelistJe.commands;
+package commands;
 
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import WhitelistJe.WhitelistJe;
-import WhitelistJe.functions.WhitelistManager;
 import configs.ConfigManager;
+import main.WhitelistJe;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class ServerCommand extends ListenerAdapter {
     private WhitelistJe main;
-    private WhitelistManager whitelistManager;
     static private ConfigManager Configs = new ConfigManager();
 
     public ServerCommand(WhitelistJe main) {
