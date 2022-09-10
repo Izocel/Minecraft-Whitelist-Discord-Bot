@@ -7,6 +7,7 @@ import org.bukkit.World;
 
 import WhitelistJe.WhitelistJe;
 import WhitelistJe.functions.WhitelistManager;
+import configs.ConfigManager;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
