@@ -95,45 +95,32 @@ public class RequestCommand extends ListenerAdapter {
     @Override
     public void onButtonClick(ButtonClickEvent event) {
         if (event.getChannel().getId().equals("1013374066540941362")) {
-            if(!roleManager.hasRole(event.getMember(), "807839780309172255") &&
-                !roleManager.hasRole(event.getMember(), "809003930884505602") &&
-                !roleManager.hasRole(event.getMember(), "926270775298752512") &&
-                !roleManager.hasRole(event.getMember(), "783839953372053516")) 
-            {
-                event.reply("Dommage... ¯\\_(ツ)_/¯").setEphemeral(true).queue();
+            if (!roleManager.hasRole(event.getMember(), "807839780309172255") &&
+                    !roleManager.hasRole(event.getMember(), "809003930884505602") &&
+                    !roleManager.hasRole(event.getMember(), "926270775298752512") &&
+                    !roleManager.hasRole(event.getMember(), "783839953372053516")) {
+                event.reply("Dommage vous n'avez pas les accès... ¯\\_(ツ)_/¯").setEphemeral(true).queue();
                 return;
             }
-
             String message = event.getMessage().getId();
             jda = main.getDiscordManager().jda;
             userinfo = main.getDatabaseManager().getUserinfo();
             whitelistManager = main.getWhitelistManager();
-
-
             if (event.getButton().getLabel().equals("Accepter")) {
                 try {
-
                     final Connection connection;
                     connection = userinfo.getConnection();
                     final PreparedStatement preparedstatement = connection.prepareStatement("SELECT * FROM users WHERE messageid = ?");
                     preparedstatement.setString(1, message);
                     preparedstatement.executeQuery();
                     final ResultSet resultset = preparedstatement.executeQuery();
-
-                    if (!resultset.next()) { return; }
-
+                    if (!resultset.next()) {
+                        return;
+                    }
                     String name = resultset.getString("users.name");
                     String discord = resultset.getString("users.discord");
-
-                    EmbedBuilder builder = new EmbedBuilder().setTitle("Demande acceptée")
-                        .addField("Pseudo", name, true)
-                        .addField("Discord", "<@" + discord + ">", true)
-                        .setThumbnail(jda.getUserById(discord)
-                        .getAvatarUrl()).setFooter("ID " + discord)
-                        .setColor(new Color(0x484d95));
-
-                    jda.getTextChannelById("1013374066540941362")
-                    .editMessageById(message, builder.build()).setActionRow(net.dv8tion.jda.api.interactions.components.Button.primary("valide", "Whitelist par " + event.getMember().getNickname()).asDisabled()).queue();
+                    EmbedBuilder builder = new EmbedBuilder().setTitle("Demande acceptée").addField("Pseudo", name, true).addField("Discord", "<@" + discord + ">", true).setThumbnail(jda.getUserById(discord).getAvatarUrl()).setFooter("ID " + discord).setColor(new Color(0x484d95));
+                    jda.getTextChannelById("1013374066540941362").editMessageById(message, builder.build()).setActionRow(net.dv8tion.jda.api.interactions.components.Button.primary("valide", "Whitelist par " + event.getMember().getNickname()).asDisabled()).queue();
                     jda.openPrivateChannelById(discord).queue(channel -> {
                         channel.sendMessage("**Bienvenue sur le serveur, <@" + discord + "> !**").queue(null, new ErrorHandler().handle(ErrorResponse.CANNOT_SEND_TO_USER, (ex) -> {
                             jda.getTextChannelById("770148932075782176").sendMessage("**Bienvenue sur le serveur, <@" + discord + "> !**").queue();
@@ -176,8 +163,6 @@ public class RequestCommand extends ListenerAdapter {
                     final PreparedStatement preparedstatement2 = connection.prepareStatement("DELETE FROM users WHERE discord = " + discord);
                     preparedstatement2.executeUpdate();
                     event.reply("Le joueur " + name + " a bien été refusé").setEphemeral(true).queue();
-
-
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

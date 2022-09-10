@@ -11,20 +11,22 @@ import java.util.concurrent.TimeUnit;
 
 public class ServerCommand extends ListenerAdapter {
     private WhitelistJe main;
+    private WhitelistManager whitelistManager;
+    
     public ServerCommand(WhitelistJe main) {
         this.main = main;
     }
-    private WhitelistManager whitelistManager;
+    
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-        if (!event.getName().equals("server")) return; // make sure we handle the right command
+        if (!event.getName().equals("serveur")) return; // make sure we handle the right command
         event.reply("**Tu me Niaises\n" +
-                "\n\n⎯ 📝<@258071819108614144> Informations" +
+                "**\n⎯ 📝<@258071819108614144> Informations**" +
                 "\n**Adresse I.P. :** `server.minecraft.tumeniaises.ca`" +
                 "\n**Port Java:** `25565` " +
                 "\n**Port Bedrock:** `19132` " +
                 "\n\n" + getPlayersOnline() + "\n" + getTime() +
-                "\n\n© 👨‍💻 Développeurs: <@982971022640840806> et <@272924120142970892>! 👨‍💻\n\n"
+                "\n\n*© 👨‍💻 Développeurs: <@982971022640840806> et <@272924120142970892> ! 👨‍💻*\n\n"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(30, TimeUnit.SECONDS));
     }
