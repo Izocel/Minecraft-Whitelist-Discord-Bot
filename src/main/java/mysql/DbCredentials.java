@@ -1,6 +1,6 @@
 package WhitelistJe.mysql;
 
-public class dbCredentials {
+public final class DbCredentials {
     private String host;
     private String user;
     private String pass;
