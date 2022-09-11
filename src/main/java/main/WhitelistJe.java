@@ -78,7 +78,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         for (Object object : this.playersAllowed) {
             final JSONObject player = (JSONObject) object;
 
-            final String nameReccord = player.getString("name");
+            final String nameReccord = player.getString("mc_name");
             if(nameReccord.equals(playerName)) {
                 allowedUserId = player.getInt("id");
                 break;

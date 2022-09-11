@@ -14,7 +14,7 @@ public class User {
     private String discordId;
     private Integer acceptedBy;
     private Integer revokedBy;
-    private boolean checked;
+    private boolean alllowed;
     private boolean confirmed;
     private String mcUUID;
     private String msgId;
@@ -25,7 +25,7 @@ public class User {
     private Logger logger = Logger.getLogger("JWE:" + this.getClass().getName());
 
     public User() {
-        this.checked = false;
+        this.alllowed = false;
         this.confirmed = false;
         this.createdAt = Helper.getTimestamp().toString();
         this.updatedAt = Helper.getTimestamp().toString();
@@ -38,7 +38,7 @@ public class User {
             this.discordId = json.getString("discordId");
             this.acceptedBy = json.getInt("acceptedBy");
             this.revokedBy = json.getInt("revokedBy");
-            this.checked = json.getBoolean("checked");
+            this.alllowed = json.getBoolean("alllowed");
             this.confirmed = json.getBoolean("confirmed");
             this.mcUUID = json.getString("mcUUID");
             this.msgId = json.getString("msgId");
@@ -58,7 +58,7 @@ public class User {
             copied.discordId = userObj.discordId;
             userObj.acceptedBy = copied.acceptedBy;
             userObj.revokedBy = copied.revokedBy;
-            copied.checked = userObj.checked;
+            copied.alllowed = userObj.alllowed;
             copied.confirmed = userObj.confirmed;
             copied.mcUUID = userObj.mcUUID;
             copied.msgId = userObj.msgId;
@@ -84,7 +84,7 @@ public class User {
             jsonObj.put("discordId", this.discordId);
             jsonObj.put("acceptedBy", this.acceptedBy);
             jsonObj.put("revokedBy", this.revokedBy);
-            jsonObj.put("checked", this.checked);
+            jsonObj.put("alllowed", this.alllowed);
             jsonObj.put("confirmed", this.confirmed);
             jsonObj.put("mcUUID", this.mcUUID);
             jsonObj.put("msgId", this.msgId);
@@ -98,19 +98,19 @@ public class User {
         return jsonObj;
     }
 
-    public boolean setAschecked(String msgId) {
-        if (this.checked) {
+    public boolean setAsalllowed(String msgId) {
+        if (this.alllowed) {
             return true;
         }
 
-        this.checked = msgId.length() > 0
+        this.alllowed = msgId.length() > 0
                 && this.id > 0
                 && this.acceptedBy > 0
                 && this.mcName.length() > 0
                 && this.createdAt.length() > 0
                 && this.discordId.length() > 0;
 
-        return this.checked;
+        return this.alllowed;
     }
 
     public boolean setAsconfirmed(String msgId) {
@@ -118,7 +118,7 @@ public class User {
             return true;
         }
 
-        this.confirmed = this.checked
+        this.confirmed = this.alllowed
                 && this.mcUUID.length() == 36
                 && this.updatedAt.length() > 0;
 

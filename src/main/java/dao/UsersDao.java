@@ -55,7 +55,7 @@ public class UsersDao extends BaseDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE checked = 1";
+            String sql = "SELECT * FROM " + this.tablename + " WHERE allowed = 1";
             this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
             pstmt.executeQuery();
