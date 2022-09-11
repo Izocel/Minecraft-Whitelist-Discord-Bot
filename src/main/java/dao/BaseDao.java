@@ -14,9 +14,9 @@ import java.util.stream.IntStream;
 import mysql.DbCredentials;
 import configs.ConfigManager;
 
-import org.json.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONException;
 
 
 public class BaseDao {
