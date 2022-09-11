@@ -28,7 +28,7 @@ public class Helper {
         }
     }
 
-    public static boolean convertStringToTimestamp(Timestamp comparator) {
+    public static boolean isWithin24Hour(Timestamp comparator) {
         final long now = getTimestamp().getTime();
         final long end = comparator.getTime() + dayMSLONG ;
         return end - now > 0;

@@ -13,11 +13,11 @@ import java.util.stream.IntStream;
 
 import mysql.DbCredentials;
 import configs.ConfigManager;
+import models.User;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
-
 
 public class BaseDao {
 
@@ -107,7 +107,7 @@ public class BaseDao {
         return results;
     }
 
-    public JSONArray find(Integer id) {
+    public User find(Integer id) {
 
         JSONArray results = new JSONArray();
 
@@ -130,11 +130,10 @@ public class BaseDao {
             e.printStackTrace();
         }
 
-        return results;
+        return (User) results.get(0);
     }
 
     public JSONArray findAll() {
-        
         JSONArray results = new JSONArray();
 
         try {
