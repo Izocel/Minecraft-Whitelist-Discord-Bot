@@ -115,3 +115,5 @@ run/
 .vscode
 .history
 .env
+
+*.bck
