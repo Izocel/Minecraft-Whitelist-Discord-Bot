@@ -50,7 +50,7 @@ public class BaseDao {
                     this.creds.getUser(),
                     this.creds.getPass());
 
-            this.logger.info("Connecté à la base de donnée !");
+            this.logger.info("Connexion à la base de donnée !");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -63,6 +63,8 @@ public class BaseDao {
     protected void close() throws SQLException {
         try {
             this.connection.close();
+            this.logger.info("Déconnexion à la base de donnée !");
+
         } catch (SQLException e) {
             e.printStackTrace();
             this.logger.warning("Déconnexion impossible à la base de donnée !");
