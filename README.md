@@ -18,5 +18,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
                           
 ```
 
-### Setup `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
-### Setup and run [build-WJE.bat](build-WJE.bat) a backup is `automaticly` added to [backups](/backups)
+## Configurations:
+
+- ### Setup the `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
+- ### Setup and run [build-WJE.bat](build-WJE.bat) a backup is `automaticly` added to [backups folder](/backups).
