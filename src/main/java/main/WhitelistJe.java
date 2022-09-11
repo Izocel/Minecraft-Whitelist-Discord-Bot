@@ -22,6 +22,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     private BukkitManager bukkitManager;
 
     public String figlet ="""
+        
          __       __  __        __    __                __  __              __               _____           
         /  |  _  /  |/  |      /  |  /  |              /  |/  |            /  |             /     |          
         $$ | / \\ $$ |$$ |____  $$/  _$$ |_     ______  $$ |$$/   _______  _$$ |_            $$$$$ |  ______  
