@@ -72,7 +72,6 @@ public class User {
     }
 
     public Integer save() {
-        this.updatedAt = Helper.getTimestamp().toString();
         return this.getDao().SaveUser(this.toJson());
     }
 
