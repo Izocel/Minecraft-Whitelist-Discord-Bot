@@ -29,12 +29,12 @@ public class ServerCommand extends ListenerAdapter {
 
         if (!event.getName().equals("serveur"))
             return; // make sure we handle the right command
-        event.reply("** 📝`" + serverName + "` | Informations**" +
-                "\n**Adresse I.P. :** `" + paperMcIp + "`" +
+        event.reply("\n\n**📝" + serverName + " | Informations**" +
+                "\n\n**Adresse I.P. :** `" + paperMcIp + "`" +
                 "\n**Port Java:** `" + protJ + "` " +
                 "\n**Port Bedrock:** `" + portB + "` " +
-                "\n\n" + getPlayersOnline() + "\n" + getTime() +
-                "\n\n* Développeurs: <@272924120142970892> 👨‍💻*\n\n"
+                "\n\n" + getPlayersOnline() + "\n\n" + getTime() +
+                "\n\n**👨‍💻 Développeur: <@272924120142970892>**"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
     }
