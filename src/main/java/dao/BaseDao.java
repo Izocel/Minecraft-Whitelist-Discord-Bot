@@ -21,11 +21,11 @@ import org.json.JSONException;
 
 public class BaseDao {
 
-    static private ConfigManager Configs = new ConfigManager();
-    protected Connection connection;
-    protected DbCredentials creds;
-    protected String tablename;
     private Logger logger;
+    protected String tablename;
+    protected DbCredentials creds;
+    protected Connection connection;
+    static private ConfigManager Configs = new ConfigManager();
 
     public BaseDao() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
@@ -50,11 +50,11 @@ public class BaseDao {
                     this.creds.getUser(),
                     this.creds.getPass());
 
-            this.logger.info("Connexion à la base de donnée !");
+            this.logger.info("Connexion++");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            this.logger.warning("Connexion impossible à la base de donnée !");
+            this.logger.warning("Connexion imposible à la base de donnée !!!");
         }
         return this.connection;
 
@@ -63,7 +63,7 @@ public class BaseDao {
     protected void close() throws SQLException {
         try {
             this.connection.close();
-            this.logger.info("Déconnexion à la base de donnée !");
+            this.logger.info("Connexion--");
 
         } catch (SQLException e) {
             e.printStackTrace();

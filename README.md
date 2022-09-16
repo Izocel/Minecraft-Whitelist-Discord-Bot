@@ -20,9 +20,15 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 
 ## Release Key-Features:
 
-- ### Player must be allowed in the users DB.
-- ### Player have 24h to log into the server to confirm their identity and be able to connect.
-- ### Player Minecraft UUID must be unique on the server.
+- #### MC.Server must enforce whitelist for it to be managed (server.properties->enforce-white-list).
+- #### MC.Server must iplement a whitelist for it to be managed (server.properties->white-list).
+- #### MC.Server must have a bound IP (server.properties->server-ip).
+- #### (Comming soon) Player can request to be registered via Discord® but MC.whitelist always have the last word for allowed connecions.
+- #### Upon registeration player have 24h to log into the MC.server to confirm their identity and be whitelisted.
+- #### Players Minecraft® UUID must be unique on the server.
+- #### A Minecraft® account can only be linked to `1` Discord® account.
+      - This could be updated in the future allowing player to update their Discord® association to MC.
+      - Therefore if you have multiple MC.accounts you can register them with the same Discord® account.
 
 ## Prerequesites:
  - ## Be sure to update your database: 
@@ -53,4 +59,4 @@ CREATE TABLE `users` (
 ## Configurations:
 
 - ### Setup the `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
-- ### Setup and run [build-WJE.bat](build-WJE.bat) a backup is `automaticly` added to [backups folder](/backups).
+- ### Setup and run [build-WJE.bat](build-WJE.bat) a backup of your conf. will `automaticly` be added to [backups folder](/backups).

@@ -64,6 +64,10 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return this.discordManager;
     }
 
+    public BukkitManager gtBukkitManager() {
+        return this.bukkitManager;
+    }
+
     public void updateAllowedPlayers() {
         this.playersAllowed = new UsersDao().findAllowed();
     }
@@ -72,15 +76,15 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         new UsersDao().setPlayerUUID(id, UUID);
     }
 
-    public Integer playerIsAllowed(String playerName) {
+    public Integer playerIsAllowed(UUID playerUUID) {
         this.updateAllowedPlayers();
         Integer allowedUserId = -1;
 
         for (Object object : this.playersAllowed) {
             final JSONObject player = (JSONObject) object;
 
-            final String nameReccord = player.getString("mc_name");
-            if(nameReccord.equals(playerName)) {
+            final String uuidReccord = player.getString("mc_uuid");
+            if(uuidReccord.equals(playerUUID.toString())) {
                 allowedUserId = player.getInt("id");
                 break;
             }
