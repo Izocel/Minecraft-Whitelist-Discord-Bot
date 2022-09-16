@@ -1,8 +1,9 @@
-package main;
+package bukkit;
 
 import org.bukkit.Bukkit;
 
 import events.bukkit.OnPlayerLoggin;
+import main.WhitelistJe;
 
 public class BukkitManager {
 

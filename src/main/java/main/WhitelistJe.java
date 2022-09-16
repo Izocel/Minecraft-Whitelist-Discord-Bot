@@ -5,12 +5,13 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import bukkit.BukkitManager;
 import dao.UsersDao;
 import discord.DiscordManager;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
@@ -18,11 +19,12 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     public WhitelistJe instance;
     private Logger logger;
     private DiscordManager discordManager;
+    private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
     private BukkitManager bukkitManager;
 
     public String figlet ="""
-          
+        
          __       __  __        __    __                __  __              __               _____           
         /  |  _  /  |/  |      /  |  /  |              /  |/  |            /  |             /     |          
         $$ | / \\ $$ |$$ |____  $$/  _$$ |_     ______  $$ |$$/   _______  _$$ |_            $$$$$ |  ______  
@@ -32,12 +34,12 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         $$$$/  $$$$ |$$ |  $$ |$$ |  $$ |/  |$$$$$$$$/ $$ |$$ | $$$$$$  |  $$ |/  |      $$ \\__$$ |$$$$$$$$/ 
         $$$/    $$$ |$$ |  $$ |$$ |  $$  $$/ $$       |$$ |$$ |/     $$/   $$  $$/       $$    $$/ $$       |
         $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/         $$$$$$/   $$$$$$$/ 
-                                 ______     __   __   _____        ______   ______     ______       __     ______     ______     ______   ______    
-                                /\\  == \\   /\\ \\ / /  /\\  __-.     /\\  == \\ /\\  == \\   /\\  __ \\     /\\ \\   /\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\   
-                                \\ \\  __<   \\ \\ \\'/   \\ \\ \\/\\ \\    \\ \\  _-/ \\ \\  __<   \\ \\ \\/\\ \\   _\\_\\ \\  \\ \\  __\\   \\ \\ \\____  \\/_/\\ \\/ \\ \\___  \\  
-                                 \\ \\_\\ \\_\\  \\ \\__|    \\ \\____-     \\ \\_\\    \\ \\_\\ \\_\\  \\ \\_____\\ /\\_____\\  \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\/\\_____\\ 
-                                  \\/_/ /_/   \\/_/      \\/____/      \\/_/     \\/_/ /_/   \\/_____/ \\/_____/   \\/_____/   \\/_____/     \\/_/   \\/_____/ 
-    
+                 ______     __   __   _____        ______   ______     ______       __     ______     ______     ______   ______   
+                /\\  == \\   /\\ \\ / /  /\\  __-.     /\\  == \\ /\\  == \\   /\\  __ \\     /\\ \\   /\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\  
+                \\ \\  __<   \\ \\ \\'/   \\ \\ \\/\\ \\    \\ \\  _-/ \\ \\  __<   \\ \\ \\/\\ \\   _\\_\\ \\  \\ \\  __\\   \\ \\ \\____  \\/_/\\ \\/ \\ \\___  \\ 
+                 \\ \\_\\ \\_\\  \\ \\__|    \\ \\____-     \\ \\_\\    \\ \\_\\ \\_\\  \\ \\_____\\ /\\_____\\  \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\/\\_____\\
+                  \\/_/ /_/   \\/_/      \\/____/      \\/_/     \\/_/ /_/   \\/_____/ \\/_____/   \\/_____/   \\/_____/     \\/_/   \\/_____/
+
     """;
 
     public WhitelistJe() {
@@ -50,6 +52,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         this.discordManager = new DiscordManager(this);
         this.bukkitManager = new BukkitManager(this);
 
+        this.updateAllPlayers();
         this.updateAllowedPlayers();
 
         Logger.getLogger("WhiteList-Je").info(this.figlet);
@@ -64,23 +67,33 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return this.discordManager;
     }
 
-    public void updateAllowedPlayers() {
+    public BukkitManager gtBukkitManager() {
+        return this.bukkitManager;
+    }
+
+    public JSONArray updateAllPlayers() {
+        this.players = new UsersDao().findAll();
+        return this.players;
+    }
+
+    public JSONArray updateAllowedPlayers() {
         this.playersAllowed = new UsersDao().findAllowed();
+        return this.playersAllowed;
     }
 
-    public void updatePlayerUUID(Integer id, UUID UUID) {
-        new UsersDao().setPlayerUUID(id, UUID);
+    public void updatePlayerUUID(Integer id, UUID mc_uuid) {
+        new UsersDao().setPlayerUUID(id, mc_uuid);
     }
 
-    public Integer playerIsAllowed(String playerName) {
+    public Integer playerIsAllowed(UUID mc_uuid) {
         this.updateAllowedPlayers();
         Integer allowedUserId = -1;
 
         for (Object object : this.playersAllowed) {
             final JSONObject player = (JSONObject) object;
 
-            final String nameReccord = player.getString("name");
-            if(nameReccord.equals(playerName)) {
+            final String uuidReccord = player.getString("mc_uuid");
+            if(uuidReccord.equals(mc_uuid.toString())) {
                 allowedUserId = player.getInt("id");
                 break;
             }

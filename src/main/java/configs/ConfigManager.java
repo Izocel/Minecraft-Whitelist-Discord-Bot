@@ -7,13 +7,13 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
-    private String discordInviteLink="https://discord.com/api/oauth2/authorize?client_id=1017971690342457356&permissions=8&scope=applications.commands%20bot";
 
-    private String discordServerId="123456789";
-    private String discordOwnerUserId="12345679";
-    private String discordTextChanelId="12345679";
+    private String discordServerId="276931890735218689";
     private String discordAdminChanelId="12345679";
     private String discordWhitelistChanelId="12345679";
+    private String botLogChannelId="12345679";
+    private String javaLogChannelId="12345679";
+
     private String discordAdminRoleId="123456789";
     private String discordModeratorRoleId="123456789";
     private String discordDevRoleId="123456789";
@@ -35,10 +35,9 @@ public final class ConfigManager {
 
     public ConfigManager() {
         configs.put("discordBotToken", this.discordBotToken);
-        configs.put("discordInviteLink", this.discordInviteLink);
         configs.put("discordServerId", this.discordServerId);
-        configs.put("discordOwnerUserId", this.discordOwnerUserId);
-        configs.put("discordTextChanelId", this.discordTextChanelId);
+        configs.put("botLogChannelId", this.botLogChannelId);
+        configs.put("javaLogChannelId", this.javaLogChannelId);
         configs.put("discordAdminChanelId", this.discordAdminChanelId);
         configs.put("discordWhitelistChanelId", this.discordWhitelistChanelId);
         configs.put("discordAdminRoleId", this.discordAdminRoleId);

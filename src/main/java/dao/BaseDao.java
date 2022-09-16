@@ -13,19 +13,19 @@ import java.util.stream.IntStream;
 
 import mysql.DbCredentials;
 import configs.ConfigManager;
+import models.User;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-
 public class BaseDao {
 
-    static private ConfigManager Configs = new ConfigManager();
-    protected Connection connection;
-    protected DbCredentials creds;
-    protected String tablename;
     private Logger logger;
+    protected String tablename;
+    protected DbCredentials creds;
+    protected Connection connection;
+    static private ConfigManager Configs = new ConfigManager();
 
     public BaseDao() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
@@ -50,11 +50,11 @@ public class BaseDao {
                     this.creds.getUser(),
                     this.creds.getPass());
 
-            this.logger.info("Connecté à la base de donnée !");
+            this.logger.info("Connexion++");
 
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            this.logger.warning("Connexion impossible à la base de donnée !");
+            this.logger.warning("Connexion imposible à la base de donnée !!!");
         }
         return this.connection;
 
@@ -63,6 +63,8 @@ public class BaseDao {
     protected void close() throws SQLException {
         try {
             this.connection.close();
+            this.logger.info("Connexion--");
+
         } catch (SQLException e) {
             e.printStackTrace();
             this.logger.warning("Déconnexion impossible à la base de donnée !");
@@ -107,7 +109,7 @@ public class BaseDao {
         return results;
     }
 
-    public JSONArray find(Integer id) {
+    public User find(Integer id) {
 
         JSONArray results = new JSONArray();
 
@@ -130,11 +132,10 @@ public class BaseDao {
             e.printStackTrace();
         }
 
-        return results;
+        return (User) results.get(0);
     }
 
     public JSONArray findAll() {
-        
         JSONArray results = new JSONArray();
 
         try {

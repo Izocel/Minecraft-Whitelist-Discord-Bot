@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import models.User;
+
 public class UsersDao extends BaseDao {
 
     private Logger logger;
@@ -44,9 +46,7 @@ public class UsersDao extends BaseDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
+        
         return null;
     }
 
@@ -55,7 +55,7 @@ public class UsersDao extends BaseDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE checked = 1";
+            String sql = "SELECT * FROM " + this.tablename + " WHERE allowed = 1";
             this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
             pstmt.executeQuery();
@@ -94,6 +94,56 @@ public class UsersDao extends BaseDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public User findByMcName(String pseudo) {
+        JSONArray results = new JSONArray();
+        try {
+            String sql = "SELECT * FROM " + this.tablename + " WHERE mc_name = ? LIMIT 1";
+            this.open();
+            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            pstmt.setString(1, pseudo);
+            pstmt.executeQuery();
+
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = this.toJsonArray(resultSet);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new User(results.getJSONObject(0));
+    }
+
+    public User findByDisccordTag(String discordTag) {
+        JSONArray results = new JSONArray();
+        try {
+            String sql = "SELECT * FROM " + this.tablename + " WHERE discord_tag = ? LIMIT 1";
+            this.open();
+            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            pstmt.setString(1, discordTag);
+            pstmt.executeQuery();
+
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = this.toJsonArray(resultSet);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new User(results.getJSONObject(0));
     }
 
 }
