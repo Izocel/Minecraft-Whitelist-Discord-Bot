@@ -7,9 +7,11 @@ import org.bukkit.Bukkit;
 
 import configs.ConfigManager;
 import main.WhitelistJe;
+import commands.RegisterCommand;
 import commands.ServerCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.InviteAction;
 
@@ -78,7 +80,13 @@ public class DiscordManager {
         try {
             // Serveur
             jda.addEventListener(new ServerCommand(main));
-            jda.upsertCommand("serveur", "Afficher les informations du serveur").queue();
+            jda.upsertCommand("serveur", "Afficher les informations du serveur Minecraft®").queue();
+
+            // Register
+            jda.addEventListener(new RegisterCommand(main));
+            jda.upsertCommand("register", "S'enregister sur le serveur")
+            .addOption(OptionType.STRING, "pseudo", "Votre pseudo Minecraft®",
+            true).queue();
     
             // // Whitelist
             // jda.addEventListener(new WhitelistCommand(main));
@@ -87,11 +95,7 @@ public class DiscordManager {
             // "action", "add/remove/on/off",true).addOption(OptionType.STRING, "pseudo",
             // "Pseudo du joueur", false).queue();
     
-            // // Request
-            // jda.addEventListener(new RequestCommand(main));
-            // jda.upsertCommand("request", "Demander l'accès au
-            // serveur").addOption(OptionType.STRING, "pseudo", "Indiquer un pseudo",
-            // true).queue();
+
     
             // // Deny
             // jda.addEventListener(new DenyCommand(main));

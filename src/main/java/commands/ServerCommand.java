@@ -1,5 +1,6 @@
 package commands;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
@@ -20,6 +21,8 @@ public class ServerCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
+        if (!event.getName().equals("serveur"))
+            return;
 
         final Integer msgDelaySec = 120;
         final String serverName = event.getGuild().getName();
@@ -27,50 +30,59 @@ public class ServerCommand extends ListenerAdapter {
         final String portB = Configs.get("portBedrock", null);
         final String paperMcIp = Configs.get("paperMcIp", null);
 
-        if (!event.getName().equals("serveur"))
-            return; // make sure we handle the right command
         event.reply("** 📝`" + serverName + "` | Informations**" +
                 "\n**Adresse I.P. :** `" + paperMcIp + "`" +
                 "\n**Port Java:** `" + protJ + "` " +
                 "\n**Port Bedrock:** `" + portB + "` " +
-                "\n\n" + getPlayersOnline() + "\n" + getTime() +
-                "\n\n* Développeurs: <@272924120142970892> 👨‍💻*\n\n"
+                "\n\n**Serveur:** \n\t" + getPlayersOnline() +
+                "\n\n**Mondes:** \n\t" + getWorldsInfos() +
+                "\n**Développeurs:** [<@272924120142970892>] 👨‍💻"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
     }
 
-    public String getTime() {
-        World world = Bukkit.getWorld("world");
-        long gameTime = world.getTime(),
-                hours = gameTime / 1000 + 6,
-                minutes = (gameTime % 1000) * 60 / 1000;
-        String weather = "`" + (world.hasStorm() ? "Orageux" : "Non orageux") + "`\n`"
-                + (world.isThundering() ? "Pluvieux" : "Non pluvieux") + "`",
-                isDay = hours <= 17 ? "Jour" : "Nuit",
-                emotes;
-        if (isDay.equals("Jour")) {
-            emotes = "☀️";
-        } else {
-            emotes = "🌙";
+    public String getWorldsInfos() {
+        List<World> worlds = Bukkit.getWorlds();
+        StringBuilder sb = new StringBuilder();
+
+        for (World world : worlds) {
+            final String name = world.getName();
+
+            long gameTime = world.getTime(),
+                    hours = gameTime / 1000 + 6,
+                    minutes = (gameTime % 1000) * 60 / 1000;
+
+            String weather = "`" + (world.hasStorm() ? "Orageux" : "Non orageux") + "`\n\t`"
+                    + (world.isThundering() ? "Pluvieux" : "Non pluvieux") + "`",
+                    isDay = hours <= 17 ? "Jour" : "Nuit",
+                    emotes;
+
+            if (isDay.equals("Jour")) {
+                emotes = "☀️";
+            } else {
+                emotes = "🌙";
+            }
+
+            if (hours >= 24) {
+                hours -= 24;
+            }
+            if (world.hasStorm())
+                emotes += "🌩";
+            if (world.isThundering())
+                emotes += "🌧";
+
+            sb.append("***" + name + ": ***\n\t" + emotes + " Météo et temps\n\t`" + (hours <= 9 ? "0" + hours : hours) + ":"
+                    + (minutes <= 9 ? "0" + minutes : minutes) + " (" + isDay + ")`\n\t" + weather + "\n\n\t");
         }
 
-        if (hours >= 24) {
-            hours -= 24;
-        }
-        if (world.hasStorm())
-            emotes += "🌩";
-        if (world.isThundering())
-            emotes += "🌧";
-
-        return "**⎯ " + emotes + " Météo et temps du serveur**\n`" + (hours <= 9 ? "0" + hours : hours) + ":"
-                + (minutes <= 9 ? "0" + minutes : minutes) + " (" + isDay + ")`\n" + weather;
+        return sb.toString();
     }
 
     public String getPlayersOnline() {
-        return "**⎯ 🌿 Activités du serveur**\n`"
+        return "**🌿 Activités du serveur**\n\t`"
                 + (Bukkit.getOnlinePlayers().size() <= 1 ? Bukkit.getOnlinePlayers().size() + " joueurs connectés"
                         : Bukkit.getOnlinePlayers().size() + " joueurs connectés")
-                + "`\n"
+                + "`\n\t"
                 + (Bukkit.getOnlinePlayers().size() != 0
                         ? Bukkit.getOnlinePlayers().toString().replace("CraftPlayer{name=", "")
                                 .replace("}", "")

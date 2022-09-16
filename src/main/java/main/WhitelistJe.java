@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import bukkit.BukkitManager;
 import dao.UsersDao;
 import discord.DiscordManager;
 
@@ -18,6 +19,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     public WhitelistJe instance;
     private Logger logger;
     private DiscordManager discordManager;
+    private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
     private BukkitManager bukkitManager;
 
@@ -50,6 +52,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         this.discordManager = new DiscordManager(this);
         this.bukkitManager = new BukkitManager(this);
 
+        this.updateAllPlayers();
         this.updateAllowedPlayers();
 
         Logger.getLogger("WhiteList-Je").info(this.figlet);
@@ -68,15 +71,21 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return this.bukkitManager;
     }
 
-    public void updateAllowedPlayers() {
+    public JSONArray updateAllPlayers() {
+        this.players = new UsersDao().findAll();
+        return this.players;
+    }
+
+    public JSONArray updateAllowedPlayers() {
         this.playersAllowed = new UsersDao().findAllowed();
+        return this.playersAllowed;
     }
 
-    public void updatePlayerUUID(Integer id, UUID UUID) {
-        new UsersDao().setPlayerUUID(id, UUID);
+    public void updatePlayerUUID(Integer id, UUID mc_uuid) {
+        new UsersDao().setPlayerUUID(id, mc_uuid);
     }
 
-    public Integer playerIsAllowed(UUID playerUUID) {
+    public Integer playerIsAllowed(UUID mc_uuid) {
         this.updateAllowedPlayers();
         Integer allowedUserId = -1;
 
@@ -84,7 +93,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             final JSONObject player = (JSONObject) object;
 
             final String uuidReccord = player.getString("mc_uuid");
-            if(uuidReccord.equals(playerUUID.toString())) {
+            if(uuidReccord.equals(mc_uuid.toString())) {
                 allowedUserId = player.getInt("id");
                 break;
             }

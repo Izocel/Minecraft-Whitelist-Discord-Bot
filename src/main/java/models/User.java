@@ -11,7 +11,7 @@ import helpers.Helper;
 public class User {
     private Integer id = -1;
     private String mcName;
-    private String discordId;
+    private String discordTag;
     private Integer acceptedBy;
     private Integer revokedBy;
     private boolean alllowed;
@@ -22,8 +22,6 @@ public class User {
     private String createdAt;
     private String updatedAt;
 
-    private Logger logger = Logger.getLogger("JWE:" + this.getClass().getName());
-
     public User() {
         this.alllowed = false;
         this.confirmed = false;
@@ -31,23 +29,43 @@ public class User {
         this.updatedAt = Helper.getTimestamp().toString();
     }
 
-    public User(JSONObject json) {
-        try {
-            this.id = json.getInt("id");
-            this.mcName = json.getString("mcName");
-            this.discordId = json.getString("discordId");
-            this.acceptedBy = json.getInt("acceptedBy");
-            this.revokedBy = json.getInt("revokedBy");
-            this.alllowed = json.getBoolean("alllowed");
-            this.confirmed = json.getBoolean("confirmed");
-            this.mcUUID = json.getString("mcUUID");
-            this.msgId = json.getString("msgId");
-            this.createdAt = json.getString("createdAt");
-            this.updatedAt = json.getString("updatedAt");
+    public Integer getId() {
+        return this.id;
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public String getDiscordTag() {
+        return this.discordTag;
+    }
+
+    public String getMcName() {
+        return this.mcName;
+    }
+
+    public boolean isAllowed() {
+        return this.alllowed;
+    }
+
+    public boolean isConfirmed() {
+        return this.confirmed;
+    }
+
+    public boolean canbe() {
+        return this.confirmed;
+    }
+
+    public User(JSONObject json) {
+        this.id = json.optInt("id");
+        this.mcName = json.optString("mc_name");
+        this.discordTag = json.optString("discord_tag");
+        this.acceptedBy = json.optInt("accepted_by");
+        this.revokedBy = json.optInt("revoked_by");
+        this.mcUUID = json.optString("mc_uuid");
+        this.msgId = json.optString("msg_id");
+        this.createdAt = json.optString("created_at");
+        this.updatedAt = json.optString("updated_at");
+
+        this.confirmed = json.optBoolean("confirmed");
+        this.alllowed = json.optBoolean("alllowed");
     }
 
     public User deepCopy(User userObj) {
@@ -55,7 +73,7 @@ public class User {
         try {
             copied.id = userObj.id;
             copied.mcName = userObj.mcName;
-            copied.discordId = userObj.discordId;
+            copied.discordTag = userObj.discordTag;
             userObj.acceptedBy = copied.acceptedBy;
             userObj.revokedBy = copied.revokedBy;
             copied.alllowed = userObj.alllowed;
@@ -79,16 +97,16 @@ public class User {
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("id", this.id);
-            jsonObj.put("mcName", this.mcName);
-            jsonObj.put("discordId", this.discordId);
-            jsonObj.put("acceptedBy", this.acceptedBy);
-            jsonObj.put("revokedBy", this.revokedBy);
+            jsonObj.put("mc_name", this.mcName);
+            jsonObj.put("discord_tag", this.discordTag);
+            jsonObj.put("accepted_by", this.acceptedBy);
+            jsonObj.put("revoked_by", this.revokedBy);
             jsonObj.put("alllowed", this.alllowed);
             jsonObj.put("confirmed", this.confirmed);
-            jsonObj.put("mcUUID", this.mcUUID);
-            jsonObj.put("msgId", this.msgId);
-            jsonObj.put("createdAt", this.createdAt);
-            jsonObj.put("updatedAt", this.updatedAt);
+            jsonObj.put("mc_uuid", this.mcUUID);
+            jsonObj.put("msg_id", this.msgId);
+            jsonObj.put("created_at", this.createdAt);
+            jsonObj.put("updated_at", this.updatedAt);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,7 +125,7 @@ public class User {
                 && this.acceptedBy > 0
                 && this.mcName.length() > 0
                 && this.createdAt.length() > 0
-                && this.discordId.length() > 0;
+                && this.discordTag.length() > 0;
 
         return this.alllowed;
     }
