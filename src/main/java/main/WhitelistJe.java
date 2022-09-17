@@ -9,19 +9,23 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import bukkit.BukkitManager;
+import configs.ConfigManager;
 import dao.UsersDao;
 import discord.DiscordManager;
+import functions.GuildManager;
 
 
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
-    public WhitelistJe instance;
     private Logger logger;
+    public WhitelistJe instance;
+    private BukkitManager bukkitManager;
+    private GuildManager guildManager;
+    private ConfigManager configManager;
     private DiscordManager discordManager;
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
-    private BukkitManager bukkitManager;
 
     public String figlet ="""
         
@@ -42,6 +46,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     """;
 
+
     public WhitelistJe() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
     }
@@ -51,6 +56,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         this.instance = this;
         this.discordManager = new DiscordManager(this);
         this.bukkitManager = new BukkitManager(this);
+        this.configManager = new ConfigManager();
+        this.guildManager = new GuildManager(this.discordManager.getGuild());
 
         this.updateAllPlayers();
         this.updateAllowedPlayers();
@@ -65,6 +72,14 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public DiscordManager getDiscordManager() {
         return this.discordManager;
+    }
+
+    public ConfigManager getConfigManager() {
+        return this.configManager;
+    }
+
+    public GuildManager getGuildManager() {
+        return this.guildManager;
     }
 
     public BukkitManager gtBukkitManager() {

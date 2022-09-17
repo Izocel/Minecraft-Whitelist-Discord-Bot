@@ -3,18 +3,58 @@ package functions;
 import java.util.List;
 import java.util.logging.Logger;
 
+import configs.ConfigManager;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 public class GuildManager {
 
     private Logger logger;
     private Guild guild;
+    
+    public String adminChannelId;
+    public String botLogchannelId;
+    public String javaLogChannelId;
+    public String whitelistChannelId;
+	private ConfigManager configManager;
+	private String ownerId;
+	private String adminRoleId;
+	private String modoRoleId;
+    private String devRoleId;
 
     public GuildManager(Guild guild) {
-        this.guild = guild;
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
+        this.configManager = new ConfigManager();
+        this.guild = guild;
+        this.setupIds();
+    }
+
+    private void setupIds() {
+        this.adminChannelId = this.configManager.get("discordAdminChanelId", null);
+        this.whitelistChannelId = this.configManager.get("discordWhitelistChanelId", null);
+        this.botLogchannelId = this.configManager.get("botLogChannelId", null);
+        this.javaLogChannelId = this.configManager.get("javaLogChannelId", null);
+
+        this.adminRoleId = this.configManager.get("discordAdminRoleId", null);
+        this.modoRoleId = this.configManager.get("discordModeratorRoleId", null);
+        this.devRoleId = this.configManager.get("discordDevRoleId", null);
+
+        this.ownerId = this.guild.getOwner().getId();
+    }
+
+
+    public Guild getGuild() {
+        return this.guild;
+    }
+    
+    public String getOwnerId() {
+        return this.ownerId;
+    }
+
+    public String getAdminRoleId() {
+        return this.adminRoleId;
     }
 
     public Role findRole(String roleId) {
@@ -57,7 +97,7 @@ public class GuildManager {
         this.guild.removeRoleFromMember(memberId, role).queue();
     }
 
-    public boolean hasRole(String memberId, String roleId) {
+    public boolean verifyRole(String memberId, String roleId) {
 
         try {
             Member foundMember = this.findMember(memberId);
@@ -83,5 +123,45 @@ public class GuildManager {
         }
 
         return false;
+    }
+
+    public String getModoRoleId() {
+        return this.modoRoleId;
+    }
+
+    public String getDevRoleId() {
+        return this.devRoleId;
+    }
+
+    public TextChannel getAdminChannel() {
+        return this.guild.getTextChannelById(this.adminChannelId);
+    }
+
+    public TextChannel getWListChannel() {
+        return this.guild.getTextChannelById(this.whitelistChannelId);
+    }
+
+    public TextChannel getbotLogChannelId() {
+        return this.guild.getTextChannelById(this.botLogchannelId);
+    }
+
+    public TextChannel getJavaLogChannel() {
+        return this.guild.getTextChannelById(this.javaLogChannelId);
+    }
+
+	public boolean isOwner(String memberId) {
+		return memberId.equals(this.getOwnerId());
+	}
+
+    public boolean isAdmin(String memberId) {
+        return this.verifyRole(memberId, this.getAdminRoleId());
+    }
+
+    public boolean isModo(String memberId) {
+        return this.verifyRole(memberId, this.getModoRoleId());
+    }
+
+    public boolean isDev(String memberId) {
+        return this.verifyRole(memberId, this.getDevRoleId());
     }
 }

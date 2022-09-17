@@ -11,6 +11,7 @@ import commands.RegisterCommand;
 import commands.ServerCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.InviteAction;
@@ -24,6 +25,7 @@ public class DiscordManager {
     private boolean isPrivateBot = true;
     private String guildId;
     private String inviteUrl;
+	private Guild guild;
     static private ConfigManager Configs = new ConfigManager();
 
     public DiscordManager(WhitelistJe main) {
@@ -68,8 +70,9 @@ public class DiscordManager {
             }
 
             guildId = Configs.get("discordServerId", null);
-            this.servername = jda.getGuildById(guildId).getName();
-            this.guildId = guildId;
+            this.guild = jda.getGuildById(guildId);
+            this.servername = this.guild.getName();
+            this.guildId = this.guild.getId();
             this.inviteUrl = this.setInvite();
         } catch (Exception e) {
             this.logger.warning("Discord bot's not authorized into your guild. (check " + Configs.getClass().getName() +")");
@@ -116,4 +119,8 @@ public class DiscordManager {
     public String getInviteUrl() {
         return this.inviteUrl;
     }
+
+	public Guild getGuild() {
+		return this.guild;
+	}
 }

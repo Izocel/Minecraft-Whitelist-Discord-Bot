@@ -1,7 +1,6 @@
 package models;
 
 import java.sql.Timestamp;
-import java.util.logging.Logger;
 
 import org.json.JSONObject;
 
@@ -18,39 +17,93 @@ public class User {
     private boolean confirmed;
     private String mcUUID;
     private String msgId;
-
     private String createdAt;
     private String updatedAt;
 
-    public User() {
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getMcName() {
+		return this.mcName;
+	}
+
+	public void setMcName(String mcName) {
+		this.mcName = mcName;
+	}
+
+	public String getDiscordTag() {
+		return this.discordTag;
+	}
+
+	public void setDiscordTag(String discordTag) {
+		this.discordTag = discordTag;
+	}
+
+	public Integer getAcceptedBy() {
+		return this.acceptedBy;
+	}
+
+	public void setAcceptedBy(Integer acceptedBy) {
+		this.acceptedBy = acceptedBy;
+	}
+
+	public Integer getRevokedBy() {
+		return this.revokedBy;
+	}
+
+	public void setRevokedBy(Integer revokedBy) {
+		this.revokedBy = revokedBy;
+	}
+
+	public boolean isAlllowed() {
+		return this.alllowed;
+	}
+
+	public boolean isConfirmed() {
+		return this.confirmed;
+	}
+
+	public String getMcUUID() {
+		return this.mcUUID;
+	}
+
+	public void setMcUUID(String mcUUID) {
+		this.mcUUID = mcUUID;
+	}
+
+	public String getMsgId() {
+		return this.msgId;
+	}
+
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
+	}
+
+	public String getCreatedAt() {
+		return this.createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getUpdatedAt() {
+		return this.updatedAt;
+	}
+
+	public void setUpdatedAt(String updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public User() {
         this.alllowed = false;
         this.confirmed = false;
         this.createdAt = Helper.getTimestamp().toString();
-        this.updatedAt = Helper.getTimestamp().toString();
-    }
-
-    public Integer getId() {
-        return this.id;
-    }
-
-    public String getDiscordTag() {
-        return this.discordTag;
-    }
-
-    public String getMcName() {
-        return this.mcName;
-    }
-
-    public boolean isAllowed() {
-        return this.alllowed;
-    }
-
-    public boolean isConfirmed() {
-        return this.confirmed;
-    }
-
-    public boolean canbe() {
-        return this.confirmed;
     }
 
     public User(JSONObject json) {
@@ -68,7 +121,7 @@ public class User {
         this.alllowed = json.optBoolean("alllowed");
     }
 
-    public User deepCopy(User userObj) {
+	public User deepCopy(User userObj) {
         User copied = new User();
         try {
             copied.id = userObj.id;
@@ -90,7 +143,7 @@ public class User {
     }
 
     public Integer save() {
-        return this.getDao().SaveUser(this.toJson());
+        return this.getDao().saveUser(this.toJson());
     }
 
     public JSONObject toJson() {
@@ -115,14 +168,10 @@ public class User {
         return jsonObj;
     }
 
-    public boolean setAsalllowed(String msgId) {
-        if (this.alllowed) {
-            return true;
-        }
-
+    public boolean setAsAlllowed(String msgId) {
+        this.msgId = msgId;
         this.alllowed = msgId.length() > 0
                 && this.id > 0
-                && this.acceptedBy > 0
                 && this.mcName.length() > 0
                 && this.createdAt.length() > 0
                 && this.discordTag.length() > 0;
@@ -130,12 +179,9 @@ public class User {
         return this.alllowed;
     }
 
-    public boolean setAsconfirmed(String msgId) {
-        if (this.confirmed) {
-            return true;
-        }
-
+    public boolean setAsConfirmed() {
         this.confirmed = this.alllowed
+                && this.acceptedBy > 0
                 && this.mcUUID.length() == 36
                 && this.updatedAt.length() > 0;
 

@@ -22,20 +22,90 @@ public class UsersDao extends BaseDao {
 		this.creds = this.getCredentials();
 	}
 
-    public Integer SaveUser(JSONObject sqlProps) {
+    public Integer saveUser(JSONObject sqlProps) {
 
-        final Integer id = sqlProps.getInt("id");
-        String UUID = sqlProps.getString("mc_uuid");
-
-        if(UUID.length() < 36) { this.logger.warning("User Minecraft UUID is not valid."); }
+        final int id = sqlProps.optInt("id");
+        final String mcName = sqlProps.optString("mc_name");
+        final String discordTag = sqlProps.optString("discord_tag");
+        final int acceptedBy = sqlProps.optInt("accepted_by");
+        final int revokedBy = sqlProps.optInt("revoked_by");
+        final String mcUUID = sqlProps.optString("mc_uuid");
+        final String msgId = sqlProps.optString("msg_id");
+        String createdAt = sqlProps.optString("created_at");
+        final boolean confirmed = sqlProps.optBoolean("confirmed");
+        final boolean alllowed = sqlProps.optBoolean("alllowed");
 
         try {
-            String sql = "SELECT count(id) FROM " + this.tablename + " WHERE id = ?;";
-            this.open();
-            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-            pstmt.setString(1, UUID);
-            pstmt.setInt(2, id);
-            pstmt.executeUpdate();
+            User found = this.find(id);
+
+            // New user
+            if(found.getId() < 1) {
+
+                if(discordTag.equals("") || msgId.equals("")) {
+                    this.logger.warning("Missing informations to save user entity");
+                    return -1;
+                }
+
+                String sql = "INSERT(mc_name, discord_tag, accepted_by, " +
+                "revoked_by, mc_uuid, msg_id, created_at, confirmed, alllowed) " + 
+                "INTO " + this.tablename + " " +
+                "VALUES(?,?,?,?,?,?,?,?,?);";
+
+                this.open();
+                final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+                pstmt.setString(1, mcName);
+                pstmt.setString(2, discordTag);
+                pstmt.setInt(3, acceptedBy);
+                pstmt.setInt(4, revokedBy);
+                pstmt.setString(5, mcUUID);
+                pstmt.setString(6, msgId);
+                pstmt.setString(7, createdAt);
+                pstmt.setBoolean(8, confirmed);
+                pstmt.setBoolean(9, alllowed);
+                pstmt.execute();
+                
+                if(pstmt.getUpdateCount() < 1) {
+                    return -1;
+                }
+
+                JSONArray result = this.toJsonArray(pstmt.getResultSet());
+                return new User(result.getJSONObject(0)).getId();
+            }
+
+            // Update User
+            else {
+                if(createdAt.equals("") || discordTag.equals("") || msgId.equals("")) {
+                    this.logger.warning("Missing informations to save user entity");
+                    return -1;
+                }
+
+                String sql = "UPDATE " + this.tablename + " " +
+                "SET mc_name = ? " + 
+                "SET discord_tag = ? " + 
+                "SET accepted_by = ? " + 
+                "SET revoked_by = ? " + 
+                "SET mc_uuid = ? " + 
+                "SET msg_id = ? " + 
+                "SET created_at = ? " + 
+                "SET confirmed = ? " + 
+                "SET alllowed = ? " + 
+                "WHERE id = ?;";
+
+                this.open();
+                final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+                pstmt.setString(1, mcName);
+                pstmt.setString(2, discordTag);
+                pstmt.setInt(3, acceptedBy);
+                pstmt.setInt(4, revokedBy);
+                pstmt.setString(5, mcUUID);
+                pstmt.setString(6, msgId);
+                pstmt.setString(7, createdAt);
+                pstmt.setBoolean(8, confirmed);
+                pstmt.setBoolean(9, alllowed);
+                pstmt.setInt(10, id);
+                pstmt.executeUpdate();
+                return pstmt.getUpdateCount() > 0 ? id : -1;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +117,7 @@ public class UsersDao extends BaseDao {
             e.printStackTrace();
         }
         
-        return null;
+        return -1;
     }
 
     public JSONArray findAllowed() {
