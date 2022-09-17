@@ -68,7 +68,7 @@ public class RegisterCommand extends ListenerAdapter {
             }
 
             else if (foundWDiscord.getId() > 0) {
-                isAllowed = foundWDiscord.isAlllowed();
+                isAllowed = foundWDiscord.isAllowed();
                 isConfirmed = foundWDiscord.isConfirmed();
 
                 if (isAllowed && isConfirmed) {
@@ -129,7 +129,7 @@ public class RegisterCommand extends ListenerAdapter {
                     newUser.setMcName(pseudo);
                     newUser.setDiscordTag(discordTag);
                     newUser.setCreatedAt(Helper.getTimestamp().toString());
-                    newUser.setAsAlllowed(message.getId());
+                    newUser.setAsAllowed(message.getId(), true, 1);
 
                     member.modifyNickname(pseudo).queue();
                 });

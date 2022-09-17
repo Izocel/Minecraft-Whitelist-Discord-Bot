@@ -13,6 +13,8 @@ import configs.ConfigManager;
 import dao.UsersDao;
 import discord.DiscordManager;
 import functions.GuildManager;
+import helpers.Helper;
+import models.User;
 
 
 
@@ -54,15 +56,26 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         this.instance = this;
+        this.configManager = new ConfigManager();
         this.discordManager = new DiscordManager(this);
         this.bukkitManager = new BukkitManager(this);
-        this.configManager = new ConfigManager();
         this.guildManager = new GuildManager(this.discordManager.getGuild());
 
         this.updateAllPlayers();
         this.updateAllowedPlayers();
 
         Logger.getLogger("WhiteList-Je").info(this.figlet);
+
+
+        for (int i = 0; i < 1000; i++) {
+            User newUser = new UsersDao().findUser(1);
+            newUser.setMcName("pseudo");
+            newUser.setDiscordTag("discordTag");
+            newUser.executeOrder66(null);
+            Integer id = newUser.save();
+        }
+
+
     }
 
     @Override

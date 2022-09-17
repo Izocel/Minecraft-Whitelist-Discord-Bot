@@ -13,7 +13,6 @@ import java.util.stream.IntStream;
 
 import mysql.DbCredentials;
 import configs.ConfigManager;
-import models.User;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -73,6 +72,10 @@ public class BaseDao {
 
     public JSONArray toJsonArray(ResultSet resultSet) {
 
+        if (resultSet == null) {
+            return null;
+        }
+
         JSONArray results = new JSONArray();
 
         try {
@@ -109,7 +112,11 @@ public class BaseDao {
         return results;
     }
 
-    public User find(Integer id) {
+    public JSONObject find(Integer id) {
+
+        if(id < 1) {
+            return null;
+        }
 
         JSONArray results = new JSONArray();
 
@@ -117,22 +124,22 @@ public class BaseDao {
             String sql = "SELECT * FROM " + this.tablename + " WHERE id = ?;";
             this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            pstmt.closeOnCompletion();
             pstmt.setInt(1, id);
+            pstmt.execute();
 
             final ResultSet resultSet = pstmt.getResultSet();
-            results = this.toJsonArray(resultSet);
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        try {
-            this.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (results == null) {
+            return null;
         }
 
-        return (User) results.get(0);
+        return (JSONObject) results.get(0);
     }
 
     public JSONArray findAll() {
@@ -143,17 +150,12 @@ public class BaseDao {
 
             this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            pstmt.closeOnCompletion();
             pstmt.executeQuery();
 
             final ResultSet resultSet = pstmt.getResultSet();
-            results = this.toJsonArray(resultSet);
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            this.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
