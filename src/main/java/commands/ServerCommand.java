@@ -13,10 +13,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class ServerCommand extends ListenerAdapter {
     private WhitelistJe main;
-    static private ConfigManager Configs = new ConfigManager();
+    private ConfigManager configs;
 
     public ServerCommand(WhitelistJe main) {
         this.main = main;
+        this.configs = this.main.getConfigManager();
     }
 
     @Override
@@ -26,9 +27,9 @@ public class ServerCommand extends ListenerAdapter {
 
         final Integer msgDelaySec = 120;
         final String serverName = event.getGuild().getName();
-        final String protJ = Configs.get("portJava", null);
-        final String portB = Configs.get("portBedrock", null);
-        final String paperMcIp = Configs.get("paperMcIp", null);
+        final String protJ = configs.get("portJava");
+        final String portB = configs.get("portBedrock");
+        final String paperMcIp = configs.get("paperMcIp");
 
         event.reply("** 📝`" + serverName + "` | Informations**" +
                 "\n**Adresse I.P. :** `" + paperMcIp + "`" +

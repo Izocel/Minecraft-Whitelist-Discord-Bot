@@ -4,10 +4,9 @@ import java.sql.Timestamp;
 
 import org.json.JSONObject;
 
-import dao.UsersDao;
 import helpers.Helper;
 
-public class User {
+public class User extends BaseModel {
     private Integer id = -1;
     private String mcName;
     private String discordTag;
@@ -39,49 +38,6 @@ public class User {
 
         this.confirmed = json.optBoolean("confirmed");
         this.allowed = json.optBoolean("allowed");
-    }
-
-	public User deepCopy(User userObj) {
-        User copied = new User();
-        try {
-            copied.id = userObj.id;
-            copied.mcName = userObj.mcName;
-            copied.discordTag = userObj.discordTag;
-            userObj.acceptedBy = copied.acceptedBy;
-            userObj.revokedBy = copied.revokedBy;
-            copied.allowed = userObj.allowed;
-            copied.confirmed = userObj.confirmed;
-            copied.mcUUID = userObj.mcUUID;
-            copied.msgId = userObj.msgId;
-            copied.createdAt = userObj.createdAt;
-            copied.updatedAt = userObj.updatedAt;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return copied;
-    }
-
-    public JSONObject toJson() {
-        JSONObject jsonObj = new JSONObject();
-        try {
-            jsonObj.put("id", this.id);
-            jsonObj.put("mc_name", this.mcName);
-            jsonObj.put("discord_tag", this.discordTag);
-            jsonObj.put("accepted_by", this.acceptedBy);
-            jsonObj.put("revoked_by", this.revokedBy);
-            jsonObj.put("allowed", this.allowed);
-            jsonObj.put("confirmed", this.confirmed);
-            jsonObj.put("mc_uuid", this.mcUUID);
-            jsonObj.put("msg_id", this.msgId);
-            jsonObj.put("created_at", this.createdAt);
-            jsonObj.put("updated_at", this.updatedAt);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return jsonObj;
     }
 
     public boolean setAsAllowed(String msgId, boolean allowed, Integer moderatorId) {
@@ -122,10 +78,6 @@ public class User {
         this.confirmed = Helper.isWithin24Hour(comparator);
 
         return this.confirmed;
-    }
-
-    public Integer save() {
-        return this.getDao().saveUser(this.toJson());
     }
 
     public Integer getId() {
@@ -208,14 +160,57 @@ public class User {
 		this.updatedAt = updatedAt;
 	}
 
-    private UsersDao getDao() {
-        return new UsersDao();
-    }
-
     public void executeOrder66(Integer moderatorId) {
         if(moderatorId == null) {
             moderatorId = 1;
         }
         this.setAsAllowed("order-66", false, moderatorId);
+    }
+
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put("id", this.id);
+            jsonObj.put("mc_name", this.mcName);
+            jsonObj.put("discord_tag", this.discordTag);
+            jsonObj.put("accepted_by", this.acceptedBy);
+            jsonObj.put("revoked_by", this.revokedBy);
+            jsonObj.put("allowed", this.allowed);
+            jsonObj.put("confirmed", this.confirmed);
+            jsonObj.put("mc_uuid", this.mcUUID);
+            jsonObj.put("msg_id", this.msgId);
+            jsonObj.put("created_at", this.createdAt);
+            jsonObj.put("updated_at", this.updatedAt);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
+    }
+
+    @Override
+    public User deepCopy(BaseModel model) {
+        User copied = new User();
+        User userObj = (User) model;
+        try {
+            copied.id = userObj.id;
+            copied.mcName = userObj.mcName;
+            copied.discordTag = userObj.discordTag;
+            userObj.acceptedBy = copied.acceptedBy;
+            userObj.revokedBy = copied.revokedBy;
+            copied.allowed = userObj.allowed;
+            copied.confirmed = userObj.confirmed;
+            copied.mcUUID = userObj.mcUUID;
+            copied.msgId = userObj.msgId;
+            copied.createdAt = userObj.createdAt;
+            copied.updatedAt = userObj.updatedAt;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return copied;
     }
 }

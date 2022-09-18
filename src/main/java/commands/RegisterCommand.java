@@ -14,7 +14,6 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.bukkit.Bukkit;
 import org.json.JSONArray;
 
-import dao.UsersDao;
 import functions.GuildManager;
 import helpers.Helper;
 import main.WhitelistJe;
@@ -58,8 +57,8 @@ public class RegisterCommand extends ListenerAdapter {
 
             boolean isAllowed = false;
             boolean isConfirmed = false;
-            User foundWDiscord = new UsersDao().findByDisccordTag(discordTag);
-            User foundWPseudo = new UsersDao().findByMcName(pseudo);
+            User foundWDiscord = this.main.getDaoManager().getUsersDao().findByDisccordTag(discordTag);
+            User foundWPseudo = this.main.getDaoManager().getUsersDao().findByMcName(pseudo);
 
             if (!foundWPseudo.getDiscordTag().equals(discordTag)) {
                 event.reply("*Ce pseudo est déjà enregistrer par un autre joueur*")

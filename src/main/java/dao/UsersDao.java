@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,11 +16,10 @@ public class UsersDao extends BaseDao {
 
     private Logger logger;
 
-	public UsersDao () {
-        super();
+	public UsersDao (Connection connection) {
+        super(connection);
         this.tablename = "users";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
-		this.creds = this.getCredentials();
 	}
 
     
@@ -31,7 +31,8 @@ public class UsersDao extends BaseDao {
         return new User(res);
     }
 
-    public Integer saveUser(JSONObject sqlProps) {
+    @Override
+    public Integer save(JSONObject sqlProps) {
 
         int id = sqlProps.optInt("id");
         final String mcName = sqlProps.optString("mc_name");
@@ -64,9 +65,7 @@ public class UsersDao extends BaseDao {
                 "revoked_by, mc_uuid, msg_id, created_at, confirmed, allowed, updated_at) " + 
                 "VALUES (?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP);";
 
-                this.open();
                 final PreparedStatement pstmt = this.connection.prepareStatement(sql, new String [] { "id" } );
-                pstmt.closeOnCompletion();
                 pstmt.setString(1, mcName);
                 pstmt.setString(2, discordTag);
                 pstmt.setObject(3, acceptedBy);
@@ -112,9 +111,7 @@ public class UsersDao extends BaseDao {
                 "updated_at = CURRENT_TIMESTAMP " + 
                 "WHERE id = ?;";
 
-                this.open();
                 final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-                pstmt.closeOnCompletion();
                 pstmt.setString(1, mcName);
                 pstmt.setString(2, discordTag);
                 pstmt.setObject(3, acceptedBy);
@@ -142,9 +139,7 @@ public class UsersDao extends BaseDao {
 
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE allowed = 1";
-            this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-            pstmt.closeOnCompletion();
             pstmt.executeQuery();
 
             final ResultSet resultSet = pstmt.getResultSet();
@@ -160,9 +155,7 @@ public class UsersDao extends BaseDao {
     public void setPlayerUUID(Integer id, UUID UUID) {
         try {
             String sql = "UPDATE " + this.tablename + " SET mc_uuid = ? WHERE id = ?;";
-            this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-            pstmt.closeOnCompletion();
             pstmt.setString(1, UUID.toString());
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
@@ -176,9 +169,7 @@ public class UsersDao extends BaseDao {
         JSONArray results = new JSONArray();
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE mc_name = ? LIMIT 1";
-            this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-            pstmt.closeOnCompletion();
             pstmt.setString(1, pseudo);
             pstmt.executeQuery();
 
@@ -200,9 +191,7 @@ public class UsersDao extends BaseDao {
         JSONArray results = new JSONArray();
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE discord_tag = ? LIMIT 1";
-            this.open();
             final PreparedStatement pstmt = this.connection.prepareStatement(sql);
-            pstmt.closeOnCompletion();
             pstmt.setString(1, discordTag);
             pstmt.executeQuery();
 

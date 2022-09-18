@@ -1,6 +1,7 @@
 package main;
 
 import java.net.http.WebSocket.Listener;
+import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -10,7 +11,7 @@ import org.json.JSONObject;
 
 import bukkit.BukkitManager;
 import configs.ConfigManager;
-import dao.UsersDao;
+import dao.DaoManager;
 import discord.DiscordManager;
 import functions.GuildManager;
 import helpers.Helper;
@@ -26,6 +27,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     private GuildManager guildManager;
     private ConfigManager configManager;
     private DiscordManager discordManager;
+    private DaoManager daoManager;
+
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
 
@@ -55,27 +58,36 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        this.instance = this;
-        this.configManager = new ConfigManager();
-        this.discordManager = new DiscordManager(this);
-        this.bukkitManager = new BukkitManager(this);
-        this.guildManager = new GuildManager(this.discordManager.getGuild());
+        instance = this;
+        configManager = new ConfigManager();
+        daoManager = new DaoManager(DataSourceFactory.getMySQLDataSource(configManager));
 
-        this.updateAllPlayers();
-        this.updateAllowedPlayers();
+        discordManager = new DiscordManager(this);
+        guildManager = new GuildManager(discordManager.getGuild());
+
+        bukkitManager = new BukkitManager(this);
+
+        updateAllPlayers();
+        updateAllowedPlayers();
 
         Logger.getLogger("WhiteList-Je").info(this.figlet);
 
-
-        for (int i = 0; i < 1000; i++) {
-            User newUser = new UsersDao().findUser(1);
+        Timestamp start = Helper.getTimestamp();
+        for (int i = 0; i < 10; i++) {
+            User newUser = daoManager.getUsersDao().findUser(1);
             newUser.setMcName("pseudo");
-            newUser.setDiscordTag("discordTag");
+            newUser.setDiscordTag("discordTag#" + i);
             newUser.executeOrder66(null);
-            Integer id = newUser.save();
+            Integer id = newUser.save(daoManager.getUsersDao());
+            this.logger.info(id == null ? "null" : id.toString() + " for Q# : " + i);
         }
+        Timestamp stop = Helper.getTimestamp();
+
+        long diff = stop.getTime()-start.getTime();
+        this.logger.info("" + diff);
 
 
+        this.logger.info(this.players.toString());
     }
 
     @Override
@@ -85,6 +97,10 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public DiscordManager getDiscordManager() {
         return this.discordManager;
+    }
+
+    public DaoManager getDaoManager() {
+        return this.daoManager;
     }
 
     public ConfigManager getConfigManager() {
@@ -100,17 +116,17 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     public JSONArray updateAllPlayers() {
-        this.players = new UsersDao().findAll();
+        this.players = daoManager.getUsersDao().findAll();
         return this.players;
     }
 
     public JSONArray updateAllowedPlayers() {
-        this.playersAllowed = new UsersDao().findAllowed();
+        this.playersAllowed = daoManager.getUsersDao().findAllowed();
         return this.playersAllowed;
     }
 
     public void updatePlayerUUID(Integer id, UUID mc_uuid) {
-        new UsersDao().setPlayerUUID(id, mc_uuid);
+        daoManager.getUsersDao().setPlayerUUID(id, mc_uuid);
     }
 
     public Integer playerIsAllowed(UUID mc_uuid) {
