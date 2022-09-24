@@ -1,6 +1,5 @@
 @echo off
 cls
-set CURRENT=%cd%
 set BUILDER=C:\TestServerMinecraft
 set CONFFILE=pom.xml
 cd %BUILDER%

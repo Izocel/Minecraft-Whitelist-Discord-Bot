@@ -2,6 +2,7 @@ package commands;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -22,6 +23,13 @@ public class ServerCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
+
+        Logger.getLogger("WJE").info("new /ssrrvvvvvvvvvvvvvvvvvvvvrrrrrrrrrrrrrrr");
+        for (int i = 0; i < 50; i++) {
+            this.main.updateAllPlayers();
+            this.main.updateAllowedPlayers();
+        }
+
         if (!event.getName().equals("serveur"))
             return;
 

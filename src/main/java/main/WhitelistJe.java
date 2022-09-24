@@ -1,7 +1,6 @@
 package main;
 
 import java.net.http.WebSocket.Listener;
-import java.sql.Timestamp;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -14,10 +13,6 @@ import configs.ConfigManager;
 import dao.DaoManager;
 import discord.DiscordManager;
 import functions.GuildManager;
-import helpers.Helper;
-import models.User;
-
-
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
@@ -34,27 +29,27 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public String getfiglet() {
         String figlet = """
-        
-         __       __  __        __    __                __  __              __               _____           
-        /  |  _  /  |/  |      /  |  /  |              /  |/  |            /  |             /     |          
-        $$ | / \\ $$ |$$ |____  $$/  _$$ |_     ______  $$ |$$/   _______  _$$ |_            $$$$$ |  ______  
-        $$ |/$  \\$$ |$$      \\ /  |/ $$   |   /      \\ $$ |/  | /       |/ $$   |  ______      $$ | /      \\ 
-        $$ /$$$  $$ |$$$$$$$  |$$ |$$$$$$/   /$$$$$$  |$$ |$$ |/$$$$$$$/ $$$$$$/  /      |__   $$ |/$$$$$$  |
-        $$ $$/$$ $$ |$$ |  $$ |$$ |  $$ | __ $$    $$ |$$ |$$ |$$      \\   $$ | __$$$$$$//  |  $$ |$$    $$ |
-        $$$$/  $$$$ |$$ |  $$ |$$ |  $$ |/  |$$$$$$$$/ $$ |$$ | $$$$$$  |  $$ |/  |      $$ \\__$$ |$$$$$$$$/ 
-        $$$/    $$$ |$$ |  $$ |$$ |  $$  $$/ $$       |$$ |$$ |/     $$/   $$  $$/       $$    $$/ $$       |
-        $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/         $$$$$$/   $$$$$$$/ 
-                 ______     __   __   _____        ______   ______     ______       __     ______     ______     ______   ______   
-                /\\  == \\   /\\ \\ / /  /\\  __-.     /\\  == \\ /\\  == \\   /\\  __ \\     /\\ \\   /\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\  
-                \\ \\  __<   \\ \\ \\'/   \\ \\ \\/\\ \\    \\ \\  _-/ \\ \\  __<   \\ \\ \\/\\ \\   _\\_\\ \\  \\ \\  __\\   \\ \\ \\____  \\/_/\\ \\/ \\ \\___  \\ 
-                 \\ \\_\\ \\_\\  \\ \\__|    \\ \\____-     \\ \\_\\    \\ \\_\\ \\_\\  \\ \\_____\\ /\\_____\\  \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\/\\_____\\
-                  \\/_/ /_/   \\/_/      \\/____/      \\/_/     \\/_/ /_/   \\/_____/ \\/_____/   \\/_____/   \\/_____/     \\/_/   \\/_____/
-        """;
+
+                 __       __  __        __    __                __  __              __               _____
+                /  |  _  /  |/  |      /  |  /  |              /  |/  |            /  |             /     |
+                $$ | / \\ $$ |$$ |____  $$/  _$$ |_     ______  $$ |$$/   _______  _$$ |_            $$$$$ |  ______
+                $$ |/$  \\$$ |$$      \\ /  |/ $$   |   /      \\ $$ |/  | /       |/ $$   |  ______      $$ | /      \\
+                $$ /$$$  $$ |$$$$$$$  |$$ |$$$$$$/   /$$$$$$  |$$ |$$ |/$$$$$$$/ $$$$$$/  /      |__   $$ |/$$$$$$  |
+                $$ $$/$$ $$ |$$ |  $$ |$$ |  $$ | __ $$    $$ |$$ |$$ |$$      \\   $$ | __$$$$$$//  |  $$ |$$    $$ |
+                $$$$/  $$$$ |$$ |  $$ |$$ |  $$ |/  |$$$$$$$$/ $$ |$$ | $$$$$$  |  $$ |/  |      $$ \\__$$ |$$$$$$$$/
+                $$$/    $$$ |$$ |  $$ |$$ |  $$  $$/ $$       |$$ |$$ |/     $$/   $$  $$/       $$    $$/ $$       |
+                $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/         $$$$$$/   $$$$$$$/
+                         ______     __   __   _____        ______   ______     ______       __     ______     ______     ______   ______
+                        /\\  == \\   /\\ \\ / /  /\\  __-.     /\\  == \\ /\\  == \\   /\\  __ \\     /\\ \\   /\\  ___\\   /\\  ___\\   /\\__  _\\ /\\  ___\\
+                        \\ \\  __<   \\ \\ \\'/   \\ \\ \\/\\ \\    \\ \\  _-/ \\ \\  __<   \\ \\ \\/\\ \\   _\\_\\ \\  \\ \\  __\\   \\ \\ \\____  \\/_/\\ \\/ \\ \\___  \\
+                         \\ \\_\\ \\_\\  \\ \\__|    \\ \\____-     \\ \\_\\    \\ \\_\\ \\_\\  \\ \\_____\\ /\\_____\\  \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\/\\_____\\
+                          \\/_/ /_/   \\/_/      \\/____/      \\/_/     \\/_/ /_/   \\/_____/ \\/_____/   \\/_____/   \\/_____/     \\/_/   \\/_____/
+                """;
 
         figlet += """
 
-        Developped by: Izocel
-        Version: """ + this.configManager.get("plugin", "2022.2") + "\n\n";
+                Developped by: Izocel
+                Version: """ + this.configManager.get("pluginVersion", "2022.2") + "\n\n";
 
         return figlet;
     }
@@ -71,29 +66,11 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         discordManager = new DiscordManager(this);
         guildManager = new GuildManager(discordManager.getGuild());
         bukkitManager = new BukkitManager(this);
-
+        
         updateAllPlayers();
         updateAllowedPlayers();
 
         Logger.getLogger("WhiteList-Je").info(this.getfiglet());
-
-        Timestamp start = Helper.getTimestamp();
-        for (int i = 0; i < 50; i++) {
-            User newUser = daoManager.getUsersDao().findUser(1);
-            newUser.setMcName("pseudo");
-            newUser.setDiscordTag("discordTag#" + i);
-            newUser.executeOrder66(null);
-            Integer id = newUser.save(daoManager.getUsersDao());
-            this.logger.info(id == null ? "null" : id.toString() + " for Q# : " + i);
-        }
-        Timestamp stop = Helper.getTimestamp();
-
-        long diff = stop.getTime()-start.getTime();
-        this.logger.info("" + diff);
-
-        updateAllPlayers();
-        updateAllowedPlayers();
-        this.logger.info(this.players.toString());
     }
 
     private DaoManager setDaoManager() {
