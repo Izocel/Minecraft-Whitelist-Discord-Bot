@@ -25,10 +25,7 @@ public class UsersDao extends BaseDao {
     
     public User findUser(Integer id) {
         JSONObject res = this.find(id);
-        if(res == null) {
-            return null;
-        }
-        return new User(res);
+        return res == null ? null : new User(res);
     }
 
     @Override
@@ -137,14 +134,15 @@ public class UsersDao extends BaseDao {
     }
 
     public JSONArray findAllowed() {
-
+        
         JSONArray results = new JSONArray();
-
+        
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE allowed = 1";
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.executeQuery();
 
+            
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
             this.closeConnection();
@@ -152,6 +150,11 @@ public class UsersDao extends BaseDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if(results == null || results.length() < 1) {
+            return null;
+        }
+
 
         return results;
     }
@@ -171,6 +174,7 @@ public class UsersDao extends BaseDao {
     }
 
     public User findByMcName(String pseudo) {
+        
         JSONArray results = new JSONArray();
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE mc_name = ? LIMIT 1";
@@ -178,6 +182,8 @@ public class UsersDao extends BaseDao {
             pstmt.setString(1, pseudo);
             pstmt.executeQuery();
 
+            this.logger.info(pstmt.toString());
+            
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
             this.closeConnection();
@@ -186,7 +192,7 @@ public class UsersDao extends BaseDao {
             e.printStackTrace();
         }
 
-        if(results == null) {
+        if(results == null || results.length() < 1) {
             return null;
         }
 
@@ -194,13 +200,14 @@ public class UsersDao extends BaseDao {
     }
 
     public User findByDisccordTag(String discordTag) {
+        
         JSONArray results = new JSONArray();
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE discord_tag = ? LIMIT 1";
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, discordTag);
             pstmt.executeQuery();
-
+            
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
             this.closeConnection();
@@ -209,7 +216,7 @@ public class UsersDao extends BaseDao {
             e.printStackTrace();
         }
 
-        if(results == null) {
+        if(results == null || results.length() < 1) {
             return null;
         }
 

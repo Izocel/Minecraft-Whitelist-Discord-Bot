@@ -48,8 +48,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
         figlet += """
 
-                Developped by: Izocel
-                Version: """ + this.configManager.get("pluginVersion", "2022.2") + "\n\n";
+                Version: """ + this.configManager.get("pluginVersion", "2022.2") + "\n" +
+                "Developped by: Izocel" + "\n\n";
 
         return figlet;
     }

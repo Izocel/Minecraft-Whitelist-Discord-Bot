@@ -36,6 +36,7 @@ public class User extends BaseModel {
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
 
+        //FIXME: Parsing ds bool marche croche................................................
         this.confirmed = json.optBoolean("confirmed");
         this.allowed = json.optBoolean("allowed");
     }

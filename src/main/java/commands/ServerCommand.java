@@ -2,7 +2,6 @@ package commands;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;

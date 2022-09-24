@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.requests.ErrorResponse;
 import org.bukkit.Bukkit;
 import org.json.JSONArray;
 
+import configs.ConfigManager;
 import functions.GuildManager;
 import helpers.Helper;
 import main.WhitelistJe;
@@ -50,7 +51,6 @@ public class RegisterCommand extends ListenerAdapter {
 
     private boolean handleKnownUser(SlashCommandEvent event, String pseudo, String discordTag) {
         try {
-
             boolean valid = this.validatePseudo(event, pseudo);
             if (!valid) {
                 return false;
@@ -61,29 +61,46 @@ public class RegisterCommand extends ListenerAdapter {
             User foundWDiscord = this.main.getDaoManager().getUsersDao().findByDisccordTag(discordTag);
             User foundWPseudo = this.main.getDaoManager().getUsersDao().findByMcName(pseudo);
 
-            if (!foundWPseudo.getDiscordTag().equals(discordTag)) {
+            try {
+                this.logger.info(foundWDiscord.toJson().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                this.logger.info(foundWPseudo.toJson().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (foundWPseudo != null && !foundWPseudo.getDiscordTag().equals(discordTag)) {
                 event.reply("*Ce pseudo est déjà enregistrer par un autre joueur*")
                         .setEphemeral(true).queue();
                 return false;
             }
 
-            else if (foundWDiscord.getId() > 0) {
+            else if (foundWDiscord != null && foundWDiscord.getId() > 0) {
                 isAllowed = foundWDiscord.isAllowed();
                 isConfirmed = foundWDiscord.isConfirmed();
 
+                if(!isAllowed) {
+                    event.reply("*Vous avez été refusé sur le serveur. Contactez un admin directement pour remédier à la situation...*").setEphemeral(true).queue();
+                    return false;
+                }
+
                 if (isAllowed && isConfirmed) {
-                    event.reply("*Vous êtes déjà accepté sur le serveur*").setEphemeral(true).queue();
+                    event.reply("*Vous êtes déjà accepté sur le serveur...*").setEphemeral(true).queue();
                     return false;
                 }
 
                 if (isAllowed && !isConfirmed) {
-                    event.reply("*Une nouvelle demande de confirmation ?*").setEphemeral(true).queue();
+                    event.reply("*Une nouvelle demande de confirmation?*").setEphemeral(true).queue();
                     return false;
                 }
             }
 
         } catch (Exception e) {
-            event.reply("*Une erreur est survenu contactez un admin!*").setEphemeral(true).queue();
+            event.reply("*Une erreur est survenu contactez un admin!!!*").setEphemeral(true).queue();
             e.printStackTrace();
             return false;
         }
@@ -92,7 +109,7 @@ public class RegisterCommand extends ListenerAdapter {
     }
 
     private EmbedBuilder getRequestEmbeded(SlashCommandEvent event, String pseudo) {
-        return new EmbedBuilder().setTitle("Une demande a été transmise")
+        return new EmbedBuilder().setTitle("Un joueur veut s'enregister sur votre serveur Minecraft®")
                 .addField("Pseudo", pseudo, true)
                 .addField("Discord", "<@" + event.getMember().getId() + ">", true)
                 .setThumbnail(event.getMember().getUser().getAvatarUrl())
@@ -113,6 +130,8 @@ public class RegisterCommand extends ListenerAdapter {
             return;
         }
 
+        //TODO: add user to DB as "not confirmed";
+
         EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo);
         GuildManager gManager = this.main.getGuildManager();
 
@@ -121,8 +140,10 @@ public class RegisterCommand extends ListenerAdapter {
                 .setEphemeral(true).queue();
 
         gManager.getWListChannel().sendMessage(embeded.build())
-                .setActionRows(ActionRow.of(Button.primary(this.acceptId, "✔️ Accepter"),
-                        Button.secondary(this.rejectId, "❌ Refuser")))
+                .setActionRows(
+                    ActionRow.of(Button.primary(this.acceptId, "✔️ Accepter"),
+                    Button.secondary(this.rejectId, "❌ Refuser"))
+                )
                 .queue(message -> {
                     Member member = event.getMember();
                     User newUser = new User();
@@ -130,8 +151,12 @@ public class RegisterCommand extends ListenerAdapter {
                     newUser.setDiscordTag(discordTag);
                     newUser.setCreatedAt(Helper.getTimestamp().toString());
                     newUser.setAsAllowed(message.getId(), true, 1);
-
-                    member.modifyNickname(pseudo).queue();
+                    
+                    try {// Can't modify a member with higher or equal highest role than yourself!
+                        member.modifyNickname(pseudo).queue();
+                    } catch (Exception e) {
+                        this.logger.warning(e.getMessage());
+                    }
                 });
     }
 

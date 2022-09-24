@@ -79,6 +79,7 @@ public class BaseDao implements IDao {
             return null;
         }
 
+        
         JSONArray results = new JSONArray();
 
         try {
@@ -87,6 +88,7 @@ public class BaseDao implements IDao {
             pstmt.setInt(1, id);
             pstmt.execute();
 
+            
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
             this.closeConnection();
@@ -94,8 +96,8 @@ public class BaseDao implements IDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        if (results == null) {
+        
+        if (results == null || results.length() < 1) {
             return null;
         }
         
@@ -103,6 +105,7 @@ public class BaseDao implements IDao {
     }
 
     public JSONArray findAll() {
+        
         JSONArray results = new JSONArray();
 
         try {
@@ -111,15 +114,19 @@ public class BaseDao implements IDao {
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.executeQuery();
 
-            final ResultSet resultSet = pstmt.getResultSet();
             
+            final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
+            this.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        this.closeConnection();
+        if (results == null || results.length() < 1) {
+            return null;
+        }
+        
         return results;
     }
 

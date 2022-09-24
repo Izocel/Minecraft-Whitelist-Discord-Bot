@@ -9,8 +9,8 @@ public final class ConfigManager {
     private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
 
     private final String discordServerId="276931890735218689";
-    private final String discordAdminChanelId="924682022704787466";
-    private final String discordWhitelistChanelId="925583159964352643";
+    private final String discordAdminChanelId="927283856053252106";
+    private final String discordWhitelistChanelId="927283856053252106";
     private final String botLogChannelId="927283856053252106";
     private final String javaLogChannelId="927283856053252106";
 
@@ -25,7 +25,7 @@ public final class ConfigManager {
     private final String mysqlPass="@whitelist_je2022";
     private final String mysqlDefTable="users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
-    private final String mysqlMaxConnection="2";
+    private final String mysqlMaxConnection="5";
 
     private final String portJava="25565";
     private final String portBedrock="19132";
