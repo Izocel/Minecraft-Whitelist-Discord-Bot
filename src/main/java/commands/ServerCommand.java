@@ -23,13 +23,6 @@ public class ServerCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-
-        Logger.getLogger("WJE").info("new /ssrrvvvvvvvvvvvvvvvvvvvvrrrrrrrrrrrrrrr");
-        for (int i = 0; i < 50; i++) {
-            this.main.updateAllPlayers();
-            this.main.updateAllowedPlayers();
-        }
-
         if (!event.getName().equals("serveur"))
             return;
 
