@@ -23,6 +23,7 @@ import java.awt.*;
 import java.util.logging.Logger;
 
 public class RegisterCommand extends ListenerAdapter {
+    
     private JDA jda;
     private Logger logger;
     private WhitelistJe main;
@@ -226,11 +227,11 @@ public class RegisterCommand extends ListenerAdapter {
 //     private void handleRejected(ButtonClickEvent event) {
 //         final Connection connection;
 //         connection = userinfo.getConnection();
-//         final PreparedStatement preparedstatement = connection
+//         final PreparedStatement pstmt = connection
 //         .prepareStatement("SELECT * FROM users WHERE messageid = ?");
-//         preparedstatement.setString(1, message);
-//         preparedstatement.executeQuery();
-//         final ResultSet resultset = preparedstatement.executeQuery();
+//         pstmt.setString(1, message);
+//         pstmt.executeQuery();
+//         final ResultSet resultset = pstmt.executeQuery();
         
 //         if (!resultset.next()) {
 //         return;

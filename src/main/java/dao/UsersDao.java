@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,14 +9,15 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import main.PooledDatasource;
 import models.User;
 
 public class UsersDao extends BaseDao {
 
     private Logger logger;
 
-	public UsersDao (Connection connection) {
-        super(connection);
+	public UsersDao (PooledDatasource poolDs) {
+        super(poolDs);
         this.tablename = "users";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
 	}
@@ -65,7 +65,7 @@ public class UsersDao extends BaseDao {
                 "revoked_by, mc_uuid, msg_id, created_at, confirmed, allowed, updated_at) " + 
                 "VALUES (?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP);";
 
-                final PreparedStatement pstmt = this.connection.prepareStatement(sql, new String [] { "id" } );
+                final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String [] { "id" } );
                 pstmt.setString(1, mcName);
                 pstmt.setString(2, discordTag);
                 pstmt.setObject(3, acceptedBy);
@@ -76,8 +76,9 @@ public class UsersDao extends BaseDao {
                 pstmt.setBoolean(8, confirmed);
                 pstmt.setBoolean(9, allowed);
                 status = pstmt.executeUpdate();
-
                 ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                this.closeConnection();
+                
                 while(generatedKeys.next())
                {
                     id = generatedKeys.getInt(1); 
@@ -111,7 +112,7 @@ public class UsersDao extends BaseDao {
                 "updated_at = CURRENT_TIMESTAMP " + 
                 "WHERE id = ?;";
 
-                final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+                final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
                 pstmt.setString(1, mcName);
                 pstmt.setString(2, discordTag);
                 pstmt.setObject(3, acceptedBy);
@@ -124,6 +125,8 @@ public class UsersDao extends BaseDao {
                 pstmt.setObject(10, id);
                 status = pstmt.executeUpdate();
                 id = pstmt.getUpdateCount() > 0 ? id : -1;
+                this.closeConnection();
+                
             }
 
         } catch (Exception e) {
@@ -139,11 +142,12 @@ public class UsersDao extends BaseDao {
 
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE allowed = 1";
-            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.executeQuery();
 
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
+            this.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -155,10 +159,11 @@ public class UsersDao extends BaseDao {
     public void setPlayerUUID(Integer id, UUID UUID) {
         try {
             String sql = "UPDATE " + this.tablename + " SET mc_uuid = ? WHERE id = ?;";
-            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, UUID.toString());
             pstmt.setInt(2, id);
             pstmt.executeUpdate();
+            this.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -169,12 +174,13 @@ public class UsersDao extends BaseDao {
         JSONArray results = new JSONArray();
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE mc_name = ? LIMIT 1";
-            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, pseudo);
             pstmt.executeQuery();
 
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
+            this.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -191,12 +197,13 @@ public class UsersDao extends BaseDao {
         JSONArray results = new JSONArray();
         try {
             String sql = "SELECT * FROM " + this.tablename + " WHERE discord_tag = ? LIMIT 1";
-            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, discordTag);
             pstmt.executeQuery();
 
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
+            this.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();

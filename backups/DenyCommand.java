@@ -44,10 +44,10 @@ public class DenyCommand extends ListenerAdapter {
             final Connection connection;
             try {
                 connection = userinfo.getConnection();
-                final PreparedStatement preparedstatement = connection.prepareStatement("SELECT * FROM users WHERE discord = ?");
-                preparedstatement.setString(1, player);
-                preparedstatement.executeQuery();
-                final ResultSet resultset = preparedstatement.executeQuery();
+                final PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE discord = ?");
+                pstmt.setString(1, player);
+                final ResultSet resultset = pstmt.executeQuery();
+                
                 if (!resultset.next()) {
                     event.reply("Joueur introuvable").setEphemeral(true).queue();
                     return;
@@ -68,6 +68,7 @@ public class DenyCommand extends ListenerAdapter {
                 }
                 event.getGuild().getMemberById(resultset.getString("users.discord")).modifyNickname(jda.getUserById(resultset.getString("users.discord")).getName()).queue();
                 final PreparedStatement preparedstatement2 = connection.prepareStatement("DELETE FROM users WHERE discord = " + resultset.getString("users.discord"));
+                
                 preparedstatement2.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();

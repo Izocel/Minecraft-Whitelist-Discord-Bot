@@ -32,7 +32,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
 
-    public String figlet ="""
+    public String getfiglet() {
+        String figlet = """
         
          __       __  __        __    __                __  __              __               _____           
         /  |  _  /  |/  |      /  |  /  |              /  |/  |            /  |             /     |          
@@ -48,9 +49,15 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                 \\ \\  __<   \\ \\ \\'/   \\ \\ \\/\\ \\    \\ \\  _-/ \\ \\  __<   \\ \\ \\/\\ \\   _\\_\\ \\  \\ \\  __\\   \\ \\ \\____  \\/_/\\ \\/ \\ \\___  \\ 
                  \\ \\_\\ \\_\\  \\ \\__|    \\ \\____-     \\ \\_\\    \\ \\_\\ \\_\\  \\ \\_____\\ /\\_____\\  \\ \\_____\\  \\ \\_____\\    \\ \\_\\  \\/\\_____\\
                   \\/_/ /_/   \\/_/      \\/____/      \\/_/     \\/_/ /_/   \\/_____/ \\/_____/   \\/_____/   \\/_____/     \\/_/   \\/_____/
+        """;
 
-    """;
+        figlet += """
 
+        Developped by: Izocel
+        Version: """ + this.configManager.get("plugin", "2022.2") + "\n\n";
+
+        return figlet;
+    }
 
     public WhitelistJe() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
@@ -60,20 +67,18 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     public void onEnable() {
         instance = this;
         configManager = new ConfigManager();
-        daoManager = new DaoManager(DataSourceFactory.getMySQLDataSource(configManager));
-
+        daoManager = setDaoManager();
         discordManager = new DiscordManager(this);
         guildManager = new GuildManager(discordManager.getGuild());
-
         bukkitManager = new BukkitManager(this);
 
         updateAllPlayers();
         updateAllowedPlayers();
 
-        Logger.getLogger("WhiteList-Je").info(this.figlet);
+        Logger.getLogger("WhiteList-Je").info(this.getfiglet());
 
         Timestamp start = Helper.getTimestamp();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 50; i++) {
             User newUser = daoManager.getUsersDao().findUser(1);
             newUser.setMcName("pseudo");
             newUser.setDiscordTag("discordTag#" + i);
@@ -86,8 +91,20 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         long diff = stop.getTime()-start.getTime();
         this.logger.info("" + diff);
 
-
+        updateAllPlayers();
+        updateAllowedPlayers();
         this.logger.info(this.players.toString());
+    }
+
+    private DaoManager setDaoManager() {
+        PooledDatasource pds;
+        try {
+            pds = DbPoolFactory.getMysqlPool(this.configManager);
+            return new DaoManager(pds);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

@@ -25,11 +25,13 @@ public final class ConfigManager {
     private final String mysqlPass="@whitelist_je2022";
     private final String mysqlDefTable="users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
-    private final String mysqlMaxConnection="5";
+    private final String mysqlMaxConnection="2";
 
     private final String portJava="25565";
     private final String portBedrock="19132";
     private final String paperMcIp="server.minecraft.tumeniaises.ca";
+
+    private final String pluginVersion="2022.2";
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -56,6 +58,7 @@ public final class ConfigManager {
         configs.put("portJava", this.portJava);
         configs.put("portBedrock", this.portBedrock);
         configs.put("paperMcIp", this.paperMcIp);
+        configs.put("pluginVersion", this.pluginVersion);
     }
 
     public String get(String key, String defaultValue) {
