@@ -17,14 +17,13 @@ public class OnServerLoad implements Listener {
         this.main = main;
     }
 
-
     @EventHandler
     public void onServerLoad(ServerLoadEvent event) {
         StringBuilder sb = new StringBuilder();
-        sb.append("**Le serveur est up and running boyyssss!**\n");
+        sb.append("**Le serveur est up and running boyyssss!** ");
         sb.append(this.main.gtBukkitManager().getServerInfoString());
         
-        this.main.getGuildManager().getWelcomeChannel()
+        this.main.getGuildManager().getAdminChannel()
             .sendMessage(sb.toString()).queue();
     }
 

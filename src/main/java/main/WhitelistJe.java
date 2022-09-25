@@ -46,7 +46,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                           \\/_/ /_/   \\/_/      \\/____/      \\/_/     \\/_/ /_/   \\/_____/ \\/_____/   \\/_____/   \\/_____/     \\/_/   \\/_____/
                 """;
 
-        figlet += this.getPluginInfos();
+        figlet += "\n" + this.getPluginInfos(true);
 
         return figlet;
     }
@@ -55,9 +55,13 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
     }
 
-    public String getPluginInfos() {
-        return "Version: " + this.getVersion() + "\n" +
-        "Developped by: @xXx-RaFuX#1345" + "\n\n";
+    public String getPluginInfos(boolean toConsole) {
+
+        final String devName = toConsole ? "@xXx-RaFuX#1345" : "<@272924120142970892>";
+
+        return "Name: `" + this.getName() + "`\n" +
+        "Version: `" + this.getVersion() + "`\n" +
+        "Developped by: " + devName + "\n\n";
     }
 
     public String getVersion() {
@@ -77,7 +81,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         updateAllowedPlayers();
 
         Logger.getLogger("WhiteList-Je").info(this.getfiglet());
-        guildManager.getAdminChannel().sendMessage("**Le plugin est loader**\n\n" + getPluginInfos()).queue();
+        guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
     }
 
     private DaoManager setDaoManager() {
@@ -93,7 +97,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        guildManager.getAdminChannel().sendMessage("**Le plugin est unloader**\n\n" + getPluginInfos()).queue();
+        guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est unloader**\n\n" + getPluginInfos(false)).queue();
     }
 
     public DiscordManager getDiscordManager() {
