@@ -31,10 +31,8 @@ public class ServerCommand extends ListenerAdapter {
         final String portB = configs.get("portBedrock");
         final String paperMcIp = configs.get("paperMcIp");
 
-        event.reply("** 📝`" + serverName + "` | Informations**" +
-                "\n**Adresse I.P. :** `" + paperMcIp + "`" +
-                "\n**Port Java:** `" + protJ + "` " +
-                "\n**Port Bedrock:** `" + portB + "` " +
+        event.reply("** 📝`" + serverName + "` | Informations**" + 
+                this.main.gtBukkitManager().getServerInfoString() +
                 "\n\n**Serveur:** \n\t" + getPlayersOnline() +
                 "\n\n**Mondes:** \n\t" + getWorldsInfos() +
                 "\n**Développeurs:** [<@272924120142970892>] 👨‍💻"

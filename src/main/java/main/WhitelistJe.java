@@ -46,16 +46,22 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                           \\/_/ /_/   \\/_/      \\/____/      \\/_/     \\/_/ /_/   \\/_____/ \\/_____/   \\/_____/   \\/_____/     \\/_/   \\/_____/
                 """;
 
-        figlet += """
-
-                Version: """ + this.configManager.get("pluginVersion", "2022.2") + "\n" +
-                "Developped by: Izocel" + "\n\n";
+        figlet += this.getPluginInfos();
 
         return figlet;
     }
 
     public WhitelistJe() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
+    }
+
+    public String getPluginInfos() {
+        return "Version: " + this.getVersion() + "\n" +
+        "Developped by: @xXx-RaFuX#1345" + "\n\n";
+    }
+
+    public String getVersion() {
+        return this.configManager.get("pluginVersion", "2022.2");
     }
 
     @Override
@@ -66,11 +72,12 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         discordManager = new DiscordManager(this);
         guildManager = new GuildManager(discordManager.getGuild());
         bukkitManager = new BukkitManager(this);
-        
+
         updateAllPlayers();
         updateAllowedPlayers();
 
         Logger.getLogger("WhiteList-Je").info(this.getfiglet());
+        guildManager.getAdminChannel().sendMessage("**Le plugin est loader**\n\n" + getPluginInfos()).queue();
     }
 
     private DaoManager setDaoManager() {
@@ -86,7 +93,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-       this.discordManager.disconnect();
+        guildManager.getAdminChannel().sendMessage("**Le plugin est unloader**\n\n" + getPluginInfos()).queue();
     }
 
     public DiscordManager getDiscordManager() {
@@ -131,7 +138,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             final JSONObject player = (JSONObject) object;
 
             final String uuidReccord = player.getString("mc_uuid");
-            if(uuidReccord.equals(mc_uuid.toString())) {
+            if (uuidReccord.equals(mc_uuid.toString())) {
                 allowedUserId = player.getInt("id");
                 break;
             }
