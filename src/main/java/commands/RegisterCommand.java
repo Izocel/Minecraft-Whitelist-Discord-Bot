@@ -4,12 +4,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.dv8tion.jda.api.requests.ErrorResponse;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import dao.UsersDao;
 import functions.GuildManager;
 import helpers.Helper;
@@ -58,17 +55,15 @@ public class RegisterCommand extends ListenerAdapter {
                 return true;
             }
 
-            User foundWDiscord = this.main.getDaoManager().getUsersDao().findByDisccordTag(discordTag);
-
             if (foundWPseudo != null && !foundWPseudo.getDiscordTag().equals(discordTag)) {
                 event.reply("❌ **Ce pseudo est déjà enregistrer par un autre joueur**")
                         .setEphemeral(true).queue();
                 return false;
             }
 
-            else if (foundWDiscord != null && foundWDiscord.getId() > 0) {
-                isAllowed = foundWDiscord.isAllowed();
-                isConfirmed = foundWDiscord.isConfirmed();
+            else if (foundWPseudo != null && foundWPseudo.getId() > 0) {
+                isAllowed = foundWPseudo.isAllowed();
+                isConfirmed = foundWPseudo.isConfirmed();
 
                 if(!isAllowed) {
                     event.reply("❌ **Vous n'avez pas encore été accepté sur le serveur.**\n" +
@@ -181,7 +176,7 @@ public class RegisterCommand extends ListenerAdapter {
             this.handleAccepted(event, newuser, pseudo);
 
         } else if (actionId.equals(this.rejectId)) {
-            //this.handleRejected(event, newuser, pseudo);
+            this.handleRejected(event, newuser, pseudo);
 
         } else {
             this.logger.warning("Commande non reconnue venant d'un boutton." + 
@@ -238,8 +233,6 @@ public class RegisterCommand extends ListenerAdapter {
                 return;
             }
 
-            //TODO: Set Bukkit whitelisted player................
-
             event.getMessage().editMessage(newMsgContent.build())
             .setActionRow(net.dv8tion.jda.api.interactions.components.Button
             .primary(this.acceptId_conf, "✔️ Accepter par " + event.getMember().getEffectiveName()).asDisabled())
@@ -262,44 +255,29 @@ public class RegisterCommand extends ListenerAdapter {
         }
     }
 
-    // // Reject
-    // private void handleRejected(ButtonClickEvent event) {
-    //     final Connection connection;
-    //     connection = userinfo.getConnection();
-    //     final PreparedStatement pstmt = connection
-    //     .prepareStatement("SELECT ** FROM users WHERE BINARY messageid = ?");
-    //     pstmt.setString(1, message);
-    //     pstmt.executeQuery();
-    //     final ResultSet resultset = pstmt.executeQuery();
-        
-    //     if (!resultset.next()) {
-    //     return;
-    //     }
+    // Reject
+    private void handleRejected(ButtonClickEvent event, Member newUser, String pseudo) {
+        try {
+            final String discordId = newUser.getId();
+            final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo ,discordId);
 
-    //     jda.getTextChannelById("1013374066540941362").editMessageById(message, builder.build())
-    //     .setActionRow(Button.secondary(this.rejectId_conf, "Refusé par " + event.getMember().getNickname())
-    //     .asDisabled())
-    //     .queue();
+            event.getMessage().editMessage(newMsgContent.build())
+            .setActionRow(net.dv8tion.jda.api.interactions.components.Button
+            .primary(this.rejectId_conf, "❌ Refuser par " + event.getMember().getEffectiveName()).asDisabled())
+            .queue();
 
-    //     if (whitelistManager.getPlayersAllowed().contains(name)) {
-    //         whitelistManager.getPlayersAllowed().remove(name);
-    //     }
+            final String newMsg = "**❌ Votre enregistrement sur le serveur a été refusé.**";
 
-    //     if (Bukkit.getPlayer(name) != null && Bukkit.getPlayer(name).isOnline()) {
-    //         Bukkit.getScheduler().runTask(main, () -> {
-    //         Bukkit.getPlayer(name).kickPlayer("§cVous avez été expulsé");
-    //     });
+            this.main.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
+                channel.sendMessage(newMsg).queue();
+            });
 
-        
-    //     event.getGuild().getMemberById(discord).modifyNickname(jda.getUserById(discord).getName()).queue();
-    //     final PreparedStatement preparedstatement2 = connection
-    //     .prepareStatement("DELETE FROM users WHERE BINARY discord = " + discord);
-    //     preparedstatement2.executeUpdate();
-    //     event.reply("Le joueur " + name + " a bien été refusé").setEphemeral(true).queue();
-    // }
-    
-    
-// }
+            event.reply("❌ **Le joueur <@" + discordId + "> a bien été refusé pour le pseudo: `" + pseudo + "`.**")
+            .setEphemeral(true).queue();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
