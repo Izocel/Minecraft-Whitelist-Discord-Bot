@@ -30,7 +30,6 @@ public class UsersDao extends BaseDao {
 
     @Override
     public Integer save(JSONObject sqlProps) {
-
         int id = sqlProps.optInt("id");
         final String mcName = sqlProps.optString("mc_name");
         final String discordTag = sqlProps.optString("discord_tag");

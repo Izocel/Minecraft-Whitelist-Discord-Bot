@@ -124,6 +124,8 @@ public class RegisterCommand extends ListenerAdapter {
 
         final String pseudo = event.getOption("pseudo").getAsString();
         final String discordTag = event.getMember().getUser().getAsTag();
+        final String discordId = event.getMember().getId();
+
         boolean parseAsNew = this.handleKnownUser(event, pseudo, discordTag);
 
         if (!parseAsNew) {
@@ -139,8 +141,8 @@ public class RegisterCommand extends ListenerAdapter {
         
         gManager.getAdminChannel().sendMessage(embeded.build())
             .setActionRows(
-                ActionRow.of(Button.primary(this.acceptId + " " + pseudo, "✔️ Accepter"),
-                Button.secondary(this.rejectId + " " + pseudo, "❌ Refuser"))
+                ActionRow.of(Button.primary(this.acceptId + " " + pseudo + " " + discordId, "✔️ Accepter"),
+                Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
             ).queue();
     }
 
@@ -152,6 +154,9 @@ public class RegisterCommand extends ListenerAdapter {
 
         final String actionId = componentId.split(" ")[0];
         final String pseudo = componentId.split(" ")[1];
+        final String discordId = componentId.split(" ")[2];
+
+        Member newuser = event.getGuild().getMemberById(discordId);
 
         if (!event.getChannel().getId().equals(gManager.whitelistChannelId)) {
             return;
@@ -173,10 +178,10 @@ public class RegisterCommand extends ListenerAdapter {
         }
 
         if (actionId.equals(this.acceptId)) {
-            this.handleAccepted(event, respMember, pseudo);
+            this.handleAccepted(event, newuser, pseudo);
 
         } else if (actionId.equals(this.rejectId)) {
-            //this.handleRejected(event);
+            //this.handleRejected(event, newuser, pseudo);
 
         } else {
             this.logger.warning("Commande non reconnue venant d'un boutton." + 
@@ -249,12 +254,6 @@ public class RegisterCommand extends ListenerAdapter {
                 "\n**Vous avez `24H` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer votre compte`.**")
                 .queue();
             });
-
-            try {// Can't modify a member with higher or equal highest role than yourself!
-                member.modifyNickname(pseudo).queue();
-            } catch (Exception e) {
-                this.logger.warning(e.getMessage());
-            }
 
             event.reply("✔️ **Le joueur <@" + discordId + "> a bien été approuvé avec le pseudo: `" + pseudo + "`.**")
             .setEphemeral(true).queue();
