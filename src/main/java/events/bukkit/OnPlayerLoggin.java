@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -49,41 +50,49 @@ public class OnPlayerLoggin implements Listener {
 
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event) {
+        final Player loginPlayer = event.getPlayer();
+        final UUID pUUID = loginPlayer.getUniqueId();
+        final String pName = loginPlayer.getName();
+        Integer allowedId = this.main.playerIsAllowed(pName);
+        boolean isAllowed = allowedId > 0;
+        boolean isWhitelisted = false;
+
+        if(isAllowed) {
+            this.main.updatePlayerUUID(allowedId, pUUID);
+            Bukkit.getServer().setWhitelist(true);
+            loginPlayer.setWhitelisted(true);
+        }
+
         String ip = Bukkit.getServer().getIp();
+        ip = ip.equals("") ? "Not bound to any IP" : ip;
         final String version = Bukkit.getServer().getVersion();
-        final boolean onlineMode = Bukkit.getServer().getOnlineMode();
         final boolean usingWhiteList = Bukkit.getServer().hasWhitelist();
         final boolean forceWhitelist = Bukkit.getServer().isWhitelistEnforced();
 
-        ip = ip.equals("") ? "Not bound to any IP" : ip;
-
-        final UUID pUUID = event.getPlayer().getUniqueId();
-        final String pName = event.getPlayer().getName();
-        Integer allowedId = this.main.playerIsAllowed(pUUID);
-        boolean isAllowed = false;
-
-        if(allowedId > 0) {
-            this.main.updatePlayerUUID(allowedId, pUUID);
-        }
-
         if(!usingWhiteList) {
             this.logger.warning("Server is not using a whitelist");
+            isWhitelisted = true;
         }
         if(!forceWhitelist) {
             this.logger.warning("Server is not enforcing a whitelist");
-            isAllowed = true;
+            event.allow();
+            return;
         }
         else {
             Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
             for (OfflinePlayer player : w_players) {
                 if(player.getUniqueId() == pUUID) {
-                    isAllowed = true;
+                    isWhitelisted = true;
                     break;
                 }
             }
         }
+        
+        if(isAllowed && !isWhitelisted) {
+            this.logger.warning("Le joueur est allowed mais n'a pas été retrouver dans la whitelist du serveur !!!");
+        }
 
-        if(!isAllowed) {
+        if(!isWhitelisted) {
             final String ds_srvName = this.main.getDiscordManager().getServerName();
             final String ds_inviteUrl = this.main.getDiscordManager().getInviteUrl();
             final String msg = "§c§lLe serveur est sous whitelist Discord®§l" + 

@@ -134,18 +134,22 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         daoManager.getUsersDao().setPlayerUUID(id, mc_uuid);
     }
 
-    public Integer playerIsAllowed(UUID mc_uuid) {
-        this.updateAllowedPlayers();
+    public Integer playerIsAllowed(String pseudo) {
         Integer allowedUserId = -1;
+        this.updateAllowedPlayers();
 
-        for (Object object : this.playersAllowed) {
-            final JSONObject player = (JSONObject) object;
-
-            final String uuidReccord = player.getString("mc_uuid");
-            if (uuidReccord.equals(mc_uuid.toString())) {
-                allowedUserId = player.getInt("id");
-                break;
+        try {
+            for (Object object : this.playersAllowed) {
+                final JSONObject player = (JSONObject) object;
+                final String pseudoReccord = player.optString("mc_name");
+    
+                if (pseudoReccord.equals(pseudo.toString())) {
+                    allowedUserId = player.getInt("id");
+                    break;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return allowedUserId;
