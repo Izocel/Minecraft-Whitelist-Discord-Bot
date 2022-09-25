@@ -163,9 +163,13 @@ public class UsersDao extends BaseDao {
         return results;
     }
 
-    public void setPlayerUUID(Integer id, UUID UUID) {
+    public void setPlayerUUID(Integer id, UUID UUID, boolean tempConfirmed) {
         try {
             String sql = "UPDATE " + this.tablename + " SET mc_uuid = ? WHERE id = ?;";
+            if(tempConfirmed) {
+                sql = "UPDATE " + this.tablename + " SET mc_uuid = ?, confirmed = 1 WHERE id = ?;";
+            }
+            
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, UUID.toString());
             pstmt.setInt(2, id);

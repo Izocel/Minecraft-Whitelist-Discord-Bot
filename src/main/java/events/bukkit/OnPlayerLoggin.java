@@ -54,11 +54,12 @@ public class OnPlayerLoggin implements Listener {
         final UUID pUUID = loginPlayer.getUniqueId();
         final String pName = loginPlayer.getName();
         Integer allowedId = this.main.playerIsAllowed(pName);
-        boolean isAllowed = allowedId > 0;
+        boolean isAllowed = allowedId != null && allowedId > 0;
         boolean isWhitelisted = false;
 
         if(isAllowed) {
-            this.main.updatePlayerUUID(allowedId, pUUID);
+            final boolean tempConfirmed = true;
+            this.main.updatePlayerUUID(allowedId, pUUID, tempConfirmed);
             Bukkit.getServer().setWhitelist(true);
             loginPlayer.setWhitelisted(true);
         }
@@ -71,7 +72,6 @@ public class OnPlayerLoggin implements Listener {
 
         if(!usingWhiteList) {
             this.logger.warning("Server is not using a whitelist");
-            isWhitelisted = true;
         }
         if(!forceWhitelist) {
             this.logger.warning("Server is not enforcing a whitelist");

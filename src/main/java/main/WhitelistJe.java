@@ -130,8 +130,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return this.playersAllowed;
     }
 
-    public void updatePlayerUUID(Integer id, UUID mc_uuid) {
-        daoManager.getUsersDao().setPlayerUUID(id, mc_uuid);
+    public void updatePlayerUUID(Integer id, UUID mc_uuid, boolean tempConfirmed) {
+        daoManager.getUsersDao().setPlayerUUID(id, mc_uuid, tempConfirmed);
     }
 
     public Integer playerIsAllowed(String pseudo) {
