@@ -13,10 +13,11 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class ServerCommand extends ListenerAdapter {
     private WhitelistJe main;
-    static private ConfigManager Configs = new ConfigManager();
+    private ConfigManager configs;
 
     public ServerCommand(WhitelistJe main) {
         this.main = main;
+        this.configs = this.main.getConfigManager();
     }
 
     @Override
@@ -26,17 +27,15 @@ public class ServerCommand extends ListenerAdapter {
 
         final Integer msgDelaySec = 120;
         final String serverName = event.getGuild().getName();
-        final String protJ = Configs.get("portJava", null);
-        final String portB = Configs.get("portBedrock", null);
-        final String paperMcIp = Configs.get("paperMcIp", null);
+        final String protJ = configs.get("portJava");
+        final String portB = configs.get("portBedrock");
+        final String paperMcIp = configs.get("paperMcIp");
 
-        event.reply("** 📝`" + serverName + "` | Informations**" +
-                "\n**Adresse I.P. :** `" + paperMcIp + "`" +
-                "\n**Port Java:** `" + protJ + "` " +
-                "\n**Port Bedrock:** `" + portB + "` " +
-                "\n\n**Serveur:** \n\t" + getPlayersOnline() +
-                "\n\n**Mondes:** \n\t" + getWorldsInfos() +
-                "\n**Développeurs:** [<@272924120142970892>] 👨‍💻"
+        event.reply("** 📝`" + serverName + "` | Informations ** " + 
+                this.main.gtBukkitManager().getServerInfoString() +
+                "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
+                "\n\n**Mondes: **" + getWorldsInfos() +
+                "\n**Développeurs:** <@272924120142970892> 👨‍💻"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
     }
@@ -71,8 +70,12 @@ public class ServerCommand extends ListenerAdapter {
             if (world.isThundering())
                 emotes += "🌧";
 
-            sb.append("***" + name + ": ***\n\t" + emotes + " Météo et temps\n\t`" + (hours <= 9 ? "0" + hours : hours) + ":"
+            sb.append("\n\t" + emotes + " Météo et temps: **" + name + "**\n\t`" + (hours <= 9 ? "0" + hours : hours) + ":"
                     + (minutes <= 9 ? "0" + minutes : minutes) + " (" + isDay + ")`\n\t" + weather + "\n\n\t");
+
+            if(!configs.get("showSubWorlddMeteo", "false").equals("true")) {
+                break;
+            }
         }
 
         return sb.toString();

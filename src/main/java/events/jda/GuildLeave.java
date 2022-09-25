@@ -27,10 +27,10 @@ public class GuildLeave extends ListenerAdapter {
     //     final Connection connection;
     //     try {
     //         connection = userinfo.getConnection();
-    //         final PreparedStatement preparedstatement = connection.prepareStatement("SELECT * FROM users WHERE discord = ?");
-    //         preparedstatement.setString(1, event.getMember().getId());
-    //         preparedstatement.executeQuery();
-    //         final ResultSet resultset = preparedstatement.executeQuery();
+    //         final PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM users WHERE BINARY discord = ?");
+    //         pstmt.setString(1, event.getMember().getId());
+    //         pstmt.executeQuery();
+    //         final ResultSet resultset = pstmt.executeQuery();
     //         if(!resultset.next()) return;
     //         if(Bukkit.getPlayer(resultset.getString("users.name")) != null && Bukkit.getPlayer(resultset.getString("users.name")).isOnline()) {
     //             Bukkit.getScheduler().runTask(main, () -> {
@@ -41,7 +41,7 @@ public class GuildLeave extends ListenerAdapter {
     //                 }
     //             });
     //         }
-    //         final PreparedStatement preparedstatement2 = connection.prepareStatement("DELETE FROM users WHERE discord = " + resultset.getString("users.discord"));
+    //         final PreparedStatement preparedstatement2 = connection.prepareStatement("DELETE FROM users WHERE BINARY discord = " + resultset.getString("users.discord"));
     //         preparedstatement2.executeUpdate();
     //         if(whitelistManager.getPlayersAllowed().contains(resultset.getString("users.name"))) {
     //             whitelistManager.getPlayersAllowed().remove(resultset.getString("users.name"));

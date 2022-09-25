@@ -111,8 +111,6 @@ run/
 
 
 # ide related
-.vs
-.vscode
 .history
 .env
 

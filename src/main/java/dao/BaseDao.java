@@ -1,163 +1,137 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import mysql.DbCredentials;
-import configs.ConfigManager;
-import models.User;
-
-import org.json.JSONObject;
+import org.apache.commons.lang.NotImplementedException;
 import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
-public class BaseDao {
+import main.PooledDatasource;
+
+public class BaseDao implements IDao {
 
     private Logger logger;
     protected String tablename;
-    protected DbCredentials creds;
+    protected PooledDatasource datasource;
     protected Connection connection;
-    static private ConfigManager Configs = new ConfigManager();
 
-    public BaseDao() {
+    public BaseDao(PooledDatasource poolDs) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
-        this.creds = this.getCredentials();
+        this.datasource = poolDs;
     }
 
-    protected DbCredentials getCredentials() {
-        return new DbCredentials(
-                Configs.get("mysqlHost", "127.0.0.1"),
-                Configs.get("mysqlUser", "root"),
-                Configs.get("mysqlPass", "mysql"),
-                Configs.get("mysqlDb", "whitelist_je"),
-                Integer.parseInt(Configs.get("mysqlPort", "3306")));
-    }
-
-    protected Connection open() {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-
-            this.connection = DriverManager.getConnection(
-                    this.creds.toURI(),
-                    this.creds.getUser(),
-                    this.creds.getPass());
-
-            this.logger.info("Connexion++");
-
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            this.logger.warning("Connexion imposible à la base de donnée !!!");
+    protected void closeConnection() {
+        if(connection == null) {
+            return;
         }
-        return this.connection;
-
-    }
-
-    protected void close() throws SQLException {
         try {
             this.connection.close();
-            this.logger.info("Connexion--");
-
+            this.connection = null;
         } catch (SQLException e) {
+            logger.warning("Unable to close the BD connection");
             e.printStackTrace();
-            this.logger.warning("Déconnexion impossible à la base de donnée !");
         }
     }
 
-    public JSONArray toJsonArray(ResultSet resultSet) {
-
-        JSONArray results = new JSONArray();
-
+    protected Connection getConnection() {
+        if(connection == null) {
+            try {
+                this.connection = this.datasource.getConnection();
+                logger.info("Db Connection ++");
+            } catch (SQLException e) {
+                logger.warning("Unable to get a BD connection");
+                e.printStackTrace();
+            }    
+        }
         try {
-            ResultSetMetaData md = resultSet.getMetaData();
-
-            int numCols = md.getColumnCount();
-            List<String> colNames = IntStream.range(0, numCols)
-                    .mapToObj(i -> {
-                        try {
-                            return md.getColumnName(i + 1);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            return "?";
-                        }
-                    })
-                    .collect(Collectors.toList());
-
-            while (resultSet.next()) {
-                JSONObject row = new JSONObject();
-                colNames.forEach(cn -> {
-                    try {
-                        row.put(cn, resultSet.getObject(cn));
-                    } catch (JSONException | SQLException e) {
-                        e.printStackTrace();
-                    }
-                });
-                results.put(row);
-            }
-
+            this.connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return results;
+        return this.connection;
     }
 
-    public User find(Integer id) {
+    protected Connection getConnectionTx() {
+        if(connection == null) {
+            try {
+                logger.info("Db TX Connection ++");
+                this.connection = this.datasource.getConnection();
+            } catch (SQLException e) {
+                logger.warning("Unable to get a BD TX connection");
+                e.printStackTrace();
+            }    
+        }
+        try {
+            this.connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return this.connection;
+    }
 
+    public JSONObject find(Integer id) {
+
+        if (id < 1) {
+            return null;
+        }
+
+        
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE id = ?;";
-            this.open();
-            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            String sql = "SELECT * FROM " + this.tablename + " WHERE BINARY id = ?;";
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setInt(1, id);
+            pstmt.execute();
 
+            
             final ResultSet resultSet = pstmt.getResultSet();
-            results = this.toJsonArray(resultSet);
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
+            this.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        try {
-            this.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        
+        if (results == null || results.length() < 1) {
+            return null;
         }
-
-        return (User) results.get(0);
+        
+        return (JSONObject) results.get(0);
     }
 
     public JSONArray findAll() {
+        
         JSONArray results = new JSONArray();
 
         try {
             String sql = "SELECT * FROM " + this.tablename + ";";
 
-            this.open();
-            final PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.executeQuery();
 
+            
             final ResultSet resultSet = pstmt.getResultSet();
-            results = this.toJsonArray(resultSet);
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
+            this.closeConnection();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        try {
-            this.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if (results == null || results.length() < 1) {
+            return null;
         }
-
+        
         return results;
+    }
+
+    @Override
+    public Integer save(JSONObject json) {
+        throw new NotImplementedException();
     }
 }

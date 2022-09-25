@@ -1,0 +1,22 @@
+{
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "files.exclude": {
+        "**/.git": false,
+        "**/.svn": false,
+        "**/.hg": false,
+        "**/CVS": false,
+        "**/.DS_Store": false,
+        "**/Thumbs.db": false,
+        "**/.classpath": false,
+        "**/.project": false,
+        "**/.settings": false,
+        "**/.factorypath": false
+    },
+    "explorerExclude.backup": null,
+    "java.dependency.syncWithFolderExplorer": true,
+    "java.dependency.packagePresentation": "hierarchical",
+    "java.debug.logLevel": "verbose",
+    "java.maven.downloadSources": true,
+    "java.eclipse.downloadSources": true,
+    "java.implementationsCodeLens.enabled": false
+}
