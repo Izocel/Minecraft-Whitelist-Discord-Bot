@@ -7,6 +7,7 @@ cd %BUILDER%
 @echo off
 copy /y %BUILDER%\src\main\java\configs\ConfigManager.java %BUILDER%\backups\ConfigManager.bck
 copy /y %BUILDER%\build-WJE.bat %BUILDER%\backups\build-WJE.bck
+copy /y %BUILDER%\launch.bat %BUILDER%\backups\launch.bck
 copy /y %BUILDER%\pom.xml %BUILDER%\backups\pom.bck
 
 call java --version

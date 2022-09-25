@@ -1,6 +1,7 @@
 package models;
 
 import java.sql.Timestamp;
+import java.util.logging.Logger;
 
 import org.json.JSONObject;
 
@@ -10,8 +11,8 @@ public class User extends BaseModel {
     private Integer id = -1;
     private String mcName;
     private String discordTag;
-    private Integer acceptedBy;
-    private Integer revokedBy;
+    private String acceptedBy;
+    private String revokedBy;
     private boolean allowed;
     private boolean confirmed;
     private String mcUUID;
@@ -29,37 +30,43 @@ public class User extends BaseModel {
         this.id = json.optInt("id");
         this.mcName = json.optString("mc_name");
         this.discordTag = json.optString("discord_tag");
-        this.acceptedBy = json.optInt("accepted_by");
-        this.revokedBy = json.optInt("revoked_by");
+        this.acceptedBy = json.optString("accepted_by");
+        this.revokedBy = json.optString("revoked_by");
         this.mcUUID = json.optString("mc_uuid");
         this.msgId = json.optString("msg_id");
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
 
-        //FIXME: Parsing ds bool marche croche................................................
-        this.confirmed = json.optBoolean("confirmed");
-        this.allowed = json.optBoolean("allowed");
+        final Object isConfirmed = json.opt("confirmed");
+        final Object isAllowed = json.opt("allowed");
+
+        this.confirmed = isConfirmed != null ?
+            isConfirmed.toString() == "1" 
+            || (int)isConfirmed == 1 : false;
+
+        this.allowed = isAllowed != null ?
+            isAllowed.toString() == "1" 
+            || (int)isAllowed == 1 : false;
     }
 
-    public boolean setAsAllowed(String msgId, boolean allowed, Integer moderatorId) {
+    public boolean setAsAllowed(String msgId, boolean allowed, String moderatorTag) {
 
         this.msgId = msgId;
 
-        if(allowed == false) {
+        if(allowed == false && moderatorTag.length() > 0) {
             this.confirmed = false;
             this.allowed = false;
             this.acceptedBy = null;
-            this.revokedBy = moderatorId;
+            this.revokedBy = moderatorTag;
             return this.allowed;
         }
         
         this.allowed = msgId.length() > 0
-                && this.id > 0
                 && this.mcName.length() > 0
-                && this.createdAt.length() > 0
-                && this.discordTag.length() > 0;
+                && this.discordTag.length() > 0
+                && moderatorTag.length() > 0;
         
-        this.acceptedBy = moderatorId;
+        this.acceptedBy = moderatorTag;
         return this.allowed;
     }
 
@@ -71,7 +78,7 @@ public class User extends BaseModel {
         }
 
         this.confirmed = this.allowed
-                && this.acceptedBy > 0
+                && this.acceptedBy.length() > 0
                 && this.mcUUID.length() == 36
                 && this.updatedAt.length() > 0;
 
@@ -105,19 +112,19 @@ public class User extends BaseModel {
 		this.discordTag = discordTag;
 	}
 
-	public Integer getAcceptedBy() {
+	public String getAcceptedBy() {
 		return this.acceptedBy;
 	}
 
-	public void setAcceptedBy(Integer acceptedBy) {
+	public void setAcceptedBy(String acceptedBy) {
 		this.acceptedBy = acceptedBy;
 	}
 
-	public Integer getRevokedBy() {
+	public String getRevokedBy() {
 		return this.revokedBy;
 	}
 
-	public void setRevokedBy(Integer revokedBy) {
+	public void setRevokedBy(String revokedBy) {
 		this.revokedBy = revokedBy;
 	}
 
@@ -161,9 +168,9 @@ public class User extends BaseModel {
 		this.updatedAt = updatedAt;
 	}
 
-    public void executeOrder66(Integer moderatorId) {
+    public void executeOrder66(String moderatorId) {
         if(moderatorId == null) {
-            moderatorId = 1;
+            moderatorId = "#666-TheChancelor";
         }
         this.setAsAllowed("order-66", false, moderatorId);
     }

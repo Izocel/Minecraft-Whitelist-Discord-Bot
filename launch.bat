@@ -9,7 +9,7 @@ set EXEC_MAX_RAM=8G
 set xms = -Xms%BOOT_MAX_RAM%
 set xms = -Xms%EXCEC_MAX_RAM%
 "%JAVA18_FOLDER%\bin\java.exe" -version
-"%JAVA18_FOLDER%\bin\java.exe" %xms% %xmx% -jar "%MC_SERVER_FILE%"
+"%JAVA18_FOLDER%\bin\java.exe" %xms% %xmx% -jar "%MC_SERVER_FILE%" -nogui
 echo closing script...
 timeout 10
 

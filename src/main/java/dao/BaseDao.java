@@ -58,7 +58,7 @@ public class BaseDao implements IDao {
     protected Connection getConnectionTx() {
         if(connection == null) {
             try {
-                logger.info("Db Connection ++");
+                logger.info("Db TX Connection ++");
                 this.connection = this.datasource.getConnection();
             } catch (SQLException e) {
                 logger.warning("Unable to get a BD TX connection");
@@ -83,7 +83,7 @@ public class BaseDao implements IDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE id = ?;";
+            String sql = "SELECT * FROM " + this.tablename + " WHERE BINARY id = ?;";
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setInt(1, id);
             pstmt.execute();

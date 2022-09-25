@@ -37,13 +37,17 @@ public class UsersDao extends BaseDao {
         final String mcUUID = sqlProps.optString("mc_uuid");
         final String msgId = sqlProps.optString("msg_id");
         final String createdAt = sqlProps.optString("created_at");
-        final boolean confirmed = sqlProps.optBoolean("confirmed");
-        final boolean allowed = sqlProps.optBoolean("allowed");
 
-        Integer acceptedBy = sqlProps.optInt("accepted_by");
-        Integer revokedBy = sqlProps.optInt("revoked_by");
-        acceptedBy = acceptedBy > 0 ? acceptedBy : null;
-        revokedBy = revokedBy > 0 ? revokedBy : null;
+        final Object isConfirmed = sqlProps.opt("confirmed");
+        final Object isAllowed = sqlProps.opt("allowed");
+
+        final int allowed = isAllowed.equals(true) ? 1 : 0;
+        final int confirmed = isConfirmed.equals(true) ? 1 : 0;
+
+        String acceptedBy = sqlProps.optString("accepted_by");
+        String revokedBy = sqlProps.optString("revoked_by");
+        acceptedBy = acceptedBy.length() > 0 ? acceptedBy : null;
+        revokedBy = revokedBy.length() > 0 ? revokedBy : null;
 
         if(mcName.equals("") || discordTag.equals("") || msgId.equals("") || createdAt.equals("")) {
             this.logger.warning("Missing informations to save user entity");
@@ -70,17 +74,18 @@ public class UsersDao extends BaseDao {
                 pstmt.setString(5, mcUUID);
                 pstmt.setString(6, msgId);
                 pstmt.setString(7, createdAt);
-                pstmt.setBoolean(8, confirmed);
-                pstmt.setBoolean(9, allowed);
+                pstmt.setInt(8, confirmed);
+                pstmt.setInt(9, allowed);
                 status = pstmt.executeUpdate();
                 ResultSet generatedKeys = pstmt.getGeneratedKeys();
-                this.closeConnection();
                 
                 while(generatedKeys.next())
                {
                     id = generatedKeys.getInt(1); 
                     break;
                }
+
+               this.closeConnection();
             }
 
             // Update User
@@ -117,8 +122,8 @@ public class UsersDao extends BaseDao {
                 pstmt.setString(5, mcUUID);
                 pstmt.setString(6, msgId);
                 pstmt.setString(7, createdAt);
-                pstmt.setBoolean(8, confirmed);
-                pstmt.setBoolean(9, allowed);
+                pstmt.setInt(8, confirmed);
+                pstmt.setInt(9, allowed);
                 pstmt.setObject(10, id);
                 status = pstmt.executeUpdate();
                 id = pstmt.getUpdateCount() > 0 ? id : -1;
@@ -181,8 +186,6 @@ public class UsersDao extends BaseDao {
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, pseudo);
             pstmt.executeQuery();
-
-            this.logger.info(pstmt.toString());
             
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);

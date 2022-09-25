@@ -9,6 +9,7 @@ public final class ConfigManager {
     private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
 
     private final String discordServerId="276931890735218689";
+    private final String discordWelcomeChanelId="925583159964352643";
     private final String discordAdminChanelId="927283856053252106";
     private final String discordWhitelistChanelId="927283856053252106";
     private final String botLogChannelId="927283856053252106";
@@ -42,6 +43,7 @@ public final class ConfigManager {
         configs.put("discordServerId", this.discordServerId);
         configs.put("botLogChannelId", this.botLogChannelId);
         configs.put("javaLogChannelId", this.javaLogChannelId);
+        configs.put("discordWelcomeChanelId", this.discordWelcomeChanelId);
         configs.put("discordAdminChanelId", this.discordAdminChanelId);
         configs.put("discordWhitelistChanelId", this.discordWhitelistChanelId);
         configs.put("discordAdminRoleId", this.discordAdminRoleId);

@@ -83,12 +83,12 @@ public class DiscordManager {
         try {
             // Serveur
             jda.addEventListener(new ServerCommand(main));
-            jda.upsertCommand("serveur", "Afficher les informations du serveur Minecraft®").queue();
+            jda.upsertCommand("serveur", "Afficher les informations du serveur `Minecraft®`").queue();
 
             // Register
             jda.addEventListener(new RegisterCommand(main));
             jda.upsertCommand("register", "S'enregister sur le serveur")
-            .addOption(OptionType.STRING, "pseudo", "Votre pseudo Minecraft®",
+            .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`",
             true).queue();
     
             // // Whitelist

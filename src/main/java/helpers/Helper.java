@@ -10,16 +10,16 @@ public class Helper {
 
     public static long dayMSLONG = 86400000;
 
+    public static boolean isNumeric(String string) {
+        return string.matches("^[0-9]+$");
+    }
+
     public static boolean isAlphanumeric(String string) {
         return string.matches("^[a-zA-Z0-9]+$");
     }
 
     public static boolean isMcPseudo(String string) {
         return string.matches("^[a-zA-Z0-9_-]+{2,16}");
-    }
-
-    public static boolean isNumeric(String string) {
-        return string.matches("^[0-9]+$");
     }
 
     public static Timestamp getTimestamp() {
