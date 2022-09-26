@@ -154,4 +154,25 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
         return allowedUserId;
     }
+
+    public Integer playerIsAllowed(UUID uuid) {
+        Integer allowedUserId = -1;
+        this.updateAllowedPlayers();
+
+        try {
+            for (Object object : this.playersAllowed) {
+                final JSONObject player = (JSONObject) object;
+                final String uuidReccord = player.optString("mc_uuid");
+    
+                if (uuidReccord.equals(uuid.toString())) {
+                    allowedUserId = player.getInt("id");
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return allowedUserId;
+    }
 }

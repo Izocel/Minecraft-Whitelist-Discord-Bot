@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import main.WhitelistJe;
+import models.User;
 
 /**
  *  §l = bold text
@@ -53,13 +54,38 @@ public class OnPlayerLoggin implements Listener {
         final Player loginPlayer = event.getPlayer();
         final UUID pUUID = loginPlayer.getUniqueId();
         final String pName = loginPlayer.getName();
-        Integer allowedId = this.main.playerIsAllowed(pName);
-        boolean isAllowed = allowedId != null && allowedId > 0;
+
+        final Integer allowedWithUUID = this.main.playerIsAllowed(pUUID);
+        final Integer allowedWithPseudo = this.main.playerIsAllowed(pName);
+        
+        final boolean isAllowedUUID = allowedWithUUID != null && allowedWithUUID > 0;
+        final boolean isAllowedPseudo = allowedWithPseudo != null && allowedWithPseudo > 0;
+
+        boolean isAllowed = isAllowedUUID || isAllowedPseudo;
+
+        // Mistmatch possible
+        if(isAllowed && !allowedWithUUID.equals(allowedWithPseudo)) {
+            
+            final Integer usedId = allowedWithUUID > 0 
+                ? allowedWithUUID 
+                : allowedWithPseudo > 0 
+                ? allowedWithPseudo 
+                : -1;
+
+            if(usedId > 0) {
+                final boolean tempConfirmed = true;
+                User user = this.main.getDaoManager().getUsersDao().findUser(usedId);
+                user.setMcUUID(pUUID.toString());
+                user.setMcName(pName);
+                user.setAsConfirmed(tempConfirmed);
+                user.save(this.main.getDaoManager().getUsersDao());
+            }
+            
+        }
+
         boolean isWhitelisted = false;
 
         if(isAllowed) {
-            final boolean tempConfirmed = true;
-            this.main.updatePlayerUUID(allowedId, pUUID, tempConfirmed);
             Bukkit.getServer().setWhitelist(true);
             loginPlayer.setWhitelisted(true);
         }

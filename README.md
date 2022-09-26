@@ -40,17 +40,17 @@ CREATE TABLE `users` (
   `msg_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL DEFAULT 'NONE',
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `created_at` datetime DEFAULT NULL,
-  `accepted_by` varchar(255) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `revoked_by` varchar(255) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `accepted_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+  `revoked_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `mc_uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `confirmed` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `idx_users_discord_name` (`discord_id`,`mc_name`),
-  UNIQUE KEY `mc_name_UNIQUE` (`mc_name`),
+  UNIQUE KEY `discord_id_mc_name_UNIQUE` (`discord_id`,`mc_name`),
+  UNIQUE KEY `mc_name_mc_uuid_UNIQUE` (`mc_name`,`mc_uuid`),
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
  ```
 
 ## Configurations:
