@@ -40,7 +40,7 @@ public class RegisterCommand extends ListenerAdapter {
         return true;
     }
 
-    private boolean handleKnownUser(SlashCommandEvent event, String pseudo, String discordTag) {
+    private boolean handleKnownUser(SlashCommandEvent event, String pseudo, String discordId) {
         try {
             boolean valid = this.validatePseudo(event, pseudo);
             if (!valid) {
@@ -55,7 +55,7 @@ public class RegisterCommand extends ListenerAdapter {
                 return true;
             }
 
-            if (foundWPseudo != null && !foundWPseudo.getDiscordTag().equals(discordTag)) {
+            if (foundWPseudo != null && !foundWPseudo.getDiscordId().equals(discordId)) {
                 event.reply("❌ **Ce pseudo est déjà enregistrer par un autre joueur**")
                         .setEphemeral(true).queue();
                 return false;
@@ -118,10 +118,9 @@ public class RegisterCommand extends ListenerAdapter {
             return;
 
         final String pseudo = event.getOption("pseudo").getAsString();
-        final String discordTag = event.getMember().getUser().getAsTag();
         final String discordId = event.getMember().getId();
 
-        boolean parseAsNew = this.handleKnownUser(event, pseudo, discordTag);
+        boolean parseAsNew = this.handleKnownUser(event, pseudo, discordId);
 
         if (!parseAsNew) {
             return;
@@ -210,19 +209,17 @@ public class RegisterCommand extends ListenerAdapter {
     private void handleAccepted(ButtonClickEvent event, Member newUser, String pseudo) {
         try {
             final String messageId = event.getMessage().getId();
-            final String moderatorTag = event.getMember().getUser().getAsTag();
+            final String moderatorId = event.getMember().getId();
             final GuildManager gManager = this.main.getGuildManager();
     
-            final String discordTag = newUser.getUser().getAsTag();
             final String discordId = newUser.getId();
-            final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo ,discordId);
-            final Member member = event.getMember();
+            final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo, discordId);
 
             final User registeree = new User();
             registeree.setMcName(pseudo);
-            registeree.setDiscordTag(discordTag);
+            registeree.setDiscordId(discordId);
             registeree.setCreatedAt(Helper.getTimestamp().toString());
-            registeree.setAsAllowed(messageId, true, moderatorTag);
+            registeree.setAsAllowed(messageId, true, moderatorId);
 
             final UsersDao dao = this.main.getDaoManager().getUsersDao();
             final Integer userId = registeree.save(dao);
@@ -259,7 +256,7 @@ public class RegisterCommand extends ListenerAdapter {
     private void handleRejected(ButtonClickEvent event, Member newUser, String pseudo) {
         try {
             final String discordId = newUser.getId();
-            final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo ,discordId);
+            final EmbedBuilder newMsgContent = this.getRejectedEmbeded(pseudo ,discordId);
 
             event.getMessage().editMessage(newMsgContent.build())
             .setActionRow(net.dv8tion.jda.api.interactions.components.Button

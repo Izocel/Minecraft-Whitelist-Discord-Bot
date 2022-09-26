@@ -35,7 +35,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `mc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
-  `discord_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `discord_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `allowed` tinyint DEFAULT NULL,
   `msg_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL DEFAULT 'NONE',
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -46,7 +46,7 @@ CREATE TABLE `users` (
   `confirmed` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `idx_users_discord_name` (`discord_tag`,`mc_name`),
+  UNIQUE KEY `idx_users_discord_name` (`discord_id`,`mc_name`),
   UNIQUE KEY `mc_name_UNIQUE` (`mc_name`),
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`)

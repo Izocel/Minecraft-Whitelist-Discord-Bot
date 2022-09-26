@@ -10,7 +10,7 @@ import helpers.Helper;
 public class User extends BaseModel {
     private Integer id = -1;
     private String mcName;
-    private String discordTag;
+    private String discordId;
     private String acceptedBy;
     private String revokedBy;
     private boolean allowed;
@@ -29,7 +29,7 @@ public class User extends BaseModel {
     public User(JSONObject json) {
         this.id = json.optInt("id");
         this.mcName = json.optString("mc_name");
-        this.discordTag = json.optString("discord_tag");
+        this.discordId = json.optString("discord_id");
         this.acceptedBy = json.optString("accepted_by");
         this.revokedBy = json.optString("revoked_by");
         this.mcUUID = json.optString("mc_uuid");
@@ -49,24 +49,24 @@ public class User extends BaseModel {
             || (int)isAllowed == 1 : false;
     }
 
-    public boolean setAsAllowed(String msgId, boolean allowed, String moderatorTag) {
+    public boolean setAsAllowed(String msgId, boolean allowed, String moderatorId) {
 
         this.msgId = msgId;
 
-        if(allowed == false && moderatorTag.length() > 0) {
+        if(allowed == false && moderatorId.length() > 0) {
             this.confirmed = false;
             this.allowed = false;
             this.acceptedBy = null;
-            this.revokedBy = moderatorTag;
+            this.revokedBy = moderatorId;
             return this.allowed;
         }
         
         this.allowed = msgId.length() > 0
                 && this.mcName.length() > 0
-                && this.discordTag.length() > 0
-                && moderatorTag.length() > 0;
+                && this.discordId.length() > 0
+                && moderatorId.length() > 0;
         
-        this.acceptedBy = moderatorTag;
+        this.acceptedBy = moderatorId;
         return this.allowed;
     }
 
@@ -104,12 +104,12 @@ public class User extends BaseModel {
 		this.mcName = mcName;
 	}
 
-	public String getDiscordTag() {
-		return this.discordTag;
+	public String getDiscordId() {
+		return this.discordId;
 	}
 
-	public void setDiscordTag(String discordTag) {
-		this.discordTag = discordTag;
+	public void setDiscordId(String discordId) {
+		this.discordId = discordId;
 	}
 
 	public String getAcceptedBy() {
@@ -182,7 +182,7 @@ public class User extends BaseModel {
         try {
             jsonObj.put("id", this.id);
             jsonObj.put("mc_name", this.mcName);
-            jsonObj.put("discord_tag", this.discordTag);
+            jsonObj.put("discord_id", this.discordId);
             jsonObj.put("accepted_by", this.acceptedBy);
             jsonObj.put("revoked_by", this.revokedBy);
             jsonObj.put("allowed", this.allowed);
@@ -206,7 +206,7 @@ public class User extends BaseModel {
         try {
             copied.id = userObj.id;
             copied.mcName = userObj.mcName;
-            copied.discordTag = userObj.discordTag;
+            copied.discordId = userObj.discordId;
             userObj.acceptedBy = copied.acceptedBy;
             userObj.revokedBy = copied.revokedBy;
             copied.allowed = userObj.allowed;

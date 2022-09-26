@@ -32,7 +32,7 @@ public class UsersDao extends BaseDao {
     public Integer save(JSONObject sqlProps) {
         int id = sqlProps.optInt("id");
         final String mcName = sqlProps.optString("mc_name");
-        final String discordTag = sqlProps.optString("discord_tag");
+        final String discordId = sqlProps.optString("discord_id");
         final String mcUUID = sqlProps.optString("mc_uuid");
         final String msgId = sqlProps.optString("msg_id");
         final String createdAt = sqlProps.optString("created_at");
@@ -48,7 +48,7 @@ public class UsersDao extends BaseDao {
         acceptedBy = acceptedBy.length() > 0 ? acceptedBy : null;
         revokedBy = revokedBy.length() > 0 ? revokedBy : null;
 
-        if(mcName.equals("") || discordTag.equals("") || msgId.equals("") || createdAt.equals("")) {
+        if(mcName.equals("") || discordId.equals("") || msgId.equals("") || createdAt.equals("")) {
             this.logger.warning("Missing informations to save user entity");
             return -1;
         }
@@ -61,13 +61,13 @@ public class UsersDao extends BaseDao {
             if(found == null) {
                 id = -1;
 
-                String sql = "INSERT INTO " + this.tablename + " (mc_name, discord_tag, accepted_by, " +
+                String sql = "INSERT INTO " + this.tablename + " (mc_name, discord_id, accepted_by, " +
                 "revoked_by, mc_uuid, msg_id, created_at, confirmed, allowed, updated_at) " + 
                 "VALUES (?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP);";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String [] { "id" } );
                 pstmt.setString(1, mcName);
-                pstmt.setString(2, discordTag);
+                pstmt.setString(2, discordId);
                 pstmt.setObject(3, acceptedBy);
                 pstmt.setObject(4, revokedBy);
                 pstmt.setString(5, mcUUID);
@@ -102,7 +102,7 @@ public class UsersDao extends BaseDao {
 
                 String sql = "UPDATE " + this.tablename + " SET " +
                 "mc_name = ?," + 
-                "discord_tag = ?," + 
+                "discord_id = ?," + 
                 "accepted_by = ?," + 
                 "revoked_by = ?," + 
                 "mc_uuid = ?," + 
@@ -115,7 +115,7 @@ public class UsersDao extends BaseDao {
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
                 pstmt.setString(1, mcName);
-                pstmt.setString(2, discordTag);
+                pstmt.setString(2, discordId);
                 pstmt.setObject(3, acceptedBy);
                 pstmt.setObject(4, revokedBy);
                 pstmt.setString(5, mcUUID);
@@ -205,13 +205,13 @@ public class UsersDao extends BaseDao {
         return new User(results.getJSONObject(0));
     }
 
-    public User findByDisccordTag(String discordTag) {
+    public User findByDisccordId(String discordId) {
         
         JSONArray results = new JSONArray();
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE discord_tag = ? LIMIT 1";
+            String sql = "SELECT * FROM " + this.tablename + " WHERE discord_id = ? LIMIT 1";
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, discordTag);
+            pstmt.setString(1, discordId);
             pstmt.executeQuery();
             
             final ResultSet resultSet = pstmt.getResultSet();
