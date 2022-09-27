@@ -20,12 +20,13 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 
 ## Release Key-Features:
 
-- #### MC.Server must enforce whitelist for it to be managed (server.properties->enforce-white-list).
-- #### MC.Server must have a bound IP for textual purpose (server.properties->server-ip).
-- #### Player can request to be registered via Discord® but MC.whitelist always have the last word for allowed connecions.
-- #### Upon registeration player have 24h to log into the MC.server to confirm their identity and be whitelisted else the player will have to make a new registration.
-- #### Players Minecraft® UUID and pseudo must be unique on the server.
-- #### A Minecraft® account can only be linked to `1` Discord® account.
+- MC.Server must enforce whitelist for it to be managed (server.properties->enforce-white-list).
+- MC.Server must have a bound IP for textual purpose (server.properties->server-ip).
+- Player can request to be registered via Discord® but MC.whitelist always have the last word for allowed connecions.
+- Upon registeration player have 24h to log into the MC.server to confirm their identity and be whitelisted else the player will have to make a new registration.
+- Players Minecraft® UUID and pseudo must be unique on the server.
+
+- ### A Minecraft® account can only be linked to `1` Discord® account.
       - This could be updated in the future allowing player to update their Discord® association to MC.
       - Therefore if you have multiple MC.accounts you can register them with the same Discord® account.
 
@@ -52,7 +53,6 @@ CREATE TABLE `users` (
   KEY `revoked_by` (`revoked_by`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
  ```
-
 ## Configurations:
 
 - ### Setup the `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
