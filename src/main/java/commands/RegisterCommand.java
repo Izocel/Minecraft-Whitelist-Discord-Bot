@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
+import services.api.MojanApi;
 import dao.UsersDao;
 import functions.GuildManager;
 import helpers.Helper;
@@ -91,7 +92,6 @@ public class RegisterCommand extends ListenerAdapter {
                     event.reply(msg).setEphemeral(true).queue();
                     return false;
                 }
-
             }
 
         } catch (Exception e) {
@@ -123,6 +123,14 @@ public class RegisterCommand extends ListenerAdapter {
         boolean parseAsNew = this.handleKnownUser(event, pseudo, discordId);
 
         if (!parseAsNew) {
+            return;
+        }
+
+        final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
+
+        if(mc_uuid == null) {
+            event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
+            .setEphemeral(true).queue();
             return;
         }
 
@@ -214,10 +222,18 @@ public class RegisterCommand extends ListenerAdapter {
     
             final String discordId = newUser.getId();
             final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo, discordId);
+            final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
+
+            if(mc_uuid == null) {
+                event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
+                .setEphemeral(true).queue();
+                return;
+            }
 
             final User registeree = new User();
             registeree.setMcName(pseudo);
             registeree.setDiscordId(discordId);
+            registeree.setMcUUID(mc_uuid);
             registeree.setCreatedAt(Helper.getTimestamp().toString());
             registeree.setAsAllowed(messageId, true, moderatorId);
 
