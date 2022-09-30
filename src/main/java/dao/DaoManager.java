@@ -1,10 +1,8 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.logging.Logger;
 
-import main.PooledDatasource;
+import helpers.PooledDatasource;
 
 public class DaoManager {
     protected PooledDatasource dataSource = null;

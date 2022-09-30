@@ -1,4 +1,4 @@
-package main;
+package helpers;
  
  
 import org.apache.commons.dbcp.ConnectionFactory;
@@ -10,7 +10,7 @@ import configs.ConfigManager;
  
 public class DbPoolFactory {
 
-    static final PooledDatasource getMysqlPool(ConfigManager configs) throws Exception {
+    public static final PooledDatasource getMysqlPool(ConfigManager configs) throws Exception {
 
         // JDBC Driver Name & Database URL
         final String JDBC_DRIVER = "com.mysql.jdbc.Driver";

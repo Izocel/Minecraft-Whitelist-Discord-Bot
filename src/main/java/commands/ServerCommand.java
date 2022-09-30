@@ -32,7 +32,7 @@ public class ServerCommand extends ListenerAdapter {
         final String paperMcIp = configs.get("paperMcIp");
 
         event.reply("** 📝`" + serverName + "` | Informations ** " + 
-                this.main.gtBukkitManager().getServerInfoString() +
+                this.main.getBukkitManager().getServerInfoString() +
                 "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
                 "\n\n**Mondes: **" + getWorldsInfos() +
                 "\n**Développeurs:** <@272924120142970892> 👨‍💻"

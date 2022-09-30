@@ -1,4 +1,4 @@
-package main;
+package helpers;
 
 import org.apache.commons.dbcp.PoolingDataSource;
 import org.apache.commons.pool.impl.GenericObjectPool;

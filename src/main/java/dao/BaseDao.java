@@ -10,7 +10,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import main.PooledDatasource;
+import helpers.PooledDatasource;
 
 public class BaseDao implements IDao {
 

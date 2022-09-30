@@ -21,7 +21,7 @@ public class OnServerLoad implements Listener {
     public void onServerLoad(ServerLoadEvent event) {
         StringBuilder sb = new StringBuilder();
         sb.append("**Le serveur est up and running boyyssss!** ");
-        sb.append(this.main.gtBukkitManager().getServerInfoString());
+        sb.append(this.main.getBukkitManager().getServerInfoString());
         
         this.main.getGuildManager().getAdminChannel()
             .sendMessage(sb.toString()).queue();

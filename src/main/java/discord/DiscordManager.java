@@ -83,22 +83,21 @@ public class DiscordManager {
         try {
             // Serveur
             jda.addEventListener(new ServerCommand(main));
-            jda.upsertCommand("serveur", "Afficher les informations du serveur `Minecraft®`").queue();
+            jda.upsertCommand("serveur", "Afficher les informations du serveur `Minecraft®`")
+            .queue();
 
             // Register
             jda.addEventListener(new RegisterCommand(main));
             jda.upsertCommand("register", "S'enregister sur le serveur")
-            .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`",
-            true).queue();
+            .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`", true)
+            .queue();
     
             // // Whitelist
             // jda.addEventListener(new WhitelistCommand(main));
             // jda.upsertCommand("whitelist", "Commande whitelist du
             // serveur").addOption(OptionType.STRING,
-            // "action", "add/remove/on/off",true).addOption(OptionType.STRING, "pseudo",
-            // "Pseudo du joueur", false).queue();
-    
-
+            // "action", "add/remove/on/off",true).addOption(OptionType.STRING, "pseudo", "Pseudo du joueur", false)
+            // .queue();
     
             // // Deny
             // jda.addEventListener(new DenyCommand(main));

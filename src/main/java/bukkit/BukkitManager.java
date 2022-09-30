@@ -2,6 +2,7 @@ package bukkit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Server;
 
 import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
@@ -9,10 +10,16 @@ import main.WhitelistJe;
 
 public class BukkitManager {
     private WhitelistJe main;
+    private Server server;
 
     public BukkitManager(WhitelistJe main) {
         this.main = main;
         this.registerEvents(main);
+        this.server = Bukkit.getServer();
+    }
+
+    public Server getServer() {
+        return this.server;
     }
 
     public String getServerInfoString() {

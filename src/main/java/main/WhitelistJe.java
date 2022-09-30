@@ -13,6 +13,8 @@ import configs.ConfigManager;
 import dao.DaoManager;
 import discord.DiscordManager;
 import functions.GuildManager;
+import helpers.DbPoolFactory;
+import helpers.PooledDatasource;
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
@@ -116,7 +118,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return this.guildManager;
     }
 
-    public BukkitManager gtBukkitManager() {
+    public BukkitManager getBukkitManager() {
         return this.bukkitManager;
     }
 

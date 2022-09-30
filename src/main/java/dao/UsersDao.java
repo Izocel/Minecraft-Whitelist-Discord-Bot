@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import main.PooledDatasource;
+import helpers.PooledDatasource;
 import models.User;
 
 public class UsersDao extends BaseDao {
