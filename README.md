@@ -35,23 +35,23 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
  ```sql
 CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `mc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `discord_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `mc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `mc_uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `allowed` tinyint DEFAULT NULL,
-  `msg_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL DEFAULT 'NONE',
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `created_at` datetime DEFAULT NULL,
+  `confirmed` tinyint DEFAULT NULL,
+  `msg_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `accepted_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `revoked_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `mc_uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
-  `confirmed` tinyint DEFAULT NULL,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `discord_id_mc_name_UNIQUE` (`discord_id`,`mc_name`),
-  UNIQUE KEY `mc_name_mc_uuid_UNIQUE` (`mc_name`,`mc_uuid`),
+  UNIQUE KEY `mc_uuid_UNIQUE` (`mc_uuid`),
+  UNIQUE KEY `discord_id_mc_uuid_UNIQUE` (`discord_id`,`mc_uuid`),
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
  ```
 ## Configurations:
 
