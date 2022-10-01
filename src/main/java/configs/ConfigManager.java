@@ -32,7 +32,9 @@ public final class ConfigManager {
     private final String portBedrock="19132";
     private final String paperMcIp="server.minecraft.tumeniaises.ca";
     private final String showSubWorlddMeteo="false";
-    private final String hoursToConfirmMcAccount="48";
+    private final String hoursToConfirmMcAccount="24"; //negative for none
+
+    private final String confirmLinkCmdName="wje-link";
 
     private final String pluginVersion="2022.2";
 
@@ -65,6 +67,7 @@ public final class ConfigManager {
         configs.put("pluginVersion", this.pluginVersion);
         configs.put("showSubWorlddMeteo", this.showSubWorlddMeteo);
         configs.put("hoursToConfirmMcAccount", this.hoursToConfirmMcAccount);
+        configs.put("confirmLinkCmdName", this.confirmLinkCmdName);
     }
 
     public String get(String key, String defaultValue) {

@@ -16,7 +16,7 @@ public class testAssyncAwaitCmd extends ListenerAdapter {
     private WhitelistJe main;
 
     public testAssyncAwaitCmd(WhitelistJe main) {
-        this.logger = Logger.getLogger("WJE" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.main = main;
     }
 
@@ -68,7 +68,7 @@ public class testAssyncAwaitCmd extends ListenerAdapter {
 
         public TestAsync(WhitelistJe main, SlashCommandEvent event) {
             super();
-            this.logger = Logger.getLogger("WJE" + this.getClass().getName());
+            this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
             this.main = main;
             this.event = event;
         }

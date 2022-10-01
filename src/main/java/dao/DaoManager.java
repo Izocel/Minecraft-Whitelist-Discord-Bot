@@ -11,7 +11,7 @@ public class DaoManager {
     private Logger logger;
 
     public DaoManager(PooledDatasource dataSource) {
-        this.logger = Logger.getLogger("WJE:" + getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + getClass().getSimpleName());
         this.dataSource = dataSource;
     }
 

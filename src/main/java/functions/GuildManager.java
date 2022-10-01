@@ -26,7 +26,7 @@ public class GuildManager {
     private String welcomeChannelId;
 
     public GuildManager(Guild guild) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.configManager = new ConfigManager();
         this.guild = guild;
         this.setupIds();

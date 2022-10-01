@@ -54,7 +54,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     public WhitelistJe() {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
     public String getPluginInfos(boolean toConsole) {
@@ -134,27 +134,6 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public void updatePlayerUUID(Integer id, UUID mc_uuid, boolean tempConfirmed) {
         daoManager.getUsersDao().setPlayerUUID(id, mc_uuid, tempConfirmed);
-    }
-
-    public Integer playerIsAllowed(String pseudo) {
-        Integer allowedUserId = -1;
-        this.updateAllowedPlayers();
-
-        try {
-            for (Object object : this.playersAllowed) {
-                final JSONObject player = (JSONObject) object;
-                final String pseudoReccord = player.optString("mc_name");
-    
-                if (pseudoReccord.equals(pseudo.toString())) {
-                    allowedUserId = player.getInt("id");
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return allowedUserId;
     }
 
     public Integer playerIsAllowed(UUID uuid) {

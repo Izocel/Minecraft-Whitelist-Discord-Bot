@@ -58,6 +58,22 @@ CREATE TABLE `users` (
 - ### Setup the `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
 - ### Setup and run [build-WJE.bat](build-WJE.bat) a backup of your conf. will `automaticly` be added to [backups folder](/backups).
 
+## How to change your command names:
+
+**Those neeed to be done before building**
+
+- ### Before Setup the `commands section` within the [Plugin.yml](src/main/resources/plugin.yml) file.
+- Plugin.yml example:
+
+      commands:
+            <cmdName>:
+                  description: This is a demo command.
+                  usage: !! I recommend not changing this except the name part !!
+
+- ### Setup the associated `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
+
+- ### Run [build-WJE.bat](build-WJE.bat).
+
 ## Environement setup:
 
 - ### Comming soon...

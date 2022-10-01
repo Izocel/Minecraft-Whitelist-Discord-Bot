@@ -20,7 +20,7 @@ public class BaseDao implements IDao {
     protected Connection connection;
 
     public BaseDao(PooledDatasource poolDs) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.datasource = poolDs;
     }
 

@@ -1,4 +1,4 @@
-package commands;
+package commands.discords;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -26,7 +26,7 @@ public class RegisterCommand extends ListenerAdapter {
     private String rejectId_conf = "rejectConfAction";
 
     public RegisterCommand(WhitelistJe main) {
-        this.logger = Logger.getLogger("WJE" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.main = main;
     }
 
@@ -41,30 +41,26 @@ public class RegisterCommand extends ListenerAdapter {
         return true;
     }
 
-    private boolean handleKnownUser(SlashCommandEvent event, String pseudo, String discordId) {
+    private boolean handleKnownUser(SlashCommandEvent event, String uuid, String discordId) {
         try {
-            boolean valid = this.validatePseudo(event, pseudo);
-            if (!valid) {
-                return false;
-            }
 
             boolean isAllowed = false;
             boolean isConfirmed = false;
-            User foundWPseudo = this.main.getDaoManager().getUsersDao().findByMcName(pseudo);
+            User foundWUuid = this.main.getDaoManager().getUsersDao().findByMcUUID(uuid);
 
-            if (foundWPseudo == null) {
+            if (foundWUuid == null) {
                 return true;
             }
 
-            if (foundWPseudo != null && !foundWPseudo.getDiscordId().equals(discordId)) {
+            if (foundWUuid != null && !foundWUuid.getDiscordId().equals(discordId)) {
                 event.reply("❌ **Ce pseudo est déjà enregistrer par un autre joueur**")
                         .setEphemeral(true).queue();
                 return false;
             }
 
-            else if (foundWPseudo != null && foundWPseudo.getId() > 0) {
-                isAllowed = foundWPseudo.isAllowed();
-                isConfirmed = foundWPseudo.isConfirmed();
+            else if (foundWUuid != null && foundWUuid.getId() > 0) {
+                isAllowed = foundWUuid.isAllowed();
+                isConfirmed = foundWUuid.isConfirmed();
 
                 if(!isAllowed) {
                     event.reply("❌ **Vous n'avez pas encore été accepté sur le serveur.**\n" +
@@ -83,7 +79,7 @@ public class RegisterCommand extends ListenerAdapter {
                     String msg = "**Une confirmation de votre compte est nécéssaire.**\n" + 
                     "Pour confimer votre compte vous avez 24h depuis l'aprobation pour vous connecter au server Mincecraft®\n";
 
-                    //TODO: doUpdate if delay > 24h
+                    //TODO: doUpdate if delay > xHours
                     //if:
                     //"Si ce délai est expiré l'administrateurs receveras votre nouvelle demande.✔️ "
                     //else:
@@ -120,17 +116,18 @@ public class RegisterCommand extends ListenerAdapter {
         final String pseudo = event.getOption("pseudo").getAsString();
         final String discordId = event.getMember().getId();
 
-        boolean parseAsNew = this.handleKnownUser(event, pseudo, discordId);
-
-        if (!parseAsNew) {
+        if(!this.validatePseudo(event, pseudo)) {
             return;
         }
 
         final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
-
         if(mc_uuid == null) {
             event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
             .setEphemeral(true).queue();
+            return;
+        }
+
+        if (!this.handleKnownUser(event, mc_uuid, discordId)) {
             return;
         }
 

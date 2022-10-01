@@ -19,7 +19,7 @@ public class UsersDao extends BaseDao {
 	public UsersDao (PooledDatasource poolDs) {
         super(poolDs);
         this.tablename = "users";
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
 	}
 
     
@@ -188,6 +188,30 @@ public class UsersDao extends BaseDao {
             String sql = "SELECT * FROM " + this.tablename + " WHERE mc_name = ? LIMIT 1";
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, pseudo);
+            pstmt.executeQuery();
+            
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
+            this.closeConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(results == null || results.length() < 1) {
+            return null;
+        }
+
+        return new User(results.getJSONObject(0));
+    }
+
+    public User findByMcUUID(String uuid) {
+        
+        JSONArray results = new JSONArray();
+        try {
+            String sql = "SELECT * FROM " + this.tablename + " WHERE mc_uuid = ? LIMIT 1";
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
+            pstmt.setString(1, uuid);
             pstmt.executeQuery();
             
             final ResultSet resultSet = pstmt.getResultSet();

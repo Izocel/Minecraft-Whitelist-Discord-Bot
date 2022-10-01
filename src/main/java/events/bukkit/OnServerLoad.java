@@ -13,7 +13,7 @@ public class OnServerLoad implements Listener {
     private Logger logger;
 
     public OnServerLoad(WhitelistJe main) {
-        this.logger = Logger.getLogger("WJE" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.main = main;
     }
 

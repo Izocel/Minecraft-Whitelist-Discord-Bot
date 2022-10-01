@@ -5,10 +5,10 @@ import java.util.logging.Logger;
 import javax.security.auth.login.LoginException;
 import org.bukkit.Bukkit;
 
+import commands.discords.RegisterCommand;
+import commands.discords.ServerCommand;
 import configs.ConfigManager;
 import main.WhitelistJe;
-import commands.RegisterCommand;
-import commands.ServerCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -29,7 +29,7 @@ public class DiscordManager {
     static private ConfigManager Configs = new ConfigManager();
 
     public DiscordManager(WhitelistJe main) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getName());
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.main = main;
         this.connect();
         if(this.isPrivateBot) {this.checkGuild();}
@@ -75,7 +75,7 @@ public class DiscordManager {
             this.guildId = this.guild.getId();
             this.inviteUrl = this.setInvite();
         } catch (Exception e) {
-            this.logger.warning("Discord bot's not authorized into your guild. (check " + Configs.getClass().getName() +")");
+            this.logger.warning("Discord bot's not authorized into your guild. (check " + Configs.getClass().getSimpleName() +")");
         }
     }
 

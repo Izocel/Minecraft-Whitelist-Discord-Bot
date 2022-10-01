@@ -9,6 +9,7 @@ import java.util.Date;
 public class Helper {
 
     public static long dayMSLONG = 86400000;
+    public static long hourMSLONG = dayMSLONG/24;
 
     public static boolean isNumeric(String string) {
         return string.matches("^[0-9]+$");
@@ -43,6 +44,34 @@ public class Helper {
     public static boolean isWithin24Hour(Timestamp comparator) {
         final long now = getTimestamp().getTime();
         final long end = comparator.getTime() + dayMSLONG ;
+        return end - now > 0;
+    }
+
+    public static boolean isWithin48Hour(Timestamp comparator) {
+        final long now = getTimestamp().getTime();
+        final long end = comparator.getTime() + dayMSLONG * 2 ;
+        return end - now > 0;
+    }
+
+    public static boolean isWithinXXHour(Timestamp comparator, Integer xHours) {
+
+        if(xHours == null || xHours < 1) {
+            return true;
+        }
+
+        final long now = getTimestamp().getTime();
+        final long end = comparator.getTime() + xHours * hourMSLONG ;
+        return end - now > 0;
+    }
+
+    public static boolean isWithinXXSecond(Timestamp comparator, Integer xSecond) {
+
+        if(xSecond == null || xSecond < 1) {
+            return true;
+        }
+
+        final long now = getTimestamp().getTime();
+        final long end = comparator.getTime() + 1000 * xSecond ;
         return end - now > 0;
     }
 

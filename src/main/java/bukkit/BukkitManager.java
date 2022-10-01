@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Server;
 
+import commands.bukkit.ConfirmLinkCmd;
+import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
 import main.WhitelistJe;
@@ -15,6 +17,7 @@ public class BukkitManager {
     public BukkitManager(WhitelistJe main) {
         this.main = main;
         this.registerEvents(main);
+        this.registerCommands(main);
         this.server = Bukkit.getServer();
     }
 
@@ -51,8 +54,23 @@ public class BukkitManager {
     }
 
     private void registerEvents(WhitelistJe main) {
-        Bukkit.getPluginManager().registerEvents(new OnPlayerLoggin(main), main);
-        Bukkit.getPluginManager().registerEvents(new OnServerLoad(main), main);
+        try {
+            Bukkit.getPluginManager().registerEvents(new OnPlayerLoggin(main), main);
+            Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(main), main);
+            Bukkit.getPluginManager().registerEvents(new OnServerLoad(main), main);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void registerCommands(WhitelistJe main) {
+        final String linkCmd = this.main.getConfigManager().get("confirmLinkCmdName", "wje-link");
+
+        try {
+            this.main.getCommand(linkCmd).setExecutor(new ConfirmLinkCmd(this.main, linkCmd));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

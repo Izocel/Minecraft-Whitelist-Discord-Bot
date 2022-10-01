@@ -82,9 +82,6 @@ public class User extends BaseModel {
                 && this.mcUUID.length() == 36
                 && this.updatedAt.length() > 0;
 
-        final Timestamp comparator = Helper.convertStringToTimestamp(this.createdAt);
-        this.confirmed = Helper.isWithin24Hour(comparator);
-
         return this.confirmed;
     }
 
