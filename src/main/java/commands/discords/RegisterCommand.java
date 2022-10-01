@@ -30,6 +30,44 @@ public class RegisterCommand extends ListenerAdapter {
         this.main = main;
     }
 
+    @Override
+    public void onSlashCommand(SlashCommandEvent event) {
+        final String cmdName = this.main.getConfigManager().get("registerCmdName", "register");
+        if (!event.getName().equals(cmdName))
+            return;
+
+        final String pseudo = event.getOption("pseudo").getAsString();
+        final String discordId = event.getMember().getId();
+
+        if(!this.validatePseudo(event, pseudo)) {
+            return;
+        }
+
+        final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
+        if(mc_uuid == null) {
+            event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
+            .setEphemeral(true).queue();
+            return;
+        }
+
+        if (!this.handleKnownUser(event, mc_uuid, discordId)) {
+            return;
+        }
+
+        EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo);
+        GuildManager gManager = this.main.getGuildManager();
+
+        event.reply("**Votre demande d'accès pour `" + pseudo
+                + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
+                .setEphemeral(true).queue();
+        
+        gManager.getAdminChannel().sendMessage(embeded.build())
+            .setActionRows(
+                ActionRow.of(Button.primary(this.acceptId + " " + pseudo + " " + discordId, "✔️ Accepter"),
+                Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
+            ).queue();
+    }
+
     private boolean validatePseudo(SlashCommandEvent event, String pseudo) {
         if (!Helper.isMcPseudo(pseudo)) {
             final String errMsg = "❌ Votre pseudo devrait comporter entre 3 et 16 caractères" +
@@ -109,43 +147,6 @@ public class RegisterCommand extends ListenerAdapter {
     }
 
     @Override
-    public void onSlashCommand(SlashCommandEvent event) {
-        if (!event.getName().equals("register"))
-            return;
-
-        final String pseudo = event.getOption("pseudo").getAsString();
-        final String discordId = event.getMember().getId();
-
-        if(!this.validatePseudo(event, pseudo)) {
-            return;
-        }
-
-        final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
-        if(mc_uuid == null) {
-            event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
-            .setEphemeral(true).queue();
-            return;
-        }
-
-        if (!this.handleKnownUser(event, mc_uuid, discordId)) {
-            return;
-        }
-
-        EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo);
-        GuildManager gManager = this.main.getGuildManager();
-
-        event.reply("**Votre demande d'accès pour `" + pseudo
-                + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
-                .setEphemeral(true).queue();
-        
-        gManager.getAdminChannel().sendMessage(embeded.build())
-            .setActionRows(
-                ActionRow.of(Button.primary(this.acceptId + " " + pseudo + " " + discordId, "✔️ Accepter"),
-                Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
-            ).queue();
-    }
-
-    @Override
     public void onButtonClick(ButtonClickEvent event) {
         final Member respMember = event.getMember();
         final String componentId = event.getComponentId();
@@ -182,13 +183,7 @@ public class RegisterCommand extends ListenerAdapter {
         } else if (actionId.equals(this.rejectId)) {
             this.handleRejected(event, newuser, pseudo);
 
-        } else {
-            this.logger.warning("Commande non reconnue venant d'un boutton." + 
-            "\nUser name: <@" + respMember.getId() + ">" +
-            "\nChannel name:" + event.getChannel().getName() +
-            "\nMessage id: " + event.getMessage().getId());
         }
-
     }
 
     private EmbedBuilder getAcceptedEmbeded(String pseudo, String discordId) {

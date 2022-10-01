@@ -22,7 +22,8 @@ public class ServerCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-        if (!event.getName().equals("serveur"))
+        final String cmdName = this.main.getConfigManager().get("serverCmdName", "server");
+        if (!event.getName().equals(cmdName))
             return;
 
         final Integer msgDelaySec = 120;

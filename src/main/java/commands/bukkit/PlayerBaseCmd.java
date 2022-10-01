@@ -7,16 +7,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
+
+import main.WhitelistJe;
 
 public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
 
-  protected Plugin plugin;
+  protected WhitelistJe plugin;
   protected String cmdName;
   protected Logger logger;
   
 
-  public PlayerBaseCmd(Plugin plugin, String cmdName) {
+  public PlayerBaseCmd(WhitelistJe plugin, String cmdName) {
     this.plugin = plugin;
     this.cmdName = cmdName;
     this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName() + " </>:" + this.cmdName);

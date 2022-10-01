@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
 import configs.ConfigManager;
+import events.discords.OnUserConfirm;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -34,6 +35,7 @@ public class DiscordManager {
         this.connect();
         if(this.isPrivateBot) {this.checkGuild();}
         this.setupCommands();
+        this.setupListener();
     }
 
     public void connect() {
@@ -79,16 +81,22 @@ public class DiscordManager {
         }
     }
 
+    private void setupListener() {
+        jda.addEventListener(new OnUserConfirm(main));
+    }
+
     private void setupCommands() {
         try {
-            // Serveur
+            // Serveer
+            final String srvCmd = this.main.getConfigManager().get("serverCmdName", "server");
             jda.addEventListener(new ServerCommand(main));
-            jda.upsertCommand("serveur", "Afficher les informations du serveur `Minecraft®`")
+            jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
             .queue();
 
             // Register
+            final String rgstrCmd = this.main.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(main));
-            jda.upsertCommand("register", "S'enregister sur le serveur")
+            jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
             .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`", true)
             .queue();
     

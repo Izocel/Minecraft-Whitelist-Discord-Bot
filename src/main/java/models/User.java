@@ -1,8 +1,5 @@
 package models;
 
-import java.sql.Timestamp;
-import java.util.logging.Logger;
-
 import org.json.JSONObject;
 
 import helpers.Helper;

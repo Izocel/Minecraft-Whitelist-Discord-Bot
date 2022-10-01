@@ -34,7 +34,12 @@ public final class ConfigManager {
     private final String showSubWorlddMeteo="false";
     private final String hoursToConfirmMcAccount="24"; //negative for none
 
+    // MC commands names
     private final String confirmLinkCmdName="wje-link";
+
+    // Discord commands names
+    private final String serverCmdName="server";
+    private final String registerCmdName="register";
 
     private final String pluginVersion="2022.2";
 
@@ -67,7 +72,11 @@ public final class ConfigManager {
         configs.put("pluginVersion", this.pluginVersion);
         configs.put("showSubWorlddMeteo", this.showSubWorlddMeteo);
         configs.put("hoursToConfirmMcAccount", this.hoursToConfirmMcAccount);
+        
         configs.put("confirmLinkCmdName", this.confirmLinkCmdName);
+
+        configs.put("serverCmdName", this.serverCmdName);
+        configs.put("registerCmdName", this.registerCmdName);
     }
 
     public String get(String key, String defaultValue) {

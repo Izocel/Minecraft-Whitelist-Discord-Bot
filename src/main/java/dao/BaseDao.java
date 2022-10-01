@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import helpers.PooledDatasource;
+import models.BaseModel;
 
 public class BaseDao implements IDao {
 
@@ -133,5 +134,27 @@ public class BaseDao implements IDao {
     @Override
     public Integer save(JSONObject json) {
         throw new NotImplementedException();
+    }
+
+    public Integer delete(BaseModel baseModel) {
+        Integer id = baseModel.gettId();
+        if(id == null || id < 1) {
+            return null;
+        }
+
+        try {
+            String sql = "DELETE FROM " + this.tablename + " WHERE BINARY id = ? LIMIT 1;";
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
+            pstmt.setInt(1, id);
+            pstmt.execute();
+            
+            id = pstmt.getUpdateCount() > 0 ? id : null;
+            this.closeConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return id;
     }
 }
