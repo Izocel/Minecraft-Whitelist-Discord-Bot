@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -35,12 +36,13 @@ public class Helper {
 
     public static Timestamp convertStringToTimestamp(String strDate) {
         try {
+            strDate = strDate.replace("T", " ");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = formatter.parse(strDate);
 
             return new Timestamp(date.getTime());
         } catch (Exception e) {
-            System.out.println("Exception :" + e);
+            e.printStackTrace();
             return null;
         }
     }
@@ -48,13 +50,13 @@ public class Helper {
     public static boolean isWithin24Hour(Timestamp comparator) {
         final long now = getTimestamp().getTime();
         final long end = comparator.getTime() + dayMSLONG;
-        return end < now;
+        return end > now;
     }
 
     public static boolean isWithin48Hour(Timestamp comparator) {
         final long now = getTimestamp().getTime();
         final long end = comparator.getTime() + (dayMSLONG * 2);
-        return end < now;
+        return end > now;
     }
 
     public static boolean isWithinXXHour(Timestamp comparator, Integer xHours) {
@@ -65,7 +67,7 @@ public class Helper {
 
         final long now = getTimestamp().getTime();
         final long end = comparator.getTime() + (xHours * hourMSLONG);
-        return end < now;
+        return end > now;
     }
 
     public static boolean isWithinXXSecond(Timestamp comparator, Integer xSecond) {
@@ -76,7 +78,7 @@ public class Helper {
 
         final long now = getTimestamp().getTime();
         final long end = comparator.getTime() + (1000 * xSecond);
-        return end < now;
+        return end > now;
     }
 
     /**
