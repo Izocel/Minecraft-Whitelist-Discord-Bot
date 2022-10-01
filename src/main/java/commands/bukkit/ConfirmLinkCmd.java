@@ -25,12 +25,12 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       Player player = (Player) sender;
       User user = this.plugin.getDaoManager().getUsersDao().findByMcUUID(player.getUniqueId().toString());
       Member member = this.plugin.getGuildManager().findMember(user.getDiscordId());
-  
+
       this.sendConfimationEmbeded(member, player);
     } catch (Exception e) {
       e.printStackTrace();
     }
-   
+
   }
 
   private void sendConfimationEmbeded(Member member, Player player) {
@@ -38,12 +38,12 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String discordId = member.getId();
     final String discordTag = member.getUser().getAsTag();
     final String mcPeudo = player.getName();
-    
+
     this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
       final String channel_id = channel.getId();
       final MessageEmbed msgEmbeded = this.confirmationEmbeded(channel_id);
 
-      if(!msgEmbeded.isSendable()) {
+      if (!msgEmbeded.isSendable()) {
         try {
           throw new Exception("Embeded is not sendable");
         } catch (Exception e) {
@@ -52,10 +52,19 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
         return;
       }
       channel.sendMessage(msgEmbeded).queue();
-  });
+    });
 
-}
+  }
 
+  /**
+   * //FIXME:
+   * [12:20:56 ERROR]: [net.dv8tion.jda.api.requests.RestAction] Encountered error
+   * while processing success consumer
+   * com.google.gson.JsonSyntaxException:
+   * com.google.gson.stream.MalformedJsonException: Expected ':' at line 11 column
+   * 29 path $.components[0].components[0].this
+   * at com.google.gson.Gson.fromJson(Gson.java:978) ~[gson-2.8.9.jar:?]
+   */
   private MessageEmbed confirmationEmbeded(String channel_id) {
     String msg = """
         {
@@ -118,8 +127,8 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
         }
           """;
 
-      JsonObject embededJson = new Gson().fromJson(msg, JsonObject.class);
-      return Helper.jsonToEmbed(embededJson);
+    JsonObject embededJson = new Gson().fromJson(msg, JsonObject.class);
+    return Helper.jsonToEmbed(embededJson);
   }
 
 }
