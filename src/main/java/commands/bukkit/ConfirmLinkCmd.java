@@ -31,7 +31,13 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       User user = this.plugin.getDaoManager().getUsersDao().findByMcUUID(player.getUniqueId().toString());
       Member member = this.plugin.getGuildManager().findMember(user.getDiscordId());
 
-      this.sendConfimationEmbeded(member, player);
+      if(!user.isConfirmed()) {
+        this.sendConfimationEmbeded(member, player);
+        return;
+      }
+
+      final String msg = "Vos compte sont déja confirmées...\n Discord-Id: "+ user.getDiscordId();
+      player.sendMessage(msg);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -52,7 +58,6 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     });
 
   }
-
 
   private String confirmationEmbededs(String channel_id, String uuid, String pseudo) {
     ConfigManager configs = plugin.getConfigManager();
@@ -87,7 +92,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
               "icon_url": 'https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg'
             },
             "footer": {
-              "text": "En cliquant sur 'OUI' vous confirmez que ces comptes seront reliés et que vous en êtes le détenteur.\nEn cliquant sur 'NON' les liens temporaire seront détruit et toutes activitées courrantes et futures seront suspendues."
+              "text": "En cliquant sur 'OUI' vous confirmez que ces comptes seront reliés et que vous en êtes le détenteur.\nEn cliquant sur 'NON' les liens temporaires seront détruits et toutes activitées courrantes et futures seront suspendues."
             }
           }
         ]
@@ -105,14 +110,14 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
               {
                 "style": 4,
                 "label": "Non, ce n'était pas moi",
-                "custom_id": """ + this.rejectId + "," + """
+                "custom_id": """ + rejectId + "," + """
                 "disabled": false,
                 "type": 2
               },
               {
                 "style": 3,
                 "label": "Oui, cétait bien moi",
-                "custom_id": """ + this.acceptId + "," + """
+                "custom_id": """ + acceptId + "," + """
                 "disabled": false,
                 "type": 2
               }

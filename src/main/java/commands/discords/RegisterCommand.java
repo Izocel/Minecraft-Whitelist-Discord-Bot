@@ -19,15 +19,15 @@ import java.util.logging.Logger;
 
 public class RegisterCommand extends ListenerAdapter {
     private Logger logger;
-    private WhitelistJe main;
+    private WhitelistJe plugin;
     private String acceptId = "acceptAction";
     private String rejectId = "rejectAction";
     private String acceptId_conf = "acceptConfAction";
     private String rejectId_conf = "rejectConfAction";
 
-    public RegisterCommand(WhitelistJe main) {
+    public RegisterCommand(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
-        this.main = main;
+        this.plugin = plugin;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RegisterCommand extends ListenerAdapter {
                 return;
             }
     
-            final String cmdName = this.main.getConfigManager().get("registerCmdName", "register");
+            final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
             if (!event.getName().equals(cmdName))
                 return;
     
@@ -60,7 +60,7 @@ public class RegisterCommand extends ListenerAdapter {
             }
     
             EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo);
-            GuildManager gManager = this.main.getGuildManager();
+            GuildManager gManager = this.plugin.getGuildManager();
     
             event.reply("**Votre demande d'accès pour `" + pseudo
                     + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
@@ -93,7 +93,9 @@ public class RegisterCommand extends ListenerAdapter {
 
             boolean isAllowed = false;
             boolean isConfirmed = false;
-            User foundWUuid = this.main.getDaoManager().getUsersDao().findByMcUUID(uuid);
+            User foundWUuid = this.plugin.getDaoManager().getUsersDao().findByMcUUID(uuid);
+            final String hoursToConfirm = plugin.getConfigManager().get("hoursToConfirmMcAccount");
+            final String confirmHoursString = hoursToConfirm != null ? String.valueOf(Integer.parseInt(hoursToConfirm)) : null;
 
             if (foundWUuid == null) {
                 return true;
@@ -122,15 +124,9 @@ public class RegisterCommand extends ListenerAdapter {
                     return false;
                 }
 
-                else if (isAllowed && !isConfirmed) {
-                    String msg = "**Une confirmation de votre compte est nécéssaire.**\n" + 
-                    "Pour confimer votre compte vous avez 24h depuis l'aprobation pour vous connecter au server Mincecraft®\n";
-
-                    //TODO: doUpdate if delay > xHours
-                    //if:
-                    //"Si ce délai est expiré l'administrateurs receveras votre nouvelle demande.✔️ "
-                    //else:
-                    //"Vous ne pouvez plus faire de demande jusqu'à l'expiration du délay. Contacterr l'admin....❌"
+                else if (isAllowed && !isConfirmed && hoursToConfirm != null) {
+                    String msg = "**Une confirmation de votre compte est nécéssaire.**\n" +
+                    "Pour confimer votre compte vous aviez `"+ confirmHoursString +"h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
 
                     event.reply(msg).setEphemeral(true).queue();
                     return false;
@@ -158,7 +154,7 @@ public class RegisterCommand extends ListenerAdapter {
     @Override
     public void onButtonClick(ButtonClickEvent event) {
         try {
-            final GuildManager gManager = this.main.getGuildManager();
+            final GuildManager gManager = this.plugin.getGuildManager();
             if (!event.getChannel().getId().equals(gManager.whitelistChannelId)) {
                 return;
             }
@@ -204,7 +200,7 @@ public class RegisterCommand extends ListenerAdapter {
         .setTitle("Demande acceptée")
         .addField("Pseudo", pseudo, true)
         .addField("Discord", "<@" + discordId + ">", true)
-        .setThumbnail(this.main.getDiscordManager().jda
+        .setThumbnail(this.plugin.getDiscordManager().jda
             .getUserById(discordId).getAvatarUrl()).setFooter("ID " + discordId)
         .setColor(new Color(0x484d95));
     }
@@ -213,7 +209,7 @@ public class RegisterCommand extends ListenerAdapter {
         return new EmbedBuilder().setTitle("Demande refusée")
         .addField("Pseudo", pseudo, true)
         .addField("Discord", "<@" + discordId + ">", true)
-        .setThumbnail(this.main.getDiscordManager().jda
+        .setThumbnail(this.plugin.getDiscordManager().jda
             .getUserById(discordId).getAvatarUrl()).setFooter("ID " + discordId)
         .setColor(new Color(0x44474d));
     }
@@ -223,11 +219,14 @@ public class RegisterCommand extends ListenerAdapter {
         try {
             final String messageId = event.getMessage().getId();
             final String moderatorId = event.getMember().getId();
-            final GuildManager gManager = this.main.getGuildManager();
+            final GuildManager gManager = this.plugin.getGuildManager();
     
             final String discordId = newUser.getId();
             final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo, discordId);
             final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
+
+            final String hoursToConfirm = plugin.getConfigManager().get("hoursToConfirmMcAccount");
+            final String confirmHoursString = hoursToConfirm != null ? String.valueOf(Integer.parseInt(hoursToConfirm)) : null;
 
             if(mc_uuid == null) {
                 event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
@@ -242,7 +241,7 @@ public class RegisterCommand extends ListenerAdapter {
             registeree.setCreatedAt(Helper.getTimestamp().toString());
             registeree.setAsAllowed(messageId, true, moderatorId);
 
-            final UsersDao dao = this.main.getDaoManager().getUsersDao();
+            final UsersDao dao = this.plugin.getDaoManager().getUsersDao();
             final Integer userId = registeree.save(dao);
 
             if(userId < 0) {
@@ -260,9 +259,9 @@ public class RegisterCommand extends ListenerAdapter {
 
             gManager.getWelcomeChannel().sendMessage(newMsg).queue();
             
-            this.main.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
+            this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 channel.sendMessage(newMsg + 
-                "\n**Vous avez `24H` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer votre compte`.**")
+                "\n**Vous avez `"+ confirmHoursString +"h` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer votre compte`.**")
                 .queue();
             });
 
@@ -286,7 +285,7 @@ public class RegisterCommand extends ListenerAdapter {
 
             final String newMsg = "**❌ Votre enregistrement sur le serveur a été refusé.**";
 
-            this.main.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
+            this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 channel.sendMessage(newMsg).queue();
             });
 
