@@ -58,7 +58,7 @@ CREATE TABLE `users` (
 - ### Setup the `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
 - ### Setup and run [build-WJE.bat](build-WJE.bat) a backup of your conf. will `automaticly` be added to [backups folder](/backups).
 
-## How to change your command names:
+## How to change your command names in the various messages sent to users (aliases won't overide textual commands names):
 
 **Those neeed to be done before building**
 
@@ -71,6 +71,18 @@ CREATE TABLE `users` (
                   usage: !! I recommend not changing this except the name part !!
 
 - ### Setup the associated `private vars` within the [ConfigurationManager](src/main/java/configs/ConfigManager.java) file.
+
+- ### Setup any aliases you want in your server `commands.yml` file.
+- commands example:
+
+      command-block-overrides: []
+      ignore-vanilla-permissions: false
+      aliases:
+            icanhasbukkit:
+            - version $1-
+            link:
+            - wje-link (or your designated cmd name in previous steps)
+
 
 - ### Run [build-WJE.bat](build-WJE.bat).
 
