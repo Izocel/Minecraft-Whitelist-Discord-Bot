@@ -21,7 +21,6 @@ public class UsersDao extends BaseDao {
         this.tablename = "users";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
 	}
-
     
     public User findUser(Integer id) {
         JSONObject res = this.find(id);

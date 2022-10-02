@@ -98,12 +98,8 @@ public class OnPlayerLoggin implements Listener {
             final Integer allowedWithUUID = this.main.playerIsAllowed(pUUID);
             final boolean isAllowed = allowedWithUUID != null && allowedWithUUID > 0;
 
-            this.logger.info(isAllowed ? "allowed" : "not allowed");
-
             if (isAllowed) {
-
                 User user = this.main.getDaoManager().getUsersDao().findUser(allowedWithUUID);
-
                 user.setMcName(pName);
                 user.save(this.main.getDaoManager().getUsersDao());
             }

@@ -11,7 +11,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import helpers.PooledDatasource;
-import models.BaseModel;
 
 public class BaseDao implements IDao {
 
@@ -131,13 +130,7 @@ public class BaseDao implements IDao {
         return results;
     }
 
-    @Override
-    public Integer save(JSONObject json) {
-        throw new NotImplementedException();
-    }
-
-    public Integer delete(BaseModel baseModel) {
-        Integer id = baseModel.gettId();
+    public Integer delete(Integer id) {
         if(id == null || id < 1) {
             return null;
         }
@@ -156,5 +149,10 @@ public class BaseDao implements IDao {
         }
         
         return id;
+    }
+
+    @Override
+    public Integer save(JSONObject json) {
+        throw new NotImplementedException();
     }
 }

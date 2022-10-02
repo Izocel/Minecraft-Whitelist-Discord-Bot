@@ -2,6 +2,8 @@ package dao;
 
 import java.util.logging.Logger;
 
+import configs.ConfigManager;
+import helpers.DbPoolFactory;
 import helpers.PooledDatasource;
 
 public class DaoManager {
@@ -10,9 +12,13 @@ public class DaoManager {
     protected UsersDao usersDao = null;
     private Logger logger;
 
-    public DaoManager(PooledDatasource dataSource) {
+    public DaoManager(ConfigManager configs) {
         this.logger = Logger.getLogger("WJE:" + getClass().getSimpleName());
-        this.dataSource = dataSource;
+        try {
+            this.dataSource = DbPoolFactory.getMysqlPool(configs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public UsersDao getUsersDao() {

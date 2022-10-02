@@ -32,40 +32,49 @@ public class RegisterCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-        final String cmdName = this.main.getConfigManager().get("registerCmdName", "register");
-        if (!event.getName().equals(cmdName))
-            return;
-
-        final String pseudo = event.getOption("pseudo").getAsString();
-        final String discordId = event.getMember().getId();
-
-        if(!this.validatePseudo(event, pseudo)) {
-            return;
-        }
-
-        final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
-        if(mc_uuid == null) {
-            event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
-            .setEphemeral(true).queue();
-            return;
-        }
-
-        if (!this.handleKnownUser(event, mc_uuid, discordId)) {
-            return;
-        }
-
-        EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo);
-        GuildManager gManager = this.main.getGuildManager();
-
-        event.reply("**Votre demande d'accès pour `" + pseudo
-                + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
+        try {
+            if (!event.getChannel().getType().toString().equals("TEXT")) {
+                return;
+            }
+    
+            final String cmdName = this.main.getConfigManager().get("registerCmdName", "register");
+            if (!event.getName().equals(cmdName))
+                return;
+    
+            final String pseudo = event.getOption("pseudo").getAsString();
+            final String discordId = event.getMember().getId();
+    
+            if(!this.validatePseudo(event, pseudo)) {
+                return;
+            }
+    
+            final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
+            if(mc_uuid == null) {
+                event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
                 .setEphemeral(true).queue();
+                return;
+            }
+    
+            if (!this.handleKnownUser(event, mc_uuid, discordId)) {
+                return;
+            }
+    
+            EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo);
+            GuildManager gManager = this.main.getGuildManager();
+    
+            event.reply("**Votre demande d'accès pour `" + pseudo
+                    + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
+                    .setEphemeral(true).queue();
+            
+            gManager.getAdminChannel().sendMessage(embeded.build())
+                .setActionRows(ActionRow.of(
+                        Button.primary(this.acceptId + " " + pseudo + " " + discordId, "✔️ Accepter"),
+                        Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
+                ).queue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
-        gManager.getAdminChannel().sendMessage(embeded.build())
-            .setActionRows(
-                ActionRow.of(Button.primary(this.acceptId + " " + pseudo + " " + discordId, "✔️ Accepter"),
-                Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
-            ).queue();
     }
 
     private boolean validatePseudo(SlashCommandEvent event, String pseudo) {
@@ -148,41 +157,45 @@ public class RegisterCommand extends ListenerAdapter {
 
     @Override
     public void onButtonClick(ButtonClickEvent event) {
-        final Member respMember = event.getMember();
-        final String componentId = event.getComponentId();
-        final GuildManager gManager = this.main.getGuildManager();
-
-        final String actionId = componentId.split(" ")[0];
-        final String pseudo = componentId.split(" ")[1];
-        final String discordId = componentId.split(" ")[2];
-
-        Member newuser = event.getGuild().getMemberById(discordId);
-
-        if (!event.getChannel().getId().equals(gManager.whitelistChannelId)) {
-            return;
-        }
-
-        final boolean isAuthorized = gManager.isOwner(respMember.getId())
-                || gManager.isAdmin(respMember.getId())
-                || gManager.isModo(respMember.getId())
-                || gManager.isDev(respMember.getId());
-
-        if (!isAuthorized) {
-            this.logger.warning("Commande répondu pas un role non-approuvé." + 
-            "\nUser name: <@" + respMember + ">" +
-            "\nChannel name:" + event.getChannel().getName() +
-            "\nMessage id: " + event.getMessage().getId());
-            event.reply("Dommage vous n'avez pas les accès...¯\\_(ツ)_/¯")
-                    .setEphemeral(true).queue();
-            return;
-        }
-
-        if (actionId.equals(this.acceptId)) {
-            this.handleAccepted(event, newuser, pseudo);
-
-        } else if (actionId.equals(this.rejectId)) {
-            this.handleRejected(event, newuser, pseudo);
-
+        try {
+            final GuildManager gManager = this.main.getGuildManager();
+            if (!event.getChannel().getId().equals(gManager.whitelistChannelId)) {
+                return;
+            }
+    
+            final Member respMember = event.getMember();
+            final String componentId = event.getComponentId();
+    
+            final String actionId = componentId.split(" ")[0];
+            final String pseudo = componentId.split(" ")[1];
+            final String discordId = componentId.split(" ")[2];
+    
+            Member newuser = event.getGuild().getMemberById(discordId);
+    
+            final boolean isAuthorized = gManager.isOwner(respMember.getId())
+                    || gManager.isAdmin(respMember.getId())
+                    || gManager.isModo(respMember.getId())
+                    || gManager.isDev(respMember.getId());
+    
+            if (!isAuthorized) {
+                this.logger.warning("Commande répondu pas un role non authorisé." + 
+                "\nUser name: <@" + respMember + ">" +
+                "\nChannel name:" + event.getChannel().getName() +
+                "\nMessage id: " + event.getMessage().getId());
+                event.reply("Dommage vous n'avez pas les accès...¯\\_(ツ)_/¯")
+                        .setEphemeral(true).queue();
+                return;
+            }
+    
+            if (actionId.equals(this.acceptId)) {
+                this.handleAccepted(event, newuser, pseudo);
+    
+            } else if (actionId.equals(this.rejectId)) {
+                this.handleRejected(event, newuser, pseudo);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

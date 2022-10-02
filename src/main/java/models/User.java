@@ -82,6 +82,7 @@ public class User extends BaseModel {
         return this.confirmed;
     }
 
+    @Override
     public Integer getId() {
 		return this.id;
 	}

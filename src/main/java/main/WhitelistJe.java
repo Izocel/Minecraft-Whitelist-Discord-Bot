@@ -13,8 +13,6 @@ import configs.ConfigManager;
 import dao.DaoManager;
 import discord.DiscordManager;
 import functions.GuildManager;
-import helpers.DbPoolFactory;
-import helpers.PooledDatasource;
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
@@ -72,28 +70,21 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        instance = this;
-        configManager = new ConfigManager();
-        daoManager = setDaoManager();
-        discordManager = new DiscordManager(this);
-        guildManager = new GuildManager(discordManager.getGuild());
-        bukkitManager = new BukkitManager(this);
-
-        updateAllPlayers();
-        updateAllowedPlayers();
-
-        Logger.getLogger("WhiteList-Je").info(this.getfiglet());
-        guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
-    }
-
-    private DaoManager setDaoManager() {
-        PooledDatasource pds;
         try {
-            pds = DbPoolFactory.getMysqlPool(this.configManager);
-            return new DaoManager(pds);
+            instance = this;
+            configManager = new ConfigManager();
+            daoManager = new DaoManager(configManager);
+            discordManager = new DiscordManager(this);
+            guildManager = new GuildManager(discordManager.getGuild());
+            bukkitManager = new BukkitManager(this);
+    
+            updateAllPlayers();
+            updateAllowedPlayers();
+
+            Logger.getLogger("WhiteList-Je").info(this.getfiglet());
+            guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 

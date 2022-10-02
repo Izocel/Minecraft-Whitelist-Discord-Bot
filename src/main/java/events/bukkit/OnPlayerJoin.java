@@ -35,7 +35,6 @@ public class OnPlayerJoin implements Listener {
             }
 
             this.handleConfirmation(user, event);
-            user.save(this.main.getDaoManager().getUsersDao());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,13 +61,14 @@ public class OnPlayerJoin implements Listener {
         boolean canConfirm = Helper.isWithinXXHour(comparator, confirmHourDelay);
 
         if(!canConfirm) {
-            event.getPlayer().setWhitelisted(false);
-            user.delete(this.main.getDaoManager().getUsersDao());
-
             msg = getDisallowMsg(tagDiscord, user.getMcUUID());
+            event.getPlayer().setWhitelisted(false);
             event.getPlayer().kickPlayer(msg);
-        }
 
+            user.delete(this.main.getDaoManager().getUsersDao());
+            return;
+        }
+        
         mcPlayer.sendMessage(msg);
     }
 

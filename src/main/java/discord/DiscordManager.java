@@ -77,7 +77,7 @@ public class DiscordManager {
             this.guildId = this.guild.getId();
             this.inviteUrl = this.setInvite();
         } catch (Exception e) {
-            this.logger.warning("Discord bot's not authorized into your guild. (check " + Configs.getClass().getSimpleName() +")");
+            this.logger.warning("Discord bot's not authorized into this guild. (Check: " + Configs.getClass().getSimpleName() +")");
         }
     }
 

@@ -26,7 +26,6 @@ public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
     try {
-      Logger.getLogger("test").info("command: " + this.cmdName);
       if (cmd.getName().equalsIgnoreCase(this.cmdName)) {
 
           if (!(sender instanceof Player)) {

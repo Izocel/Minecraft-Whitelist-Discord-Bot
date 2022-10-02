@@ -7,8 +7,6 @@ import dao.BaseDao;
 
 public class BaseModel extends Object implements IModel {
 
-    private Integer id;
-
     @Override
     public Integer save(BaseDao dao) {
         return dao.save(this.toJson());
@@ -16,7 +14,7 @@ public class BaseModel extends Object implements IModel {
 
     @Override
     public Integer delete(BaseDao dao) {
-        return dao.delete(this);
+        return dao.delete(this.getId());
     }
 
     @Override
@@ -29,8 +27,8 @@ public class BaseModel extends Object implements IModel {
         throw new NotImplementedException();
     }
 
-    public int gettId() {
-        return id;
+    public Integer getId() {
+        throw new NotImplementedException();
     }
     
 }

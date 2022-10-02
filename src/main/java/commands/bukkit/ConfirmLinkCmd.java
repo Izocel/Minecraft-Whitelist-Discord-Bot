@@ -1,17 +1,17 @@
 package commands.bukkit;
 
+import java.util.ArrayList;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import helpers.Helper;
 import main.WhitelistJe;
 import models.User;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
 
 public class ConfirmLinkCmd extends PlayerBaseCmd {
 
@@ -41,94 +41,81 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
     this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
       final String channel_id = channel.getId();
-      final MessageEmbed msgEmbeded = this.confirmationEmbeded(channel_id);
-
-      if (!msgEmbeded.isSendable()) {
-        try {
-          throw new Exception("Embeded is not sendable");
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-        return;
-      }
-      channel.sendMessage(msgEmbeded).queue();
+      final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(this.confirmationEmbededs(channel_id));
+      final ArrayList<ActionRow> msgActions = Helper.getActionRowsfromJson(this.confirmationActions(channel_id));
+      Helper.preparePrivateCustomMsg(channel, msgEmbededs, msgActions).queue();
     });
 
   }
 
-  /**
-   * //FIXME:
-   * [12:20:56 ERROR]: [net.dv8tion.jda.api.requests.RestAction] Encountered error
-   * while processing success consumer
-   * com.google.gson.JsonSyntaxException:
-   * com.google.gson.stream.MalformedJsonException: Expected ':' at line 11 column
-   * 29 path $.components[0].components[0].this
-   * at com.google.gson.Gson.fromJson(Gson.java:978) ~[gson-2.8.9.jar:?]
-   */
-  private MessageEmbed confirmationEmbeded(String channel_id) {
-    String msg = """
-        {
+
+  private String confirmationEmbededs(String channel_id) {
+    return """
+      {
         "channel_id": "+ channel_id +",
         "content": "",
         "tts": false,
+        "embeds": [
+          {
+            "type": "rich",
+            "title": "Confirmation de vos comptes",
+            "url": 'https://www.youtube.com/c/Tumeniaises',
+            "description": "**Veuillez confirmer ou entrer la commande de confirmation dans la barre de discussion:**\n    /link [your code]",
+            "color": "cc00ff",
+            "fields": [
+              {
+                "name": "Minecraft pseudo: ",
+                "value": "Izocel",
+                "inline": true
+              },
+              {
+                "name": "Minecraft uuid: ",
+                "value": "123456789",
+                "inline": true
+              }
+            ],
+            "image": {
+              "url": 'https://info.varonis.com/hubfs/Varonis_June2021/Images/data-security-hero-1200x401.png'
+            },
+            "author": {
+              "name": "Whitelist-Je",
+              "icon_url": 'https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg'
+            },
+            "footer": {
+              "text": "Clicking 'YES' will confirm he link between the accounts.\nClicking 'NO' will delete the link between the accounts and suspend all current and futher activities."
+            }
+          }
+        ]
+      }
+      """;
+  }
+
+  private String confirmationActions(String channel_id) {
+    return """
+      {
         "components": [
           {
             "type": 1,
             "components": [
               {
                 "style": 4,
-                "label": `No, this was not me`,
-                "custom_id": `OnUserConfirm.rejectId`,
+                "label": "No, this was not me",
+                "custom_id": "OnUserConfirm.rejectId",
                 "disabled": false,
                 "type": 2
               },
               {
                 "style": 3,
-                "label": `Yes, is was me`,
-                "custom_id": `OnUserConfirm.acceptId`,
+                "label": "Yes, is was me",
+                "custom_id": "OnUserConfirm.acceptId",
                 "disabled": false,
                 "type": 2
               }
             ]
           }
-        ],
-        "embeds": [
-          {
-            "type": "rich",
-            "title": `Confirmation de vos comptes`,
-            "description": `**Veullez comfirmer ou entrer la commande de confirmation dans la barre de discussion:**\n    /link [your code]`,
-            "color": 0xcc00ff,
-            "fields": [
-              {
-                "name": `Minecraft pseudo: `,
-                "value": `Izocel`,
-                "inline": true
-              },
-              {
-                "name": `Minecraft uuid: `,
-                "value": `123456789`
-              }
-            ],
-            "image": {
-              "url": `https://info.varonis.com/hubfs/Varonis_June2021/Images/data-security-hero-1200x401.png`,
-              "height": 0,
-              "width": 0
-            },
-            "author": {
-              "name": `Whitelist-Je`,
-              "icon_url": `https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg`
-            },
-            "footer": {
-              "text": `Clicking 'YES' will confirm he link between the accounts.\nClicking 'NO' will delete the link between the accounts and suspend all current and futher activities.`
-            },
-            "url": `https://www.youtube.com/c/Tumeniaises`
-          }
         ]
-        }
-          """;
-
-    JsonObject embededJson = new Gson().fromJson(msg, JsonObject.class);
-    return Helper.jsonToEmbed(embededJson);
+      }
+      """;
   }
 
 }
