@@ -41,6 +41,8 @@ public final class ConfigManager {
     private final String serverCmdName="server";
     private final String registerCmdName="register";
 
+    private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
+
     private final String pluginVersion="2022.2";
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -77,6 +79,8 @@ public final class ConfigManager {
 
         configs.put("serverCmdName", this.serverCmdName);
         configs.put("registerCmdName", this.registerCmdName);
+
+        configs.put("minecrafInfosLink", this.minecrafInfosLink);
     }
 
     public String get(String key, String defaultValue) {

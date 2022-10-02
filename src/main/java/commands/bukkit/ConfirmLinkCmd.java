@@ -1,11 +1,13 @@
 package commands.bukkit;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import configs.ConfigManager;
 import helpers.Helper;
 import main.WhitelistJe;
 import models.User;
@@ -14,6 +16,9 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 
 public class ConfirmLinkCmd extends PlayerBaseCmd {
+
+  public static String acceptId = "linkAccept";
+  public static String rejectId = "linkReject";
 
   public ConfirmLinkCmd(WhitelistJe plugin, String cmdName) {
     super(plugin, cmdName);
@@ -36,12 +41,12 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   private void sendConfimationEmbeded(Member member, Player player) {
 
     final String discordId = member.getId();
-    final String discordTag = member.getUser().getAsTag();
     final String mcPeudo = player.getName();
+    final UUID mcUuid = player.getUniqueId();
 
     this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
       final String channel_id = channel.getId();
-      final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(this.confirmationEmbededs(channel_id));
+      final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(this.confirmationEmbededs(channel_id, mcUuid.toString(), mcPeudo));
       final ArrayList<ActionRow> msgActions = Helper.getActionRowsfromJson(this.confirmationActions(channel_id));
       Helper.preparePrivateCustomMsg(channel, msgEmbededs, msgActions).queue();
     });
@@ -49,28 +54,28 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   }
 
 
-  private String confirmationEmbededs(String channel_id) {
+  private String confirmationEmbededs(String channel_id, String uuid, String pseudo) {
+    ConfigManager configs = plugin.getConfigManager();
+    final  String embedUrl = configs.get("minecrafInfosLink", "https://www.fiverr.com/rvdprojects?up_rollout=true");
+
     return """
       {
-        "channel_id": "+ channel_id +",
-        "content": "",
-        "tts": false,
         "embeds": [
           {
             "type": "rich",
             "title": "Confirmation de vos comptes",
-            "url": 'https://www.youtube.com/c/Tumeniaises',
+            "url": '""" + embedUrl + "'," + """
             "description": "**Veuillez confirmer ou entrer la commande de confirmation dans la barre de discussion:**\n    /link [your code]",
             "color": "cc00ff",
             "fields": [
               {
                 "name": "Minecraft pseudo: ",
-                "value": "Izocel",
+                "value": """ + pseudo + "," + """
                 "inline": true
               },
               {
                 "name": "Minecraft uuid: ",
-                "value": "123456789",
+                "value": """ + uuid + "," + """
                 "inline": true
               }
             ],
@@ -82,7 +87,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
               "icon_url": 'https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg'
             },
             "footer": {
-              "text": "Clicking 'YES' will confirm he link between the accounts.\nClicking 'NO' will delete the link between the accounts and suspend all current and futher activities."
+              "text": "En cliquant sur 'OUI' vous confirmez que ces comptes seront reliés et que vous en êtes le détenteur.\nEn cliquant sur 'NON' les liens temporaire seront détruit et toutes activitées courrantes et futures seront suspendues."
             }
           }
         ]
@@ -99,15 +104,15 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
             "components": [
               {
                 "style": 4,
-                "label": "No, this was not me",
-                "custom_id": "OnUserConfirm.rejectId",
+                "label": "Non, ce n'était pas moi",
+                "custom_id": """ + this.rejectId + "," + """
                 "disabled": false,
                 "type": 2
               },
               {
                 "style": 3,
-                "label": "Yes, is was me",
-                "custom_id": "OnUserConfirm.acceptId",
+                "label": "Oui, cétait bien moi",
+                "custom_id": """ + this.acceptId + "," + """
                 "disabled": false,
                 "type": 2
               }
