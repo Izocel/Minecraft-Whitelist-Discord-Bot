@@ -1,4 +1,9 @@
 name: WhitelistJe
 version: '${project.version}'
-main: WhitelistJe.WhitelistJe
+main: main.WhitelistJe
 api-version: 1.15
+author: Izocel
+commands:
+   wje-link:
+      description: This is a demo command.
+      usage: /<wje-link-command>
