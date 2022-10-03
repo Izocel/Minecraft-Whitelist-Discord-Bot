@@ -155,7 +155,8 @@ public class RegisterCommand extends ListenerAdapter {
     public void onButtonClick(ButtonClickEvent event) {
         try {
             final GuildManager gManager = this.plugin.getGuildManager();
-            if (!event.getChannel().getId().equals(gManager.whitelistChannelId)) {
+            if (!event.getChannel().getId().equals(gManager.adminChannelId)
+                && !event.getChannel().getId().equals(gManager.whitelistChannelId)) {
                 return;
             }
     
