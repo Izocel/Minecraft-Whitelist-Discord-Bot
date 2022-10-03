@@ -66,7 +66,7 @@ public class RegisterCommand extends ListenerAdapter {
                     + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
                     .setEphemeral(true).queue();
             
-            gManager.getAdminChannel().sendMessage(embeded.build())
+            gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
                 .setActionRows(ActionRow.of(
                         Button.primary(this.acceptId + " " + pseudo + " " + discordId, "✔️ Accepter"),
                         Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
@@ -250,7 +250,7 @@ public class RegisterCommand extends ListenerAdapter {
                 return;
             }
 
-            event.getMessage().editMessage(newMsgContent.build())
+            event.getMessage().editMessageEmbeds(newMsgContent.build())
             .setActionRow(net.dv8tion.jda.api.interactions.components.Button
             .primary(this.acceptId_conf, "✔️ Accepter par " + event.getMember().getEffectiveName()).asDisabled())
             .queue();
@@ -278,7 +278,7 @@ public class RegisterCommand extends ListenerAdapter {
             final String discordId = newUser.getId();
             final EmbedBuilder newMsgContent = this.getRejectedEmbeded(pseudo ,discordId);
 
-            event.getMessage().editMessage(newMsgContent.build())
+            event.getMessage().editMessageEmbeds(newMsgContent.build())
             .setActionRow(net.dv8tion.jda.api.interactions.components.Button
             .primary(this.rejectId_conf, "❌ Refuser par " + event.getMember().getEffectiveName()).asDisabled())
             .queue();

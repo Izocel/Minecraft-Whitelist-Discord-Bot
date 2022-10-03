@@ -90,14 +90,14 @@ public class Helper {
 
     public static MessageAction preparePrivateCustomMsg(PrivateChannel channel, MessageEmbed embededs, ArrayList<ActionRow> actionRows) {
         if (embededs.isSendable()) {
-            return channel.sendMessage(embededs).setActionRows(actionRows);
+            return channel.sendMessageEmbeds(embededs).setActionRows(actionRows);
         }
         return null;
     }
 
     public static MessageAction prepareTectCustomMsg(TextChannel channel, MessageEmbed embededs, ArrayList<ActionRow> actionRows) {
         if (embededs.isSendable()) {
-            return channel.sendMessage(embededs).setActionRows(actionRows);
+            return channel.sendMessageEmbeds(embededs).setActionRows(actionRows);
         }
         return null;
     }
