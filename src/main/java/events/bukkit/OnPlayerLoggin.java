@@ -44,32 +44,33 @@ import models.User;
  */
 
 public class OnPlayerLoggin implements Listener {
-    private WhitelistJe main;
+    private WhitelistJe plugin;
     private Logger logger;
 
     private String getDisallowMsg() {
         String ip = Bukkit.getServer().getIp();
-        ip = ip.equals("") ? "Not bound to any IP" : ip;
+        final String staticIp = plugin.getConfigManager().get("paperMcIp", "Not bind to any IP");
+        ip = ip.equals("") ? staticIp : ip;
         final String version = Bukkit.getServer().getVersion();
 
-        final String ds_srvName = this.main.getDiscordManager().getServerName();
-        final String ds_inviteUrl = this.main.getDiscordManager().getInviteUrl();
+        final String ds_srvName = this.plugin.getDiscordManager().getServerName();
+        final String ds_inviteUrl = this.plugin.getDiscordManager().getInviteUrl();
         return "§c§lCe serveur est sous whitelist Discord®§l" +
                 "§a\n\nJoin §l" + ds_srvName + "§a at: §9§n§l" + ds_inviteUrl +
                 "§f\n\n§lServer Version: §f" + version +
                 "§f\n\n§lServer IP: §f" + ip;
     }
 
-    public OnPlayerLoggin(WhitelistJe main) {
+    public OnPlayerLoggin(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
-        this.main = main;
+        this.plugin = plugin;
     }
 
     public void handleConfirmation(User user, PlayerLoginEvent event) {
         
         Timestamp comparator = Helper.convertStringToTimestamp(user.getCreatedAt());
         final Integer confirmHourDelay = Integer.valueOf(
-            this.main.getConfigManager().get("hoursToConfirmMcAccount", "48"));
+            this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "48"));
 
         if(user.isConfirmed() || confirmHourDelay < 0) {
             user.setAsConfirmed(true);
@@ -90,18 +91,18 @@ public class OnPlayerLoggin implements Listener {
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event) {
         try {
-            Server bukServer = this.main.getBukkitManager().getServer();
+            Server bukServer = this.plugin.getBukkitManager().getServer();
             final Player loginPlayer = event.getPlayer();
             final UUID pUUID = loginPlayer.getUniqueId();
             final String pName = loginPlayer.getName();
 
-            final Integer allowedWithUUID = this.main.playerIsAllowed(pUUID);
+            final Integer allowedWithUUID = this.plugin.playerIsAllowed(pUUID);
             final boolean isAllowed = allowedWithUUID != null && allowedWithUUID > 0;
 
             if (isAllowed) {
-                User user = this.main.getDaoManager().getUsersDao().findUser(allowedWithUUID);
+                User user = this.plugin.getDaoManager().getUsersDao().findUser(allowedWithUUID);
                 user.setMcName(pName);
-                user.save(this.main.getDaoManager().getUsersDao());
+                user.save(this.plugin.getDaoManager().getUsersDao());
             }
 
             boolean isWhitelisted = false;

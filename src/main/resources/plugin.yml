@@ -5,5 +5,5 @@ api-version: 1.15
 author: Izocel
 commands:
    wje-link:
-      description: This is a demo command.
+      description: Used to authenticate your Discord and Minecraft accounts.
       usage: /<wje-link-command>
