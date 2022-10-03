@@ -125,7 +125,7 @@ public class OnPlayerLoggin implements Listener {
             } else {
                 Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
                 for (OfflinePlayer player : w_players) {
-                    if (player.getUniqueId() == pUUID) {
+                    if (player.getUniqueId().equals(pUUID)) {
                         isWhitelisted = true;
                         break;
                     }
