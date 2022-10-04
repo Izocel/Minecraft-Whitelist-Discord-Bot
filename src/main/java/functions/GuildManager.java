@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
+import services.sentry.SentryService;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -69,7 +70,7 @@ public class GuildManager {
     
         } catch (Exception e) {
             this.logger.warning("Problem while looking for a role on a guild");
-            e.printStackTrace();
+            SentryService.captureEx(e);
             return null;
         }
     }
@@ -84,7 +85,7 @@ public class GuildManager {
     
         } catch (Exception e) {
             this.logger.warning("Problem while looking for a member on a guild");
-            e.printStackTrace();
+            SentryService.captureEx(e);
             return null;
         }
     }
@@ -120,7 +121,7 @@ public class GuildManager {
             }
         } catch (Exception e) {
             this.logger.warning("Problem while looking for a role on a guild member");
-            e.printStackTrace();
+            SentryService.captureEx(e);
             return false;
         }
 

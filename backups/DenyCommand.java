@@ -58,8 +58,8 @@ public class DenyCommand extends ListenerAdapter {
                         try {
                             Bukkit.getPlayer(resultset.getString("users.name")).kickPlayer("§cVous avez été expulsé");
                         } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                            SentryService.captureEx(e)
+;                        }
                     });
                 }
                 jda.getTextChannelById("1013374066540941362").sendMessage("Suppression - La demande de `" + resultset.getString("users.name") + "` (<@" + resultset.getString("users.discord") + ">) a été supprimée par <@" + event.getMember().getId() + ">").queue();
@@ -71,7 +71,7 @@ public class DenyCommand extends ListenerAdapter {
                 
                 preparedstatement2.executeUpdate();
             } catch (SQLException e) {
-                e.printStackTrace();
+                SentryService.captureEx(e);
             }
         }
     }

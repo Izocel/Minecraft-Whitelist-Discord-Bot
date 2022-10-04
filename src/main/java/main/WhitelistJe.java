@@ -13,6 +13,8 @@ import configs.ConfigManager;
 import dao.DaoManager;
 import discord.DiscordManager;
 import functions.GuildManager;
+import services.sentry.SentryService;
+import services.sentry.SentryService;
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
@@ -26,6 +28,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
+    private SentryService sentryService;
 
     public String getfiglet() {
         String figlet = """
@@ -73,6 +76,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         try {
             instance = this;
             configManager = new ConfigManager();
+            sentryService = new SentryService(this);
             daoManager = new DaoManager(configManager);
             discordManager = new DiscordManager(this);
             guildManager = new GuildManager(discordManager.getGuild());
@@ -84,7 +88,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             Logger.getLogger("WhiteList-Je").info(this.getfiglet());
             guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -111,6 +115,10 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public BukkitManager getBukkitManager() {
         return this.bukkitManager;
+    }
+
+    public SentryService getSentryService() {
+        return this.sentryService;
     }
 
     public JSONArray updateAllPlayers() {
@@ -146,7 +154,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         return allowedUserId;

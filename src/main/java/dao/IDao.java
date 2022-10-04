@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import services.sentry.SentryService;
+
 public interface IDao {
 
     abstract Integer save(JSONObject json);
@@ -32,7 +34,7 @@ public interface IDao {
                         try {
                             return md.getColumnName(i + 1);
                         } catch (SQLException e) {
-                            e.printStackTrace();
+                            SentryService.captureEx(e);
                             return "?";
                         }
                     })
@@ -44,14 +46,14 @@ public interface IDao {
                     try {
                         row.put(cn, resultSet.getObject(cn));
                     } catch (JSONException | SQLException e) {
-                        e.printStackTrace();
+                        SentryService.captureEx(e);
                     }
                 });
                 results.put(row);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         return results;

@@ -3,6 +3,7 @@ package models;
 import org.json.JSONObject;
 
 import helpers.Helper;
+import services.sentry.SentryService;
 
 public class User extends BaseModel {
     private Integer id = -1;
@@ -188,7 +189,7 @@ public class User extends BaseModel {
             jsonObj.put("updated_at", this.updatedAt);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         return jsonObj;
@@ -212,7 +213,7 @@ public class User extends BaseModel {
             copied.updatedAt = userObj.updatedAt;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         return copied;
     }

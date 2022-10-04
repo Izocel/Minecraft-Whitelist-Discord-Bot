@@ -11,6 +11,7 @@ import services.api.MojanApi;
 import dao.UsersDao;
 import functions.GuildManager;
 import helpers.Helper;
+import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
 
@@ -72,7 +73,7 @@ public class RegisterCommand extends ListenerAdapter {
                         Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
                 ).queue();
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         
     }
@@ -135,7 +136,7 @@ public class RegisterCommand extends ListenerAdapter {
 
         } catch (Exception e) {
             event.reply("❌ **Une erreur est survenu contactez un admin!!!**").setEphemeral(true).queue();
-            e.printStackTrace();
+            SentryService.captureEx(e);
             return false;
         }
 
@@ -192,7 +193,7 @@ public class RegisterCommand extends ListenerAdapter {
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -269,7 +270,7 @@ public class RegisterCommand extends ListenerAdapter {
             event.reply("✔️ **Le joueur <@" + discordId + "> a bien été approuvé avec le pseudo: `" + pseudo + "`.**")
             .setEphemeral(true).queue();
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -294,7 +295,7 @@ public class RegisterCommand extends ListenerAdapter {
             .setEphemeral(true).queue();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 

@@ -11,6 +11,8 @@ import java.util.Optional;
 
 import org.json.JSONArray;
 
+import services.sentry.SentryService;
+
 public class Fetcher {
     static final String POST = "POST";
     static final String GET = "GET";
@@ -40,7 +42,7 @@ public class Fetcher {
             .thenApply(HttpResponse::body).join();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         return responseContent;
@@ -75,7 +77,7 @@ public class Fetcher {
             }
             return new JSONArray(responseContent);
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         return null;
     }

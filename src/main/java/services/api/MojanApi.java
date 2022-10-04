@@ -4,6 +4,7 @@ import org.json.JSONArray;
 
 import helpers.Fetcher;
 import helpers.Helper;
+import services.sentry.SentryService;
 
 public class MojanApi extends Api{
     private static String baseUri = "https://api.mojang.com";
@@ -44,7 +45,7 @@ public class MojanApi extends Api{
             
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         return formatedUuid;

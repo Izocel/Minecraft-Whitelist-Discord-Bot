@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import helpers.PooledDatasource;
+import services.sentry.SentryService;
 import models.User;
 
 public class UsersDao extends BaseDao {
@@ -130,7 +131,7 @@ public class UsersDao extends BaseDao {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         
         return id;
@@ -151,7 +152,7 @@ public class UsersDao extends BaseDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         if(results == null || results.length() < 1) {
@@ -176,7 +177,7 @@ public class UsersDao extends BaseDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -194,7 +195,7 @@ public class UsersDao extends BaseDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         if(results == null || results.length() < 1) {
@@ -218,7 +219,7 @@ public class UsersDao extends BaseDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         if(results == null || results.length() < 1) {
@@ -242,7 +243,7 @@ public class UsersDao extends BaseDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         if(results == null || results.length() < 1) {

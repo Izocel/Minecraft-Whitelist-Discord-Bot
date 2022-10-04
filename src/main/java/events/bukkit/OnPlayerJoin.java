@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import helpers.Helper;
+import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
 
@@ -37,7 +38,7 @@ public class OnPlayerJoin implements Listener {
             this.handleConfirmation(user, event);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
             return;
         }
     }

@@ -13,6 +13,7 @@ import dao.UsersDao;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
+import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
 
@@ -63,7 +64,7 @@ public class BukkitManager {
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(plugin), plugin);
             Bukkit.getPluginManager().registerEvents(new OnServerLoad(plugin), plugin);
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -73,7 +74,7 @@ public class BukkitManager {
         try {
             this.plugin.getCommand(linkCmd).setExecutor(new ConfirmLinkCmd(this.plugin, linkCmd));
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -102,7 +103,7 @@ public class BukkitManager {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 

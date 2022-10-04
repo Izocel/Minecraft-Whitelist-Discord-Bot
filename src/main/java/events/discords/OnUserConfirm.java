@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import commands.bukkit.ConfirmLinkCmd;
 import dao.UsersDao;
+import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
@@ -76,7 +77,7 @@ public class OnUserConfirm extends ListenerAdapter {
             )).queue();
         } catch (Exception e) {
             event.reply("❌ Vos compte non pas pu être reliés et confrimés. Contactez un admin!").queue();
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -93,7 +94,7 @@ public class OnUserConfirm extends ListenerAdapter {
 
         } catch (Exception e) {
             event.reply("❌ Cette demande a rencontrée des problèmes. Contactez un admin!").queue();
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 }

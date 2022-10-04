@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import configs.ConfigManager;
 import helpers.DbPoolFactory;
 import helpers.PooledDatasource;
+import services.sentry.SentryService;
 
 public class DaoManager {
     protected PooledDatasource dataSource = null;
@@ -17,7 +18,7 @@ public class DaoManager {
         try {
             this.dataSource = DbPoolFactory.getMysqlPool(configs);
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 

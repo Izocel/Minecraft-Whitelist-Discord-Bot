@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import services.sentry.SentryService;
 import main.WhitelistJe;
 
 public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
@@ -36,7 +37,7 @@ public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
           return true;
       }
     } catch (Exception e) {
-      e.printStackTrace();
+      SentryService.captureEx(e);
     }
     return false;
   }

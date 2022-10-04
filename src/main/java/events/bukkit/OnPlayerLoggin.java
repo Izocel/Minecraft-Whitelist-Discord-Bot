@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import helpers.Helper;
+import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
 
@@ -141,7 +142,7 @@ public class OnPlayerLoggin implements Listener {
                 return;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
             event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
             return;
         }

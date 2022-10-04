@@ -37,7 +37,7 @@ public class GuildLeave extends ListenerAdapter {
     //                 try {
     //                     Bukkit.getPlayer(resultset.getString("users.name")).kickPlayer("§cVous avez été expulsé");
     //                 } catch (SQLException e) {
-    //                     e.printStackTrace();
+    //                     SentryService.captureEx(e);
     //                 }
     //             });
     //         }
@@ -48,7 +48,7 @@ public class GuildLeave extends ListenerAdapter {
     //         }
     //         jda.getTextChannelById("1013374066540941362").sendMessage("Suppression - Le joueur `" + resultset.getString("users.name") + "` - <@" + event.getMember().getId() + "> a quitté le serveur discord").queue();
     //     } catch (SQLException e) {
-    //         e.printStackTrace();
+    //         SentryService.captureEx(e);
     //     }
     // }
 }

@@ -2,7 +2,9 @@ package discord;
 
 import java.util.EnumSet;
 import java.util.logging.Logger;
+
 import javax.security.auth.login.LoginException;
+
 import org.bukkit.Bukkit;
 
 import commands.discords.RegisterCommand;
@@ -16,9 +18,10 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.InviteAction;
+import services.sentry.SentryService;
 
 public class DiscordManager {
-    public WhitelistJe main;
+    public WhitelistJe plugin;
     public JDA jda;
 
     private Logger logger;
@@ -27,13 +30,13 @@ public class DiscordManager {
     private String guildId;
     private String inviteUrl;
 	private Guild guild;
+    private String ownerId;
     static private ConfigManager Configs = new ConfigManager();
 
-    public DiscordManager(WhitelistJe main) {
+    public DiscordManager(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
-        this.main = main;
+        this.plugin = plugin;
         this.connect();
-        if(this.isPrivateBot) {this.checkGuild();}
         this.setupCommands();
         this.setupListener();
     }
@@ -45,11 +48,14 @@ public class DiscordManager {
                     .build()
                     .awaitReady();
 
+            if(this.isPrivateBot) {this.checkGuild();}
+            this.plugin.getSentryService().setUsername(this.ownerId);
+            this.plugin.getSentryService().setUserId(this.getGuild().getId());
             if (jda == null) {
                 throw new LoginException("Cannot initialize JDA");
             }
         } catch (LoginException | InterruptedException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
             Bukkit.shutdown();
         }
     }
@@ -76,39 +82,40 @@ public class DiscordManager {
             this.servername = this.guild.getName();
             this.guildId = this.guild.getId();
             this.inviteUrl = this.setInvite();
+            this.ownerId = this.guild.getOwnerId();
         } catch (Exception e) {
             this.logger.warning("Discord bot's not authorized into this guild. (Check: " + Configs.getClass().getSimpleName() +")");
         }
     }
 
     private void setupListener() {
-        jda.addEventListener(new OnUserConfirm(main));
+        jda.addEventListener(new OnUserConfirm(plugin));
     }
 
     private void setupCommands() {
         try {
             // Serveer
-            final String srvCmd = this.main.getConfigManager().get("serverCmdName", "server");
-            jda.addEventListener(new ServerCommand(main));
+            final String srvCmd = this.plugin.getConfigManager().get("serverCmdName", "server");
+            jda.addEventListener(new ServerCommand(plugin));
             jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
             .queue();
 
             // Register
-            final String rgstrCmd = this.main.getConfigManager().get("registerCmdName", "register");
-            jda.addEventListener(new RegisterCommand(main));
+            final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
+            jda.addEventListener(new RegisterCommand(plugin));
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
             .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`", true)
             .queue();
     
             // // Whitelist
-            // jda.addEventListener(new WhitelistCommand(main));
+            // jda.addEventListener(new WhitelistCommand(plugin));
             // jda.upsertCommand("whitelist", "Commande whitelist du
             // serveur").addOption(OptionType.STRING,
             // "action", "add/remove/on/off",true).addOption(OptionType.STRING, "pseudo", "Pseudo du joueur", false)
             // .queue();
     
             // // Deny
-            // jda.addEventListener(new DenyCommand(main));
+            // jda.addEventListener(new DenyCommand(plugin));
             // jda.upsertCommand("deny", "Refuser l'accès au serveur (réservé au
             // staff)").addOption(OptionType.MENTIONABLE,
             // "mention", "Mentionner un membre", true).queue();

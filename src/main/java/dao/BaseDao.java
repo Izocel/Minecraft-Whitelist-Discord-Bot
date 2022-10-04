@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import helpers.PooledDatasource;
+import services.sentry.SentryService;
 
 public class BaseDao implements IDao {
 
@@ -33,7 +34,7 @@ public class BaseDao implements IDao {
             this.connection = null;
         } catch (SQLException e) {
             logger.warning("Unable to close the BD connection");
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
     }
 
@@ -44,13 +45,13 @@ public class BaseDao implements IDao {
                 logger.info("Db Connection ++");
             } catch (SQLException e) {
                 logger.warning("Unable to get a BD connection");
-                e.printStackTrace();
+                SentryService.captureEx(e);
             }    
         }
         try {
             this.connection.setAutoCommit(true);
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         return this.connection;
     }
@@ -62,13 +63,13 @@ public class BaseDao implements IDao {
                 this.connection = this.datasource.getConnection();
             } catch (SQLException e) {
                 logger.warning("Unable to get a BD TX connection");
-                e.printStackTrace();
+                SentryService.captureEx(e);
             }    
         }
         try {
             this.connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         return this.connection;
     }
@@ -94,7 +95,7 @@ public class BaseDao implements IDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         
         if (results == null || results.length() < 1) {
@@ -120,7 +121,7 @@ public class BaseDao implements IDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
 
         if (results == null || results.length() < 1) {
@@ -145,7 +146,7 @@ public class BaseDao implements IDao {
             this.closeConnection();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
         }
         
         return id;

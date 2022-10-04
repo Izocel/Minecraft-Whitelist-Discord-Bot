@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import configs.ConfigManager;
 import helpers.Helper;
+import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
 import net.dv8tion.jda.api.entities.Member;
@@ -39,7 +40,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       final String msg = "Vos compte sont déja confirmées...\n Discord-Id: "+ user.getDiscordId();
       player.sendMessage(msg);
     } catch (Exception e) {
-      e.printStackTrace();
+      SentryService.captureEx(e);
     }
 
   }

@@ -12,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import services.sentry.SentryService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.PrivateChannel;
@@ -50,7 +51,7 @@ public class Helper {
 
             return new Timestamp(date.getTime());
         } catch (Exception e) {
-            e.printStackTrace();
+            SentryService.captureEx(e);
             return null;
         }
     }
@@ -137,7 +138,7 @@ public class Helper {
                         try {
                             throw new Exception("Don't touch the source code if you don't know what your doing!!!");
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            SentryService.captureEx(e);
                         }
                     }
 

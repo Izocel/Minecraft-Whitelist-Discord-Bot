@@ -90,7 +90,7 @@ public class testAssyncAwaitCmd extends ListenerAdapter {
                 try {
                     Thread.sleep(20);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    SentryService.captureEx(e);
                 }
                 
                 i++;
