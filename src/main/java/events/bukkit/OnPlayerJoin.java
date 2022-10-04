@@ -47,7 +47,7 @@ public class OnPlayerJoin implements Listener {
         
         Timestamp comparator = Helper.convertStringToTimestamp(user.getCreatedAt());
         final Integer confirmHourDelay = Integer.valueOf(
-            this.main.getConfigManager().get("hoursToConfirmMcAccount", "48"));
+            this.main.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
 
         final String tagDiscord = this.main.getGuildManager().getGuild().getMemberById(user.getDiscordId())
         .getUser().getAsTag();

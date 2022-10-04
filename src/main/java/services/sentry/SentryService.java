@@ -56,6 +56,7 @@ public class SentryService {
 
   public static @NotNull SentryId captureEx(Throwable error) {
     Exception ex = new Exception(error.getMessage() + userToString());
+    ex.printStackTrace();
     return Sentry.captureException(ex);
   }
 

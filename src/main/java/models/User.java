@@ -76,9 +76,8 @@ public class User extends BaseModel {
         }
 
         this.confirmed = this.allowed
-                && this.acceptedBy.length() > 0
-                && this.mcUUID.length() == 36
-                && this.updatedAt.length() > 0;
+            && this.acceptedBy.length() > 0
+            && this.mcUUID.length() == 36;
 
         return this.confirmed;
     }

@@ -71,7 +71,7 @@ public class OnPlayerLoggin implements Listener {
         
         Timestamp comparator = Helper.convertStringToTimestamp(user.getCreatedAt());
         final Integer confirmHourDelay = Integer.valueOf(
-            this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "48"));
+            this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
 
         if(user.isConfirmed() || confirmHourDelay < 0) {
             user.setAsConfirmed(true);

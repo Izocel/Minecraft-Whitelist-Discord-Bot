@@ -51,6 +51,7 @@ public class DiscordManager {
             if(this.isPrivateBot) {this.checkGuild();}
             this.plugin.getSentryService().setUsername(this.ownerId);
             this.plugin.getSentryService().setUserId(this.getGuild().getId());
+            
             if (jda == null) {
                 throw new LoginException("Cannot initialize JDA");
             }

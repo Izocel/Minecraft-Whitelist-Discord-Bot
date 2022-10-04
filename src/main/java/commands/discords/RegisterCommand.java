@@ -95,8 +95,10 @@ public class RegisterCommand extends ListenerAdapter {
             boolean isAllowed = false;
             boolean isConfirmed = false;
             User foundWUuid = this.plugin.getDaoManager().getUsersDao().findByMcUUID(uuid);
-            final String hoursToConfirm = plugin.getConfigManager().get("hoursToConfirmMcAccount");
-            final String confirmHoursString = hoursToConfirm != null ? String.valueOf(Integer.parseInt(hoursToConfirm)) : null;
+            final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
+            final Integer hoursToConfirm = confirmHoursString != null
+                ? Integer.parseInt(confirmHoursString)
+                : null;
 
             if (foundWUuid == null) {
                 return true;
@@ -124,10 +126,10 @@ public class RegisterCommand extends ListenerAdapter {
                     "Il suffit de vous connecter. `Enjoy` ⛏🧱").setEphemeral(true).queue();
                     return false;
                 }
-
-                else if (isAllowed && !isConfirmed && hoursToConfirm != null) {
+                
+                else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
                     String msg = "**Une confirmation de votre compte est nécéssaire.**\n" +
-                    "Pour confimer votre compte vous aviez `"+ confirmHoursString +"h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
+                    "Pour confimer votre compte vous aviez `"+ hoursToConfirm +"h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
 
                     event.reply(msg).setEphemeral(true).queue();
                     return false;
@@ -227,8 +229,10 @@ public class RegisterCommand extends ListenerAdapter {
             final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo, discordId);
             final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
 
-            final String hoursToConfirm = plugin.getConfigManager().get("hoursToConfirmMcAccount");
-            final String confirmHoursString = hoursToConfirm != null ? String.valueOf(Integer.parseInt(hoursToConfirm)) : null;
+            final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
+            final Integer hoursToConfirm = confirmHoursString != null
+                ? Integer.parseInt(confirmHoursString)
+                : null;
 
             if(mc_uuid == null) {
                 event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
@@ -242,6 +246,9 @@ public class RegisterCommand extends ListenerAdapter {
             registeree.setMcUUID(mc_uuid);
             registeree.setCreatedAt(Helper.getTimestamp().toString());
             registeree.setAsAllowed(messageId, true, moderatorId);
+            if(hoursToConfirm == null || hoursToConfirm < 1) {
+                registeree.setAsConfirmed(true);
+            }
 
             final UsersDao dao = this.plugin.getDaoManager().getUsersDao();
             final Integer userId = registeree.save(dao);
@@ -258,13 +265,14 @@ public class RegisterCommand extends ListenerAdapter {
             .queue();
 
             final String newMsg = "**Nous te souhaitons bienvenue, <@" + discordId + "> Enjoy  ⛏🧱 !!!**";
-
             gManager.getWelcomeChannel().sendMessage(newMsg).queue();
-            
+
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
-                channel.sendMessage(newMsg + 
-                "\n**Vous avez `"+ confirmHoursString +"h` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer votre compte`.**")
-                .queue();
+                String msg = newMsg;
+                if(hoursToConfirm > 0 )  {
+                    msg = newMsg + "\n**Vous avez `"+ hoursToConfirm +"h` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer votre compte`.**";
+                }
+                channel.sendMessage(msg).queue();
             });
 
             event.reply("✔️ **Le joueur <@" + discordId + "> a bien été approuvé avec le pseudo: `" + pseudo + "`.**")
