@@ -88,6 +88,13 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             Logger.getLogger("WhiteList-Je").info(this.getfiglet());
             guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
         } catch (Exception e) {
+            try {
+                guildManager.getAdminChannel().sendMessage("**`OUPS`, Le plugin `" + this.getName() + "`" +
+                 " a rencontré des `problèmes` à l'initialisation**\n" + 
+                 "**Regarder les fichers de `log` !!!!**\n\n" + 
+                 getPluginInfos(false)).queue();
+
+            } catch (Exception err) { }
             SentryService.captureEx(e);
         }
     }
