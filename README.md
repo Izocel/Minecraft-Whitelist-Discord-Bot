@@ -34,7 +34,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
       - Therefore if you have multiple MC.accounts you can register them with the same Discord® account.
 
 ## Prerequesites:
- - ## Be sure to update your database: 
+ - ## Be sure to create a table wtih this schema in your database: 
  ```sql
 CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -92,3 +92,6 @@ CREATE TABLE `users` (
 ## Environement setup:
 
 - ### Comming soon...
+
+ 
+# Project License : [license.md](license.md)
