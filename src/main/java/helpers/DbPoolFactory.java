@@ -21,7 +21,7 @@ public class DbPoolFactory {
         // JDBC Database Credentials
         final String JDBC_USER = configs.get("mysqlUser");
         final String JDBC_PASS = configs.get("mysqlPass");
-        final Integer JDBC_MAX_IDDLE_TIME = 10;
+        final Integer JDBC_MAX_WAIT_TIME = 60000;
         final Integer JDBC_MAX_ACTIVE = Integer.parseInt(configs.get("mysqlMaxConnection", "5"));
 
         Class.forName(JDBC_DRIVER);
@@ -30,7 +30,8 @@ public class DbPoolFactory {
         GenericObjectPool gPool = new GenericObjectPool();
         gPool.setMaxActive(JDBC_MAX_ACTIVE);
         gPool.setMaxIdle(JDBC_MAX_ACTIVE);
-        gPool.setMaxWait(JDBC_MAX_IDDLE_TIME);
+        gPool.setMaxWait(JDBC_MAX_WAIT_TIME);
+        gPool.setTestWhileIdle(true);
  
         // Creates a ConnectionFactory Object Which Will Be Use by the Pool to Create the Connection Object!
         ConnectionFactory cf = new DriverManagerConnectionFactory(JDBC_DB_URL, JDBC_USER, JDBC_PASS);
@@ -38,6 +39,8 @@ public class DbPoolFactory {
         // Creates a PoolableConnectionFactory That Will Wraps the Connection Object Created by the ConnectionFactory to Add Object Pooling Functionality!
         new PoolableConnectionFactory(cf, gPool, null, null, false, true);
 
-        return new PooledDatasource(gPool);
+        final PooledDatasource pds = new PooledDatasource(gPool);
+
+        return pds;
     }
 }

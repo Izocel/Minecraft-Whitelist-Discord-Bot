@@ -39,38 +39,28 @@ public class BaseDao implements IDao {
     }
 
     protected Connection getConnection() {
-        if(connection == null) {
-            try {
+        try {
+            if(this.connection == null || this.connection.isClosed()) {
                 this.connection = this.datasource.getConnection();
+                this.connection.setAutoCommit(true);
                 logger.info("Db Connection ++");
-            } catch (SQLException e) {
-                logger.warning("Unable to get a BD connection");
-                SentryService.captureEx(e);
-            }    
-        }
-        try {
-            this.connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            SentryService.captureEx(e);
-        }
-        return this.connection;
-    }
+            }
+        } catch (Exception e) {
 
-    protected Connection getConnectionTx() {
-        if(connection == null) {
             try {
-                logger.info("Db TX Connection ++");
                 this.connection = this.datasource.getConnection();
-            } catch (SQLException e) {
-                logger.warning("Unable to get a BD TX connection");
-                SentryService.captureEx(e);
-            }    
-        }
-        try {
-            this.connection.setAutoCommit(false);
-        } catch (SQLException e) {
+                this.connection.setAutoCommit(true);
+                logger.info("Db Connection ++");
+            } catch (Exception err) {
+                logger.warning("Unable to get a BD connection");
+                SentryService.captureEx(err);
+                return this.connection;
+            }
+
+            logger.warning("Unable to get a BD connection");
             SentryService.captureEx(e);
         }
+
         return this.connection;
     }
 
@@ -79,7 +69,6 @@ public class BaseDao implements IDao {
         if (id < 1) {
             return null;
         }
-
         
         JSONArray results = new JSONArray();
 
