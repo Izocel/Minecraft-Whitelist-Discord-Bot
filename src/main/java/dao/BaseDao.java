@@ -81,6 +81,7 @@ public class BaseDao implements IDao {
             
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
+            pstmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -107,6 +108,7 @@ public class BaseDao implements IDao {
             
             final ResultSet resultSet = pstmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
+            pstmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -132,6 +134,7 @@ public class BaseDao implements IDao {
             pstmt.execute();
             
             id = pstmt.getUpdateCount() > 0 ? id : null;
+            pstmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
