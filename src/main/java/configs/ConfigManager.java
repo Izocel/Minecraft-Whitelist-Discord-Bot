@@ -27,7 +27,8 @@ public final class ConfigManager {
     private final String mysqlPass="@whitelist_je2022";
     private final String mysqlDefTable="users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
-    private final String mysqlMaxConnection="5";
+    private final String mysqlMaxConnection="10";
+    private final String mysqlMaxConnectionIDLE="5";
 
     private final String portJava="25565";
     private final String portBedrock="19132";
@@ -70,6 +71,7 @@ public final class ConfigManager {
         configs.put("mysqlDefTable", this.mysqlDefTable);
         configs.put("mysqlJdbcUrl", this.mysqlJdbcUrl);
         configs.put("mysqlMaxConnection", this.mysqlMaxConnection);
+        configs.put("mysqlMaxConnectionIDLE", this.mysqlMaxConnectionIDLE);
         configs.put("portJava", this.portJava);
         configs.put("portBedrock", this.portBedrock);
         configs.put("paperMcIp", this.paperMcIp);
