@@ -6,6 +6,7 @@ public final class ConfigManager {
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+    private final String envType="production";
     private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
 
     private final String discordOwnerId="272924120142970892";
@@ -52,6 +53,7 @@ public final class ConfigManager {
     private HashMap<String, String> configs = new HashMap<>();
 
     public ConfigManager() {
+        configs.put("envType", this.envType);
         configs.put("discordBotToken", this.discordBotToken);
         configs.put("discordOwnerId", this.discordOwnerId);
         configs.put("discordServerId", this.discordServerId);

@@ -23,6 +23,10 @@ public class MojanApi extends Api{
 
             // id === uuid
             uuid = data.getJSONObject(0).optString("id");
+            final String name = data.getJSONObject(0).optString("name");
+
+            if(!name.equals(username))
+                return null;
 
             if(uuid.contains("-")) {
                 return uuid;

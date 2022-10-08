@@ -1,6 +1,6 @@
 @echo off
 cls
-set BUILDER=C:\TestServerMinecraft
+set BUILDER=C:\projects\Minecraft-Whitelist-Discord-Bot
 set CONFFILE=pom.xml
 cd %BUILDER%
 
