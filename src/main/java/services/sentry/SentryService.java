@@ -53,6 +53,8 @@ public class SentryService {
     final String id = this.plugin.getConfigManager().get("discordServerId", "discordServerId");
     final String username = this.plugin.getConfigManager().get("discordOwnerId", "discordOwnerId");
     final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "paperMcIp");
+    final String envType = this.plugin.getConfigManager().get("envType", "?envType?");
+    final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
     
 
     user.setId(id);
@@ -62,12 +64,15 @@ public class SentryService {
     SentryService.user = user;
     Sentry.setLevel(SentryLevel.DEBUG);
     Sentry.init(options -> {
+      options.setEnableAutoSessionTracking(true);
       options.setDsn(
           "https://80475ddc2c8d457ea52a1fbd0a8e22bb@o4503922553847808.ingest.sentry.io/4503922559156224");
 
       options.setTraceSampling(true);
       options.setDiagnosticLevel(SentryLevel.DEBUG);
       options.setTracesSampleRate(0.66);
+      options.setRelease(release);
+      options.setEnvironment(envType);
     });
   }
 
