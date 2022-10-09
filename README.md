@@ -40,6 +40,8 @@ CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `discord_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `mc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `flood_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `geyser_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `mc_uuid` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `geyser_uuid` varchar(45) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
     `floodgate_uuid` varchar(45) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
