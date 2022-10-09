@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import configs.ConfigManager;
 import io.sentry.ISpan;
+import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import services.sentry.SentryService;
 import net.dv8tion.jda.api.entities.Guild;
@@ -37,6 +38,7 @@ public class GuildManager {
         this.guild = guild;
         this.setupIds();
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 

@@ -18,7 +18,6 @@ import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import services.sentry.SentryService;
-import services.sentry.SentryService;
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
@@ -112,6 +111,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             }
         }
 
+        transaction.setStatus(SpanStatus.OK);
         transaction.finish();
     }
 
@@ -150,6 +150,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         
         this.players = daoManager.getUsersDao().findAll();
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
         return this.players;
     }
@@ -160,6 +161,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
         this.playersAllowed = daoManager.getUsersDao().findAllowed();
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
         return this.playersAllowed;
     }

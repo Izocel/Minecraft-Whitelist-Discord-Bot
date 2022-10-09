@@ -45,6 +45,7 @@ public class DiscordManager {
         this.setupCommands();
         this.setupListener();
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
@@ -71,6 +72,8 @@ public class DiscordManager {
             SentryService.captureEx(e);
             Bukkit.shutdown();
         }
+
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
@@ -107,6 +110,8 @@ public class DiscordManager {
         .startChild("DiscordManager.setupListener");
 
         jda.addEventListener(new OnUserConfirm(plugin));
+
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
@@ -145,6 +150,7 @@ public class DiscordManager {
             this.logger.warning("Failed to initialize DS commands correctly");
         }
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 

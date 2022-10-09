@@ -6,6 +6,7 @@ import configs.ConfigManager;
 import helpers.DbPoolFactory;
 import helpers.PooledDatasource;
 import io.sentry.ISpan;
+import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import services.sentry.SentryService;
 
@@ -22,6 +23,7 @@ public class DaoManager {
             this.logger = Logger.getLogger("WJE:" + getClass().getSimpleName());
             this.dataSource = DbPoolFactory.getMysqlPool(configs);
 
+            process.setStatus(SpanStatus.OK);
             process.finish();
         } catch (Exception e) {
             SentryService.captureEx(e);

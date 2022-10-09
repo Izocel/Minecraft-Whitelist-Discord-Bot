@@ -14,6 +14,7 @@ import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
 import io.sentry.ISpan;
+import io.sentry.SpanStatus;
 import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
@@ -29,6 +30,7 @@ public class BukkitManager {
         this.registerEvents(plugin);
         this.registerCommands(plugin);
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
@@ -75,6 +77,7 @@ public class BukkitManager {
             SentryService.captureEx(e);
         }
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
@@ -90,6 +93,7 @@ public class BukkitManager {
             SentryService.captureEx(e);
         }
 
+        process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
