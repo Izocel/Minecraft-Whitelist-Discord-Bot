@@ -15,12 +15,12 @@ import main.WhitelistJe;
 import models.User;
 
 public class OnPlayerJoin implements Listener {
-    private WhitelistJe main;
+    private WhitelistJe plugin;
     private Logger logger;
 
-    public OnPlayerJoin(WhitelistJe main) {
+    public OnPlayerJoin(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
-        this.main = main;
+        this.plugin = plugin;
     }
     
     @EventHandler
@@ -29,7 +29,7 @@ public class OnPlayerJoin implements Listener {
             final Player loginPlayer = event.getPlayer();
             final UUID pUUID = loginPlayer.getUniqueId();
 
-            User user = this.main.getDaoManager().getUsersDao().findByMcUUID(pUUID.toString());
+            User user = this.plugin.getDaoManager().getUsersDao().findByMcUUID(pUUID.toString());
 
             if(user == null) {
                 return;
@@ -47,9 +47,9 @@ public class OnPlayerJoin implements Listener {
         
         Timestamp comparator = Helper.convertStringToTimestamp(user.getCreatedAt());
         final Integer confirmHourDelay = Integer.valueOf(
-            this.main.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
+            this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
 
-        final String tagDiscord = this.main.getGuildManager().getGuild().getMemberById(user.getDiscordId())
+        final String tagDiscord = this.plugin.getGuildManager().getGuild().getMemberById(user.getDiscordId())
         .getUser().getAsTag();
 
         if(user.isConfirmed() || confirmHourDelay < 0) {
@@ -66,7 +66,7 @@ public class OnPlayerJoin implements Listener {
             event.getPlayer().setWhitelisted(false);
             event.getPlayer().kickPlayer(msg);
 
-            user.delete(this.main.getDaoManager().getUsersDao());
+            user.delete(this.plugin.getDaoManager().getUsersDao());
             return;
         }
         
@@ -74,7 +74,7 @@ public class OnPlayerJoin implements Listener {
     }
 
     private String getDisallowMsg(String tagDiscord, String mcUUID) {
-        final String cmdName = this.main.getConfigManager().get("registerCmdName", "register");
+        final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
         return "\n\n§c§lLe délai pour confirmer ce compte est dépassé..."+
                 "\n§fLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§lEssayez de refaire une demande sur discord, utiliser la commande:\n§9    /" + cmdName +
@@ -83,7 +83,7 @@ public class OnPlayerJoin implements Listener {
     }
 
     private String getAllowMsg(String tagDiscord, String mcUUID) {
-        final String cmdName = this.main.getConfigManager().get("confirmLinkCmdName", "wje-link");
+        final String cmdName = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
         return "§f§lLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§f§lPour comfirmer cette demande utiliser la commande:\n§9    /" + cmdName +
                 "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" + 

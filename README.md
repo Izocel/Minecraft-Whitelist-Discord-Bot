@@ -40,7 +40,9 @@ CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `discord_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
   `mc_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
-  `mc_uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `mc_uuid` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL,
+  `geyser_uuid` varchar(45) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
+    `floodgate_uuid` varchar(45) COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
   `allowed` tinyint DEFAULT NULL,
   `confirmed` tinyint DEFAULT NULL,
   `msg_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs DEFAULT NULL,
@@ -52,9 +54,12 @@ CREATE TABLE `users` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `mc_uuid_UNIQUE` (`mc_uuid`),
   UNIQUE KEY `discord_id_mc_uuid_UNIQUE` (`discord_id`,`mc_uuid`),
+  UNIQUE KEY `geyser_uuid_UNIQUE` (`geyser_uuid`),
+  UNIQUE KEY `discord_id_geyser_uuid_UNIQUE` (`discord_id`,`geyser_uuid`),
+    UNIQUE KEY `discord_id_floodgate_uuid_UNIQUE` (`discord_id`,`floodgate_uuid`),
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
  ```
 ## Configurations:
 
