@@ -13,6 +13,7 @@ import dao.UsersDao;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
+import io.sentry.ISpan;
 import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.User;
@@ -21,9 +22,14 @@ public class BukkitManager {
     private WhitelistJe plugin;
 
     public BukkitManager(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("BukkitManager");
+
         this.plugin = plugin;
         this.registerEvents(plugin);
         this.registerCommands(plugin);
+
+        process.finish();
     }
 
     public Server getServer() {
@@ -59,6 +65,8 @@ public class BukkitManager {
     }
 
     private void registerEvents(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("BukkitManager.registerEvents");
         try {
             Bukkit.getPluginManager().registerEvents(new OnPlayerLoggin(plugin), plugin);
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(plugin), plugin);
@@ -66,9 +74,14 @@ public class BukkitManager {
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
+
+        process.finish();
     }
 
     private void registerCommands(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("BukkitManager.registerCommands");
+
         final String linkCmd = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
 
         try {
@@ -76,6 +89,8 @@ public class BukkitManager {
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
+
+        process.finish();
     }
 
     public void sanitizeAnKickPlayer(UUID mcUuid) {

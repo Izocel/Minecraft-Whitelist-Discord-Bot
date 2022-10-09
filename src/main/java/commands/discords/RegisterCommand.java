@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
+import services.api.McHeadsApi;
 import services.api.MojanApi;
 import dao.UsersDao;
 import functions.GuildManager;
@@ -217,6 +218,19 @@ public class RegisterCommand extends ListenerAdapter {
             .getUserById(discordId).getAvatarUrl()).setFooter("ID " + discordId)
         .setColor(new Color(0x44474d));
     }
+
+    private String useServiceForUuid(String pseudo) {
+        try {
+            return McHeadsApi.getPlayerUUID(pseudo);
+        } catch (Exception e) {
+            try {
+                return MojanApi.getPlayerUUID(pseudo);
+            } catch (Exception err) {
+            }
+        }
+
+        return null;
+    }
     
     // Accept
     private void handleAccepted(ButtonClickEvent event, Member newUser, String pseudo) {
@@ -227,18 +241,18 @@ public class RegisterCommand extends ListenerAdapter {
     
             final String discordId = newUser.getId();
             final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo, discordId);
-            final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
-
-            final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
-            final Integer hoursToConfirm = confirmHoursString != null
-                ? Integer.parseInt(confirmHoursString)
-                : null;
+            final String mc_uuid = useServiceForUuid(pseudo);
 
             if(mc_uuid == null) {
                 event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
                 .setEphemeral(true).queue();
                 return;
             }
+
+            final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
+            final Integer hoursToConfirm = confirmHoursString != null
+                ? Integer.parseInt(confirmHoursString)
+                : null;
 
             final User registeree = new User();
             registeree.setMcName(pseudo);

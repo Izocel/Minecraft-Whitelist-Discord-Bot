@@ -11,6 +11,8 @@ import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
 import configs.ConfigManager;
 import events.discords.OnUserConfirm;
+import io.sentry.ISpan;
+import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -34,14 +36,21 @@ public class DiscordManager {
     static private ConfigManager Configs = new ConfigManager();
 
     public DiscordManager(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager");
+
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
         this.connect();
         this.setupCommands();
         this.setupListener();
+
+        process.finish();
     }
 
     public void connect() {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager.connect");
         try {
             jda = JDABuilder.create(Configs.get("discordBotToken", null),
                     EnumSet.allOf(GatewayIntent.class))
@@ -55,10 +64,14 @@ public class DiscordManager {
             if (jda == null) {
                 throw new LoginException("Cannot initialize JDA");
             }
+            
         } catch (LoginException | InterruptedException e) {
+            process.setThrowable(e);
+            process.setStatus(SpanStatus.INTERNAL_ERROR);
             SentryService.captureEx(e);
             Bukkit.shutdown();
         }
+        process.finish();
     }
 
     private String setInvite() {
@@ -90,10 +103,17 @@ public class DiscordManager {
     }
 
     private void setupListener() {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager.setupListener");
+
         jda.addEventListener(new OnUserConfirm(plugin));
+        process.finish();
     }
 
     private void setupCommands() {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager.setupCommands");
+
         try {
             // Serveer
             final String srvCmd = this.plugin.getConfigManager().get("serverCmdName", "server");
@@ -124,6 +144,8 @@ public class DiscordManager {
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");
         }
+
+        process.finish();
     }
 
     public void disconnect() {

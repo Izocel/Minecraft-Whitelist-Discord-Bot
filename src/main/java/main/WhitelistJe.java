@@ -13,6 +13,10 @@ import configs.ConfigManager;
 import dao.DaoManager;
 import discord.DiscordManager;
 import functions.GuildManager;
+import io.sentry.ISpan;
+import io.sentry.ITransaction;
+import io.sentry.Sentry;
+import io.sentry.SpanStatus;
 import services.sentry.SentryService;
 import services.sentry.SentryService;
 
@@ -73,13 +77,17 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        ITransaction transaction = Sentry.startTransaction("onEnable", "configurePlugin");
+
         try {
             instance = this;
             configManager = new ConfigManager();
             sentryService = new SentryService(this);
-            daoManager = new DaoManager(configManager);
+            transaction = sentryService.createTx("onEnable", "configurePlugin");
+
+            daoManager = new DaoManager(configManager, this);
             discordManager = new DiscordManager(this);
-            guildManager = new GuildManager(discordManager.getGuild());
+            guildManager = new GuildManager(discordManager.getGuild(), this);
             bukkitManager = new BukkitManager(this);
     
             updateAllPlayers();
@@ -89,14 +97,22 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
         } catch (Exception e) {
             try {
+                transaction.setThrowable(e);
+                transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+                SentryService.captureEx(e);
                 guildManager.getAdminChannel().sendMessage("**`OUPS`, Le plugin `" + this.getName() + "`" +
                  " a rencontré des `problèmes` à l'initialisation**\n" + 
                  "**Regarder les fichers de `log` !!!!**\n\n" + 
                  getPluginInfos(false)).queue();
 
-            } catch (Exception err) { }
-            SentryService.captureEx(e);
+            } catch (Exception err) {
+                transaction.setThrowable(err);
+                transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+                SentryService.captureEx(err);
+            }
         }
+
+        transaction.finish();
     }
 
     @Override
@@ -129,12 +145,22 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     public JSONArray updateAllPlayers() {
+        ISpan process = getSentryService().findWithuniqueName("onEnable")
+        .startChild("updateAllPlayers");
+        
         this.players = daoManager.getUsersDao().findAll();
+
+        process.finish();
         return this.players;
     }
 
     public JSONArray updateAllowedPlayers() {
+        ISpan process = getSentryService().findWithuniqueName("onEnable")
+        .startChild("updateAllowedPlayers");
+
         this.playersAllowed = daoManager.getUsersDao().findAllowed();
+
+        process.finish();
         return this.playersAllowed;
     }
 

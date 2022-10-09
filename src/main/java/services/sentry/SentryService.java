@@ -1,10 +1,14 @@
 package services.sentry;
 
+import java.util.HashMap;
+import java.util.logging.Logger;
+
 import javax.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
 import services.sentry.SentryService;
+import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SentryEvent;
 import io.sentry.SentryLevel;
@@ -18,14 +22,38 @@ public class SentryService {
   private boolean enabled = true;
   private WhitelistJe plugin;
   private static User user;
+  HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
+
+  @Override
+  protected void finalize() throws Throwable {
+      finalyzeAllTransaction();
+  }
+
+  private void finalyzeAllTransaction() {
+    try {
+      if(pendingTransactions != null &&  getTxSize() > 0)
+      pendingTransactions.forEach((key,tx) -> {
+        try {
+          tx.setData("finalStatus", "with destruction");
+          tx.finish();
+        } catch (Exception e) {
+          captureEx(e);
+        }
+      });
+    } catch (Exception e) {
+      captureEx(e);
+    }
+
+  }
 
   public SentryService(WhitelistJe main) {
     this.plugin = main;
-
+    
     final User user = new User();
     final String id = this.plugin.getConfigManager().get("discordServerId", "discordServerId");
     final String username = this.plugin.getConfigManager().get("discordOwnerId", "discordOwnerId");
     final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "paperMcIp");
+    
 
     user.setId(id);
     user.setUsername(username);
@@ -36,12 +64,67 @@ public class SentryService {
     Sentry.init(options -> {
       options.setDsn(
           "https://80475ddc2c8d457ea52a1fbd0a8e22bb@o4503922553847808.ingest.sentry.io/4503922559156224");
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance
-      // monitoring.
-      // We recommend adjusting this value in production.
+
+      options.setTraceSampling(true);
       options.setDiagnosticLevel(SentryLevel.DEBUG);
-      options.setTracesSampleRate(1.0);
+      options.setTracesSampleRate(0.66);
     });
+  }
+
+  
+  public ITransaction createTx(String name, String operation) {
+    final Integer size = getTxSize();
+    ITransaction tx = Sentry.startTransaction(name, operation);
+    tx.setName(name);
+    tx.setOperation(operation);
+    tx.setData("name", name);
+    tx.setData("operation", operation);
+
+    pendingTransactions.put(
+      size, tx
+    );
+
+    return pendingTransactions.get(size);
+  }
+
+  public ITransaction findWithuniqueName(String txName) {
+
+    Logger.getLogger("test").info(String.valueOf(getTxSize()));
+
+    if(pendingTransactions == null || getTxSize() < 1) {
+      return null;
+    }
+
+    for (int i = 0; i < getTxSize(); i++) {
+      Logger.getLogger("test").info(getTransactions().get(i).getData("name").toString());
+      if(getTransactions().get(i).getData("name").equals(txName)) {
+        return getTransactions().get(i);
+      }
+    }
+
+    return null;
+  }
+
+  public ITransaction putTx(ITransaction tx) {
+    final Integer size = getTxSize();
+    pendingTransactions.put(size, tx);
+
+    return pendingTransactions.get(size);
+  }
+
+  public ITransaction findTx(Integer keyPos) {
+    return pendingTransactions.get(keyPos);
+  }
+
+  public Integer getTxSize() {    
+    return pendingTransactions != null ? pendingTransactions.size() : null;
+  }
+
+  public HashMap<Integer, ITransaction> getTransactions() {
+    if(this.pendingTransactions == null) {
+      this.pendingTransactions = new HashMap<Integer, ITransaction>();
+    }
+    return this.pendingTransactions;
   }
 
   private static String userToString() {

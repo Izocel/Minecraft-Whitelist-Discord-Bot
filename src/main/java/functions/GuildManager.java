@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
+import io.sentry.ISpan;
+import main.WhitelistJe;
 import services.sentry.SentryService;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -26,11 +28,16 @@ public class GuildManager {
     private String devRoleId;
     private String welcomeChannelId;
 
-    public GuildManager(Guild guild) {
+    public GuildManager(Guild guild, WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("GuildManager");
+
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.configManager = new ConfigManager();
         this.guild = guild;
         this.setupIds();
+
+        process.finish();
     }
 
     private void setupIds() {
