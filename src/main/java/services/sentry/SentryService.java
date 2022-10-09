@@ -88,15 +88,11 @@ public class SentryService {
   }
 
   public ITransaction findWithuniqueName(String txName) {
-
-    Logger.getLogger("test").info(String.valueOf(getTxSize()));
-
     if(pendingTransactions == null || getTxSize() < 1) {
       return null;
     }
 
     for (int i = 0; i < getTxSize(); i++) {
-      Logger.getLogger("test").info(getTransactions().get(i).getData("name").toString());
       if(getTransactions().get(i).getData("name").equals(txName)) {
         return getTransactions().get(i);
       }
