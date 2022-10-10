@@ -3,7 +3,6 @@ package dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.json.JSONArray;
@@ -22,7 +21,7 @@ public class UsersDao extends BaseDao {
         this.tablename = "users";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
-
+    
     public User findUser(Integer id) {
         JSONObject res = this.find(id);
         return res == null ? null : new User(res);
@@ -31,27 +30,9 @@ public class UsersDao extends BaseDao {
     @Override
     public Integer save(JSONObject sqlProps) {
         int id = sqlProps.optInt("id");
-        final String mcName = sqlProps.optString("mc_name");
         final String discordId = sqlProps.optString("discord_id");
-        final String mcUUID = sqlProps.optString("mc_uuid");
-        final String msgId = sqlProps.optString("msg_id");
-        final String createdAt = sqlProps.optString("created_at");
-
-        final Object isConfirmed = sqlProps.opt("confirmed");
-        final Object isAllowed = sqlProps.opt("allowed");
-
-        final int allowed = isAllowed.equals(true) ? 1 : 0;
-        final int confirmed = isConfirmed.equals(true) ? 1 : 0;
-
-        String acceptedBy = sqlProps.optString("accepted_by");
-        String revokedBy = sqlProps.optString("revoked_by");
-        acceptedBy = acceptedBy.length() > 0 ? acceptedBy : null;
-        revokedBy = revokedBy.length() > 0 ? revokedBy : null;
-
-        if (mcName.equals("") || discordId.equals("") || msgId.equals("") || createdAt.equals("")) {
-            this.logger.warning("Missing informations to save user entity");
-            return -1;
-        }
+        final String discordTag = sqlProps.optString("discord_tag");
+        final String lang = sqlProps.optString("lang");
 
         try {
             int status = -1;
@@ -61,20 +42,13 @@ public class UsersDao extends BaseDao {
             if (found == null) {
                 id = -1;
 
-                String sql = "INSERT INTO " + this.tablename + " (mc_name, discord_id, accepted_by, " +
-                        "revoked_by, mc_uuid, msg_id, created_at, confirmed, allowed, updated_at) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP);";
+                String sql = "INSERT INTO " + this.tablename + " (disccord_id, discord_tag, accepted_by, lang) " +
+                    "VALUES (?,?,?,?);";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
-                pstmt.setString(1, mcName);
-                pstmt.setString(2, discordId);
-                pstmt.setObject(3, acceptedBy);
-                pstmt.setObject(4, revokedBy);
-                pstmt.setString(5, mcUUID);
-                pstmt.setString(6, msgId);
-                pstmt.setString(7, createdAt);
-                pstmt.setInt(8, confirmed);
-                pstmt.setInt(9, allowed);
+                pstmt.setString(1, discordId);
+                pstmt.setString(2, discordTag);
+                pstmt.setObject(3, lang);
                 status = pstmt.executeUpdate();
                 ResultSet generatedKeys = pstmt.getGeneratedKeys();
 
@@ -90,40 +64,18 @@ public class UsersDao extends BaseDao {
             // Update User
             else {
 
-                if (msgId.equals("")) {
-                    this.logger.warning("Missing informations to save user entity");
-                    return -1;
-                }
-
-                if (acceptedBy == null && revokedBy == null) {
-                    this.logger.warning("Missing informations to save user entity");
-                    return -1;
-                }
-
                 String sql = "UPDATE " + this.tablename + " SET " +
-                        "mc_name = ?," +
                         "discord_id = ?," +
-                        "accepted_by = ?," +
-                        "revoked_by = ?," +
-                        "mc_uuid = ?," +
-                        "msg_id = ?," +
-                        "created_at = ?," +
-                        "confirmed = ?," +
-                        "allowed = ? ," +
+                        "discord_tag = ?," +
+                        "lang = ?," +
                         "updated_at = CURRENT_TIMESTAMP " +
                         "WHERE id = ?;";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-                pstmt.setString(1, mcName);
-                pstmt.setString(2, discordId);
-                pstmt.setObject(3, acceptedBy);
-                pstmt.setObject(4, revokedBy);
-                pstmt.setString(5, mcUUID);
-                pstmt.setString(6, msgId);
-                pstmt.setString(7, createdAt);
-                pstmt.setInt(8, confirmed);
-                pstmt.setInt(9, allowed);
-                pstmt.setObject(10, id);
+                pstmt.setString(1, discordId);
+                pstmt.setString(2, discordTag);
+                pstmt.setObject(3, lang);
+                pstmt.setObject(4, id);
                 status = pstmt.executeUpdate();
                 id = pstmt.getUpdateCount() > 0 ? id : -1;
                 pstmt.close();
@@ -138,100 +90,6 @@ public class UsersDao extends BaseDao {
         return id;
     }
 
-    public JSONArray findAllowed() {
-
-        JSONArray results = new JSONArray();
-
-        try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE allowed = 1";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.executeQuery();
-
-            final ResultSet resultSet = pstmt.getResultSet();
-            results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
-            this.closeConnection();
-
-        } catch (SQLException e) {
-            SentryService.captureEx(e);
-        }
-
-        if (results == null || results.length() < 1) {
-            return null;
-        }
-
-        return results;
-    }
-
-    public void setPlayerUUID(Integer id, UUID UUID, boolean tempConfirmed) {
-        try {
-            String sql = "UPDATE " + this.tablename + " SET mc_uuid = ? WHERE id = ?;";
-            if (tempConfirmed) {
-                sql = "UPDATE " + this.tablename + " SET mc_uuid = ?, confirmed = 1 WHERE id = ?;";
-            }
-
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, UUID.toString());
-            pstmt.setInt(2, id);
-            pstmt.executeUpdate();
-            pstmt.close();
-            this.closeConnection();
-
-        } catch (SQLException e) {
-            SentryService.captureEx(e);
-        }
-    }
-
-    public User findByMcName(String pseudo) {
-
-        JSONArray results = new JSONArray();
-        try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE mc_name = ? LIMIT 1";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, pseudo);
-            pstmt.executeQuery();
-
-            final ResultSet resultSet = pstmt.getResultSet();
-            results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
-            this.closeConnection();
-
-        } catch (SQLException e) {
-            SentryService.captureEx(e);
-        }
-
-        if (results == null || results.length() < 1) {
-            return null;
-        }
-
-        return new User(results.getJSONObject(0));
-    }
-
-    public User findByMcUUID(String uuid) {
-
-        JSONArray results = new JSONArray();
-        try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE mc_uuid = ? LIMIT 1";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, uuid);
-            pstmt.executeQuery();
-
-            final ResultSet resultSet = pstmt.getResultSet();
-            results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
-            this.closeConnection();
-
-        } catch (SQLException e) {
-            SentryService.captureEx(e);
-        }
-
-        if (results == null || results.length() < 1) {
-            return null;
-        }
-
-        return new User(results.getJSONObject(0));
-    }
-
     public User findByDisccordId(String discordId) {
 
         JSONArray results = new JSONArray();
@@ -239,6 +97,31 @@ public class UsersDao extends BaseDao {
             String sql = "SELECT * FROM " + this.tablename + " WHERE discord_id = ? LIMIT 1";
             final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
             pstmt.setString(1, discordId);
+            pstmt.executeQuery();
+
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
+            pstmt.close();
+            this.closeConnection();
+
+        } catch (SQLException e) {
+            SentryService.captureEx(e);
+        }
+
+        if (results == null || results.length() < 1) {
+            return null;
+        }
+
+        return new User(results.getJSONObject(0));
+    }
+
+    public User findByDisccordTag(String discordTag) {
+
+        JSONArray results = new JSONArray();
+        try {
+            String sql = "SELECT * FROM " + this.tablename + " WHERE discord_tag = ? LIMIT 1";
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
+            pstmt.setString(1, discordTag);
             pstmt.executeQuery();
 
             final ResultSet resultSet = pstmt.getResultSet();

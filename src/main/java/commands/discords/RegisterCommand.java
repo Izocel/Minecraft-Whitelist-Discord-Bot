@@ -51,6 +51,7 @@ public class RegisterCommand extends ListenerAdapter {
             }
     
             final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
+            
             if(mc_uuid == null) {
                 event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
                 .setEphemeral(true).queue();

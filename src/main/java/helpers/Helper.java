@@ -27,6 +27,14 @@ public class Helper {
     public static long dayMSLONG = 86400000;
     public static long hourMSLONG = dayMSLONG / 24;
 
+    public static String decimalToHex(Long decimal) {
+        return Long.toHexString(decimal);
+    }
+
+    public static Long hexToDecimal(String hex) {
+        return Long.parseLong(hex, 16);
+    }
+
     public static boolean isNumeric(String string) {
         return string.matches("^[0-9]+$");
     }
@@ -37,6 +45,15 @@ public class Helper {
 
     public static boolean isMcPseudo(String string) {
         return string.matches("^[a-zA-Z0-9_-]+{2,16}");
+    }
+
+    public static boolean isHexaDecimal(String string) {
+        return string.matches("^[a-fA-F0-9-]+$");
+    }
+
+    public static boolean isMCUUID(String string) {
+        return isHexaDecimal(string)
+            && string.length() == 36;
     }
 
     public static Timestamp getTimestamp() {
