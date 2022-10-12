@@ -7,7 +7,7 @@ import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
 
-import commands.discords.RegisterCommand;
+import commands.discords.RegisterJavaCommand;
 import commands.discords.ServerCommand;
 import configs.ConfigManager;
 import events.discords.OnUserConfirm;
@@ -126,11 +126,18 @@ public class DiscordManager {
             jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
             .queue();
 
-            // Register
-            final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
-            jda.addEventListener(new RegisterCommand(plugin));
-            jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
-            .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`", true)
+            // Register Java
+            final String rgstrJavaCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
+            jda.addEventListener(new RegisterJavaCommand(plugin));
+            jda.upsertCommand(rgstrJavaCmd + "Java", "S'enregister par Java sur le serveur")
+            .addOption(OptionType.STRING, "pseudoJava", "Votre pseudo Java -> `Minecraft®`", true)
+            .queue();
+
+            // Register Bedrock
+            final String rgstrBedCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
+            jda.addEventListener(new RegisterJavaCommand(plugin));
+            jda.upsertCommand(rgstrBedCmd + "Bedrock", "S'enregister par Bedrock sur le serveur")
+            .addOption(OptionType.STRING, "pseudoJava", "Votre pseudo Bedrock -> `Minecraft®`", true)
             .queue();
     
             // // Whitelist

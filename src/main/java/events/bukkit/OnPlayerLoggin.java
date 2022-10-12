@@ -101,9 +101,9 @@ public class OnPlayerLoggin implements Listener {
             final boolean isAllowed = allowedWithUUID != null && allowedWithUUID > 0;
 
             if (isAllowed) {
-                User user = this.plugin.getDaoManager().getUsersDao().findUser(allowedWithUUID);
+                User user = this.DaoManager.getUsersDao().findUser(allowedWithUUID);
                 user.setMcName(pName);
-                user.save(this.plugin.getDaoManager().getUsersDao());
+                user.save(this.DaoManager.getUsersDao());
             }
 
             boolean isWhitelisted = false;

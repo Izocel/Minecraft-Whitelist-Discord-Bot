@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import commands.bukkit.ConfirmLinkCmd;
+import dao.DaoManager;
 import dao.UsersDao;
 import services.sentry.SentryService;
 import main.WhitelistJe;
@@ -36,7 +37,7 @@ public class OnUserConfirm extends ListenerAdapter {
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
 
             final String mcUuid = fields.get(1).getValue();
-            final UsersDao dao = this.plugin.getDaoManager().getUsersDao();
+            final UsersDao dao = DaoManager.getJavaDataDao();
             final User user = dao.findByMcUUID(mcUuid);
 
             if(user.isConfirmed()) {
@@ -65,7 +66,7 @@ public class OnUserConfirm extends ListenerAdapter {
         try {
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
             final String mcUuid = fields.get(1).getValue();
-            final UsersDao dao = this.plugin.getDaoManager().getUsersDao();
+            final UsersDao dao = DaoManager.getUsersDao();
             final User user = dao.findByMcUUID(mcUuid);
 
             user.setAsConfirmed(true);

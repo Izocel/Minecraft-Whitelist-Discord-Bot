@@ -29,7 +29,7 @@ public class OnPlayerJoin implements Listener {
             final Player loginPlayer = event.getPlayer();
             final UUID pUUID = loginPlayer.getUniqueId();
 
-            User user = this.plugin.getDaoManager().getUsersDao().findByMcUUID(pUUID.toString());
+            User user = this.DaoManager.getUsersDao().findByMcUUID(pUUID.toString());
 
             if(user == null) {
                 return;
@@ -66,7 +66,7 @@ public class OnPlayerJoin implements Listener {
             event.getPlayer().setWhitelisted(false);
             event.getPlayer().kickPlayer(msg);
 
-            user.delete(this.plugin.getDaoManager().getUsersDao());
+            user.delete(this.DaoManager.getUsersDao());
             return;
         }
         

@@ -208,7 +208,12 @@ public class BedrockData extends BaseModel {
         return copied;
     }
 
-    public BedrockData initialize(Integer userId) {
-        return DaoManager.getBedrockDataDao().findWithUser(userId);
+    public BedrockData getBedrockData(Integer userId) {
+        BedrockData beddata = DaoManager.getBedrockDataDao().findWithUser(userId);
+
+        if(beddata == null) {
+            return new BedrockData();
+        }
+        return beddata;
     }
 }

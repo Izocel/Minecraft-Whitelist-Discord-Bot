@@ -9,6 +9,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
 import commands.bukkit.ConfirmLinkCmd;
+import dao.DaoManager;
 import dao.UsersDao;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
@@ -104,7 +105,7 @@ public class BukkitManager {
             if (player != null)
                 player.setWhitelisted(false);
 
-            final UsersDao dao = plugin.getDaoManager().getUsersDao();
+            final UsersDao dao = DaoManager.getUsersDao();
             final User user = dao.findByMcUUID(mcUuid.toString());
             if (user != null)
                 user.delete(dao);

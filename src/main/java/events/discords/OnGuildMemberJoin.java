@@ -25,22 +25,7 @@ public class OnGuildMemberJoin extends ListenerAdapter {
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
         ITransaction process = plugin.getSentryService().createTx("OnGuildMemberJoin", "updateUsers");
         try {
-            final net.dv8tion.jda.api.entities.User user = event.getMember().getUser();
-            final String userId = user.getId();
-            final String userTag = user.getAsTag();
-            
-            plugin.getDaoManager();
-            UsersDao dao = DaoManager.getUsersDao(); 
-            User user2 = dao.findByDisccordTag(userTag);
-
-            if(user2 == null || user2.getId() < 1) {
-                user2 = new User();
-            }
-
-            user2.setDiscordId(userId);
-            user2.setDiscordTag(userTag);
-            user2.save(dao);
-            
+            User.updateFromMember(event.getMember()).saveUser();
         } catch (Exception e) {
             process.setThrowable(e);
             SentryService.captureEx(e);

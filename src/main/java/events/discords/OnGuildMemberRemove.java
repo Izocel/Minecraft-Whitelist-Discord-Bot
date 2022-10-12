@@ -25,19 +25,14 @@ public class OnGuildMemberRemove extends ListenerAdapter {
     public void onGuildMemberRemove(GuildMemberRemoveEvent event) {
         ITransaction process = plugin.getSentryService().createTx("OnGuildMemberRemove", "deleteUser");
         try {
-            final net.dv8tion.jda.api.entities.User user = event.getMember().getUser();
-            final String userId = user.getId();
-            final String userTag = user.getAsTag();
-            
-            plugin.getDaoManager();
             UsersDao dao = DaoManager.getUsersDao(); 
-            User user2 = dao.findByDisccordTag(userTag);
+            User user = dao.findByDisccordId(event.getMember().getId());
 
-            if(user2 == null || user2.getId() < 1) {
+            if(user == null || user.getId() < 1) {
                 return;
             }
             
-            user2.delete(dao);
+            user.delete(dao);
             
         } catch (Exception e) {
             process.setThrowable(e);

@@ -9,17 +9,20 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import services.api.McHeadsApi;
 import services.api.MojanApi;
+import services.api.PlayerDbApi;
+import dao.DaoManager;
 import dao.UsersDao;
 import functions.GuildManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 import main.WhitelistJe;
+import models.JavaData;
 import models.User;
 
 import java.awt.*;
 import java.util.logging.Logger;
 
-public class RegisterCommand extends ListenerAdapter {
+public class RegisterJavaCommand extends ListenerAdapter {
     private Logger logger;
     private WhitelistJe plugin;
     private String acceptId = "acceptAction";
@@ -27,7 +30,7 @@ public class RegisterCommand extends ListenerAdapter {
     private String acceptId_conf = "acceptConfAction";
     private String rejectId_conf = "rejectConfAction";
 
-    public RegisterCommand(WhitelistJe plugin) {
+    public RegisterJavaCommand(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }
@@ -40,20 +43,20 @@ public class RegisterCommand extends ListenerAdapter {
             }
     
             final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
-            if (!event.getName().equals(cmdName))
+            if (!event.getName().equals(cmdName + "Java"))
                 return;
     
-            final String pseudo = event.getOption("pseudo").getAsString();
+            final String pseudo = event.getOption("pseudoJava").getAsString();
             final String discordId = event.getMember().getId();
     
             if(!this.validatePseudo(event, pseudo)) {
                 return;
             }
     
-            final String mc_uuid = MojanApi.getPlayerUUID(pseudo);
+            final String mc_uuid = PlayerDbApi.getMinecraftUUID(pseudo);
             
             if(mc_uuid == null) {
-                event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
+                event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur les serveurs...**")
                 .setEphemeral(true).queue();
                 return;
             }
@@ -82,7 +85,7 @@ public class RegisterCommand extends ListenerAdapter {
 
     private boolean validatePseudo(SlashCommandEvent event, String pseudo) {
         if (!Helper.isMcPseudo(pseudo)) {
-            final String errMsg = "❌ Votre pseudo devrait comporter entre 3 et 16 caractères" +
+            final String errMsg = "❌ Votre pseudo Java devrait comporter entre 3 et 16 caractères" +
                     "\n\n et ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`";
 
             event.reply(errMsg).setEphemeral(true).queue();
@@ -96,28 +99,29 @@ public class RegisterCommand extends ListenerAdapter {
 
             boolean isAllowed = false;
             boolean isConfirmed = false;
-            User foundWUuid = this.plugin.getDaoManager().getUsersDao().findByMcUUID(uuid);
+            User found = DaoManager.getUsersDao().findByDisccordId(discordId);
             final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
             final Integer hoursToConfirm = confirmHoursString != null
                 ? Integer.parseInt(confirmHoursString)
                 : null;
 
-            if (foundWUuid == null) {
-                return true;
+            if (found == null) {
+                User.updateFromMember(event.getMember());
+                return false;
             }
 
-            if (foundWUuid != null && !foundWUuid.getDiscordId().equals(discordId)) {
-                event.reply("❌ **Ce pseudo est déjà enregistrer par un autre joueur**")
+            if (found != null && !found.getJavaUuid().equals(uuid)) {
+                event.reply("❌ **Ce pseudo Java est déjà enregistrer par un autre joueur**")
                         .setEphemeral(true).queue();
                 return false;
             }
 
-            else if (foundWUuid != null && foundWUuid.getId() > 0) {
-                isAllowed = foundWUuid.isAllowed();
-                isConfirmed = foundWUuid.isConfirmed();
+            else if (found != null && found.getId() > 0) {
+                isAllowed = found.isAllowedJava();
+                isConfirmed = found.isConfirmedJava();
 
                 if(!isAllowed) {
-                    event.reply("❌ **Vous n'avez pas encore été accepté sur le serveur.**\n" +
+                    event.reply("❌ **Ce compte Java n'avez pas encore été accepté sur le serveur.**\n" +
                     "Pour en s'avoir d'avantage, contactez un administrateur directement...")
                     .setEphemeral(true).queue();
                     return false;
@@ -130,7 +134,7 @@ public class RegisterCommand extends ListenerAdapter {
                 }
                 
                 else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                    String msg = "**Une confirmation de votre compte est nécéssaire.**\n" +
+                    String msg = "**Une confirmation de votre compte Java est nécéssaire.**\n" +
                     "Pour confimer votre compte vous aviez `"+ hoursToConfirm +"h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
 
                     event.reply(msg).setEphemeral(true).queue();
@@ -255,6 +259,8 @@ public class RegisterCommand extends ListenerAdapter {
                 ? Integer.parseInt(confirmHoursString)
                 : null;
 
+
+            // TODO: Finalize and verify
             final User registeree = new User();
             registeree.setMcName(pseudo);
             registeree.setDiscordId(discordId);
@@ -265,7 +271,7 @@ public class RegisterCommand extends ListenerAdapter {
                 registeree.setAsConfirmed(true);
             }
 
-            final UsersDao dao = this.plugin.getDaoManager().getUsersDao();
+            final UsersDao dao = DaoManager.getUsersDao();
             final Integer userId = registeree.save(dao);
 
             if(userId < 0) {

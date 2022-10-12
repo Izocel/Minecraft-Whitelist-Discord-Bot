@@ -29,7 +29,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   public void execute(CommandSender sender, Command cmd, String label, String[] args) {
     try {
       Player player = (Player) sender;
-      User user = this.plugin.getDaoManager().getUsersDao().findByMcUUID(player.getUniqueId().toString());
+      User user = this.DaoManager.getUsersDao().findByMcUUID(player.getUniqueId().toString());
       Member member = this.plugin.getGuildManager().findMember(user.getDiscordId());
 
       if(!user.isConfirmed()) {

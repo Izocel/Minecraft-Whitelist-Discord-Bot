@@ -206,7 +206,12 @@ public class JavaData extends BaseModel {
         return copied;
     }
 
-    public JavaData initialize(Integer userId) {
-        return DaoManager.getJavaDataDao().findWithUser(userId);
+    public JavaData getJavaData(Integer userId) {
+        JavaData javadata = DaoManager.getJavaDataDao().findWithUser(userId);
+
+        if(javadata == null) {
+            return new JavaData();
+        }
+        return javadata;
     }
 }
