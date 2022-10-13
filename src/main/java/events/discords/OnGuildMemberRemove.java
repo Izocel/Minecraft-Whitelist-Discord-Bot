@@ -26,7 +26,7 @@ public class OnGuildMemberRemove extends ListenerAdapter {
         ITransaction process = plugin.getSentryService().createTx("OnGuildMemberRemove", "deleteUser");
         try {
             UsersDao dao = DaoManager.getUsersDao(); 
-            User user = dao.findByDisccordId(event.getMember().getId());
+            User user = dao.findByDiscordId(event.getMember().getId());
 
             if(user == null || user.getId() < 1) {
                 return;

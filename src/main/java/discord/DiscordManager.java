@@ -7,7 +7,7 @@ import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
 
-import commands.discords.RegisterJavaCommand;
+import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
 import configs.ConfigManager;
 import events.discords.OnUserConfirm;
@@ -120,24 +120,18 @@ public class DiscordManager {
         .startChild("DiscordManager.setupCommands");
 
         try {
-            // Serveer
+            // Server
             final String srvCmd = this.plugin.getConfigManager().get("serverCmdName", "server");
             jda.addEventListener(new ServerCommand(plugin));
             jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
             .queue();
 
-            // Register Java
-            final String rgstrJavaCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
-            jda.addEventListener(new RegisterJavaCommand(plugin));
-            jda.upsertCommand(rgstrJavaCmd + "Java", "S'enregister par Java sur le serveur")
-            .addOption(OptionType.STRING, "pseudoJava", "Votre pseudo Java -> `Minecraft®`", true)
-            .queue();
-
-            // Register Bedrock
-            final String rgstrBedCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
-            jda.addEventListener(new RegisterJavaCommand(plugin));
-            jda.upsertCommand(rgstrBedCmd + "Bedrock", "S'enregister par Bedrock sur le serveur")
-            .addOption(OptionType.STRING, "pseudoJava", "Votre pseudo Bedrock -> `Minecraft®`", true)
+            // Register 
+            final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
+            jda.addEventListener(new RegisterCommand(plugin));
+            jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
+            .addOption(OptionType.STRING, "pseudo-java", "Votre pseudo Java -> Minecraft®", false)
+            .addOption(OptionType.STRING, "pseudo-bedrock", "Votre pseudo Bedrock -> Minecraft®", false)
             .queue();
     
             // // Whitelist
@@ -155,6 +149,7 @@ public class DiscordManager {
             
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");
+            SentryService.captureEx(e);
         }
 
         process.setStatus(SpanStatus.OK);

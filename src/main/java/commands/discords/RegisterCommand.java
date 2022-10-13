@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import services.api.McHeadsApi;
@@ -23,7 +24,7 @@ import models.User;
 import java.awt.*;
 import java.util.logging.Logger;
 
-public class RegisterJavaCommand extends ListenerAdapter {
+public class RegisterCommand extends ListenerAdapter {
     private Logger logger;
     private WhitelistJe plugin;
     private String acceptId = "acceptAction";
@@ -31,7 +32,7 @@ public class RegisterJavaCommand extends ListenerAdapter {
     private String acceptId_conf = "acceptConfAction";
     private String rejectId_conf = "rejectConfAction";
 
-    public RegisterJavaCommand(WhitelistJe plugin) {
+    public RegisterCommand(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }
@@ -47,20 +48,26 @@ public class RegisterJavaCommand extends ListenerAdapter {
             if (!event.getName().equals(cmdName))
                 return;
             
-            final String pseudoJava = event.getOption("pseudoJava").getAsString();
-            final String pseudoBedrock = event.getOption("pseudoBedrock").getAsString();
+            final OptionMapping javaOpt = event.getOption("pseudo-java");
+            final OptionMapping bedOpt = event.getOption("pseudo-bedrock");
 
-            if(pseudoJava == null || pseudoBedrock == null) {
+            if(javaOpt == null && bedOpt == null) {
                 event.reply("❌**Vous devez fournir au moins un pseudo pour utiliser cette commande...**")
                 .setEphemeral(true).queue();
                 return;
             }
 
-            final String discordId = event.getMember().getId();
-
-
+            final String pseudoJava = javaOpt != null  ? javaOpt.getAsString() : null;
+            final String pseudoBedrock = bedOpt != null ? bedOpt.getAsString() : null;
+            if(pseudoJava == null && pseudoBedrock == null) {
+                event.reply("❌**Vos UUIDs n'ont pas pu être retrouvés dans la commande...**")
+                .setEphemeral(true).queue();
+                return;
+            }
+            
             boolean javaValid = pseudoJava != null && this.validatePseudo(event, pseudoJava);
             boolean bedrockValid = pseudoBedrock != null && this.validatePseudo(event, pseudoBedrock);;
+
             if(!javaValid && !bedrockValid) {
                 return;
             }
@@ -73,6 +80,7 @@ public class RegisterJavaCommand extends ListenerAdapter {
                 return;
             }
 
+            final String discordId = event.getMember().getId();
             final User user = User.updateFromMember(event.getMember());
             final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
             final Integer hoursToConfirm = confirmHoursString != null

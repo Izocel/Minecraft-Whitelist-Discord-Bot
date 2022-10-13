@@ -18,7 +18,7 @@ public class UsersDao extends BaseDao {
 
     public UsersDao(PooledDatasource poolDs) {
         super(poolDs);
-        this.tablename = "users";
+        this.tablename = "wje_users";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
     
@@ -36,19 +36,17 @@ public class UsersDao extends BaseDao {
 
         try {
             int status = -1;
-            User found = this.findUser(id);
 
             // New user
-            if (found == null) {
-                id = -1;
+            if (id < 1) {
 
-                String sql = "INSERT INTO " + this.tablename + " (disccord_id, discord_tag, accepted_by, lang) " +
-                    "VALUES (?,?,?,?);";
+                String sql = "INSERT INTO " + this.tablename + " (discord_id, discord_tag, lang) " +
+                    "VALUES (?,?,?);";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
                 pstmt.setString(1, discordId);
                 pstmt.setString(2, discordTag);
-                pstmt.setObject(3, lang);
+                pstmt.setObject(3, lang.length() > 0 ? lang : null);
                 status = pstmt.executeUpdate();
                 ResultSet generatedKeys = pstmt.getGeneratedKeys();
 
@@ -62,8 +60,7 @@ public class UsersDao extends BaseDao {
             }
 
             // Update User
-            else {
-
+            else if(this.findUser(id) != null){
                 String sql = "UPDATE " + this.tablename + " SET " +
                         "discord_id = ?," +
                         "discord_tag = ?," +
@@ -74,8 +71,8 @@ public class UsersDao extends BaseDao {
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
                 pstmt.setString(1, discordId);
                 pstmt.setString(2, discordTag);
-                pstmt.setObject(3, lang);
-                pstmt.setObject(4, id);
+                pstmt.setObject(3, lang.length() > 0 ? lang : null);
+                pstmt.setInt(4, id);
                 status = pstmt.executeUpdate();
                 id = pstmt.getUpdateCount() > 0 ? id : -1;
                 pstmt.close();
@@ -90,7 +87,7 @@ public class UsersDao extends BaseDao {
         return id;
     }
 
-    public User findByDisccordId(String discordId) {
+    public User findByDiscordId(String discordId) {
 
         JSONArray results = new JSONArray();
         try {
@@ -115,7 +112,7 @@ public class UsersDao extends BaseDao {
         return new User(results.getJSONObject(0));
     }
 
-    public User findByDisccordTag(String discordTag) {
+    public User findByDiscordTag(String discordTag) {
 
         JSONArray results = new JSONArray();
         try {

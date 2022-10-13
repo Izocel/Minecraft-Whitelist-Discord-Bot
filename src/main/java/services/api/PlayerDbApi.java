@@ -1,5 +1,8 @@
 package services.api;
 
+import java.util.logging.Logger;
+
+import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +18,9 @@ public class PlayerDbApi extends Api{
 
 
     public static String getXboxUUID(String username) {
+        if(username == null ) {
+            return null;
+        }
         String uuid = null;
         String formatedUuid = null;
         try {
@@ -29,7 +35,10 @@ public class PlayerDbApi extends Api{
 
             // id === uuid
             uuid = playerData.optString("id");
-            final String name = playerData.optString("name");
+            final String name = playerData.optString("username");
+
+            Logger.getLogger("test").info(uuid);
+            Logger.getLogger("test").info(name);
 
             if(!name.equals(username))
                 return null;
@@ -42,12 +51,19 @@ public class PlayerDbApi extends Api{
                 uuid = Helper.decimalToHex(Long.parseLong(uuid));
             }
 
+            if(uuid.length() < 32) {
+                uuid = StringUtils.repeat("0", 32-uuid.length()) + uuid;
+            }
+
+            Logger.getLogger("test").info(uuid);
+
+
             final Integer[] lengths = {8,4,4,4};
 
             int j = 0;
             int k = 0;
             formatedUuid = "";
-            for (int i = 0; i < uuid.length(); i++) {            
+            for (int i = 0; i < uuid.length(); i++) {
                 formatedUuid += uuid.charAt(i);
                 k++;
                 if(j < lengths.length && k == lengths[j]) {
@@ -56,6 +72,9 @@ public class PlayerDbApi extends Api{
                     j++;
                 }
             }
+
+            Logger.getLogger("test").info(formatedUuid);
+
             
 
         } catch (Exception e) {
@@ -66,6 +85,9 @@ public class PlayerDbApi extends Api{
     }
 
     public static String getMinecraftUUID(String username) {
+        if(username == null ) {
+            return null;
+        }
         String uuid = null;
         String formatedUuid = null;
         try {
@@ -80,7 +102,7 @@ public class PlayerDbApi extends Api{
 
             // id === uuid
             uuid = playerData.optString("id");
-            final String name = playerData.optString("name");
+            final String name = playerData.optString("username");
 
             if(!name.equals(username))
                 return null;

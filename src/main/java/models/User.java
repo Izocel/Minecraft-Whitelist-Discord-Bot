@@ -1,11 +1,8 @@
 package models;
 
-import java.util.logging.Logger;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mysql.cj.xdevapi.JsonArray;
 
 import dao.DaoManager;
 import net.dv8tion.jda.api.entities.Member;
@@ -117,7 +114,7 @@ public class User extends BaseModel {
         final net.dv8tion.jda.api.entities.User userDc = member.getUser();
         final String userId = userDc.getId();
 
-        User user = DaoManager.getUsersDao().findByDisccordId(userId);
+        User user = DaoManager.getUsersDao().findByDiscordId(userId);
         if (user == null || user.getId() < 1) {
             return null;
         }
@@ -130,7 +127,7 @@ public class User extends BaseModel {
         final String userId = userDc.getId();
         final String userTag = userDc.getAsTag();
 
-        User user = DaoManager.getUsersDao().findByDisccordTag(userTag);
+        User user = DaoManager.getUsersDao().findByDiscordTag(userTag);
 
         if (user == null || user.getId() < 1) {
             user = new User();

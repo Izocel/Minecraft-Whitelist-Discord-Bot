@@ -148,8 +148,15 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
         .startChild("updateAllPlayers");
         
-        this.players = DaoManager.getJavaDataDao().findAll();
-        this.players.putAll(DaoManager.getBedrockDataDao().findAll());
+        this.players = new JSONArray();
+
+        JSONArray java = DaoManager.getJavaDataDao().findAll();
+        if(java != null)
+            this.players.putAll(java);
+
+        JSONArray bedrocks = DaoManager.getBedrockDataDao().findAll();
+        if(bedrocks != null)
+            this.players.putAll(bedrocks);
 
         updateAllowedPlayers();
 
@@ -162,8 +169,15 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
         .startChild("updateAllowedPlayers");
 
-        this.playersAllowed = DaoManager.getJavaDataDao().findAllowed();
-        this.playersAllowed.putAll(DaoManager.getBedrockDataDao().findAllowed());
+        this.playersAllowed = new JSONArray();
+
+        JSONArray java = DaoManager.getJavaDataDao().findAllowed();
+        if(java != null)
+            this.players.putAll(java);
+
+        JSONArray bedrocks = DaoManager.getBedrockDataDao().findAllowed();
+        if(bedrocks != null)
+            this.players.putAll(bedrocks);
 
         process.setStatus(SpanStatus.OK);
         process.finish();
