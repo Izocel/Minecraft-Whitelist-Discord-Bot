@@ -23,7 +23,7 @@ public class BedrockDataDao extends BaseDao {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
-    public BedrockData findWithUser(Integer userId) {
+    public JSONArray findWithUser(Integer userId) {
 
         JSONArray results = new JSONArray();
 
@@ -42,11 +42,12 @@ public class BedrockDataDao extends BaseDao {
             SentryService.captureEx(e);
         }
 
-        if (results == null || results.length() < 1 || results.length() > 1) {
+        if (results == null || results.length() < 1) {
             return null;
         }
 
-        return results == null ? null : new BedrockData(results.getJSONObject(0));
+
+        return results;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class BedrockDataDao extends BaseDao {
 
         try {
             int status = -1;
-            BedrockData found = this.findWithUser(id);
+            BedrockData found = this.findWithUuid(uuid);
 
             // New user
             if (found == null) {
@@ -198,6 +199,32 @@ public class BedrockDataDao extends BaseDao {
         } catch (SQLException e) {
             SentryService.captureEx(e);
         }
+    }
+
+    public BedrockData findWithUuid(String uuid) {
+
+        JSONArray results = new JSONArray();
+
+        try {
+            String sql = "SELECT * FROM " + this.tablename + " WHERE uuid = ?";
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
+            pstmt.setString(1, uuid);
+            pstmt.executeQuery();
+
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
+            pstmt.close();
+            this.closeConnection();
+
+        } catch (SQLException e) {
+            SentryService.captureEx(e);
+        }
+
+        if (results == null || results.length() < 1) {
+            return null;
+        }
+
+        return results == null ? null : new BedrockData(results.getJSONObject(0));
     }
 
 }

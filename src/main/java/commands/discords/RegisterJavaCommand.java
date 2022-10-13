@@ -16,6 +16,7 @@ import functions.GuildManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 import main.WhitelistJe;
+import models.BedrockData;
 import models.JavaData;
 import models.User;
 
@@ -43,40 +44,151 @@ public class RegisterJavaCommand extends ListenerAdapter {
             }
     
             final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
-            if (!event.getName().equals(cmdName + "Java"))
+            if (!event.getName().equals(cmdName))
                 return;
-    
-            final String pseudo = event.getOption("pseudoJava").getAsString();
-            final String discordId = event.getMember().getId();
-    
-            if(!this.validatePseudo(event, pseudo)) {
-                return;
-            }
-    
-            final String mc_uuid = PlayerDbApi.getMinecraftUUID(pseudo);
             
-            if(mc_uuid == null) {
-                event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur les serveurs...**")
+            final String pseudoJava = event.getOption("pseudoJava").getAsString();
+            final String pseudoBedrock = event.getOption("pseudoBedrock").getAsString();
+
+            if(pseudoJava == null || pseudoBedrock == null) {
+                event.reply("❌**Vous devez fournir au moins un pseudo pour utiliser cette commande...**")
                 .setEphemeral(true).queue();
                 return;
             }
-    
-            if (!this.handleKnownUser(event, mc_uuid, discordId)) {
+
+            final String discordId = event.getMember().getId();
+
+
+            boolean javaValid = pseudoJava != null && this.validatePseudo(event, pseudoJava);
+            boolean bedrockValid = pseudoBedrock != null && this.validatePseudo(event, pseudoBedrock);;
+            if(!javaValid && !bedrockValid) {
                 return;
             }
-    
-            EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo);
-            GuildManager gManager = this.plugin.getGuildManager();
-    
-            event.reply("**Votre demande d'accès pour `" + pseudo
-                    + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
-                    .setEphemeral(true).queue();
             
-            gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
-                .setActionRows(ActionRow.of(
-                        Button.primary(this.acceptId + " " + pseudo + " " + discordId, "✔️ Accepter"),
-                        Button.secondary(this.rejectId + " " + pseudo + " " + discordId, "❌ Refuser"))
-                ).queue();
+            final String javaUuid = PlayerDbApi.getMinecraftUUID(pseudoJava);
+            final String bedrockUuid = PlayerDbApi.getXboxUUID(pseudoBedrock);
+            if(javaUuid == null && bedrockUuid == null) {
+                event.reply("❌**Vos UUIDs n'ont pas pu être retrouvés sur les serveurs...**")
+                .setEphemeral(true).queue();
+                return;
+            }
+
+            final User user = User.updateFromMember(event.getMember());
+            final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
+            final Integer hoursToConfirm = confirmHoursString != null
+                ? Integer.parseInt(confirmHoursString)
+                : null;
+
+            if(javaUuid != null) {
+
+                boolean isAllowed = false;
+                boolean isConfirmed = false;
+
+                final JavaData found = DaoManager.getJavaDataDao().findWithUuid(javaUuid);
+    
+                if (found != null && !found.getUserId().equals(user.getId())) {
+                    event.reply("❌ **Ce pseudo Java est déjà enregistrer par un autre joueur**")
+                            .setEphemeral(true).queue();
+                }
+    
+                else {
+                    isAllowed = found.isAllowed();
+                    isConfirmed = found.isConfirmed();
+    
+                    if(!isAllowed) {
+                        event.reply("❌ **Ce compte Java n'a pas encore été accepté sur le serveur.**\n" +
+                        "Pour en s'avoir d'avantage, contactez un administrateur directement...")
+                        .setEphemeral(true).queue();
+                    }
+    
+                    else if (isAllowed && isConfirmed) {
+                        event.reply("**Votre compte Java est déjà accepté sur le serveur...**" + 
+                        "Il suffit de vous connecter. `Enjoy` ⛏🧱").setEphemeral(true).queue();
+                    }
+                    
+                    else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
+                        String msg = "**Une confirmation de votre compte Java est nécéssaire.**\n" +
+                        "Pour confimer votre compte vous aviez `"+ hoursToConfirm +"h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
+    
+                        event.reply(msg).setEphemeral(true).queue();
+                    }
+
+                    else {
+                        EmbedBuilder embeded = this.getRequestEmbeded(event, pseudoBedrock);
+                        GuildManager gManager = this.plugin.getGuildManager();
+                
+                        event.reply("**Votre demande d'accès `Java` pour `" + pseudoBedrock
+                                + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
+                                .setEphemeral(true).queue();
+                        
+                                gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
+                                .setActionRows(ActionRow.of(
+                                        Button.primary(this.acceptId + " " + pseudoBedrock + " " + 
+                                            discordId + " " + javaUuid, "✔️ Accepter"),
+                                        Button.secondary(this.rejectId + " " + pseudoBedrock + " " + 
+                                            discordId + " " + javaUuid, "❌ Refuser"))
+                                ).queue();
+                    }
+
+                }
+
+            }
+
+            if(bedrockUuid != null) {
+
+                boolean isAllowed = false;
+                boolean isConfirmed = false;
+
+                final BedrockData found = DaoManager.getBedrockDataDao().findWithUuid(bedrockUuid);
+    
+                if (found != null && !found.getUserId().equals(user.getId())) {
+                    event.reply("❌ **Ce pseudo Bedrock est déjà enregistrer par un autre joueur**")
+                            .setEphemeral(true).queue();
+                }
+    
+                else {
+                    isAllowed = found.isAllowed();
+                    isConfirmed = found.isConfirmed();
+    
+                    if(!isAllowed) {
+                        event.reply("❌ **Ce compte Bedrock n'a pas encore été accepté sur le serveur.**\n" +
+                        "Pour en s'avoir d'avantage, contactez un administrateur directement...")
+                        .setEphemeral(true).queue();
+                    }
+    
+                    else if (isAllowed && isConfirmed) {
+                        event.reply("**Votre compte Bedrock est déjà accepté sur le serveur...**" + 
+                        "Il suffit de vous connecter. `Enjoy` ⛏🧱").setEphemeral(true).queue();
+                    }
+                    
+                    else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
+                        String msg = "**Une confirmation de votre compte Bedrock est nécéssaire.**\n" +
+                        "Pour confimer votre compte vous aviez `"+ hoursToConfirm +"h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
+    
+                        event.reply(msg).setEphemeral(true).queue();
+                    }
+
+                    else {
+                        EmbedBuilder embeded = this.getRequestEmbeded(event, pseudoBedrock);
+                        GuildManager gManager = this.plugin.getGuildManager();
+                
+                        event.reply("**Votre demande d'accès `Bedrock` pour `" + pseudoBedrock
+                                + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
+                                .setEphemeral(true).queue();
+                        
+                        gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
+                            .setActionRows(ActionRow.of(
+                                    Button.primary(this.acceptId + " " + pseudoBedrock + " " + 
+                                        discordId + " " + bedrockUuid, "✔️ Accepter"),
+                                    Button.secondary(this.rejectId + " " + pseudoBedrock + " " + 
+                                        discordId + " " + bedrockUuid, "❌ Refuser"))
+                            ).queue();
+                    }
+
+                }
+            }
+    
+
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
@@ -85,69 +197,12 @@ public class RegisterJavaCommand extends ListenerAdapter {
 
     private boolean validatePseudo(SlashCommandEvent event, String pseudo) {
         if (!Helper.isMcPseudo(pseudo)) {
-            final String errMsg = "❌ Votre pseudo Java devrait comporter entre 3 et 16 caractères" +
+            final String errMsg = "❌ Votre pseudo: `" + pseudo + "` devrait comporter entre 3 et 16 caractères" +
                     "\n\n et ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`";
 
             event.reply(errMsg).setEphemeral(true).queue();
             return false;
         }
-        return true;
-    }
-
-    private boolean handleKnownUser(SlashCommandEvent event, String uuid, String discordId) {
-        try {
-
-            boolean isAllowed = false;
-            boolean isConfirmed = false;
-            User found = DaoManager.getUsersDao().findByDisccordId(discordId);
-            final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
-            final Integer hoursToConfirm = confirmHoursString != null
-                ? Integer.parseInt(confirmHoursString)
-                : null;
-
-            if (found == null) {
-                User.updateFromMember(event.getMember());
-                return false;
-            }
-
-            if (found != null && !found.getJavaUuid().equals(uuid)) {
-                event.reply("❌ **Ce pseudo Java est déjà enregistrer par un autre joueur**")
-                        .setEphemeral(true).queue();
-                return false;
-            }
-
-            else if (found != null && found.getId() > 0) {
-                isAllowed = found.isAllowedJava();
-                isConfirmed = found.isConfirmedJava();
-
-                if(!isAllowed) {
-                    event.reply("❌ **Ce compte Java n'avez pas encore été accepté sur le serveur.**\n" +
-                    "Pour en s'avoir d'avantage, contactez un administrateur directement...")
-                    .setEphemeral(true).queue();
-                    return false;
-                }
-
-                else if (isAllowed && isConfirmed) {
-                    event.reply("**Vous êtes déjà accepté sur le serveur...**" + 
-                    "Il suffit de vous connecter. `Enjoy` ⛏🧱").setEphemeral(true).queue();
-                    return false;
-                }
-                
-                else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                    String msg = "**Une confirmation de votre compte Java est nécéssaire.**\n" +
-                    "Pour confimer votre compte vous aviez `"+ hoursToConfirm +"h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
-
-                    event.reply(msg).setEphemeral(true).queue();
-                    return false;
-                }
-            }
-
-        } catch (Exception e) {
-            event.reply("❌ **Une erreur est survenu contactez un admin!!!**").setEphemeral(true).queue();
-            SentryService.captureEx(e);
-            return false;
-        }
-
         return true;
     }
 
@@ -169,15 +224,7 @@ public class RegisterJavaCommand extends ListenerAdapter {
                 return;
             }
     
-            final Member respMember = event.getMember();
-            final String componentId = event.getComponentId();
-    
-            final String actionId = componentId.split(" ")[0];
-            final String pseudo = componentId.split(" ")[1];
-            final String discordId = componentId.split(" ")[2];
-    
-            Member newuser = event.getGuild().getMemberById(discordId);
-    
+            final Member respMember = event.getMember();    
             final boolean isAuthorized = gManager.isOwner(respMember.getId())
                     || gManager.isAdmin(respMember.getId())
                     || gManager.isModo(respMember.getId())
@@ -192,9 +239,17 @@ public class RegisterJavaCommand extends ListenerAdapter {
                         .setEphemeral(true).queue();
                 return;
             }
+
+            final String componentId = event.getComponentId();
+    
+            final String actionId = componentId.split(" ")[0];
+            final String pseudo = componentId.split(" ")[1];
+            final String discordId = componentId.split(" ")[2];
+            final String uuid = componentId.split(" ")[3];
+            Member newuser = event.getGuild().getMemberById(discordId);
     
             if (actionId.equals(this.acceptId)) {
-                this.handleAccepted(event, newuser, pseudo);
+                this.handleAccepted(event, newuser, pseudo, uuid);
     
             } else if (actionId.equals(this.rejectId)) {
                 this.handleRejected(event, newuser, pseudo);
@@ -223,22 +278,9 @@ public class RegisterJavaCommand extends ListenerAdapter {
             .getUserById(discordId).getAvatarUrl()).setFooter("ID " + discordId)
         .setColor(new Color(0x44474d));
     }
-
-    private String useServiceForUuid(String pseudo) {
-        try {
-            return McHeadsApi.getPlayerUUID(pseudo);
-        } catch (Exception e) {
-            try {
-                return MojanApi.getPlayerUUID(pseudo);
-            } catch (Exception err) {
-            }
-        }
-
-        return null;
-    }
     
     // Accept
-    private void handleAccepted(ButtonClickEvent event, Member newUser, String pseudo) {
+    private void handleAccepted(ButtonClickEvent event, Member newUser, String pseudo, String uuid) {
         try {
             final String messageId = event.getMessage().getId();
             final String moderatorId = event.getMember().getId();
@@ -246,35 +288,16 @@ public class RegisterJavaCommand extends ListenerAdapter {
     
             final String discordId = newUser.getId();
             final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo, discordId);
-            final String mc_uuid = useServiceForUuid(pseudo);
-
-            if(mc_uuid == null) {
-                event.reply("❌**Le UUID pour " + pseudo + " n'a pas pu être retrouver sur le serveur mojan...**")
-                .setEphemeral(true).queue();
-                return;
-            }
 
             final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
             final Integer hoursToConfirm = confirmHoursString != null
                 ? Integer.parseInt(confirmHoursString)
                 : null;
 
+            final boolean confirmed = hoursToConfirm == null || hoursToConfirm < 1;
+            final boolean ok = plugin.getBukkitManager().setPlayerAsAllowed(messageId, true, moderatorId, uuid, confirmed, pseudo);
 
-            // TODO: Finalize and verify
-            final User registeree = new User();
-            registeree.setMcName(pseudo);
-            registeree.setDiscordId(discordId);
-            registeree.setMcUUID(mc_uuid);
-            registeree.setCreatedAt(Helper.getTimestamp().toString());
-            registeree.setAsAllowed(messageId, true, moderatorId);
-            if(hoursToConfirm == null || hoursToConfirm < 1) {
-                registeree.setAsConfirmed(true);
-            }
-
-            final UsersDao dao = DaoManager.getUsersDao();
-            final Integer userId = registeree.save(dao);
-
-            if(userId < 0) {
+            if(!ok) {
                 event.reply("❌**Le joueur n'a pas pu être enregistrer réessayez...**")
                 .setEphemeral(true).queue();
                 return;
@@ -285,7 +308,7 @@ public class RegisterJavaCommand extends ListenerAdapter {
             .primary(this.acceptId_conf, "✔️ Accepter par " + event.getMember().getEffectiveName()).asDisabled())
             .queue();
 
-            final String newMsg = "**Nous te souhaitons bienvenue, <@" + discordId + "> Enjoy  ⛏🧱 !!!**";
+            final String newMsg = "**Nous te souhaitons bienvenue, <@" + discordId + "> :: `"+ pseudo +"` Enjoy  ⛏🧱 !!!**";
             gManager.getWelcomeChannel().sendMessage(newMsg).queue();
 
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {

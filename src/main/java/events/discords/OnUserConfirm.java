@@ -1,20 +1,17 @@
 package events.discords;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import commands.bukkit.ConfirmLinkCmd;
-import dao.DaoManager;
-import dao.UsersDao;
-import services.sentry.SentryService;
 import main.WhitelistJe;
-import models.User;
+import models.JavaData;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
+import services.sentry.SentryService;
 
 public class OnUserConfirm extends ListenerAdapter {
     private Logger logger;
@@ -35,16 +32,16 @@ public class OnUserConfirm extends ListenerAdapter {
             }
 
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
+            final String uuid = fields.get(1).getValue();
 
-            final String mcUuid = fields.get(1).getValue();
-            final UsersDao dao = DaoManager.getJavaDataDao();
-            final User user = dao.findByMcUUID(mcUuid);
+            //TODO create a baseModel
+            JavaData userData = (JavaData) plugin.getBukkitManager().getPlayerData(uuid);
 
-            if(user.isConfirmed()) {
-                event.reply("✔️ Vos compte sont déjà reliés et confirmés.\n Minecraft-UUID: " + mcUuid).queue();
+            if(userData.isConfirmed()) {
+                event.reply("✔️ Vos compte sont déjà reliés et confirmés.\n Minecraft-UUID: " + uuid).queue();
                 event.getMessage().editMessage("All good").setActionRows(ActionRow.of(
-                Button.primary("All good", "✔️ All good").asDisabled()
-            )).queue();
+                    Button.primary("All good", "✔️ All good").asDisabled()
+                )).queue();
 
                 return;
             }
@@ -64,13 +61,11 @@ public class OnUserConfirm extends ListenerAdapter {
 
     private void handleAccepted(ButtonClickEvent event) {
         try {
-            final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
-            final String mcUuid = fields.get(1).getValue();
-            final UsersDao dao = DaoManager.getUsersDao();
-            final User user = dao.findByMcUUID(mcUuid);
 
-            user.setAsConfirmed(true);
-            user.save(dao);
+            final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
+            final String uuid = fields.get(1).getValue();
+
+            plugin.getBukkitManager().setPlayerAsConfirmed(uuid);
 
             event.reply("✔️ Vos compte sont maintenant reliés et confirmés.").queue();
             event.getMessage().editMessage("All good").setActionRows(ActionRow.of(
@@ -85,8 +80,9 @@ public class OnUserConfirm extends ListenerAdapter {
     private void handleRejected(ButtonClickEvent event) {
         try {
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
-            final String mcUuid = fields.get(1).getValue();
-            plugin.getBukkitManager().sanitizeAnKickPlayer(UUID.fromString(mcUuid));
+            final String uuid = fields.get(1).getValue();
+
+            plugin.getBukkitManager().sanitizeAnKickPlayer(uuid);
 
             event.reply("✔️ La demande a bien été rejetée.").queue();
             event.getMessage().editMessage("All good").setActionRows(ActionRow.of(

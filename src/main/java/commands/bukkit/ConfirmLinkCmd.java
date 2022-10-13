@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import configs.ConfigManager;
+import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 import main.WhitelistJe;
@@ -29,15 +30,27 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   public void execute(CommandSender sender, Command cmd, String label, String[] args) {
     try {
       Player player = (Player) sender;
-      User user = this.DaoManager.getUsersDao().findByMcUUID(player.getUniqueId().toString());
-      Member member = this.plugin.getGuildManager().findMember(user.getDiscordId());
+      final Integer foundPlayerId  = plugin.getPlayerId(player.getUniqueId());
+      final User user  = DaoManager.getUsersDao().findUser(foundPlayerId);
 
-      if(!user.isConfirmed()) {
-        this.sendConfimationEmbeded(member, player);
-        return;
+      if(foundPlayerId > 0) {
+        final Boolean isConfirmed  = plugin.playerIsConfirmed(player.getUniqueId()) > 0;
+  
+        if(!isConfirmed) {
+          Member member = plugin.getGuildManager().findMember(user.getDiscordId());
+          this.sendConfimationEmbeded(member, player);
+          return;
+        }
+        else {
+          final String msg = "Vos compte sont déja confirmées...\n Discord-Id: "+ user.getDiscordId();
+          player.sendMessage(msg);
+          return;
+        }
       }
 
-      final String msg = "Vos compte sont déja confirmées...\n Discord-Id: "+ user.getDiscordId();
+      // User not found
+      final String msg = "Votre enregistrement n'a pas pu être retrouvé...\n" + 
+      "Enregistrer vous sur le serveur Discord® :: Contactez un admin...";
       player.sendMessage(msg);
     } catch (Exception e) {
       SentryService.captureEx(e);

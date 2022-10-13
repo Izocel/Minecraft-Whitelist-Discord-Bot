@@ -13,9 +13,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
+import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 import main.WhitelistJe;
+import models.BedrockData;
+import models.JavaData;
 import models.User;
 
 /**
@@ -67,48 +70,45 @@ public class OnPlayerLoggin implements Listener {
         this.plugin = plugin;
     }
 
-    public void handleConfirmation(User user, PlayerLoginEvent event) {
-        
-        Timestamp comparator = Helper.convertStringToTimestamp(user.getCreatedAt());
-        final Integer confirmHourDelay = Integer.valueOf(
-            this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
-
-        if(user.isConfirmed() || confirmHourDelay < 0) {
-            user.setAsConfirmed(true);
-            return;
-        }
-
-        String msg = "Hello from WJE......... you must confirm";
-        Player mcPlayer = event.getPlayer();
-        boolean canConfirm = Helper.isWithinXXHour(comparator, confirmHourDelay);
-
-        if(!canConfirm) {
-            msg = "Hello from WJE......... cannot confirm";
-        }
-
-        mcPlayer.sendMessage(msg);
-    }
-
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event) {
         try {
             Server bukServer = this.plugin.getBukkitManager().getServer();
             final Player loginPlayer = event.getPlayer();
-            final UUID pUUID = loginPlayer.getUniqueId();
-            final String pName = loginPlayer.getName();
+            final String uuid = loginPlayer.getUniqueId().toString();
 
-            final Integer allowedWithUUID = this.plugin.playerIsAllowed(pUUID);
-            final boolean isAllowed = allowedWithUUID != null && allowedWithUUID > 0;
+            final Object dataObj = plugin.getBukkitManager().getPlayerData(uuid);
+            boolean allowed = false;
 
-            if (isAllowed) {
-                User user = this.DaoManager.getUsersDao().findUser(allowedWithUUID);
-                user.setMcName(pName);
-                user.save(this.DaoManager.getUsersDao());
+            JavaData data = null;
+            if(dataObj != null) {
+
+                final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+                final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+                data = (JavaData) dataObj;
+                data.setMcName(loginPlayer.getName());
+                allowed = data.isAllowed();
+
+                if(data.getUUID().equals(javaData.getUUID())) {
+                    data.save(DaoManager.getJavaDataDao());
+                }
+                else if(data.getUUID().equals(bedData.getUUID())) {
+                    data.save(DaoManager.getBedrockDataDao());
+                }
+                else {
+                    allowed = false;
+                }
+            }
+
+            if(!allowed) {
+                event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
+                return;
             }
 
             boolean isWhitelisted = false;
 
-            if (isAllowed) {
+            if (allowed) {
                 Bukkit.getServer().setWhitelist(true);
                 loginPlayer.setWhitelisted(true);
             }
@@ -126,14 +126,14 @@ public class OnPlayerLoggin implements Listener {
             } else {
                 Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
                 for (OfflinePlayer player : w_players) {
-                    if (player.getUniqueId().equals(pUUID)) {
+                    if (player.getUniqueId().equals(UUID.fromString(uuid))) {
                         isWhitelisted = true;
                         break;
                     }
                 }
             }
 
-            if (isAllowed && !isWhitelisted) {
+            if (allowed && !isWhitelisted) {
                 this.logger.warning("Le joueur est allowed mais n'a pas été retrouver dans la whitelist du serveur !!!");
             }
 

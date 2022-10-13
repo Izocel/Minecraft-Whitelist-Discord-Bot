@@ -2,12 +2,12 @@ package models;
 
 import org.json.JSONObject;
 
-import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 
 public class JavaData extends BaseModel {
     private Integer id = -1;
+    private Integer userId = -1;
     private String pseudo;
     private String uuid;
     private String acceptedBy;
@@ -86,6 +86,10 @@ public class JavaData extends BaseModel {
 		return this.id;
 	}
 
+    public Integer getUserId() {
+		return this.userId;
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -110,8 +114,8 @@ public class JavaData extends BaseModel {
 		return this.revokedBy;
 	}
 
-	public void setRevokedBy(String revokedBy) {
-		this.revokedBy = revokedBy;
+	public void setRevokedBy(String moderatorId) {
+		this.revokedBy = moderatorId;
 	}
 
 	public boolean isAllowed() {
@@ -206,12 +210,4 @@ public class JavaData extends BaseModel {
         return copied;
     }
 
-    public JavaData getJavaData(Integer userId) {
-        JavaData javadata = DaoManager.getJavaDataDao().findWithUser(userId);
-
-        if(javadata == null) {
-            return new JavaData();
-        }
-        return javadata;
-    }
 }

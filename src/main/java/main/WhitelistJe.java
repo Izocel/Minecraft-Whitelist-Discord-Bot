@@ -148,7 +148,10 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
         .startChild("updateAllPlayers");
         
-        this.players = daoManager.getUsersDao().findAll();
+        this.players = DaoManager.getJavaDataDao().findAll();
+        this.players.putAll(DaoManager.getBedrockDataDao().findAll());
+
+        updateAllowedPlayers();
 
         process.setStatus(SpanStatus.OK);
         process.finish();
@@ -159,15 +162,37 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
         .startChild("updateAllowedPlayers");
 
-        this.playersAllowed = daoManager.getUsersDao().findAllowed();
+        this.playersAllowed = DaoManager.getJavaDataDao().findAllowed();
+        this.playersAllowed.putAll(DaoManager.getBedrockDataDao().findAllowed());
 
         process.setStatus(SpanStatus.OK);
         process.finish();
         return this.playersAllowed;
     }
 
-    public void updatePlayerUUID(Integer id, UUID mc_uuid, boolean tempConfirmed) {
-        daoManager.getUsersDao().setPlayerUUID(id, mc_uuid, tempConfirmed);
+    public Integer getPlayerId(UUID uuid) {
+        Integer userId = -1;
+        this.updateAllPlayers();
+
+        if(this.players == null) {
+            return -1;
+        }
+
+        try {
+            for (Object object : this.players) {
+                final JSONObject player = (JSONObject) object;
+                final String uuidReccord = player.optString("uuid");
+    
+                if (uuidReccord.equals(uuid.toString())) {
+                    userId = player.getInt("id");
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return userId;
     }
 
     public Integer playerIsAllowed(UUID uuid) {
@@ -181,10 +206,36 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         try {
             for (Object object : this.playersAllowed) {
                 final JSONObject player = (JSONObject) object;
-                final String uuidReccord = player.optString("mc_uuid");
+                final String uuidReccord = player.optString("uuid");
     
                 if (uuidReccord.equals(uuid.toString())) {
                     allowedUserId = player.getInt("id");
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return allowedUserId;
+    }
+
+    public Integer playerIsConfirmed(UUID uuid) {
+        Integer allowedUserId = -1;
+        this.updateAllowedPlayers();
+
+        if(this.players == null) {
+            return -1;
+        }
+
+        try {
+            for (Object object : this.players) {
+                final JSONObject player = (JSONObject) object;
+                final String uuidReccord = player.optString("uuid");
+    
+                if (uuidReccord.equals(uuid.toString())) {
+                    final boolean confirmed = player.optBoolean("confirmed");
+                    allowedUserId = confirmed ? player.getInt("id") : -1;
                     break;
                 }
             }

@@ -2,14 +2,12 @@ package models;
 
 import org.json.JSONObject;
 
-import dao.BaseDao;
-import dao.BedrockDataDao;
-import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 
 public class BedrockData extends BaseModel {
     private Integer id = -1;
+    private Integer userId = -1;
     private String pseudo;
     private String uuid;
     private String acceptedBy;
@@ -87,6 +85,10 @@ public class BedrockData extends BaseModel {
     public Integer getId() {
 		return this.id;
 	}
+
+    public Integer getUserId() {
+        return this.userId;
+    }
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -208,12 +210,4 @@ public class BedrockData extends BaseModel {
         return copied;
     }
 
-    public BedrockData getBedrockData(Integer userId) {
-        BedrockData beddata = DaoManager.getBedrockDataDao().findWithUser(userId);
-
-        if(beddata == null) {
-            return new BedrockData();
-        }
-        return beddata;
-    }
 }

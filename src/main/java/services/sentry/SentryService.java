@@ -23,6 +23,7 @@ public class SentryService {
   private WhitelistJe plugin;
   private static User user;
   HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
+  private static WhitelistJe main;
 
   @Override
   protected void finalize() throws Throwable {
@@ -46,8 +47,9 @@ public class SentryService {
 
   }
 
-  public SentryService(WhitelistJe main) {
-    this.plugin = main;
+  public SentryService(WhitelistJe plugin) {
+    this.plugin = plugin;
+    main = this.plugin;
     
     final User user = new User();
     final String id = this.plugin.getConfigManager().get("discordServerId", "discordServerId");
@@ -68,7 +70,6 @@ public class SentryService {
       options.setDsn(
           "https://80475ddc2c8d457ea52a1fbd0a8e22bb@o4503922553847808.ingest.sentry.io/4503922559156224");
 
-      options.setTraceSampling(true);
       options.setDiagnosticLevel(SentryLevel.DEBUG);
       options.setTracesSampleRate(0.66);
       options.setRelease(release);
@@ -103,7 +104,7 @@ public class SentryService {
       }
     }
 
-    return null;
+    return Sentry.startTransaction(txName, txName);
   }
 
   public ITransaction putTx(ITransaction tx) {
@@ -142,7 +143,11 @@ public class SentryService {
     Exception err = new Exception(error.getMessage());
     Exception ex = new Exception(error.getMessage() + userToString());
     err.printStackTrace();
-    return Sentry.captureException(ex);
+
+    if(!main.getConfigManager().get("envType", "production").equals("devMode"))
+      return Sentry.captureException(ex);
+
+    return null;
   }
 
   public @NotNull SentryId captureEvent(SentryEvent event) {

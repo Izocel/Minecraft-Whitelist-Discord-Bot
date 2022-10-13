@@ -23,7 +23,7 @@ public class JavaDataDao extends BaseDao {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
-    public JavaData findWithUser(Integer userId) {
+    public JSONArray findWithUser(Integer userId) {
 
         JSONArray results = new JSONArray();
 
@@ -42,11 +42,11 @@ public class JavaDataDao extends BaseDao {
             SentryService.captureEx(e);
         }
 
-        if (results == null || results.length() < 1 || results.length() > 1) {
+        if (results == null || results.length() < 1) {
             return null;
         }
 
-        return results == null ? null : new JavaData(results.getJSONObject(0));
+        return results;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class JavaDataDao extends BaseDao {
 
         try {
             int status = -1;
-            JavaData found = this.findWithUser(id);
+            JavaData found = this.findWithUuid(uuid);
 
             // New user
             if (found == null) {
@@ -198,6 +198,32 @@ public class JavaDataDao extends BaseDao {
         } catch (SQLException e) {
             SentryService.captureEx(e);
         }
+    }
+
+    public JavaData findWithUuid(String uuid) {
+
+        JSONArray results = new JSONArray();
+
+        try {
+            String sql = "SELECT * FROM " + this.tablename + " WHERE uuid = ?";
+            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
+            pstmt.setString(1, uuid);
+            pstmt.executeQuery();
+
+            final ResultSet resultSet = pstmt.getResultSet();
+            results = resultSet == null ? null : this.toJsonArray(resultSet);
+            pstmt.close();
+            this.closeConnection();
+
+        } catch (SQLException e) {
+            SentryService.captureEx(e);
+        }
+
+        if (results == null || results.length() < 1) {
+            return null;
+        }
+
+        return results == null ? null : new JavaData(results.getJSONObject(0));
     }
 
 }

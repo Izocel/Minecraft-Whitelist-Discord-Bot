@@ -1,6 +1,11 @@
 package models;
 
+import java.util.logging.Logger;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.mysql.cj.xdevapi.JsonArray;
 
 import dao.DaoManager;
 import net.dv8tion.jda.api.entities.Member;
@@ -14,11 +19,10 @@ public class User extends BaseModel {
     private String createdAt;
     private String updatedAt;
 
-    private BedrockData bedData = new BedrockData();
-    private JavaData javaData = new JavaData();
+    private JSONArray javaData = new JSONArray();
+    private JSONArray bedData = new JSONArray();
 
-    public User() {
-    }
+    public User() {}
 
     public User(JSONObject json) {
         this.id = json.optInt("id");
@@ -28,8 +32,8 @@ public class User extends BaseModel {
         this.updatedAt = json.optString("updated_at");
         this.lang = json.optString("lang");
 
-        this.bedData = bedData.getBedrockData(this.id);
-        this.javaData = javaData.getJavaData(this.id);
+        this.javaData = DaoManager.getJavaDataDao().findWithUser(id);
+        this.bedData = DaoManager.getJavaDataDao().findWithUser(id);
     }
 
     @Override
@@ -109,6 +113,18 @@ public class User extends BaseModel {
         return this.save(DaoManager.getUsersDao());
     }
 
+    public static User getFromMember(Member member) {
+        final net.dv8tion.jda.api.entities.User userDc = member.getUser();
+        final String userId = userDc.getId();
+
+        User user = DaoManager.getUsersDao().findByDisccordId(userId);
+        if (user == null || user.getId() < 1) {
+            return null;
+        }
+
+        return user;
+    }
+
     public static User updateFromMember(Member member) {
         final net.dv8tion.jda.api.entities.User userDc = member.getUser();
         final String userId = userDc.getId();
@@ -122,39 +138,59 @@ public class User extends BaseModel {
 
         user.setDiscordId(userId);
         user.setDiscordTag(userTag);
+        user.saveUser();
 
-        return user;
+        return getFromMember(member);
     }
 
-    public String getJavaUuid() {
-        return this.javaData.getUUID();
+    public JavaData getJavaData(String uuid) {
+        for (int i = 0; i < javaData.length(); i++) {
+            if(javaData.getJSONObject(i).optString("uuid").equals(uuid))
+                return new JavaData(javaData.getJSONObject(i));
+        }
+        return null;
     }
 
-    public String getBedrockUuid() {
-        return this.bedData.getUUID();
+    public BedrockData getBedrockData(String uuid) {
+        for (int i = 0; i < javaData.length(); i++) {
+            if(bedData.getJSONObject(i).optString("uuid").equals(uuid))
+                return new BedrockData(bedData.getJSONObject(i));
+        }
+        return null;
     }
 
-    public boolean isAllowedJava() {
-        return this.javaData.isAllowed();
+    public boolean isAllowedJava(String uuid) {
+        return this.getJavaData(uuid).isAllowed();
     }
 
-    public boolean isAllowedBedrock() {
-        return this.bedData.isAllowed();
+    public boolean isAllowedBedrock(String uuid) {
+        return this.getBedrockData(uuid).isAllowed();
     }
 
-    public boolean isConfirmedJava() {
-        return this.javaData.isConfirmed();
+    public boolean isConfirmedJava(String uuid) {
+        return this.getJavaData(uuid).isConfirmed();
     }
 
-    public boolean isConfirmedBedrock() {
-        return this.bedData.isConfirmed();
+    public boolean isConfirmedBedrock(String uuid) {
+        return this.getBedrockData(uuid).isConfirmed();
     }
 
-    public boolean isAllowed() {
-        return isAllowedBedrock() || isAllowedJava();
-    }
+    public boolean isAllowed(String type, String uuid) {
+        type = type != null ? type.toLowerCase() : "all";
 
-    public boolean isConfirmed() {
-        return isConfirmedJava() || isConfirmedBedrock();
+        if(uuid == null) {
+            return false;
+        }
+
+        switch (type) {
+            case "java":
+                return isAllowedJava(uuid);
+            
+            case "bedrock":
+                return isAllowedBedrock(uuid);
+        
+            default:
+                return false;
+        }
     }
 }
