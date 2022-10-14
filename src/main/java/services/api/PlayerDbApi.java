@@ -37,9 +37,6 @@ public class PlayerDbApi extends Api{
             uuid = playerData.optString("id");
             final String name = playerData.optString("username");
 
-            Logger.getLogger("test").info(uuid);
-            Logger.getLogger("test").info(name);
-
             if(!name.equals(username))
                 return null;
 
@@ -54,9 +51,6 @@ public class PlayerDbApi extends Api{
             if(uuid.length() < 32) {
                 uuid = StringUtils.repeat("0", 32-uuid.length()) + uuid;
             }
-
-            Logger.getLogger("test").info(uuid);
-
 
             final Integer[] lengths = {8,4,4,4};
 
@@ -73,9 +67,9 @@ public class PlayerDbApi extends Api{
                 }
             }
 
-            Logger.getLogger("test").info(formatedUuid);
-
-            
+            if(!Helper.isMCUUID(formatedUuid)) {
+                return null;
+            }
 
         } catch (Exception e) {
             SentryService.captureEx(e);
@@ -129,14 +123,14 @@ public class PlayerDbApi extends Api{
                     j++;
                 }
             }
-            
+
+
+            if(!Helper.isMCUUID(formatedUuid)) {
+                return null;
+            }
 
         } catch (Exception e) {
             SentryService.captureEx(e);
-        }
-
-        if(!Helper.isMCUUID(formatedUuid)) {
-            return null;
         }
 
         return formatedUuid;

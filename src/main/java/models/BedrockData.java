@@ -86,13 +86,18 @@ public class BedrockData extends BaseModel {
 		return this.id;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
     public Integer getUserId() {
         return this.userId;
     }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Integer setUserId(Integer id) {
+        this.userId = id;
+        return userId;
+    }
 
 	public String getPseudo() {
 		return this.pseudo;
