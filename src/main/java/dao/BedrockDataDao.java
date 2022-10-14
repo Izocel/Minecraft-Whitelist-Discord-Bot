@@ -53,10 +53,12 @@ public class BedrockDataDao extends BaseDao {
     @Override
     public Integer save(JSONObject sqlProps) {
         int id = sqlProps.optInt("id");
+        int userId = sqlProps.optInt("user_id");
         final String pseudo = sqlProps.optString("pseudo");
         final String uuid = sqlProps.optString("uuid");
         final String msgId = sqlProps.optString("msg_id");
         final String createdAt = sqlProps.optString("created_at");
+        final String updatedAt = sqlProps.optString("updated_at");
 
         final Object isConfirmed = sqlProps.opt("confirmed");
         final Object isAllowed = sqlProps.opt("allowed");
@@ -69,7 +71,12 @@ public class BedrockDataDao extends BaseDao {
         acceptedBy = acceptedBy.length() > 0 ? acceptedBy : null;
         revokedBy = revokedBy.length() > 0 ? revokedBy : null;
 
-        if (pseudo.equals("") || uuid.equals("") || msgId.equals("") || createdAt.equals("")) {
+        if (userId < 1 || pseudo.equals("") || uuid.equals("") || msgId.equals("")) {
+            this.logger.warning("Missing informations to save user entity");
+            return -1;
+        }
+
+        if (acceptedBy == null && revokedBy == null) {
             this.logger.warning("Missing informations to save user entity");
             return -1;
         }
@@ -82,17 +89,17 @@ public class BedrockDataDao extends BaseDao {
             if (found == null) {
                 id = -1;
 
-                String sql = "INSERT INTO " + this.tablename + " (mc_name, discord_id, accepted_by, " +
-                        "revoked_by, mc_uuid, msg_id, created_at, confirmed, allowed, updated_at) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP);";
+                String sql = "INSERT INTO " + this.tablename + " (user_id, pseudo, uuid, accepted_by, " +
+                        "revoked_by, msg_id, confirmed, allowed, created_at, updated_at) " +
+                        "VALUES (?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
-                pstmt.setString(1, pseudo);
-                pstmt.setString(2, uuid);
-                pstmt.setObject(3, acceptedBy);
-                pstmt.setObject(4, revokedBy);
-                pstmt.setString(5, msgId);
-                pstmt.setString(6, createdAt);
+                pstmt.setInt(1, userId);
+                pstmt.setString(2, pseudo);
+                pstmt.setString(3, uuid);
+                pstmt.setObject(4, acceptedBy);
+                pstmt.setObject(5, revokedBy);
+                pstmt.setString(6, msgId);
                 pstmt.setInt(7, confirmed);
                 pstmt.setInt(8, allowed);
                 status = pstmt.executeUpdate();
@@ -110,36 +117,25 @@ public class BedrockDataDao extends BaseDao {
             // Update User
             else {
 
-                if (msgId.equals("")) {
-                    this.logger.warning("Missing informations to save user entity");
-                    return -1;
-                }
-
-                if (acceptedBy == null && revokedBy == null) {
-                    this.logger.warning("Missing informations to save user entity");
-                    return -1;
-                }
-
                 String sql = "UPDATE " + this.tablename + " SET " +
-                        "mc_name = ?," +
-                        "discord_id = ?," +
+                        "user_id = ?," +
+                        "pseudo = ?," +
+                        "uuid = ?," +
                         "accepted_by = ?," +
                         "revoked_by = ?," +
-                        "mc_uuid = ?," +
                         "msg_id = ?," +
-                        "created_at = ?," +
                         "confirmed = ?," +
                         "allowed = ? ," +
                         "updated_at = CURRENT_TIMESTAMP " +
                         "WHERE id = ?;";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-                pstmt.setString(1, pseudo);
-                pstmt.setString(2, uuid);
-                pstmt.setObject(3, acceptedBy);
-                pstmt.setObject(4, revokedBy);
-                pstmt.setString(5, msgId);
-                pstmt.setString(6, createdAt);
+                pstmt.setInt(1, userId);
+                pstmt.setString(2, pseudo);
+                pstmt.setString(3, uuid);
+                pstmt.setObject(4, acceptedBy);
+                pstmt.setObject(5, revokedBy);
+                pstmt.setString(6, msgId);
                 pstmt.setInt(7, confirmed);
                 pstmt.setInt(8, allowed);
                 pstmt.setObject(9, id);
@@ -224,7 +220,7 @@ public class BedrockDataDao extends BaseDao {
             return null;
         }
 
-        return results == null ? null : new BedrockData(results.getJSONObject(0));
+        return new BedrockData(results.getJSONObject(0));
     }
 
 }

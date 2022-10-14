@@ -25,12 +25,13 @@ public class BedrockData extends BaseModel {
     }
 
     public BedrockData(JSONObject json) {
-        this.id = json.optInt("id");
-        this.pseudo = json.optString("pseudo");
-        this.uuid = json.optString("uuid");
+        this.id = json.getInt("id");
+        this.userId = json.getInt("user_id");
+        this.pseudo = json.getString("pseudo");
+        this.uuid = json.getString("uuid");
         this.acceptedBy = json.optString("accepted_by");
         this.revokedBy = json.optString("revoked_by");
-        this.msgId = json.optString("msg_id");
+        this.msgId = json.getString("msg_id");
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
 
@@ -176,6 +177,7 @@ public class BedrockData extends BaseModel {
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("id", this.id);
+            jsonObj.put("user_id", this.userId);
             jsonObj.put("pseudo", this.pseudo);
             jsonObj.put("uuid", this.uuid);
             jsonObj.put("accepted_by", this.acceptedBy);
@@ -185,6 +187,7 @@ public class BedrockData extends BaseModel {
             jsonObj.put("msg_id", this.msgId);
             jsonObj.put("created_at", this.createdAt);
             jsonObj.put("updated_at", this.updatedAt);
+
 
         } catch (Exception e) {
             SentryService.captureEx(e);

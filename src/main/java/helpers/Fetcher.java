@@ -45,7 +45,6 @@ public class Fetcher {
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
-        Logger.getLogger("test").info(responseContent);
         return responseContent;
     }
 

@@ -12,7 +12,7 @@ public class User extends BaseModel {
     private Integer id = -1;
     private String discordId;
     private String discordTag;
-    private String lang;
+    private String lang = "fr";
     private String createdAt;
     private String updatedAt;
 
@@ -22,15 +22,15 @@ public class User extends BaseModel {
     public User() {}
 
     public User(JSONObject json) {
-        this.id = json.optInt("id");
-        this.discordId = json.optString("discord_id");
-        this.discordTag = json.optString("discord_tag");
+        this.id = json.getInt("id");
+        this.discordId = json.getString("discord_id");
+        this.discordTag = json.getString("discord_tag");
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
-        this.lang = json.optString("lang");
+        this.lang = json.getString("lang");
 
         this.javaData = DaoManager.getJavaDataDao().findWithUser(id);
-        this.bedData = DaoManager.getJavaDataDao().findWithUser(id);
+        this.bedData = DaoManager.getBedrockDataDao().findWithUser(id);
     }
 
     @Override
@@ -77,9 +77,11 @@ public class User extends BaseModel {
             jsonObj.put("id", this.id);
             jsonObj.put("discord_id", this.discordId);
             jsonObj.put("discord_tag", this.discordTag);
-            jsonObj.put("lang", this.lang);
+            jsonObj.put("javaData", this.javaData);
+            jsonObj.put("bedData", this.bedData);
             jsonObj.put("created_at", this.createdAt);
             jsonObj.put("updated_at", this.updatedAt);
+            jsonObj.put("lang", this.lang);
 
         } catch (Exception e) {
             SentryService.captureEx(e);
@@ -115,6 +117,7 @@ public class User extends BaseModel {
         final String userId = userDc.getId();
 
         User user = DaoManager.getUsersDao().findByDiscordId(userId);
+
         if (user == null || user.getId() < 1) {
             return null;
         }

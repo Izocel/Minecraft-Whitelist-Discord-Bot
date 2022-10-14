@@ -140,7 +140,7 @@ public class BukkitManager {
         }
     }
 
-    public boolean setPlayerAsAllowed(String msgId, boolean allowed, String moderatorId, String uuid, boolean confirmed, String pseudo) {
+    public boolean setPlayerAsAllowed(Integer userId, String msgId, boolean allowed, String moderatorId, String uuid, boolean confirmed, String pseudo) {
         final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
         final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
@@ -155,24 +155,27 @@ public class BukkitManager {
         }
 
         else {
-            final String foundJava = PlayerDbApi.getXboxUUID(uuid);
-            final String foundXbox = PlayerDbApi.getXboxUUID(uuid);
+            final String foundJava = PlayerDbApi.getMinecraftUUID(pseudo);
+            final String foundXbox = PlayerDbApi.getXboxUUID(pseudo);
 
-            if(foundJava.length() > 1) {
+            if(foundJava != null && foundJava.equals(uuid)) {
                 JavaData data = new JavaData();
                 data.setMcName(pseudo);
                 if(allowed)
                     data.setAcceptedBy(moderatorId);
                 else
                     data.setRevokedBy(moderatorId);
+                    
                 
+                data.setUUID(uuid);
+                data.setUserId(userId);
                 data.setAsAllowed(msgId, allowed, moderatorId);
                 data.setAsConfirmed(confirmed);
                 data.save(DaoManager.getJavaDataDao());
                 return true;
             }
 
-            else if(foundXbox.length() > 1) {
+            else if(foundXbox != null && foundXbox.equals(uuid)) {
                 BedrockData data = new BedrockData();
                 data.setMcName(pseudo);
                 if(allowed)
@@ -180,6 +183,8 @@ public class BukkitManager {
                 else
                     data.setRevokedBy(moderatorId);
                 
+                data.setUUID(uuid);
+                data.setUserId(userId);
                 data.setAsAllowed(msgId, allowed, moderatorId);
                 data.setAsConfirmed(confirmed);
                 data.save(DaoManager.getBedrockDataDao());

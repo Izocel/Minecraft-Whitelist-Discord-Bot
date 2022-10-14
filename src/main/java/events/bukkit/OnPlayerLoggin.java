@@ -14,12 +14,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import dao.DaoManager;
-import helpers.Helper;
 import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.BedrockData;
 import models.JavaData;
-import models.User;
 
 /**
  * §l = bold text

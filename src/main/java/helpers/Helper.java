@@ -44,7 +44,7 @@ public class Helper {
     }
 
     public static boolean isMcPseudo(String string) {
-        return string.matches("^[a-zA-Z0-9_-]+{2,16}");
+        return string.matches("^[a-zA-Z0-9_-]{2,16}$");
     }
 
     public static boolean isHexaDecimal(String string) {

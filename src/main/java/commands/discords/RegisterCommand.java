@@ -62,17 +62,29 @@ public class RegisterCommand extends ListenerAdapter {
                 return;
             }
 
-            boolean javaValid = pseudoJava != null && this.validatePseudo(event, pseudoJava);
-            boolean bedrockValid = pseudoBedrock != null && this.validatePseudo(event, pseudoBedrock);
+            boolean javaValid = pseudoJava != null && this.validatePseudo(event, pseudoJava, "Java");
+            boolean bedrockValid = pseudoBedrock != null && this.validatePseudo(event, pseudoBedrock, "Bedrock");
             if (!javaValid && !bedrockValid) {
+                event.reply("❌ Vos `identifiants` comportaient des `erreurs`.\n Vérifiez vos mesages privés.").setEphemeral(true).queue();
                 return;
             }
 
+            String replyJava = "";
+            String replyBedrock= "";
             final String javaUuid = PlayerDbApi.getMinecraftUUID(pseudoJava);
             final String bedrockUuid = PlayerDbApi.getXboxUUID(pseudoBedrock);
+
+
+            if(pseudoJava != null && javaUuid == null) {
+                replyJava = "❌ **Votre UUIDs pour `Java` n'a pas pu être retrouvés sur les serveurs...**";
+            }
+
+            if(pseudoJava != null && javaUuid == null) {
+                replyBedrock = "❌ **Votre UUIDs pour `Bedrock` n'a pas pu être retrouvés sur les serveurs...**";
+            }
+
             if (javaUuid == null && bedrockUuid == null) {
-                event.reply("❌**Vos UUIDs n'ont pas pu être retrouvés sur les serveurs...**")
-                        .setEphemeral(true).queue();
+                event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).queue();
                 return;
             }
 
@@ -83,10 +95,10 @@ public class RegisterCommand extends ListenerAdapter {
                     : null;
 
 
-            String replyJava = "Désoler l'enregistrment Java ne c'est pas bien passé.";
-            String replyBedrock ="Désoler l'enregistrrement Bedrock ne c'est pas bien passé.";
             final User user = User.updateFromMember(event.getMember());
             if (javaUuid != null) {
+
+                replyJava = "❌ **Désoler l'enregistrement pour votre pseudo Java ne c'est pas bien passé.**";
 
                 JavaData found = DaoManager.getJavaDataDao().findWithUuid(javaUuid);
 
@@ -95,28 +107,24 @@ public class RegisterCommand extends ListenerAdapter {
                     final boolean isAllowed = found.isAllowed();
                     final boolean isConfirmed = found.isConfirmed();
 
-                    if (!found.getUserId().equals(user.getId())) {
-                        event.reply("❌ **Ce pseudo Java est déjà enregistrer par un autre joueur**")
-                                .setEphemeral(true).queue();
+                    if (found.getUserId() != user.getId()) {
+                        replyJava = "❌ **Ce pseudo Java est déjà enregistrer par un autre joueur**";
                     }
 
                     else if (!isAllowed) {
-                        event.reply("❌ **Ce compte Java n'a pas encore été accepté sur le serveur.**\n" +
-                                "Pour en s'avoir d'avantage, contactez un administrateur directement...")
-                                .setEphemeral(true).queue();
+                        replyJava = "❌ **Ce compte Java n'a pas encore été accepté sur le serveur.**\n" +
+                                "Pour en s'avoir d'avantage, contactez un administrateur directement...";
                     }
 
                     else if (isAllowed && isConfirmed) {
-                        event.reply("**Votre compte Java est déjà accepté sur le serveur...**" +
-                                "Il suffit de vous connecter. `Enjoy` ⛏🧱").setEphemeral(true).queue();
+                        replyJava = "**Votre compte Java est déjà accepté sur le serveur...**\n" +
+                                "Il suffit de vous connecter. `Enjoy` ⛏🧱";
                     }
 
                     else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                        String msg = "**Une confirmation de votre compte Java est nécéssaire.**\n" +
+                        replyJava = "**Une confirmation de votre compte Java est nécéssaire.**\n" +
                                 "Pour confimer votre compte vous aviez `" + hoursToConfirm
                                 + "h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
-
-                        event.reply(msg).setEphemeral(true).queue();
                     }
                 }
 
@@ -141,6 +149,8 @@ public class RegisterCommand extends ListenerAdapter {
 
             if (bedrockUuid != null) {
 
+                replyBedrock = "❌ **Désoler l'enregistrement pour votre pseudo Bedrock ne c'est pas bien passé.**";
+
                 BedrockData found = DaoManager.getBedrockDataDao().findWithUuid(bedrockUuid);
 
                 if (found != null) {
@@ -148,28 +158,25 @@ public class RegisterCommand extends ListenerAdapter {
                     final boolean isAllowed = found.isAllowed();
                     final boolean isConfirmed = found.isConfirmed();
 
-                    if (!found.getUserId().equals(user.getId())) {
-                        event.reply("❌ **Ce pseudo Bedrock est déjà enregistrer par un autre joueur**")
-                                .setEphemeral(true).queue();
+                    if (found.getUserId() != user.getId()) {
+                        replyBedrock = "❌ **Ce pseudo Bedrock est déjà enregistrer par un autre joueur**";
                     }
 
                     else if (!isAllowed) {
-                        event.reply("❌ **Ce compte Bedrock n'a pas encore été accepté sur le serveur.**\n" +
-                                "Pour en s'avoir d'avantage, contactez un administrateur directement...")
-                                .setEphemeral(true).queue();
+                        replyBedrock = "❌ **Ce compte Bedrock n'a pas encore été accepté sur le serveur.**\n" +
+                                "Pour en s'avoir d'avantage, contactez un administrateur directement...";
                     }
 
                     else if (isAllowed && isConfirmed) {
-                        event.reply("**Votre compte Bedrock est déjà accepté sur le serveur...**" +
-                                "Il suffit de vous connecter. `Enjoy` ⛏🧱").setEphemeral(true).queue();
+                        replyBedrock = "**Votre compte Bedrock est déjà accepté sur le serveur...**\n"+
+                            "Il suffit de vous connecter. `Enjoy` ⛏🧱";
+
                     }
 
                     else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                        String msg = "**Une confirmation de votre compte Bedrock est nécéssaire.**\n" +
+                        replyBedrock = "**Une confirmation de votre compte Bedrock est nécéssaire.**\n" +
                                 "Pour confimer votre compte vous aviez `" + hoursToConfirm
                                 + "h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
-
-                        event.reply(msg).setEphemeral(true).queue();
                     }
 
                 }
@@ -179,10 +186,6 @@ public class RegisterCommand extends ListenerAdapter {
                     EmbedBuilder embeded = this.getRequestEmbeded(event, pseudoBedrock, bedrockUuid, "Bedrock");
                     GuildManager gManager = this.plugin.getGuildManager();
 
-                    event.reply("**Votre demande d'accès `Bedrock` pour `" + pseudoBedrock
-                            + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**")
-                            .setEphemeral(true).queue();
-
                     gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
                             .setActionRows(ActionRow.of(
                                     Button.primary(this.acceptId + " " + pseudoBedrock + " " +
@@ -191,26 +194,28 @@ public class RegisterCommand extends ListenerAdapter {
                                             discordId + " " + bedrockUuid, "❌ Refuser")))
                             .queue();
 
-                    replyBedrock = "**Votre demande d'accès `Java` pour `" + pseudoBedrock
+                    replyBedrock = "**Votre demande d'accès `Bedrock` pour `" + pseudoBedrock
                     + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**";
                 }
             }
 
-            event.reply(replyJava + replyBedrock).setEphemeral(true).queue();
-
+            event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).queue();
 
         } catch (Exception e) {
+            event.reply("Une erreru est survenu contactez un admin !!!").setEphemeral(true).queue();
             SentryService.captureEx(e);
         }
-
     }
 
-    private boolean validatePseudo(SlashCommandEvent event, String pseudo) {
+    private boolean validatePseudo(SlashCommandEvent event, String pseudo, String type) {
         if (!Helper.isMcPseudo(pseudo)) {
-            final String errMsg = "❌ Votre pseudo: `" + pseudo + "` devrait comporter entre 3 et 16 caractères" +
-                    "\n\n et ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`";
+            final String errMsg = "❌ Votre pseudo `"+type+"`: `" + pseudo + "` devrait comporter entre `3` et `16` caractères" +
+                    "\n et ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`";
 
-            event.reply(errMsg).setEphemeral(true).queue();
+            final String id = event.getMember().getId();
+            this.plugin.getDiscordManager().jda.openPrivateChannelById(id).queue(channel -> {
+                channel.sendMessage(errMsg).queue();
+            });
             return false;
         }
         return true;
@@ -259,18 +264,19 @@ public class RegisterCommand extends ListenerAdapter {
             }
 
             final String componentId = event.getComponentId();
-
-            final String actionId = componentId.split(" ")[0];
-            final String pseudo = componentId.split(" ")[1];
-            final String discordId = componentId.split(" ")[2];
-            final String uuid = componentId.split(" ")[3];
-            Member newuser = event.getGuild().getMemberById(discordId);
+            final String[] splitId = componentId.split(" ");
+            final String actionId = splitId[0];
+            final String pseudo = splitId[1];
+            final String discordId = splitId[2];
+            final String uuid = splitId[3];
+            Member member = event.getGuild().getMemberById(discordId);
+            User user = User.getFromMember(member);
 
             if (actionId.equals(this.acceptId)) {
-                this.handleAccepted(event, newuser, pseudo, uuid);
+                this.handleAccepted(event, user, pseudo, uuid);
 
             } else if (actionId.equals(this.rejectId)) {
-                this.handleRejected(event, newuser, pseudo);
+                this.handleRejected(event, user, pseudo);
             }
 
         } catch (Exception e) {
@@ -300,13 +306,13 @@ public class RegisterCommand extends ListenerAdapter {
     }
 
     // Accept
-    private void handleAccepted(ButtonClickEvent event, Member newUser, String pseudo, String uuid) {
+    private void handleAccepted(ButtonClickEvent event, User newUser, String pseudo, String uuid) {
         try {
             final String messageId = event.getMessage().getId();
             final String moderatorId = event.getMember().getId();
             final GuildManager gManager = this.plugin.getGuildManager();
 
-            final String discordId = newUser.getId();
+            final String discordId = newUser.getDiscordId();
             final EmbedBuilder newMsgContent = this.getAcceptedEmbeded(pseudo, discordId);
 
             final String confirmHoursString = plugin.getConfigManager().get("hoursToConfirmMcAccount");
@@ -315,7 +321,7 @@ public class RegisterCommand extends ListenerAdapter {
                     : null;
 
             final boolean confirmed = hoursToConfirm == null || hoursToConfirm < 1;
-            final boolean ok = plugin.getBukkitManager().setPlayerAsAllowed(messageId, true, moderatorId, uuid,
+            final boolean ok = plugin.getBukkitManager().setPlayerAsAllowed(newUser.getId(), messageId, true, moderatorId, uuid,
                     confirmed, pseudo);
 
             if (!ok) {
@@ -345,15 +351,18 @@ public class RegisterCommand extends ListenerAdapter {
 
             event.reply("✔️ **Le joueur <@" + discordId + "> a bien été approuvé avec le pseudo: `" + pseudo + "`.**")
                     .setEphemeral(true).queue();
+
         } catch (Exception e) {
+            event.reply("❌**Une erreur est survenu, contactez un admin !!!**")
+            .setEphemeral(true).queue();
             SentryService.captureEx(e);
         }
     }
 
     // Reject
-    private void handleRejected(ButtonClickEvent event, Member newUser, String pseudo) {
+    private void handleRejected(ButtonClickEvent event, User newUser, String pseudo) {
         try {
-            final String discordId = newUser.getId();
+            final String discordId = newUser.getDiscordId();
             final EmbedBuilder newMsgContent = this.getRejectedEmbeded(pseudo, discordId);
 
             event.getMessage().editMessageEmbeds(newMsgContent.build())
