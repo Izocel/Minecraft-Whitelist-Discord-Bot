@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -76,7 +77,7 @@ public class Helper {
                 uuid = StringUtils.repeat("0", 32 - uuid.length()) + uuid;
             }
             
-            if(!isHexaDecimal(uuid)) {
+            if(uuid.length() == 32 && !uuid.contains("-")) {
                 String sanitized = "";
                 final Integer[] lengths = { 8, 4, 4, 4 };
 
@@ -100,6 +101,7 @@ public class Helper {
                 return uuid;
             }
 
+            Logger.getLogger("test").info(uuid);
             throw new Exception("Final uuid format is not ok !");
         }
 
