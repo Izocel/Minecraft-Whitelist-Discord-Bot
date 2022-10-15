@@ -19,7 +19,6 @@ import models.JavaData;
 import models.User;
 
 import java.awt.*;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 public class RegisterCommand extends ListenerAdapter {

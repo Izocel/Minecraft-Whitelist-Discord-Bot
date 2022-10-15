@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -68,6 +67,9 @@ public class Helper {
         }
 
         try {
+            if(isMCUUID(uuid)) {
+                return uuid;
+            }
 
             if(isNumeric(uuid)) {
                 uuid = decimalToHex(Long.parseLong(uuid));
@@ -101,7 +103,6 @@ public class Helper {
                 return uuid;
             }
 
-            Logger.getLogger("test").info(uuid);
             throw new Exception("Final uuid format is not ok !");
         }
 

@@ -7,6 +7,7 @@ import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
 
+import commands.discords.LookupMcPlayerCommand;
 import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
 import configs.ConfigManager;
@@ -126,12 +127,20 @@ public class DiscordManager {
             jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
             .queue();
 
-            // Register 
+            // Register
             final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(plugin));
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
             .addOption(OptionType.STRING, "pseudo-java", "Votre pseudo Java -> Minecraft®", false)
             .addOption(OptionType.STRING, "pseudo-bedrock", "Votre pseudo Bedrock -> Minecraft®", false)
+            .queue();
+
+            // Lookup
+            final String lookCmd = this.plugin.getConfigManager().get("lookupMcPlayerCmdName", "lookupMcPlayerCmdName");
+            jda.addEventListener(new LookupMcPlayerCommand(plugin));
+            jda.upsertCommand(lookCmd, "Trouver des infos de joueurs Minecraft® par UUID ou pseudo.")
+            .addOption(OptionType.STRING, "type", "UUID || PSEUDO", true)
+            .addOption(OptionType.STRING, "value", "Le uuid ou le pseudo de recherche.", true)
             .queue();
     
             // // Whitelist

@@ -22,7 +22,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 ```
 
 ## Release Key-Features:
-
+- MC.Command: `dig-player` -> Used to retrieves information of Minecraft® player with uuid or pseudo.
 - MC.Server must enforce whitelist for it to be managed (server.properties->enforce-white-list).
 - MC.Server must have a bound IP for textual purpose (server.properties->server-ip).
 - Player can request to be registered via Discord® but MC.whitelist always have the last word for allowed connecions.

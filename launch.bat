@@ -1,7 +1,7 @@
 cls
 @echo off
 set JAVA18_FOLDER=D:\Program Files\Java\jdk-18.0.2
-set MC_SERVER_FILE=paper-1.19.2-141.jar
+set MC_SERVER_FILE=paper-1.19.2-211.jar
 set BOOT_MAX_RAM=8G
 set EXEC_MAX_RAM=8G
 

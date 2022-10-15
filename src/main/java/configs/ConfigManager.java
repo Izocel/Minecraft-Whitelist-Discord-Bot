@@ -43,6 +43,7 @@ public final class ConfigManager {
     // Discord commands names
     private final String serverCmdName="server";
     private final String registerCmdName="register";
+    private final String lookupMcPlayerCmdName="dig-player";
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
@@ -85,6 +86,7 @@ public final class ConfigManager {
 
         configs.put("serverCmdName", this.serverCmdName);
         configs.put("registerCmdName", this.registerCmdName);
+        configs.put("lookupMcPlayerCmdName", this.lookupMcPlayerCmdName);
 
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
     }
