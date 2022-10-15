@@ -387,7 +387,7 @@ public class RegisterCommand extends ListenerAdapter {
                     .setEphemeral(true).queue();
 
 
-            plugin.deletePlayerRegistration(UUID.fromString(uuid));
+            plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
 
         } catch (Exception e) {
             SentryService.captureEx(e);

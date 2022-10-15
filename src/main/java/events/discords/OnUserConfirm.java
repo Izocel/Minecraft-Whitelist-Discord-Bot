@@ -82,7 +82,7 @@ public class OnUserConfirm extends ListenerAdapter {
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
             final String uuid = fields.get(1).getValue();
 
-            plugin.getBukkitManager().sanitizeAnKickPlayer(uuid);
+            plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
 
             event.reply("✔️ La demande a bien été rejetée.").queue();
             event.getMessage().editMessage("All good").setActionRows(ActionRow.of(

@@ -102,32 +102,83 @@ public class BukkitManager {
         process.finish();
     }
 
-    public void sanitizeAnKickPlayer(String uuid) {
+    public boolean banPlayer(String uuid) {
         try {
             final UUID UUID = java.util.UUID.fromString(uuid);
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID);
-            if (player != null)
+
+            if (player != null) {
                 player.setWhitelisted(false);
+                kickPlayer(uuid);
+            }
 
+            plugin.deletePlayerRegistration(UUID);
+            return getServer().getPlayer(UUID) == null;
+            
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
+
+    }
+
+    public boolean kickPlayer(String uuid) {
+        try {
+            final UUID UUID = java.util.UUID.fromString(uuid);
             Player onlinePlayer = getServer().getPlayer(UUID);
-            if (onlinePlayer != null) {
-                Bukkit.getScheduler().runTask(plugin, new Runnable() {
-                    public void run() {
-                        if (onlinePlayer != null) {
-                            onlinePlayer.kickPlayer(
-                                    "§lVous ne faites plus partie de l'aventure...\n Ce compte n'est plus enregistré.");
-                        }
-                    }
-                });
+            if(onlinePlayer == null) {
+                return true;
             }
 
-            if(!plugin.deletePlayerRegistration(UUID)) {
-                logger.warning("Could not find any registered player with UUID: " + uuid);
-                throw new Exception("Could not find any registered player with UUID: " + uuid);
-            }
+            Bukkit.getScheduler().runTask(plugin, new Runnable() {
+                public void run() {
+                    onlinePlayer.kickPlayer("§lVous ne faites plus partie de l'aventure...\n");
+                }
+            });
+            
+            return getServer().getPlayer(UUID) == null;
 
         } catch (Exception e) {
             SentryService.captureEx(e);
+            return false;
+        }
+    }
+
+    public boolean sanitizeAnKickPlayer(String uuid) {
+        try {
+            if(uuid == null) {
+                return true;
+            }
+
+            final UUID UUID = java.util.UUID.fromString(uuid);
+            if(plugin.deletePlayerRegistration(UUID)){
+                return kickPlayer(uuid);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
+    }
+
+    public boolean sanitizeAndBanPlayer(String uuid) {
+        try {
+            if(uuid == null) {
+                return true;
+            }
+
+            final UUID UUID = java.util.UUID.fromString(uuid);
+            if(plugin.deletePlayerRegistration(UUID)){
+                return banPlayer(uuid);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
         }
     }
 
