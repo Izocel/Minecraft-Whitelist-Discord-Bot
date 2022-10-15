@@ -44,13 +44,13 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
       final String uuid = playerData.getString("uuid");
       final Integer userId = playerData.getInt("user_id");
-      final Boolean isConfirmed  = playerData.optString("confirmed") == "1";
+      final Boolean isConfirmed  = playerData.optString("confirmed").equals("1");
       final String registrationDate  = playerData.optString("created_at", null);
 
       final User user = DaoManager.getUsersDao().findUser(userId);
 
       if(isConfirmed) {
-        final String msg = "Vos compte sont déja confirmées...\n Discord-Id: "+ user.getDiscordId();
+        final String msg = "Vos compte sont déja confirmées...\nDiscord-Id: "+ user.getDiscordId();
         player.sendMessage(msg);
         return;
       }

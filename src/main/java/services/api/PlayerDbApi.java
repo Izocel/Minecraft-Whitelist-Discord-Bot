@@ -81,7 +81,7 @@ public class PlayerDbApi extends Api{
             uuid = Helper.toXboxDecimal(uuid);
 
             JSONArray data = Fetcher.toJson(
-                Fetcher.fetch("GET", minecraftEndpoint + uuid, null, null)
+                Fetcher.fetch("GET", xboxEndpoint + uuid, null, null)
             );
 
             final JSONObject playerData = data.getJSONObject(0).getJSONObject("data").getJSONObject("player");

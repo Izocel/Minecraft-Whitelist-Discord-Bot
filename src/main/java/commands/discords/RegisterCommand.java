@@ -71,16 +71,21 @@ public class RegisterCommand extends ListenerAdapter {
 
             String replyJava = "";
             String replyBedrock= "";
-            final String javaUuid = PlayerDbApi.getMinecraftUUID(pseudoJava);
-            final String bedrockUuid = PlayerDbApi.getXboxUUID(pseudoBedrock);
+            String javaUuid = null;
+            String bedrockUuid = null;
+            if(pseudoJava != null) {
+                javaUuid = PlayerDbApi.getMinecraftUUID(pseudoJava);
 
-
-            if(pseudoJava != null && javaUuid == null) {
-                replyJava = "❌ **Votre UUIDs pour `Java` n'a pas pu être retrouvés sur les serveurs...**";
+                if(javaUuid == null) {
+                    replyJava = "❌ **Votre UUIDs pour `Java` n'a pas pu être retrouvés sur les serveurs...**";
+                }
             }
+            if(pseudoBedrock != null) {
+                bedrockUuid = PlayerDbApi.getXboxUUID(pseudoBedrock);
 
-            if(pseudoJava != null && javaUuid == null) {
-                replyBedrock = "❌ **Votre UUIDs pour `Bedrock` n'a pas pu être retrouvés sur les serveurs...**";
+                if(bedrockUuid == null) {
+                    replyBedrock = "❌ **Votre UUIDs pour `Bedrock` n'a pas pu être retrouvés sur les serveurs...**";
+                }
             }
 
             if (javaUuid == null && bedrockUuid == null) {

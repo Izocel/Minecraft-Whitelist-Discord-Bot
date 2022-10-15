@@ -39,11 +39,11 @@ public class BedrockData extends BaseModel {
         final Object isAllowed = json.opt("allowed");
 
         this.confirmed = isConfirmed != null ?
-            isConfirmed.toString() == "1" 
+            isConfirmed.toString().equals("1")
             || (int)isConfirmed == 1 : false;
 
         this.allowed = isAllowed != null ?
-            isAllowed.toString() == "1" 
+            isAllowed.toString().equals("1")
             || (int)isAllowed == 1 : false;
     }
 

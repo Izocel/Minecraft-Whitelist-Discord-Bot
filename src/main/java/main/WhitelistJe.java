@@ -250,7 +250,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                 final String uuidReccord = player.getString("uuid");
     
                 if (uuidReccord.equals(uuid.toString())) {
-                    final boolean confirmed = player.optString("confirmed") == "1";
+                    final boolean confirmed = player.optString("confirmed").equals("1");
                     allowedUserId = confirmed ? player.getInt("id") : -1;
                     break;
                 }
