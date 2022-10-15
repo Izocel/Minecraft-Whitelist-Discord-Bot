@@ -75,9 +75,9 @@ public class Helper {
             if (uuid.length() < 32) {
                 uuid = StringUtils.repeat("0", 32 - uuid.length()) + uuid;
             }
-
-            String sanitized = "";
+            
             if(!isHexaDecimal(uuid)) {
+                String sanitized = "";
                 final Integer[] lengths = { 8, 4, 4, 4 };
 
                 int j = 0;
@@ -92,10 +92,12 @@ public class Helper {
                         j++;
                     }
                 }
+
+                uuid = sanitized;
             }
 
-            if(isMCUUID(sanitized)) {
-                return sanitized;
+            if(isMCUUID(uuid)) {
+                return uuid;
             }
 
             throw new Exception("Final uuid format is not ok !");
