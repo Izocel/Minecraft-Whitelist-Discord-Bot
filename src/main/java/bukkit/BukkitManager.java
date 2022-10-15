@@ -1,6 +1,7 @@
 package bukkit;
 
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -9,21 +10,33 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
 import commands.bukkit.ConfirmLinkCmd;
-import dao.UsersDao;
+import dao.DaoManager;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
-import services.sentry.SentryService;
+import io.sentry.ISpan;
+import io.sentry.SpanStatus;
 import main.WhitelistJe;
-import models.User;
+import models.BedrockData;
+import models.JavaData;
+import services.api.PlayerDbApi;
+import services.sentry.SentryService;
 
 public class BukkitManager {
     private WhitelistJe plugin;
+    private Logger logger;
 
     public BukkitManager(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+                .startChild("BukkitManager");
+
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
         this.registerEvents(plugin);
         this.registerCommands(plugin);
+
+        process.setStatus(SpanStatus.OK);
+        process.finish();
     }
 
     public Server getServer() {
@@ -59,6 +72,8 @@ public class BukkitManager {
     }
 
     private void registerEvents(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+                .startChild("BukkitManager.registerEvents");
         try {
             Bukkit.getPluginManager().registerEvents(new OnPlayerLoggin(plugin), plugin);
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(plugin), plugin);
@@ -66,9 +81,15 @@ public class BukkitManager {
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
+
+        process.setStatus(SpanStatus.OK);
+        process.finish();
     }
 
     private void registerCommands(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+                .startChild("BukkitManager.registerCommands");
+
         final String linkCmd = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
 
         try {
@@ -76,30 +97,165 @@ public class BukkitManager {
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
+
+        process.setStatus(SpanStatus.OK);
+        process.finish();
     }
 
-    public void sanitizeAnKickPlayer(UUID mcUuid) {
+    public boolean banPlayer(String uuid) {
         try {
+            final UUID UUID = java.util.UUID.fromString(uuid);
+            OfflinePlayer player = Bukkit.getOfflinePlayer(UUID);
 
-            OfflinePlayer player = Bukkit.getOfflinePlayer(mcUuid);
-            if (player != null)
+            if (player != null) {
                 player.setWhitelisted(false);
+                kickPlayer(uuid);
+            }
 
-            final UsersDao dao = plugin.getDaoManager().getUsersDao();
-            final User user = dao.findByMcUUID(mcUuid.toString());
-            if (user != null)
-                user.delete(dao);
+            plugin.deletePlayerRegistration(UUID);
+            return getServer().getPlayer(UUID) == null;
+            
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
 
-            Player onlinePlayer = getServer().getPlayer(mcUuid);
-            if (onlinePlayer != null) {
-                Bukkit.getScheduler().runTask(plugin, new Runnable() {
-                    public void run() {
-                        if (onlinePlayer != null) {
-                            onlinePlayer.kickPlayer(
-                                    "§lVous ne faites plus partie de l'aventure...\n§c§lCe compte n'est pas confirmé.");
-                        }
-                    }
-                });
+    }
+
+    public boolean kickPlayer(String uuid) {
+        try {
+            final UUID UUID = java.util.UUID.fromString(uuid);
+            Player onlinePlayer = getServer().getPlayer(UUID);
+            if(onlinePlayer == null) {
+                return true;
+            }
+
+            Bukkit.getScheduler().runTask(plugin, new Runnable() {
+                public void run() {
+                    onlinePlayer.kickPlayer("§lVous ne faites plus partie de l'aventure...\n");
+                }
+            });
+            
+            return getServer().getPlayer(UUID) == null;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
+    }
+
+    public boolean sanitizeAnKickPlayer(String uuid) {
+        try {
+            if(uuid == null) {
+                return true;
+            }
+
+            final UUID UUID = java.util.UUID.fromString(uuid);
+            if(plugin.deletePlayerRegistration(UUID)){
+                return kickPlayer(uuid);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
+    }
+
+    public boolean sanitizeAndBanPlayer(String uuid) {
+        try {
+            if(uuid == null) {
+                return true;
+            }
+
+            final UUID UUID = java.util.UUID.fromString(uuid);
+            if(plugin.deletePlayerRegistration(UUID)){
+                return banPlayer(uuid);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
+    }
+
+    public boolean setPlayerAsAllowed(Integer userId, String msgId, boolean allowed, String moderatorId, String uuid, boolean confirmed, String pseudo) {
+        final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+        final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+        if(javaData != null && javaData.isAllowed()) {
+            javaData.setAsAllowed(msgId, allowed, moderatorId);
+            return true;
+        }
+        
+        else if(bedData != null && bedData.isAllowed()) {
+            bedData.setAsAllowed(msgId, allowed, moderatorId);
+            return true;
+        }
+
+        else {
+            final String foundJava = PlayerDbApi.getMinecraftUUID(pseudo);
+            final String foundXbox = PlayerDbApi.getXboxUUID(pseudo);
+
+            if(foundJava != null && foundJava.equals(uuid)) {
+                JavaData data = new JavaData();
+                data.setMcName(pseudo);
+                if(allowed)
+                    data.setAcceptedBy(moderatorId);
+                else
+                    data.setRevokedBy(moderatorId);
+                    
+                
+                data.setUUID(uuid);
+                data.setUserId(userId);
+                data.setAsAllowed(msgId, allowed, moderatorId);
+                data.setAsConfirmed(confirmed);
+                data.save(DaoManager.getJavaDataDao());
+                return true;
+            }
+
+            else if(foundXbox != null && foundXbox.equals(uuid)) {
+                BedrockData data = new BedrockData();
+                data.setMcName(pseudo);
+                if(allowed)
+                    data.setAcceptedBy(moderatorId);
+                else
+                    data.setRevokedBy(moderatorId);
+                
+                data.setUUID(uuid);
+                data.setUserId(userId);
+                data.setAsAllowed(msgId, allowed, moderatorId);
+                data.setAsConfirmed(confirmed);
+                data.save(DaoManager.getBedrockDataDao());
+                return true;
+            }
+        }
+
+        logger.warning("Could not find any allowed player with UUID: " + uuid);
+        return false;
+    }
+
+
+    public void setPlayerAsConfirmed(String uuid) {
+        try {
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+            if(javaData != null && javaData.isAllowed()) {
+                javaData.setAsConfirmed(true);
+                javaData.save(DaoManager.getJavaDataDao());
+            }
+            
+            else if(bedData != null && bedData.isAllowed()) {
+                bedData.setAsConfirmed(true);
+                bedData.save(DaoManager.getBedrockDataDao());
+            }
+
+            else {
+                logger.warning("Could not find any allowed player with UUID: " + uuid);
             }
 
         } catch (Exception e) {
@@ -107,4 +263,9 @@ public class BukkitManager {
         }
     }
 
+    public Object getPlayerData(String uuid) {
+        final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+        final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+        return javaData != null ? javaData : bedData != null ? bedData : null; 
+    }
 }

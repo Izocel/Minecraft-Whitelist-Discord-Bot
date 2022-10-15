@@ -6,9 +6,9 @@ import helpers.Fetcher;
 import helpers.Helper;
 import services.sentry.SentryService;
 
-public class MojanApi extends Api{
-    private static String baseUri = "https://api.mojang.com";
-    private static String userProfileUri = baseUri + "/users/profiles/minecraft/";
+public class McHeadsApi extends Api{
+    private static String baseUri = "https://mc-heads.net/minecraft";
+    private static String userProfileUri = baseUri + "/profiles/";
 
     public static String getPlayerUUID(String username) {
         String uuid = null;

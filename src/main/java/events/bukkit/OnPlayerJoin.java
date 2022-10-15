@@ -1,7 +1,5 @@
 package events.bukkit;
 
-import java.sql.Timestamp;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
@@ -9,33 +7,79 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 import main.WhitelistJe;
+import models.BedrockData;
+import models.JavaData;
 import models.User;
 
 public class OnPlayerJoin implements Listener {
-    private WhitelistJe main;
+    private WhitelistJe plugin;
     private Logger logger;
 
-    public OnPlayerJoin(WhitelistJe main) {
+    public OnPlayerJoin(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
-        this.main = main;
+        this.plugin = plugin;
     }
-    
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         try {
             final Player loginPlayer = event.getPlayer();
-            final UUID pUUID = loginPlayer.getUniqueId();
-
-            User user = this.main.getDaoManager().getUsersDao().findByMcUUID(pUUID.toString());
-
-            if(user == null) {
+            
+            if(plugin.playerIsConfirmed(loginPlayer.getUniqueId()) > 0) {
                 return;
             }
 
-            this.handleConfirmation(user, event);
+            final String uuid = loginPlayer.getUniqueId().toString();
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+            final Integer confirmHourDelay = Integer.valueOf(
+                    this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "24"));
+
+            Integer userId = -1;
+            String registrationDate = null;
+            if (javaData != null) {
+                if (confirmHourDelay <= 0) {
+                    javaData.setAsConfirmed(true);
+                    return;
+                }
+                userId = javaData.getUserId();
+                registrationDate = javaData.getCreatedAt();
+            }
+
+            else if (bedData != null) {
+                if (confirmHourDelay <= 0) {
+                    bedData.setAsConfirmed(true);
+                    return;
+                }
+                userId = bedData.getUserId();
+                registrationDate = bedData.getCreatedAt();
+            }
+            else {
+                return;
+            }
+
+            final boolean canConfirm = Helper.isWithinXXHour(
+                Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
+
+            final User user = DaoManager.getUsersDao().findUser(userId);
+
+            String msg = getAllowMsg(user.getDiscordTag(), uuid);
+            Player player = event.getPlayer();
+
+            if (!canConfirm) {
+                msg = getDisallowMsg(user.getDiscordTag(), uuid);
+                event.getPlayer().setWhitelisted(false);
+                event.getPlayer().kickPlayer(msg);
+                plugin.deletePlayerRegistration(player.getUniqueId());
+                return;
+            }
+
+            player.sendMessage(msg);
 
         } catch (Exception e) {
             SentryService.captureEx(e);
@@ -43,50 +87,20 @@ public class OnPlayerJoin implements Listener {
         }
     }
 
-    public void handleConfirmation(User user, PlayerJoinEvent event) {
-        
-        Timestamp comparator = Helper.convertStringToTimestamp(user.getCreatedAt());
-        final Integer confirmHourDelay = Integer.valueOf(
-            this.main.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
-
-        final String tagDiscord = this.main.getGuildManager().getGuild().getMemberById(user.getDiscordId())
-        .getUser().getAsTag();
-
-        if(user.isConfirmed() || confirmHourDelay < 0) {
-            user.setAsConfirmed(true);
-            return;
-        }
-
-        String msg = getAllowMsg(tagDiscord, user.getMcUUID());
-        Player mcPlayer = event.getPlayer();
-        boolean canConfirm = Helper.isWithinXXHour(comparator, confirmHourDelay);
-
-        if(!canConfirm) {
-            msg = getDisallowMsg(tagDiscord, user.getMcUUID());
-            event.getPlayer().setWhitelisted(false);
-            event.getPlayer().kickPlayer(msg);
-
-            user.delete(this.main.getDaoManager().getUsersDao());
-            return;
-        }
-        
-        mcPlayer.sendMessage(msg);
-    }
-
     private String getDisallowMsg(String tagDiscord, String mcUUID) {
-        final String cmdName = this.main.getConfigManager().get("registerCmdName", "register");
-        return "\n\n§c§lLe délai pour confirmer ce compte est dépassé..."+
+        final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
+        return "\n\n§c§lLe délai pour confirmer ce compte est dépassé..." +
                 "\n§fLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§lEssayez de refaire une demande sur discord, utiliser la commande:\n§9    /" + cmdName +
-                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" + 
+                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +
                 "\n§fIdentifiant de la demande: " + mcUUID + "\n \n";
     }
 
     private String getAllowMsg(String tagDiscord, String mcUUID) {
-        final String cmdName = this.main.getConfigManager().get("confirmLinkCmdName", "wje-link");
+        final String cmdName = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
         return "§f§lLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§f§lPour comfirmer cette demande utiliser la commande:\n§9    /" + cmdName +
-                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" + 
+                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +
                 "\n§fIdentifiant de la demande: \n" + mcUUID + "\n \n";
     }
 }

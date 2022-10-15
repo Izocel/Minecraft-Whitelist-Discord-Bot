@@ -11,6 +11,8 @@ import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
 import configs.ConfigManager;
 import events.discords.OnUserConfirm;
+import io.sentry.ISpan;
+import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -34,14 +36,22 @@ public class DiscordManager {
     static private ConfigManager Configs = new ConfigManager();
 
     public DiscordManager(WhitelistJe plugin) {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager");
+
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
         this.connect();
         this.setupCommands();
         this.setupListener();
+
+        process.setStatus(SpanStatus.OK);
+        process.finish();
     }
 
     public void connect() {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager.connect");
         try {
             jda = JDABuilder.create(Configs.get("discordBotToken", null),
                     EnumSet.allOf(GatewayIntent.class))
@@ -55,10 +65,16 @@ public class DiscordManager {
             if (jda == null) {
                 throw new LoginException("Cannot initialize JDA");
             }
+            
         } catch (LoginException | InterruptedException e) {
+            process.setThrowable(e);
+            process.setStatus(SpanStatus.INTERNAL_ERROR);
             SentryService.captureEx(e);
             Bukkit.shutdown();
         }
+
+        process.setStatus(SpanStatus.OK);
+        process.finish();
     }
 
     private String setInvite() {
@@ -90,22 +106,32 @@ public class DiscordManager {
     }
 
     private void setupListener() {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager.setupListener");
+
         jda.addEventListener(new OnUserConfirm(plugin));
+
+        process.setStatus(SpanStatus.OK);
+        process.finish();
     }
 
     private void setupCommands() {
+        ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
+        .startChild("DiscordManager.setupCommands");
+
         try {
-            // Serveer
+            // Server
             final String srvCmd = this.plugin.getConfigManager().get("serverCmdName", "server");
             jda.addEventListener(new ServerCommand(plugin));
             jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
             .queue();
 
-            // Register
+            // Register 
             final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(plugin));
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
-            .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`", true)
+            .addOption(OptionType.STRING, "pseudo-java", "Votre pseudo Java -> Minecraft®", false)
+            .addOption(OptionType.STRING, "pseudo-bedrock", "Votre pseudo Bedrock -> Minecraft®", false)
             .queue();
     
             // // Whitelist
@@ -123,7 +149,11 @@ public class DiscordManager {
             
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");
+            SentryService.captureEx(e);
         }
+
+        process.setStatus(SpanStatus.OK);
+        process.finish();
     }
 
     public void disconnect() {
