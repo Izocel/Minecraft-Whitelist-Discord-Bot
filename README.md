@@ -49,7 +49,7 @@ CREATE TABLE `wje_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `discord_id_UNIQUE` (`discord_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs
 
 CREATE TABLE IF NOT EXISTS `wje_java_data` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `wje_java_data` (
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`),
   FOREIGN KEY (user_id) REFERENCES wje_users(id) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
 
 CREATE TABLE IF NOT EXISTS `wje_bedrock_data` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `wje_bedrock_data` (
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`),
   FOREIGN KEY (user_id) REFERENCES wje_users(id) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_as_cs;
  ```
 ## Configurations:
 
