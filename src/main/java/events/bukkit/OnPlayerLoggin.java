@@ -78,24 +78,36 @@ public class OnPlayerLoggin implements Listener {
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
+            final boolean allowed = plugin.playerIsAllowed(loginPlayer.getUniqueId()) > 0;
+
             if(javaData != null) {
                 javaData.setMcName(loginPlayer.getName());
+
+                if(!allowed) {
+                    event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
+                    loginPlayer.setWhitelisted(false);
+                    plugin.deletePlayerRegistration(UUID.fromString(uuid));
+                    return;
+                }
+
                 javaData.save(DaoManager.getJavaDataDao());
             }
 
             else if(bedData != null) {
                 bedData.setMcName(PlayerDbApi.getXboxPseudo(loginPlayer.getUniqueId().toString()));
                 bedData.save(DaoManager.getBedrockDataDao());
+
+                if(!allowed) {
+                    event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
+                    loginPlayer.setWhitelisted(false);
+                    plugin.deletePlayerRegistration(UUID.fromString(uuid));
+                    return;
+                }
+
+                bedData.save(DaoManager.getJavaDataDao());
             }
 
             boolean isWhitelisted = false;
-            final boolean allowed = plugin.playerIsAllowed(loginPlayer.getUniqueId()) > 0;
-
-            if(!allowed) {
-                event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
-                return;
-            }
-
             Bukkit.getServer().setWhitelist(true);
             loginPlayer.setWhitelisted(true);
 
