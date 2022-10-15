@@ -1,8 +1,5 @@
 package services.api;
 
-import java.util.logging.Logger;
-
-import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,9 +18,8 @@ public class PlayerDbApi extends Api{
         if(username == null ) {
             return null;
         }
-        String uuid = null;
-        String formatedUuid = null;
         try {
+
             if(!Helper.isMcPseudo(username)) {
                 throw new Exception("Bad username provided");
             }
@@ -32,58 +28,25 @@ public class PlayerDbApi extends Api{
             );
 
             final JSONObject playerData = data.getJSONObject(0).getJSONObject("data").getJSONObject("player");
+            final String pseudo = playerData.optString("username");
 
-            // id === uuid
-            uuid = playerData.optString("id");
-            final String name = playerData.optString("username");
-
-            if(!name.equals(username))
+            if(!pseudo.equals(username))
                 return null;
 
-            if(uuid.contains("-")) {
-                return uuid;
-            }
-
-            if(Helper.isNumeric(uuid)) {
-                uuid = Helper.decimalToHex(Long.parseLong(uuid));
-            }
-
-            if(uuid.length() < 32) {
-                uuid = StringUtils.repeat("0", 32-uuid.length()) + uuid;
-            }
-
-            final Integer[] lengths = {8,4,4,4};
-
-            int j = 0;
-            int k = 0;
-            formatedUuid = "";
-            for (int i = 0; i < uuid.length(); i++) {
-                formatedUuid += uuid.charAt(i);
-                k++;
-                if(j < lengths.length && k == lengths[j]) {
-                    formatedUuid += "-";
-                    k = 0;
-                    j++;
-                }
-            }
-
-            if(!Helper.isMCUUID(formatedUuid)) {
-                return null;
-            }
+            return Helper.sanitizeUUID(playerData.optString("id"));
 
         } catch (Exception e) {
             SentryService.captureEx(e);
+            return null;
         }
-
-        return formatedUuid;
+        
     }
 
     public static String getMinecraftUUID(String username) {
         if(username == null ) {
             return null;
         }
-        String uuid = null;
-        String formatedUuid = null;
+
         try {
             if(!Helper.isMcPseudo(username)) {
                 throw new Exception("Bad username provided");
@@ -93,47 +56,84 @@ public class PlayerDbApi extends Api{
             );
 
             final JSONObject playerData = data.getJSONObject(0).getJSONObject("data").getJSONObject("player");
+            final String pseudo = playerData.optString("username");
 
-            // id === uuid
-            uuid = playerData.optString("id");
-            final String name = playerData.optString("username");
-
-            if(!name.equals(username))
+            if(!pseudo.equals(username))
                 return null;
 
-            if(Helper.isMCUUID(uuid)) {
-                return uuid;
-            }
-
-            if(Helper.isNumeric(uuid)) {
-                uuid = Helper.decimalToHex(Long.parseLong(uuid));
-            }
-
-            final Integer[] lengths = {8,4,4,4};
-
-            int j = 0;
-            int k = 0;
-            formatedUuid = "";
-            for (int i = 0; i < uuid.length(); i++) {            
-                formatedUuid += uuid.charAt(i);
-                k++;
-                if(j < lengths.length && k == lengths[j]) {
-                    formatedUuid += "-";
-                    k = 0;
-                    j++;
-                }
-            }
-
-
-            if(!Helper.isMCUUID(formatedUuid)) {
-                return null;
-            }
+            return Helper.sanitizeUUID(playerData.optString("id"));
 
         } catch (Exception e) {
             SentryService.captureEx(e);
+            return null;
+        }
+    }
+
+    public static String getXboxPseudo(String uuid) {
+        if(uuid == null ) {
+            return null;
         }
 
-        return formatedUuid;
+        String pseudo = null;
+
+        try {
+            uuid = Helper.sanitizeUUID(uuid);
+            uuid = Helper.toXboxDecimal(uuid);
+
+            JSONArray data = Fetcher.toJson(
+                Fetcher.fetch("GET", minecraftEndpoint + uuid, null, null)
+            );
+
+            final JSONObject playerData = data.getJSONObject(0).getJSONObject("data").getJSONObject("player");
+
+            if(!uuid.equals(playerData.optString("id")))
+                return null;
+
+            uuid = playerData.optString("id");
+            final String name = playerData.optString("username");
+            if(Helper.isMcPseudo(name)) {
+                pseudo = name;
+            }
+        }
+        catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return pseudo;
     }
+
+    public static String getMinecraftPseudo(String uuid) {
+        if(uuid == null ) {
+            return null;
+        }
+        String pseudo = null;
+
+        try {
+            if(!Helper.isMCUUID(uuid)) {
+                throw new Exception("Bad uuid provided");
+            }
+            JSONArray data = Fetcher.toJson(
+                Fetcher.fetch("GET", minecraftEndpoint + uuid, null, null)
+            );
+
+            final JSONObject playerData = data.getJSONObject(0).getJSONObject("data").getJSONObject("player");
+
+            if(!uuid.equals(playerData.optString("id")))
+                return null;
+
+            uuid = playerData.optString("id");
+            final String name = playerData.optString("username");
+            if(Helper.isMcPseudo(name)) {
+                pseudo = name;
+            }
+        }
+        catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return pseudo;
+    }
+
+
     
 }

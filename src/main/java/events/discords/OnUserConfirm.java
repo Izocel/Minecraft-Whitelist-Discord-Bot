@@ -1,11 +1,11 @@
 package events.discords;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import commands.bukkit.ConfirmLinkCmd;
 import main.WhitelistJe;
-import models.JavaData;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -34,10 +34,9 @@ public class OnUserConfirm extends ListenerAdapter {
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
             final String uuid = fields.get(1).getValue();
 
-            //TODO create a baseModel
-            JavaData userData = (JavaData) plugin.getBukkitManager().getPlayerData(uuid);
+            final boolean alreadyConfirmed = plugin.playerIsConfirmed(UUID.fromString(uuid)) > 0;
 
-            if(userData.isConfirmed()) {
+            if(alreadyConfirmed) {
                 event.reply("✔️ Vos compte sont déjà reliés et confirmés.\n Minecraft-UUID: " + uuid).queue();
                 event.getMessage().editMessage("All good").setActionRows(ActionRow.of(
                     Button.primary("All good", "✔️ All good").asDisabled()
@@ -56,6 +55,7 @@ public class OnUserConfirm extends ListenerAdapter {
             
         } catch (Exception e) {
             event.reply("❌ Cette demande a rencontrée des problèmes. Contactez un admin!").queue();
+            SentryService.captureEx(e);
         }
     }
 

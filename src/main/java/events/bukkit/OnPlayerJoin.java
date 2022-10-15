@@ -1,7 +1,5 @@
 package events.bukkit;
 
-import java.sql.Timestamp;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
@@ -13,6 +11,7 @@ import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
 import main.WhitelistJe;
+import models.BedrockData;
 import models.JavaData;
 import models.User;
 
@@ -24,20 +23,60 @@ public class OnPlayerJoin implements Listener {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }
-    
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         try {
             final Player loginPlayer = event.getPlayer();
-            final UUID UUID = loginPlayer.getUniqueId();
-
-            Object dataObj = plugin.getBukkitManager().getPlayerData(UUID.toString());
-            if(dataObj == null) {
+            
+            if(plugin.playerIsConfirmed(loginPlayer.getUniqueId()) > 0) {
                 return;
             }
 
-            JavaData data = (JavaData) dataObj;
-            this.handleConfirmation(data, event);
+            final String uuid = loginPlayer.getUniqueId().toString();
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+            final Integer confirmHourDelay = Integer.valueOf(
+                    this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "24"));
+
+            Integer userId = -1;
+            String registrationDate = null;
+            if (javaData != null) {
+                if (confirmHourDelay <= 0) {
+                    javaData.setAsConfirmed(true);
+                    return;
+                }
+                userId = javaData.getUserId();
+                registrationDate = javaData.getCreatedAt();
+            }
+
+            else if (bedData != null) {
+                if (confirmHourDelay <= 0) {
+                    bedData.setAsConfirmed(true);
+                    return;
+                }
+                userId = bedData.getUserId();
+                registrationDate = bedData.getCreatedAt();
+            }
+
+            final boolean canConfirm = Helper.isWithinXXHour(
+                Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
+
+            final User user = DaoManager.getUsersDao().findUser(userId);
+
+            String msg = getAllowMsg(user.getDiscordTag(), uuid);
+            Player player = event.getPlayer();
+
+            if (!canConfirm) {
+                msg = getDisallowMsg(user.getDiscordTag(), uuid);
+                event.getPlayer().setWhitelisted(false);
+                event.getPlayer().kickPlayer(msg);
+                plugin.deletePlayerRegistration(player.getUniqueId());
+                return;
+            }
+
+            player.sendMessage(msg);
 
         } catch (Exception e) {
             SentryService.captureEx(e);
@@ -45,43 +84,12 @@ public class OnPlayerJoin implements Listener {
         }
     }
 
-    public void handleConfirmation(JavaData data, PlayerJoinEvent event) {
-        
-        Timestamp comparator = Helper.convertStringToTimestamp(data.getCreatedAt());
-        final Integer confirmHourDelay = Integer.valueOf(
-            this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
-
-        final User user = DaoManager.getUsersDao().findUser(data.getId());
-        final String tagDiscord = this.plugin.getGuildManager().getGuild().getMemberById(user.getDiscordId())
-        .getUser().getAsTag();
-
-        if(data.isConfirmed() || confirmHourDelay < 0) {
-            data.setAsConfirmed(true);
-            return;
-        }
-
-        String msg = getAllowMsg(tagDiscord, data.getUUID());
-        Player mcPlayer = event.getPlayer();
-        boolean canConfirm = Helper.isWithinXXHour(comparator, confirmHourDelay);
-
-        if(!canConfirm) {
-            msg = getDisallowMsg(tagDiscord, data.getUUID());
-            event.getPlayer().setWhitelisted(false);
-            event.getPlayer().kickPlayer(msg);
-
-            user.delete(DaoManager.getUsersDao());
-            return;
-        }
-        
-        mcPlayer.sendMessage(msg);
-    }
-
     private String getDisallowMsg(String tagDiscord, String mcUUID) {
         final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
-        return "\n\n§c§lLe délai pour confirmer ce compte est dépassé..."+
+        return "\n\n§c§lLe délai pour confirmer ce compte est dépassé..." +
                 "\n§fLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§lEssayez de refaire une demande sur discord, utiliser la commande:\n§9    /" + cmdName +
-                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" + 
+                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +
                 "\n§fIdentifiant de la demande: " + mcUUID + "\n \n";
     }
 
@@ -89,7 +97,7 @@ public class OnPlayerJoin implements Listener {
         final String cmdName = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
         return "§f§lLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§f§lPour comfirmer cette demande utiliser la commande:\n§9    /" + cmdName +
-                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" + 
+                "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +
                 "\n§fIdentifiant de la demande: \n" + mcUUID + "\n \n";
     }
 }

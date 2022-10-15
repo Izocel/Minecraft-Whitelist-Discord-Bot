@@ -1,6 +1,5 @@
 package events.bukkit;
 
-import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -14,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import dao.DaoManager;
+import services.api.PlayerDbApi;
 import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.BedrockData;
@@ -75,41 +75,29 @@ public class OnPlayerLoggin implements Listener {
             final Player loginPlayer = event.getPlayer();
             final String uuid = loginPlayer.getUniqueId().toString();
 
-            final Object dataObj = plugin.getBukkitManager().getPlayerData(uuid);
-            boolean allowed = false;
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
-            JavaData data = null;
-            if(dataObj != null) {
-
-                final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
-                final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
-
-                data = (JavaData) dataObj;
-                data.setMcName(loginPlayer.getName());
-                allowed = data.isAllowed();
-
-                if(data.getUUID().equals(javaData.getUUID())) {
-                    data.save(DaoManager.getJavaDataDao());
-                }
-                else if(data.getUUID().equals(bedData.getUUID())) {
-                    data.save(DaoManager.getBedrockDataDao());
-                }
-                else {
-                    allowed = false;
-                }
+            if(javaData != null) {
+                javaData.setMcName(loginPlayer.getName());
+                javaData.save(DaoManager.getJavaDataDao());
             }
+
+            else if(bedData != null) {
+                bedData.setMcName(PlayerDbApi.getXboxPseudo(loginPlayer.getUniqueId().toString()));
+                bedData.save(DaoManager.getBedrockDataDao());
+            }
+
+            boolean isWhitelisted = false;
+            final boolean allowed = plugin.playerIsAllowed(loginPlayer.getUniqueId()) > 0;
 
             if(!allowed) {
                 event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
                 return;
             }
 
-            boolean isWhitelisted = false;
-
-            if (allowed) {
-                Bukkit.getServer().setWhitelist(true);
-                loginPlayer.setWhitelisted(true);
-            }
+            Bukkit.getServer().setWhitelist(true);
+            loginPlayer.setWhitelisted(true);
 
             final boolean usingWhiteList = bukServer.hasWhitelist();
             final boolean forceWhitelist = bukServer.isWhitelistEnforced();

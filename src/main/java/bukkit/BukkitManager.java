@@ -202,11 +202,15 @@ public class BukkitManager {
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
-            if(javaData != null && javaData.isAllowed())
+            if(javaData != null && javaData.isAllowed()) {
                 javaData.setAsConfirmed(true);
+                javaData.save(DaoManager.getJavaDataDao());
+            }
             
-            else if(bedData != null && bedData.isAllowed())
+            else if(bedData != null && bedData.isAllowed()) {
                 bedData.setAsConfirmed(true);
+                bedData.save(DaoManager.getBedrockDataDao());
+            }
 
             else {
                 logger.warning("Could not find any allowed player with UUID: " + uuid);
@@ -220,6 +224,6 @@ public class BukkitManager {
     public Object getPlayerData(String uuid) {
         final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
         final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
-        return javaData != null ? javaData : bedData; 
+        return javaData != null ? javaData : bedData != null ? bedData : null; 
     }
 }

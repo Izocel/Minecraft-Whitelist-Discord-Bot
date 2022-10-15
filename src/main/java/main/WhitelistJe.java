@@ -17,6 +17,8 @@ import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import models.BedrockData;
+import models.JavaData;
 import services.sentry.SentryService;
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
@@ -173,11 +175,11 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
         JSONArray java = DaoManager.getJavaDataDao().findAllowed();
         if(java != null)
-            this.players.putAll(java);
+            this.playersAllowed.putAll(java);
 
         JSONArray bedrocks = DaoManager.getBedrockDataDao().findAllowed();
         if(bedrocks != null)
-            this.players.putAll(bedrocks);
+            this.playersAllowed.putAll(bedrocks);
 
         process.setStatus(SpanStatus.OK);
         process.finish();
@@ -221,7 +223,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             for (Object object : this.playersAllowed) {
                 final JSONObject player = (JSONObject) object;
                 final String uuidReccord = player.optString("uuid");
-    
+
                 if (uuidReccord.equals(uuid.toString())) {
                     allowedUserId = player.getInt("id");
                     break;
@@ -245,10 +247,10 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         try {
             for (Object object : this.players) {
                 final JSONObject player = (JSONObject) object;
-                final String uuidReccord = player.optString("uuid");
+                final String uuidReccord = player.getString("uuid");
     
                 if (uuidReccord.equals(uuid.toString())) {
-                    final boolean confirmed = player.optBoolean("confirmed");
+                    final boolean confirmed = player.optString("confirmed") == "1";
                     allowedUserId = confirmed ? player.getInt("id") : -1;
                     break;
                 }
@@ -258,5 +260,59 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         }
 
         return allowedUserId;
+    }
+
+    public JSONObject getMinecraftDataJson(UUID uuid) {
+        JSONObject data = null;
+        this.updateAllPlayers();
+
+        if(this.players == null) {
+            return null;
+        }
+
+        try {
+            for (Object object : this.players) {
+                final JSONObject playerData = (JSONObject) object;
+                final String uuidReccord = playerData.getString("uuid");
+    
+                if (uuidReccord.equals(uuid.toString())) {
+                    data = playerData;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return data;
+    }
+
+    public boolean deletePlayerRegistration(UUID UUID) {
+        boolean ok = false;
+        this.updateAllPlayers();
+
+        if(this.players == null || UUID == null) {
+            return false;
+        }
+
+        try {
+            final String uuid = UUID.toString();
+
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+            if(javaData != null) {
+                ok = javaData.delete(DaoManager.getJavaDataDao()) > 0;
+            }
+
+            else if(bedData != null) {
+                ok = bedData.delete(DaoManager.getBedrockDataDao()) > 0;
+            }
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return ok;
     }
 }
