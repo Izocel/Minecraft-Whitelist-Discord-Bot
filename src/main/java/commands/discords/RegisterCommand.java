@@ -342,8 +342,9 @@ public class RegisterCommand extends ListenerAdapter {
                             .asDisabled())
                     .queue();
 
+            final String avatarUrl = plugin.getBukkitManager().getAvatarUrl(uuid, "72");
             final String newMsg = "**Nous te souhaitons bienvenue, <@" + discordId + "> :: `" + pseudo
-                    + "` Enjoy  ⛏🧱 !!!**";
+                    + "` Enjoy  ⛏🧱 !!!**\n" + avatarUrl;
             gManager.getWelcomeChannel().sendMessage(newMsg).queue();
 
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {

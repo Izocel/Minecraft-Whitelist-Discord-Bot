@@ -268,4 +268,32 @@ public class BukkitManager {
         final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
         return javaData != null ? javaData : bedData != null ? bedData : null; 
     }
+
+    public String getAvatarUrl(String uuid, String pxSize) {
+        try {
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+    
+            String type = null;
+            if(javaData != null) {
+                type = "Java";
+            }
+    
+            else if(bedData != null) {
+                type = "Bedrock";
+            }
+    
+            return type == "Bedrock" 
+            ? "https://api.tydiumcraft.net/v1/players/skin?uuid=" + uuid + "&size=" + pxSize
+            : type == "Java" 
+            ? "https://mc-heads.net/body/" + uuid + "/" + pxSize
+            : "https://mc-heads.net/body/08673fd1-1196-43be-bc8b-e93fd2dee36d/" + pxSize;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return "https://mc-heads.net/body/08673fd1-1196-43be-bc8b-e93fd2dee36d/";
+        }
+
+
+    }
 }
