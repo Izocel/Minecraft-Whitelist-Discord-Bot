@@ -17,6 +17,8 @@ import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import models.BedrockData;
+import models.JavaData;
 import services.sentry.SentryService;
 
 public final class WhitelistJe extends JavaPlugin implements Listener {
@@ -148,7 +150,17 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
         .startChild("updateAllPlayers");
         
-        this.players = daoManager.getUsersDao().findAll();
+        this.players = new JSONArray();
+
+        JSONArray java = DaoManager.getJavaDataDao().findAll();
+        if(java != null)
+            this.players.putAll(java);
+
+        JSONArray bedrocks = DaoManager.getBedrockDataDao().findAll();
+        if(bedrocks != null)
+            this.players.putAll(bedrocks);
+
+        updateAllowedPlayers();
 
         process.setStatus(SpanStatus.OK);
         process.finish();
@@ -159,15 +171,44 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
         .startChild("updateAllowedPlayers");
 
-        this.playersAllowed = daoManager.getUsersDao().findAllowed();
+        this.playersAllowed = new JSONArray();
+
+        JSONArray java = DaoManager.getJavaDataDao().findAllowed();
+        if(java != null)
+            this.playersAllowed.putAll(java);
+
+        JSONArray bedrocks = DaoManager.getBedrockDataDao().findAllowed();
+        if(bedrocks != null)
+            this.playersAllowed.putAll(bedrocks);
 
         process.setStatus(SpanStatus.OK);
         process.finish();
         return this.playersAllowed;
     }
 
-    public void updatePlayerUUID(Integer id, UUID mc_uuid, boolean tempConfirmed) {
-        daoManager.getUsersDao().setPlayerUUID(id, mc_uuid, tempConfirmed);
+    public Integer getPlayerId(UUID uuid) {
+        Integer userId = -1;
+        this.updateAllPlayers();
+
+        if(this.players == null) {
+            return -1;
+        }
+
+        try {
+            for (Object object : this.players) {
+                final JSONObject player = (JSONObject) object;
+                final String uuidReccord = player.optString("uuid");
+    
+                if (uuidReccord.equals(uuid.toString())) {
+                    userId = player.getInt("id");
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return userId;
     }
 
     public Integer playerIsAllowed(UUID uuid) {
@@ -181,8 +222,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         try {
             for (Object object : this.playersAllowed) {
                 final JSONObject player = (JSONObject) object;
-                final String uuidReccord = player.optString("mc_uuid");
-    
+                final String uuidReccord = player.optString("uuid");
+
                 if (uuidReccord.equals(uuid.toString())) {
                     allowedUserId = player.getInt("id");
                     break;
@@ -193,5 +234,83 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         }
 
         return allowedUserId;
+    }
+
+    public Integer playerIsConfirmed(UUID uuid) {
+        Integer allowedUserId = -1;
+        this.updateAllowedPlayers();
+
+        if(this.players == null) {
+            return -1;
+        }
+
+        try {
+            for (Object object : this.players) {
+                final JSONObject player = (JSONObject) object;
+                final String uuidReccord = player.getString("uuid");
+    
+                if (uuidReccord.equals(uuid.toString())) {
+                    final boolean confirmed = player.optString("confirmed").equals("1");
+                    allowedUserId = confirmed ? player.getInt("id") : -1;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return allowedUserId;
+    }
+
+    public JSONObject getMinecraftDataJson(UUID uuid) {
+        JSONObject data = null;
+        this.updateAllPlayers();
+
+        if(this.players == null) {
+            return null;
+        }
+
+        try {
+            for (Object object : this.players) {
+                final JSONObject playerData = (JSONObject) object;
+                final String uuidReccord = playerData.getString("uuid");
+    
+                if (uuidReccord.equals(uuid.toString())) {
+                    data = playerData;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return data;
+    }
+
+    public boolean deletePlayerRegistration(UUID UUID) {
+        try {
+            if(UUID == null) {
+                return false;
+            }
+
+            final String uuid = UUID.toString();
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+            if(javaData != null) {
+                return javaData.delete(DaoManager.getJavaDataDao()) > 0;
+            }
+
+            else if(bedData != null) {
+                return bedData.delete(DaoManager.getBedrockDataDao()) > 0;
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
+
     }
 }

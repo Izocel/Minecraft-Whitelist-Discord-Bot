@@ -120,17 +120,18 @@ public class DiscordManager {
         .startChild("DiscordManager.setupCommands");
 
         try {
-            // Serveer
+            // Server
             final String srvCmd = this.plugin.getConfigManager().get("serverCmdName", "server");
             jda.addEventListener(new ServerCommand(plugin));
             jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
             .queue();
 
-            // Register
+            // Register 
             final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(plugin));
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
-            .addOption(OptionType.STRING, "pseudo", "Votre pseudo `Minecraft®`", true)
+            .addOption(OptionType.STRING, "pseudo-java", "Votre pseudo Java -> Minecraft®", false)
+            .addOption(OptionType.STRING, "pseudo-bedrock", "Votre pseudo Bedrock -> Minecraft®", false)
             .queue();
     
             // // Whitelist
@@ -148,6 +149,7 @@ public class DiscordManager {
             
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");
+            SentryService.captureEx(e);
         }
 
         process.setStatus(SpanStatus.OK);

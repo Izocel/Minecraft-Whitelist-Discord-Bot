@@ -1,6 +1,5 @@
 package events.bukkit;
 
-import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -13,10 +12,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-import helpers.Helper;
+import dao.DaoManager;
+import services.api.PlayerDbApi;
 import services.sentry.SentryService;
 import main.WhitelistJe;
-import models.User;
+import models.BedrockData;
+import models.JavaData;
 
 /**
  * §l = bold text
@@ -59,7 +60,7 @@ public class OnPlayerLoggin implements Listener {
         return "§c§lCe serveur est sous whitelist Discord®§l" +
                 "§a\n\nJoin §l" + ds_srvName + "§a at: §9§n§l" + ds_inviteUrl +
                 "§f\n\n§lServer Version: §f" + version +
-                "§f\n\n§lServer IP: §f" + ip;
+                "§f\n\n§lServer Address: §f" + ip;
     }
 
     public OnPlayerLoggin(WhitelistJe plugin) {
@@ -67,54 +68,52 @@ public class OnPlayerLoggin implements Listener {
         this.plugin = plugin;
     }
 
-    public void handleConfirmation(User user, PlayerLoginEvent event) {
-        
-        Timestamp comparator = Helper.convertStringToTimestamp(user.getCreatedAt());
-        final Integer confirmHourDelay = Integer.valueOf(
-            this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "-1"));
-
-        if(user.isConfirmed() || confirmHourDelay < 0) {
-            user.setAsConfirmed(true);
-            return;
-        }
-
-        String msg = "Hello from WJE......... you must confirm";
-        Player mcPlayer = event.getPlayer();
-        boolean canConfirm = Helper.isWithinXXHour(comparator, confirmHourDelay);
-
-        if(!canConfirm) {
-            msg = "Hello from WJE......... cannot confirm";
-        }
-
-        mcPlayer.sendMessage(msg);
-    }
-
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event) {
         try {
-            Server bukServer = this.plugin.getBukkitManager().getServer();
+            Server bukServer = plugin.getBukkitManager().getServer();
             final Player loginPlayer = event.getPlayer();
-            final UUID pUUID = loginPlayer.getUniqueId();
-            final String pName = loginPlayer.getName();
+            final String uuid = loginPlayer.getUniqueId().toString();
 
-            final Integer allowedWithUUID = this.plugin.playerIsAllowed(pUUID);
-            final boolean isAllowed = allowedWithUUID != null && allowedWithUUID > 0;
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
-            if (isAllowed) {
-                User user = this.plugin.getDaoManager().getUsersDao().findUser(allowedWithUUID);
-                user.setMcName(pName);
-                user.save(this.plugin.getDaoManager().getUsersDao());
+            final boolean allowed = plugin.playerIsAllowed(loginPlayer.getUniqueId()) > 0;
+
+            if (javaData != null) {
+                javaData.setMcName(loginPlayer.getName());
+                javaData.save(DaoManager.getJavaDataDao());
+            }
+
+            else if (bedData != null) {
+                bedData.setMcName(PlayerDbApi.getXboxPseudo(loginPlayer.getUniqueId().toString()));
+                bedData.save(DaoManager.getBedrockDataDao());
+            }
+
+            else { // Player not found in registration
+                return;
+            }
+
+            if (!allowed) {
+                event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
+                plugin.deletePlayerRegistration(loginPlayer.getUniqueId());
+                return;
             }
 
             boolean isWhitelisted = false;
-
-            if (isAllowed) {
-                Bukkit.getServer().setWhitelist(true);
-                loginPlayer.setWhitelisted(true);
-            }
+            Bukkit.getServer().setWhitelist(true);
+            loginPlayer.setWhitelisted(true);
 
             final boolean usingWhiteList = bukServer.hasWhitelist();
             final boolean forceWhitelist = bukServer.isWhitelistEnforced();
+
+            Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
+            for (OfflinePlayer player : w_players) {
+                if (player.getUniqueId().equals(UUID.fromString(uuid))) {
+                    isWhitelisted = true;
+                    break;
+                }
+            }
 
             if (!usingWhiteList) {
                 this.logger.warning("Server is not using a whitelist");
@@ -123,17 +122,10 @@ public class OnPlayerLoggin implements Listener {
                 this.logger.warning("Server is not enforcing a whitelist");
                 event.allow();
                 return;
-            } else {
-                Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
-                for (OfflinePlayer player : w_players) {
-                    if (player.getUniqueId().equals(pUUID)) {
-                        isWhitelisted = true;
-                        break;
-                    }
-                }
             }
 
-            if (isAllowed && !isWhitelisted) {
+            // When WL is forced
+            if (allowed && !isWhitelisted) {
                 this.logger.warning("Le joueur est allowed mais n'a pas été retrouver dans la whitelist du serveur !!!");
             }
 
@@ -141,12 +133,11 @@ public class OnPlayerLoggin implements Listener {
                 event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
                 return;
             }
+
         } catch (Exception e) {
             SentryService.captureEx(e);
-            event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
             return;
         }
-
-        event.allow();
+        
     }
 }

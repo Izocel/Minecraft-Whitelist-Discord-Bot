@@ -5,6 +5,9 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -27,6 +30,17 @@ public class Helper {
     public static long dayMSLONG = 86400000;
     public static long hourMSLONG = dayMSLONG / 24;
 
+    public static String decimalToHex(Long decimal) {
+        return Long.toHexString(decimal);
+    }
+
+    public static Long hexToDecimal(String hex) {
+        if(hex.contains("-")) {
+            hex = hex.replaceAll("-", "");
+        }
+        return Long.parseLong(hex, 16);
+    }
+
     public static boolean isNumeric(String string) {
         return string.matches("^[0-9]+$");
     }
@@ -36,7 +50,65 @@ public class Helper {
     }
 
     public static boolean isMcPseudo(String string) {
-        return string.matches("^[a-zA-Z0-9_-]+{2,16}");
+        return string.matches("^[a-zA-Z0-9_-]{2,16}$");
+    }
+
+    public static boolean isHexaDecimal(String string) {
+        return string.matches("^[a-fA-F0-9-]+$");
+    }
+
+    public static boolean isMCUUID(String string) {
+        return isHexaDecimal(string)
+                && string.length() == 36;
+    }
+
+    public static String sanitizeUUID(String uuid) {
+        if(uuid == null || uuid.length() > 36) {
+            return null;
+        }
+
+        try {
+
+            if(isNumeric(uuid)) {
+                uuid = decimalToHex(Long.parseLong(uuid));
+            }
+
+            if (uuid.length() < 32) {
+                uuid = StringUtils.repeat("0", 32 - uuid.length()) + uuid;
+            }
+            
+            if(uuid.length() == 32 && !uuid.contains("-")) {
+                String sanitized = "";
+                final Integer[] lengths = { 8, 4, 4, 4 };
+
+                int j = 0;
+                int k = 0;
+                
+                for (int i = 0; i < uuid.length(); i++) {
+                    sanitized += uuid.charAt(i);
+                    k++;
+                    if (j < lengths.length && k == lengths[j]) {
+                        sanitized += "-";
+                        k = 0;
+                        j++;
+                    }
+                }
+
+                uuid = sanitized;
+            }
+
+            if(isMCUUID(uuid)) {
+                return uuid;
+            }
+
+            Logger.getLogger("test").info(uuid);
+            throw new Exception("Final uuid format is not ok !");
+        }
+
+        catch (Exception e) {
+            SentryService.captureEx(e);
+            return null;
+        }
     }
 
     public static Timestamp getTimestamp() {
@@ -89,14 +161,16 @@ public class Helper {
         return end > now;
     }
 
-    public static MessageAction preparePrivateCustomMsg(PrivateChannel channel, MessageEmbed embededs, ArrayList<ActionRow> actionRows) {
+    public static MessageAction preparePrivateCustomMsg(PrivateChannel channel, MessageEmbed embededs,
+            ArrayList<ActionRow> actionRows) {
         if (embededs.isSendable()) {
             return channel.sendMessageEmbeds(embededs).setActionRows(actionRows);
         }
         return null;
     }
 
-    public static MessageAction prepareTectCustomMsg(TextChannel channel, MessageEmbed embededs, ArrayList<ActionRow> actionRows) {
+    public static MessageAction prepareTectCustomMsg(TextChannel channel, MessageEmbed embededs,
+            ArrayList<ActionRow> actionRows) {
         if (embededs.isSendable()) {
             return channel.sendMessageEmbeds(embededs).setActionRows(actionRows);
         }
@@ -117,12 +191,12 @@ public class Helper {
 
                 ArrayList<Component> components = new ArrayList<Component>();
                 JsonArray componentsArray = actionRowsArray.get(i).getAsJsonObject()
-                    .get("components").getAsJsonArray();
+                        .get("components").getAsJsonArray();
 
                 for (int j = 0; j < componentsArray.size(); j++) {
 
                     JsonObject comp = componentsArray.get(j).getAsJsonObject();
-                    
+
                     if (comp == null) {
                         break;
                     }
@@ -285,6 +359,29 @@ public class Helper {
         }
 
         return null;
+    }
+
+    public static String toXboxDecimal(String mcUUID) {
+        if(mcUUID == null) {
+            return null;
+        }
+
+        try {
+            if(!isMCUUID(mcUUID)) {
+                return null;
+            }
+            mcUUID = String.valueOf(Helper.hexToDecimal(mcUUID));
+
+            if(!isNumeric(mcUUID)) {
+                mcUUID = null;
+            }
+
+            return mcUUID;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return null;
+        }
     }
 
 }
