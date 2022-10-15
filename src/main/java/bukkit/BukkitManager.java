@@ -14,7 +14,6 @@ import dao.DaoManager;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
-import helpers.Helper;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import main.WhitelistJe;
@@ -116,21 +115,13 @@ public class BukkitManager {
                     public void run() {
                         if (onlinePlayer != null) {
                             onlinePlayer.kickPlayer(
-                                    "§lVous ne faites plus partie de l'aventure...\n§c§lCe compte n'est pas confirmé.");
+                                    "§lVous ne faites plus partie de l'aventure...\n Ce compte n'est plus enregistré.");
                         }
                     }
                 });
             }
 
-            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
-            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
-
-            if(javaData != null)
-                javaData.delete(DaoManager.getJavaDataDao());
-            
-            else if(bedData != null)
-                bedData.delete(DaoManager.getBedrockDataDao());
-            else {
+            if(!plugin.deletePlayerRegistration(UUID)) {
                 logger.warning("Could not find any registered player with UUID: " + uuid);
                 throw new Exception("Could not find any registered player with UUID: " + uuid);
             }

@@ -19,6 +19,7 @@ import models.JavaData;
 import models.User;
 
 import java.awt.*;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 public class RegisterCommand extends ListenerAdapter {
@@ -281,7 +282,7 @@ public class RegisterCommand extends ListenerAdapter {
                 this.handleAccepted(event, user, pseudo, uuid);
 
             } else if (actionId.equals(this.rejectId)) {
-                this.handleRejected(event, user, pseudo);
+                this.handleRejected(event, user, pseudo, uuid);
             }
 
         } catch (Exception e) {
@@ -365,7 +366,7 @@ public class RegisterCommand extends ListenerAdapter {
     }
 
     // Reject
-    private void handleRejected(ButtonClickEvent event, User newUser, String pseudo) {
+    private void handleRejected(ButtonClickEvent event, User newUser, String pseudo, String uuid) {
         try {
             final String discordId = newUser.getDiscordId();
             final EmbedBuilder newMsgContent = this.getRejectedEmbeded(pseudo, discordId);
@@ -384,6 +385,9 @@ public class RegisterCommand extends ListenerAdapter {
 
             event.reply("❌ **Le joueur <@" + discordId + "> a bien été refusé pour le pseudo: `" + pseudo + "`.**")
                     .setEphemeral(true).queue();
+
+
+            plugin.deletePlayerRegistration(UUID.fromString(uuid));
 
         } catch (Exception e) {
             SentryService.captureEx(e);

@@ -1,5 +1,7 @@
 package services.api;
 
+import java.util.logging.Logger;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,6 +14,7 @@ public class PlayerDbApi extends Api{
     private static String minecraftEndpoint = baseUri + "/minecraft/";
     private static String xboxEndpoint = baseUri + "/xbox/";
     private static String steamEndpoint = baseUri + "/steam/";
+
 
 
     public static String getXboxUUID(String username) {
@@ -36,7 +39,7 @@ public class PlayerDbApi extends Api{
             return Helper.sanitizeUUID(playerData.optString("id"));
 
         } catch (Exception e) {
-            SentryService.captureEx(e);
+            Logger.getLogger("WJE:" + "PlayerDbApi").warning("No Bedrock UUID found with pseudo: " + username);
             return null;
         }
         
@@ -64,7 +67,7 @@ public class PlayerDbApi extends Api{
             return Helper.sanitizeUUID(playerData.optString("id"));
 
         } catch (Exception e) {
-            SentryService.captureEx(e);
+            Logger.getLogger("WJE:" + "PlayerDbApi").warning("No Java UUID found with pseudo: " + username);
             return null;
         }
     }

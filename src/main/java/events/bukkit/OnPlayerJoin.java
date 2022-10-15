@@ -59,6 +59,9 @@ public class OnPlayerJoin implements Listener {
                 userId = bedData.getUserId();
                 registrationDate = bedData.getCreatedAt();
             }
+            else {
+                return;
+            }
 
             final boolean canConfirm = Helper.isWithinXXHour(
                 Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
