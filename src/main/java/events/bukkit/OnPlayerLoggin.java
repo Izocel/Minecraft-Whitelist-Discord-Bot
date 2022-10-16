@@ -72,7 +72,8 @@ public class OnPlayerLoggin implements Listener {
         final String ds_srvName = this.plugin.getDiscordManager().getServerName();
         final String ds_inviteUrl = this.plugin.getDiscordManager().getInviteUrl();
         return "§c§lCe serveur est sous whitelist Discord®§l" +
-                "§a\n\nIl semble que vous ayez été §l banni§a du serveur" + ds_srvName + ".\nMeilleur chance la prochaine fois." +
+                "§a\n\nIl semble que vous ayez été §l banni§a du serveur" + ds_srvName
+                + ".\nMeilleur chance la prochaine fois." +
                 "§f\n\n§lServer Version: §f" + version +
                 "§f\n\n§lServer Address: §f" + ip;
     }
@@ -104,38 +105,10 @@ public class OnPlayerLoggin implements Listener {
                 bedData.save(DaoManager.getBedrockDataDao());
             }
 
-            else { // Player not found in registration
-                return;
-            }
-
-            if (!allowed) {
-                event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
-                plugin.deletePlayerRegistration(loginPlayer.getUniqueId());
-                return;
-            }
-
-            boolean isWhitelisted = false;
             Bukkit.getServer().setWhitelist(true);
-            loginPlayer.setWhitelisted(true);
 
             final boolean usingWhiteList = bukServer.hasWhitelist();
             final boolean forceWhitelist = bukServer.isWhitelistEnforced();
-
-            Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
-            for (OfflinePlayer player : w_players) {
-
-                if(player.isBanned()) {
-                    player.setWhitelisted(false);
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
-                    plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
-                    return;
-                }
-
-                if (player.getUniqueId().equals(UUID.fromString(uuid))) {
-                    isWhitelisted = true;
-                    break;
-                }
-            }
 
             if (!usingWhiteList) {
                 this.logger.warning("Server is not using a whitelist");
@@ -146,22 +119,35 @@ public class OnPlayerLoggin implements Listener {
                 return;
             }
 
-            // When WL is forced
-            if (allowed && !isWhitelisted) {
-                this.logger.warning("Le joueur est allowed mais n'a pas été retrouver dans la whitelist du serveur !!!");
-            }
+            Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
+            for (OfflinePlayer player : w_players) {
 
-            if (!isWhitelisted) {
+                if(!player.getUniqueId().equals(UUID.fromString(uuid))) {
+                    continue;
+                }
+
+                // For a registered players
+                if (player.isBanned()) {
+                    player.setWhitelisted(false);
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
+                    plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
+                    return;
+                }
+
+                if (!player.isWhitelisted() && allowed) {
+                    loginPlayer.setWhitelisted(allowed);
+                    event.allow();
+                    return;
+                }
+
                 event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
-                return;
+                break;
             }
-
-            event.allow();
 
         } catch (Exception e) {
             SentryService.captureEx(e);
             return;
         }
-        
+
     }
 }
