@@ -1,11 +1,8 @@
 package events.bukkit;
 
-import java.util.Set;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -71,8 +68,8 @@ public class OnPlayerLoggin implements Listener {
 
         final String ds_srvName = this.plugin.getDiscordManager().getServerName();
         return "§c§lCe serveur est sous whitelist Discord®§l" +
-                "§a\n\nIl semble que vous ayez été §l banni§a du serveur" + ds_srvName
-                + ".\nMeilleur chance la prochaine fois." +
+                "§f\n\nIl semble que vous ayez été§l banni§f du serveur: §a" + ds_srvName +
+                ".\n§fMeilleur chance la prochaine fois..." +
                 "§f\n\n§lServer Version: §f" + version +
                 "§f\n\n§lServer Address: §f" + ip;
     }
@@ -98,7 +95,7 @@ public class OnPlayerLoggin implements Listener {
                 this.logger.warning("Server is not enforcing a whitelist...");
                 return;
             }
-            
+
             final Player loginPlayer = event.getPlayer();
             final String uuid = loginPlayer.getUniqueId().toString();
 
@@ -107,17 +104,17 @@ public class OnPlayerLoggin implements Listener {
 
             final boolean allowed = plugin.playerIsAllowed(loginPlayer.getUniqueId()) > 0;
 
-            if(bedData == null && javaData == null) {
+            if (bedData == null && javaData == null) {
                 this.logger.info("login player is not registered");
 
-                if(loginPlayer.isBanned()) {
+                if (loginPlayer.isBanned()) {
                     this.logger.info("login player is banned");
                     loginPlayer.setWhitelisted(false);
                     event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
                     return;
                 }
 
-                else if(!loginPlayer.isWhitelisted()) {
+                else if (!loginPlayer.isWhitelisted()) {
                     this.logger.info("login player is whitelisted");
                     event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
                     return;
@@ -137,16 +134,16 @@ public class OnPlayerLoggin implements Listener {
                 bedData.save(DaoManager.getBedrockDataDao());
             }
 
-             // For a registered players
-             this.logger.info("login player is registered");
-             if (loginPlayer.isBanned()) {
+            // For a registered players
+            this.logger.info("login player is registered");
+            if (loginPlayer.isBanned()) {
                 this.logger.info("player is banned");
                 loginPlayer.setWhitelisted(false);
                 event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
                 plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
             }
-            
-            else if(allowed){
+
+            else if (allowed) {
                 this.logger.info("login player is allowed -> whitelisting");
                 loginPlayer.setWhitelisted(true);
                 event.allow();
