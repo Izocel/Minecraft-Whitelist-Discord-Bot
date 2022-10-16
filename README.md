@@ -68,7 +68,6 @@ CREATE TABLE IF NOT EXISTS `wje_java_data` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   UNIQUE KEY `java_uuid_UNIQUE` (`uuid`),
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`),
@@ -89,8 +88,7 @@ CREATE TABLE IF NOT EXISTS `wje_bedrock_data` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  UNIQUE KEY `bedrock_uuid_UNIQUE` (`uuid`),
+    UNIQUE KEY `bedrock_uuid_UNIQUE` (`uuid`),
   KEY `accepted_by` (`accepted_by`),
   KEY `revoked_by` (`revoked_by`),
   FOREIGN KEY (user_id) REFERENCES wje_users(id) ON DELETE CASCADE
