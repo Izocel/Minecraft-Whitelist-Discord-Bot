@@ -134,6 +134,8 @@ public class OnPlayerLoggin implements Listener {
                 return;
             }
 
+            event.allow();
+
         } catch (Exception e) {
             SentryService.captureEx(e);
             return;
