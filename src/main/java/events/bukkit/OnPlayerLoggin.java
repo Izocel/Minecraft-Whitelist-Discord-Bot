@@ -70,7 +70,6 @@ public class OnPlayerLoggin implements Listener {
         final String version = Bukkit.getServer().getVersion();
 
         final String ds_srvName = this.plugin.getDiscordManager().getServerName();
-        final String ds_inviteUrl = this.plugin.getDiscordManager().getInviteUrl();
         return "§c§lCe serveur est sous whitelist Discord®§l" +
                 "§a\n\nIl semble que vous ayez été §l banni§a du serveur" + ds_srvName
                 + ".\nMeilleur chance la prochaine fois." +
@@ -87,6 +86,19 @@ public class OnPlayerLoggin implements Listener {
     public void onPlayerLogin(PlayerLoginEvent event) {
         try {
             Server bukServer = plugin.getBukkitManager().getServer();
+
+            final boolean usingWhiteList = bukServer.hasWhitelist();
+            final boolean forceWhitelist = bukServer.isWhitelistEnforced();
+
+            if (!usingWhiteList) {
+                this.logger.warning("Server is not using a whitelist.. Adding whitelist...");
+                Bukkit.getServer().setWhitelist(true);
+            }
+            if (!forceWhitelist) {
+                this.logger.warning("Server is not enforcing a whitelist...");
+                return;
+            }
+            
             final Player loginPlayer = event.getPlayer();
             final String uuid = loginPlayer.getUniqueId().toString();
 
@@ -94,6 +106,26 @@ public class OnPlayerLoggin implements Listener {
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
             final boolean allowed = plugin.playerIsAllowed(loginPlayer.getUniqueId()) > 0;
+
+            if(bedData == null && javaData == null) {
+                this.logger.info("login player is not registered");
+
+                if(loginPlayer.isBanned()) {
+                    this.logger.info("login player is banned");
+                    loginPlayer.setWhitelisted(false);
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
+                    return;
+                }
+
+                else if(!loginPlayer.isWhitelisted()) {
+                    this.logger.info("login player is whitelisted");
+                    event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
+                    return;
+                }
+
+                this.logger.info("login player fallback to default event");
+                return;
+            }
 
             if (javaData != null) {
                 javaData.setMcName(loginPlayer.getName());
@@ -105,44 +137,29 @@ public class OnPlayerLoggin implements Listener {
                 bedData.save(DaoManager.getBedrockDataDao());
             }
 
-            Bukkit.getServer().setWhitelist(true);
-
-            final boolean usingWhiteList = bukServer.hasWhitelist();
-            final boolean forceWhitelist = bukServer.isWhitelistEnforced();
-
-            if (!usingWhiteList) {
-                this.logger.warning("Server is not using a whitelist");
+             // For a registered players
+             this.logger.info("login player is registered");
+             if (loginPlayer.isBanned()) {
+                this.logger.info("player is banned");
+                loginPlayer.setWhitelisted(false);
+                event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
+                plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
             }
-            if (!forceWhitelist) {
-                this.logger.warning("Server is not enforcing a whitelist");
+            
+            else if(allowed){
+                this.logger.info("login player is allowed -> whitelisting");
+                loginPlayer.setWhitelisted(true);
                 event.allow();
-                return;
             }
 
-            Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
-            for (OfflinePlayer player : w_players) {
-
-                if(!player.getUniqueId().equals(UUID.fromString(uuid))) {
-                    continue;
-                }
-
-                // For a registered players
-                if (player.isBanned()) {
-                    player.setWhitelisted(false);
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
-                    plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
-                    return;
-                }
-
-                if (!player.isWhitelisted() && allowed) {
-                    loginPlayer.setWhitelisted(allowed);
-                    event.allow();
-                    return;
-                }
-
+            else {
+                this.logger.info("login player is NOT allowed");
+                loginPlayer.setWhitelisted(false);
+                plugin.getBukkitManager().sanitizeAnKickPlayer(uuid);
                 event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
-                break;
             }
+
+            this.logger.info("continuing default login procedures");
 
         } catch (Exception e) {
             SentryService.captureEx(e);
