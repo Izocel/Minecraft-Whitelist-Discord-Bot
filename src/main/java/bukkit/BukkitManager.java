@@ -106,13 +106,13 @@ public class BukkitManager {
         try {
             final UUID UUID = java.util.UUID.fromString(uuid);
             OfflinePlayer player = Bukkit.getOfflinePlayer(UUID);
+            plugin.deletePlayerRegistration(UUID);
 
             if (player != null) {
                 player.setWhitelisted(false);
                 kickPlayer(uuid);
             }
-
-            plugin.deletePlayerRegistration(UUID);
+            
             return getServer().getPlayer(UUID) == null;
             
         } catch (Exception e) {
@@ -168,9 +168,9 @@ public class BukkitManager {
             if(uuid == null) {
                 return true;
             }
-
+            
             final UUID UUID = java.util.UUID.fromString(uuid);
-            if(plugin.deletePlayerRegistration(UUID)){
+            if(plugin.deleteAllPlayerData(UUID)){
                 return banPlayer(uuid);
             }
 

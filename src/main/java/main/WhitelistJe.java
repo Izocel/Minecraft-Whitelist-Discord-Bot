@@ -313,4 +313,33 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         }
 
     }
+
+    public boolean deleteAllPlayerData(UUID UUID) {
+        try {
+            if(UUID == null) {
+                return false;
+            }
+
+            final String uuid = UUID.toString();
+            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
+            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+            if(javaData != null) {
+                return DaoManager.getUsersDao().findUser(javaData.getUserId())
+                .delete(DaoManager.getUsersDao()) > 0;
+            }
+
+            else if(bedData != null) {
+                return DaoManager.getUsersDao().findUser(bedData.getUserId())
+                .delete(DaoManager.getUsersDao()) > 0;
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
+        }
+
+    }
 }

@@ -63,6 +63,20 @@ public class OnPlayerLoggin implements Listener {
                 "§f\n\n§lServer Address: §f" + ip;
     }
 
+    private String getDisallowBannedMsg() {
+        String ip = Bukkit.getServer().getIp();
+        final String staticIp = plugin.getConfigManager().get("paperMcIp", "Not bind to any IP");
+        ip = ip.equals("") ? staticIp : ip;
+        final String version = Bukkit.getServer().getVersion();
+
+        final String ds_srvName = this.plugin.getDiscordManager().getServerName();
+        final String ds_inviteUrl = this.plugin.getDiscordManager().getInviteUrl();
+        return "§c§lCe serveur est sous whitelist Discord®§l" +
+                "§a\n\nIl semble que vous ayez été §l banni§a du serveur" + ds_srvName + ".\nMeilleur chance la prochaine fois." +
+                "§f\n\n§lServer Version: §f" + version +
+                "§f\n\n§lServer Address: §f" + ip;
+    }
+
     public OnPlayerLoggin(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
@@ -109,6 +123,14 @@ public class OnPlayerLoggin implements Listener {
 
             Set<OfflinePlayer> w_players = Bukkit.getServer().getWhitelistedPlayers();
             for (OfflinePlayer player : w_players) {
+
+                if(player.isBanned()) {
+                    player.setWhitelisted(false);
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
+                    plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
+                    return;
+                }
+
                 if (player.getUniqueId().equals(UUID.fromString(uuid))) {
                     isWhitelisted = true;
                     break;
