@@ -42,7 +42,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 CREATE DATABASE IF NOT EXISTS whitelist_je;
 USE whitelist_je;
 
-CREATE TABLE `wje_users` (
+CREATE TABLE IF NOT EXISTS `wje_users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `discord_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `discord_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE `wje_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `discord_id_UNIQUE` (`discord_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 CREATE TABLE IF NOT EXISTS `wje_java_data` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
