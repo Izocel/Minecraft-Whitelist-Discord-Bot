@@ -26,10 +26,10 @@ public final class ConfigManager {
     private final String mysqlDb="whitelist_je";
     private final String mysqlUser="whitelist_je";
     private final String mysqlPass="@whitelist_je2022";
-    private final String mysqlDefTable="users";
+    private final String mysqlDefTable="wje_users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
     private final String mysqlMaxConnection="10";
-    private final String mysqlMaxConnectionIDLE="5";
+    private final String mysqlMaxConnectionIDLE="10";
 
     private final String portJava="25565";
     private final String portBedrock="19132";
