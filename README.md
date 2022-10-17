@@ -1,3 +1,4 @@
+## By using this product your `agree` to this end-user license agreement: [(EULA)](https://termify.io/eula/1665969698)
 ## This is the free (lite) version of this plugin:
  If you're interested in an `advanced` version or `custom` version you can email me at <a href="mailto:webdevteam@rvdprojects.com">webdevteam@rvdprojects.com</a>
 
