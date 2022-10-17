@@ -7,6 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import configs.ConfigManager;
+import io.sentry.ITransaction;
+import io.sentry.Sentry;
+import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -26,19 +29,28 @@ public class ServerCommand extends ListenerAdapter {
         if (!event.getName().equals(cmdName))
             return;
 
-        final Integer msgDelaySec = 120;
-        final String serverName = event.getGuild().getName();
-        final String protJ = configs.get("portJava");
-        final String portB = configs.get("portBedrock");
-        final String paperMcIp = configs.get("paperMcIp");
+        ITransaction tx = Sentry.startTransaction("ServerInfosCommand", "get MC® server infos");
 
-        event.reply("** 📝`" + serverName + "` | Informations ** " + 
-                this.main.getBukkitManager().getServerInfoString() +
-                "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
-                "\n\n**Mondes: **" + getWorldsInfos() +
-                "\n**Développeurs:** <@272924120142970892> 👨‍💻"
+        try {
+            final Integer msgDelaySec = 120;
+            final String serverName = event.getGuild().getName();
+    
+            event.reply("** 📝`" + serverName + "` | Informations ** " + 
+                    this.main.getBukkitManager().getServerInfoString() +
+                    "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
+                    "\n\n**Mondes: **" + getWorldsInfos() +
+                    "\n**Développeurs:** <@272924120142970892> 👨‍💻"
+    
+            ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
 
-        ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
+            tx.setData("state", "infos delivered");
+            tx.finish(SpanStatus.OK);
+
+        } catch (Exception e) {
+            tx.setThrowable(e);
+            tx.setData("error-state", "error");
+            tx.finish(SpanStatus.INTERNAL_ERROR);
+        }
     }
 
     public String getWorldsInfos() {

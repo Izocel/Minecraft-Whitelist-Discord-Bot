@@ -10,6 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import dao.DaoManager;
+import io.sentry.ITransaction;
+import io.sentry.Sentry;
+import io.sentry.SpanStatus;
 import services.api.PlayerDbApi;
 import services.sentry.SentryService;
 import main.WhitelistJe;
@@ -81,6 +84,7 @@ public class OnPlayerLoggin implements Listener {
 
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event) {
+        ITransaction tx = Sentry.startTransaction("onPlayerLogin", "validation");
         try {
             Server bukServer = plugin.getBukkitManager().getServer();
 
@@ -93,6 +97,8 @@ public class OnPlayerLoggin implements Listener {
             }
             if (!forceWhitelist) {
                 this.logger.warning("Server is not enforcing a whitelist...");
+                tx.setData("state", "no validation in place");
+                tx.finish(SpanStatus.OK);
                 return;
             }
 
@@ -111,17 +117,19 @@ public class OnPlayerLoggin implements Listener {
                     this.logger.info("login player is banned");
                     loginPlayer.setWhitelisted(false);
                     event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
-                    return;
                 }
 
                 else if (!loginPlayer.isWhitelisted()) {
                     this.logger.info("login player is whitelisted");
                     event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
-                    return;
                 }
 
-                this.logger.info("login player fallback to default event");
-                return;
+                else {
+                    this.logger.info("not registered player fallback to default event");
+                    tx.setData("state", "not registered player fallback to default event");
+                    tx.finish(SpanStatus.OK);
+                    return;
+                }
             }
 
             if (javaData != null) {
@@ -157,8 +165,12 @@ public class OnPlayerLoggin implements Listener {
             }
 
             this.logger.info("continuing default login procedures");
+            tx.setData("state", "end of validation");
+            tx.finish(SpanStatus.OK);
 
         } catch (Exception e) {
+            tx.setThrowable(e);
+            tx.finish(SpanStatus.INTERNAL_ERROR);
             SentryService.captureEx(e);
             return;
         }

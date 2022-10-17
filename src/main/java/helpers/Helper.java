@@ -30,10 +30,16 @@ public class Helper {
     public static long hourMSLONG = dayMSLONG / 24;
 
     public static String decimalToHex(Long decimal) {
+        if(decimal == null) {
+            return null;
+        }
         return Long.toHexString(decimal);
     }
 
     public static Long hexToDecimal(String hex) {
+        if(hex == null) {
+            return null;
+        }
         if(hex.contains("-")) {
             hex = hex.replaceAll("-", "");
         }
@@ -41,22 +47,38 @@ public class Helper {
     }
 
     public static boolean isNumeric(String string) {
+        if(string == null) {
+            return false;
+        }
         return string.matches("^[0-9]+$");
     }
 
     public static boolean isAlphanumeric(String string) {
+        if(string == null) {
+            return false;
+        }
         return string.matches("^[a-zA-Z0-9]+$");
     }
 
     public static boolean isMcPseudo(String string) {
+        if(string == null) {
+            return false;
+        }
         return string.matches("^[a-zA-Z0-9_-]{2,16}$");
     }
 
     public static boolean isHexaDecimal(String string) {
+        if(string == null) {
+            return false;
+        }
         return string.matches("^[a-fA-F0-9-]+$");
     }
 
     public static boolean isMCUUID(String string) {
+        if(string == null) {
+            return false;
+        }
+
         return isHexaDecimal(string)
                 && string.length() == 36;
     }
@@ -99,11 +121,11 @@ public class Helper {
                 uuid = sanitized;
             }
 
-            if(isMCUUID(uuid)) {
-                return uuid;
+            if(!isMCUUID(uuid)) {
+                return null;
             }
 
-            throw new Exception("Final uuid format is not ok !");
+            return uuid;
         }
 
         catch (Exception e) {

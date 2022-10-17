@@ -1,12 +1,11 @@
 package commands.discords;
 
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.json.JSONArray;
 
 import configs.ConfigManager;
+import io.sentry.ITransaction;
+import io.sentry.Sentry;
+import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -28,10 +27,10 @@ public class LookupMcPlayerCommand extends ListenerAdapter {
         if (!event.getName().equals(cmdName))
             return;
 
+        ITransaction tx = Sentry.startTransaction("LookupMcPlayerCommand", "dig Mc® player json");
         String lookupMsg = "";
 
         try {
-            
             final String type = event.getOption("type").getAsString();
             final String value = event.getOption("value").getAsString();
 
@@ -39,6 +38,9 @@ public class LookupMcPlayerCommand extends ListenerAdapter {
                 lookupMsg = "❌**Cette valeur de recherche n'est pas valide...\n Voici des examples: \n\t**" +
                 "`UUID`: [0c003c29-8675-4856-914b-9641e4b6bac3, 00000000-0000-0000-0009-000006D1B380, 2535422189221140]\n\t`PSEUDO`: Alex";
                 event.reply(lookupMsg).setEphemeral(true).queue();
+
+                tx.setData("state", "invalid form");
+                tx.finish(SpanStatus.OK);
                 return;
             }
 
@@ -58,13 +60,20 @@ public class LookupMcPlayerCommand extends ListenerAdapter {
             lookupMsg = "------------------------------------------------------\n```json\n" + 
                 json.toString(2) + "\n```" + "------------------------------------------------------";
 
-        } catch (Exception e) {
-            SentryService.captureEx(e);
-            lookupMsg = "❌**Désoler une erreur est survenu...**";
+            
             event.reply(lookupMsg).setEphemeral(true).queue();
+
+            tx.setData("state", "response was sent");
+            tx.finish(SpanStatus.OK);
+
+        } catch (Exception e) {
+            event.reply("❌**Désoler une erreur est survenu...**").setEphemeral(true).queue();
+
+            tx.setThrowable(e);
+            tx.setData("error-state", "error");
+            tx.finish(SpanStatus.INTERNAL_ERROR);
+            SentryService.captureEx(e);
         }
 
-
-        event.reply(lookupMsg).setEphemeral(true).queue();
     }
 }

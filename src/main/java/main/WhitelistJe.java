@@ -92,7 +92,6 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             bukkitManager = new BukkitManager(this);
     
             updateAllPlayers();
-            updateAllowedPlayers();
 
             Logger.getLogger("WhiteList-Je").info(this.getfiglet());
             guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
