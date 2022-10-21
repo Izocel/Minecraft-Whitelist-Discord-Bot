@@ -130,7 +130,7 @@ public class User extends BaseModel {
         final String userId = userDc.getId();
         final String userTag = userDc.getAsTag();
 
-        User user = DaoManager.getUsersDao().findByDiscordTag(userTag);
+        User user = DaoManager.getUsersDao().findByDiscordId(userId);
 
         if (user == null || user.getId() < 1) {
             user = new User();
