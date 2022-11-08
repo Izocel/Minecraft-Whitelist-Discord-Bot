@@ -9,7 +9,8 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import helpers.PooledDatasource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 import models.BedrockData;
 import services.sentry.SentryService;
 
@@ -17,7 +18,7 @@ public class BedrockDataDao extends BaseDao {
 
     private Logger logger;
 
-    public BedrockDataDao(PooledDatasource poolDs) {
+    public BedrockDataDao(ComboPooledDataSource poolDs) {
         super(poolDs);
         this.tablename = "`wje_bedrock_data`";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
