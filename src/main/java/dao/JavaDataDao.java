@@ -9,7 +9,8 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import helpers.PooledDatasource;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 import services.sentry.SentryService;
 import models.JavaData;
 
@@ -17,7 +18,7 @@ public class JavaDataDao extends BaseDao {
 
     private Logger logger;
 
-    public JavaDataDao(PooledDatasource poolDs) {
+    public JavaDataDao(ComboPooledDataSource poolDs) {
         super(poolDs);
         this.tablename = "`wje_java_data`";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
