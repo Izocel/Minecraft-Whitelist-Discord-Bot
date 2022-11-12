@@ -95,6 +95,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
             Logger.getLogger("WhiteList-Je").info(this.getfiglet());
             guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
+            
         } catch (Exception e) {
             try {
                 transaction.setThrowable(e);
