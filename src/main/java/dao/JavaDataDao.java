@@ -57,8 +57,6 @@ public class JavaDataDao extends BaseDao {
         final String pseudo = sqlProps.optString("pseudo");
         final String uuid = sqlProps.optString("uuid");
         final String msgId = sqlProps.optString("msg_id");
-        final String createdAt = sqlProps.optString("created_at");
-        final String updatedAt = sqlProps.optString("updated_at");
 
         final Object isConfirmed = sqlProps.opt("confirmed");
         final Object isAllowed = sqlProps.opt("allowed");

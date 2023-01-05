@@ -83,6 +83,13 @@ public class Helper {
                 && string.length() == 36;
     }
 
+    public static boolean isDatimeString(String string) {
+        if(string == null) {
+            return false;
+        }
+        return string.matches("^[a-zA-Z0-9-]+[0-9]{2}:[0-9]{2}:[0-9]{2}$");
+    }
+
     public static String sanitizeUUID(String uuid) {
         if(uuid == null || uuid.length() > 36) {
             return null;
@@ -140,6 +147,11 @@ public class Helper {
 
     public static Timestamp convertStringToTimestamp(String strDate) {
         try {
+
+            if(!isDatimeString(strDate)) {
+                strDate = strDate.concat(":01");
+            }
+
             strDate = strDate.replace("T", " ");
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = formatter.parse(strDate);
@@ -185,14 +197,6 @@ public class Helper {
     }
 
     public static MessageAction preparePrivateCustomMsg(PrivateChannel channel, MessageEmbed embededs,
-            ArrayList<ActionRow> actionRows) {
-        if (embededs.isSendable()) {
-            return channel.sendMessageEmbeds(embededs).setActionRows(actionRows);
-        }
-        return null;
-    }
-
-    public static MessageAction prepareTectCustomMsg(TextChannel channel, MessageEmbed embededs,
             ArrayList<ActionRow> actionRows) {
         if (embededs.isSendable()) {
             return channel.sendMessageEmbeds(embededs).setActionRows(actionRows);
