@@ -2,17 +2,16 @@ package dao;
 
 import java.util.logging.Logger;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
 import configs.ConfigManager;
 import helpers.DbPoolFactory;
+import helpers.PooledDatasource;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import services.sentry.SentryService;
 
 public class DaoManager {
-    protected static ComboPooledDataSource dataSource = null;
+    protected static PooledDatasource dataSource = null;
     protected static UsersDao usersDao = null;
     protected static BedrockDataDao bedrockDataDao = null;
     protected static JavaDataDao javaDataDao = null;

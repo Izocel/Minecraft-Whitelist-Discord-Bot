@@ -9,8 +9,7 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
+import helpers.PooledDatasource;
 import services.sentry.SentryService;
 import models.JavaData;
 
@@ -18,7 +17,7 @@ public class JavaDataDao extends BaseDao {
 
     private Logger logger;
 
-    public JavaDataDao(ComboPooledDataSource poolDs) {
+    public JavaDataDao(PooledDatasource poolDs) {
         super(poolDs);
         this.tablename = "`wje_java_data`";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
@@ -57,6 +56,8 @@ public class JavaDataDao extends BaseDao {
         final String pseudo = sqlProps.optString("pseudo");
         final String uuid = sqlProps.optString("uuid");
         final String msgId = sqlProps.optString("msg_id");
+        final String createdAt = sqlProps.optString("created_at");
+        final String updatedAt = sqlProps.optString("updated_at");
 
         final Object isConfirmed = sqlProps.opt("confirmed");
         final Object isAllowed = sqlProps.opt("allowed");

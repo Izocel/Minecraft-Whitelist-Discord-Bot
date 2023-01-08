@@ -94,8 +94,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             updateAllPlayers();
 
             Logger.getLogger("WhiteList-Je").info(this.getfiglet());
-            guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).submit(true);
-            
+            guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
         } catch (Exception e) {
             try {
                 transaction.setThrowable(e);
@@ -111,6 +110,16 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                 transaction.setStatus(SpanStatus.INTERNAL_ERROR);
                 SentryService.captureEx(err);
             }
+        }
+
+        if(true) {
+            JSONArray x = DaoManager.getUsersDao().findAll();
+            JSONArray y = DaoManager.getBedrockDataDao().findAll();
+            JSONArray z = DaoManager.getJavaDataDao().findAll();
+    
+            this.logger.info("" + x.toString());
+            this.logger.info("" + y.toString());
+            this.logger.info("" + z.toString());
         }
 
         transaction.setStatus(SpanStatus.OK);
@@ -240,12 +249,12 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         Integer allowedUserId = -1;
         this.updateAllowedPlayers();
 
-        if(this.playersAllowed == null) {
+        if(this.players == null) {
             return -1;
         }
 
         try {
-            for (Object object : this.playersAllowed) {
+            for (Object object : this.players) {
                 final JSONObject player = (JSONObject) object;
                 final String uuidReccord = player.getString("uuid");
     
