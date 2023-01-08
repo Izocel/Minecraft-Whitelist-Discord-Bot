@@ -25,6 +25,8 @@ import models.User;
 import java.awt.*;
 import java.util.logging.Logger;
 
+import configs.ConfigManager;
+
 public class RegisterCommand extends ListenerAdapter {
     private Logger logger;
     private WhitelistJe plugin;
@@ -52,8 +54,11 @@ public class RegisterCommand extends ListenerAdapter {
         ITransaction tx = Sentry.startTransaction("RegisterCommand", "register Mc®");
 
         try {
-            final OptionMapping javaOpt = event.getOption("pseudo-java");
-            final OptionMapping bedOpt = event.getOption("pseudo-bedrock");
+            final String paramA = this.plugin.getConfigManager().get("paramPseudoJava", "pseudo-java");
+            final String paramB = this.plugin.getConfigManager().get("paramPseudoBed", "pseudo-bedrock");
+
+            final OptionMapping javaOpt = event.getOption(paramA);
+            final OptionMapping bedOpt = event.getOption(paramB);
 
             if (javaOpt == null && bedOpt == null) {
                 event.reply("❌**Vous devez fournir au moins un pseudo pour utiliser cette commande...**")
