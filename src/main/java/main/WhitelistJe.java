@@ -73,7 +73,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     public String getVersion() {
-        return this.configManager.get("pluginVersion", "2022.2");
+        return this.configManager.get("pluginVersion", "2023.1");
     }
 
     @Override
