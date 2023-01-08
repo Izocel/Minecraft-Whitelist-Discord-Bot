@@ -8,8 +8,7 @@ import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
+import helpers.PooledDatasource;
 import services.sentry.SentryService;
 import models.User;
 
@@ -17,7 +16,7 @@ public class UsersDao extends BaseDao {
 
     private Logger logger;
 
-    public UsersDao(ComboPooledDataSource poolDs) {
+    public UsersDao(PooledDatasource poolDs) {
         super(poolDs);
         this.tablename = "wje_users";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());

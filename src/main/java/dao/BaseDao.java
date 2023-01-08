@@ -10,18 +10,17 @@ import org.apache.commons.lang.NotImplementedException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
+import helpers.PooledDatasource;
 import services.sentry.SentryService;
 
 public class BaseDao implements IDao {
 
     private Logger logger;
     protected String tablename;
-    protected ComboPooledDataSource datasource;
+    protected PooledDatasource datasource;
     protected Connection connection;
 
-    public BaseDao(ComboPooledDataSource poolDs) {
+    public BaseDao(PooledDatasource poolDs) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.datasource = poolDs;
     }

@@ -7,35 +7,35 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
+    private final String discordBotToken="MTAxODI3Nzk1MzkzNjgzNDY0MA.GLTDiB.mIbiG5xLqczsYQ9tWTtS0VPYdEg3hWB2ZEYhew";
 
-    private final String discordOwnerId="272924120142970892";
-    private final String discordServerId="276931890735218689";
-    private final String discordWelcomeChanelId="925583159964352643";
-    private final String discordAdminChanelId="927283856053252106";
-    private final String discordWhitelistChanelId="927283856053252106";
-    private final String botLogChannelId="927283856053252106";
-    private final String javaLogChannelId="927283856053252106";
+    private final String discordOwnerId="807839780309172255";
+    private final String discordServerId="770057600867237898";
+    private final String discordWelcomeChanelId="770148932075782176";
+    private final String discordAdminChanelId="805222201027985478";
+    private final String discordWhitelistChanelId="805222201027985478";
+    private final String botLogChannelId="805222201027985478";
+    private final String javaLogChannelId="892178805941215243";
 
-    private final String discordAdminRoleId="293133215500075010";
-    private final String discordModeratorRoleId="1021054284214833182";
-    private final String discordDevRoleId="1021054460438523976";
+    private final String discordAdminRoleId="809003930884505602";
+    private final String discordModeratorRoleId="783839953372053516";
+    private final String discordDevRoleId="926270775298752512";
     
     private final String mysqlHost="localhost";
     private final String mysqlPort="3306";
-    private final String mysqlDb="whitelist_je";
-    private final String mysqlUser="whitelist_je";
-    private final String mysqlPass="@whitelist_je2022";
-    private final String mysqlDefTable="wje_users";
+    private final String mysqlDb="minecraft";
+    private final String mysqlUser="minecraft";
+    private final String mysqlPass="h6u9effkcj735vcypxxj8durh9rjzkjz";
+    private final String mysqlDefTable="users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
-    private final String mysqlMaxConnection="15";
+    private final String mysqlMaxConnection="10";
     private final String mysqlMaxConnectionIDLE="5";
 
     private final String portJava="25565";
     private final String portBedrock="19132";
-    private final String paperMcIp="server.ip.or.dns.resolvable.adress";
+    private final String paperMcIp="server.minecraft.tumeniaises.ca";
     private final String showSubWorlddMeteo="false";
-    private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
+    private final String hoursToConfirmMcAccount="48"; // zero to not use this feature
 
     // MC commands names
     private final String confirmLinkCmdName="wje-link";
@@ -48,9 +48,6 @@ public final class ConfigManager {
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
     private final String pluginVersion="2022.2";
-
-    private final String paramPseudoJava="pseudo-java";
-    private final String paramPseudoBed="pseudo-bedrock";
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -92,8 +89,6 @@ public final class ConfigManager {
         configs.put("lookupMcPlayerCmdName", this.lookupMcPlayerCmdName);
 
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
-        configs.put("paramPseudoJava", this.paramPseudoJava);
-        configs.put("paramPseudoBed", this.paramPseudoBed);
     }
 
     public String get(String key, String defaultValue) {
