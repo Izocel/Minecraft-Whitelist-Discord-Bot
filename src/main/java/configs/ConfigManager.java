@@ -7,7 +7,7 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="MTAxODI3Nzk1MzkzNjgzNDY0MA.GLTDiB.mIbiG5xLqczsYQ9tWTtS0VPYdEg3hWB2ZEYhew";
+    private final String discordBotToken="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
     private final String discordOwnerId="807839780309172255";
     private final String discordServerId="770057600867237898";
