@@ -120,7 +120,7 @@ public class OnPlayerLoggin implements Listener {
                 }
 
                 else if (!loginPlayer.isWhitelisted()) {
-                    this.logger.info("login player is whitelisted");
+                    this.logger.info("login player is not whitelisted");
                     event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
                 }
 

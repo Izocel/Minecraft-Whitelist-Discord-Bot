@@ -128,11 +128,14 @@ public class DiscordManager {
             .queue();
 
             // Register
+            final String paramA = Configs.get("paramPseudoJava", "pseudo-java");
+            final String paramB = Configs.get("paramPseudoBed", "pseudo-bedrock");
+
             final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(plugin));
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
-            .addOption(OptionType.STRING, "pseudo-java", "Votre pseudo Java -> Minecraft®", false)
-            .addOption(OptionType.STRING, "pseudo-bedrock", "Votre pseudo Bedrock -> Minecraft®", false)
+            .addOption(OptionType.STRING, paramA, "Votre pseudo Java -> Minecraft®", false)
+            .addOption(OptionType.STRING, paramB, "Votre pseudo Bedrock -> Minecraft®", false)
             .queue();
 
             // Lookup
