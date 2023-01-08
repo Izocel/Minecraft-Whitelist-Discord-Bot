@@ -128,6 +128,9 @@ public class DiscordManager {
             .queue();
 
             // Register
+            final String paramA = Configs.get("paramPseudoJava", "pseudo-java");
+            final String paramB = Configs.get("paramPseudoBed", "pseudo-bedrock");
+
             final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(plugin));
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
