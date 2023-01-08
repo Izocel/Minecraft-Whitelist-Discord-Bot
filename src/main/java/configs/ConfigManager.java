@@ -47,7 +47,7 @@ public final class ConfigManager {
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
-    private final String pluginVersion="2022.2";
+    private final String pluginVersion="2023.1";
 
     private final String paramPseudoJava="pseudo-java";
     private final String paramPseudoBed="pseudo-bedrock";
