@@ -95,6 +95,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
             Logger.getLogger("WhiteList-Je").info(this.getfiglet());
             guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
+            
         } catch (Exception e) {
             try {
                 transaction.setThrowable(e);
@@ -249,12 +250,12 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         Integer allowedUserId = -1;
         this.updateAllowedPlayers();
 
-        if(this.players == null) {
+        if(this.playersAllowed == null) {
             return -1;
         }
 
         try {
-            for (Object object : this.players) {
+            for (Object object : this.playersAllowed) {
                 final JSONObject player = (JSONObject) object;
                 final String uuidReccord = player.getString("uuid");
     

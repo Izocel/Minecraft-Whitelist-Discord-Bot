@@ -52,6 +52,9 @@ public final class ConfigManager {
     private final String paramPseudoJava="Java";
     private final String paramPseudoBed="Bedrock";
 
+    private final String paramPseudoJava="pseudo-java";
+    private final String paramPseudoBed="pseudo-bedrock";
+
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private HashMap<String, String> configs = new HashMap<>();
@@ -92,6 +95,8 @@ public final class ConfigManager {
         configs.put("lookupMcPlayerCmdName", this.lookupMcPlayerCmdName);
 
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
+        configs.put("paramPseudoJava", this.paramPseudoJava);
+        configs.put("paramPseudoBed", this.paramPseudoBed);
     }
 
     public String get(String key, String defaultValue) {
