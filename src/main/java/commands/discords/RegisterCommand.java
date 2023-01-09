@@ -23,9 +23,8 @@ import models.JavaData;
 import models.User;
 
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-
-import configs.ConfigManager;
 
 public class RegisterCommand extends ListenerAdapter {
     private Logger logger;
@@ -63,7 +62,7 @@ public class RegisterCommand extends ListenerAdapter {
             if (javaOpt == null && bedOpt == null) {
                 event.reply("❌**Vous devez fournir au moins un pseudo pour utiliser cette commande...**")
                         .setEphemeral(true).queue();
-                    
+
                 tx.setData("state", "empty form");
                 tx.finish(SpanStatus.OK);
                 return;
@@ -168,7 +167,7 @@ public class RegisterCommand extends ListenerAdapter {
                                             discordId + " " + javaUuid, "✔️ Accepter"),
                                     Button.secondary(this.rejectId + " " + pseudoJava + " " +
                                             discordId + " " + javaUuid, "❌ Refuser")))
-                            .queue();
+                            .queueAfter(5, TimeUnit.SECONDS);
 
                     replyJava = "**Votre demande d'accès `Java` pour `" + pseudoJava
                             + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**";
@@ -221,7 +220,7 @@ public class RegisterCommand extends ListenerAdapter {
                                             discordId + " " + bedrockUuid, "✔️ Accepter"),
                                     Button.secondary(this.rejectId + " " + pseudoBedrock + " " +
                                             discordId + " " + bedrockUuid, "❌ Refuser")))
-                            .queue();
+                            .queueAfter(5, TimeUnit.SECONDS);
 
                     replyBedrock = "**Votre demande d'accès `Bedrock` pour `" + pseudoBedrock
                             + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**";
@@ -326,13 +325,12 @@ public class RegisterCommand extends ListenerAdapter {
             }
             child.finish(SpanStatus.OK);
 
-
             tx.setData("state", "done replying to /register");
             tx.finish(SpanStatus.OK);
 
         } catch (Exception e) {
 
-            if(child != null) {
+            if (child != null) {
                 child.setData("state", "unkwown");
                 child.finish();
             }
@@ -400,7 +398,7 @@ public class RegisterCommand extends ListenerAdapter {
             final String avatarUrl = plugin.getBukkitManager().getAvatarUrl(uuid, "72");
             final String newMsg = "**Nous te souhaitons bienvenue, <@" + discordId + "> :: `" + pseudo
                     + "` Enjoy  ⛏🧱 !!!**\n" + avatarUrl;
-            gManager.getWelcomeChannel().sendMessage(newMsg).queue();
+            gManager.getWelcomeChannel().sendMessage(newMsg).queueAfter(5, TimeUnit.SECONDS);
 
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 String msg = newMsg;
