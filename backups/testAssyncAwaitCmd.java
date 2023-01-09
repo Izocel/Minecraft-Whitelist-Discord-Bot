@@ -35,7 +35,7 @@ public class testAssyncAwaitCmd extends ListenerAdapter {
         Object atRun = th.response;
         jda.openPrivateChannelById(user.getId()).queue(channel -> {
             channel.sendMessage(this.main.getBukkitManager().getPlayerUUID("Izocel"))
-            .queue();
+            .submit(true);
         });
 
         th.start();
@@ -43,18 +43,18 @@ public class testAssyncAwaitCmd extends ListenerAdapter {
         Object atFinish = th.response;
         jda.openPrivateChannelById(user.getId()).queue(channel -> {
             channel.sendMessage(atFinish == null ? "atFinish == null" : atFinish.toString())
-            .queue();
+            .submit(true);
         });
 
 
         for (int i = 0; i < 10; i++) {
             jda.openPrivateChannelById(user.getId()).queue(channel -> {
                 channel.sendMessage("I'M counting")
-                .queue();
+                .submit(true);
             });
         }
 
-        event.reply("Ok I'll do that for you please wait...").queue();
+        event.reply("Ok I'll do that for you please wait...").submit(true);
     }
 
 
@@ -84,7 +84,7 @@ public class testAssyncAwaitCmd extends ListenerAdapter {
                 final int j = i;
                 jda.openPrivateChannelById(user.getId()).queue(channel -> {
                     channel.sendMessage("**Test #`.**" + String.valueOf(j))
-                    .queue();
+                    .submit(true);
                 });
 
                 try {

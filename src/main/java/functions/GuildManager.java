@@ -101,12 +101,12 @@ public class GuildManager {
 
     public void setRole(String memberId, String roleId) {
         Role role = this.findRole(roleId);
-        this.guild.addRoleToMember(memberId, role).queue();
+        this.guild.addRoleToMember(memberId, role).submit(true);
     }
 
     public void removeRole(String roleId, String memberId) {
         Role role = this.findRole(roleId);
-        this.guild.removeRoleFromMember(memberId, role).queue();
+        this.guild.removeRoleFromMember(memberId, role).submit(true);
     }
 
     public boolean verifyRole(String memberId, String roleId) {

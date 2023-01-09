@@ -100,7 +100,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       final String channel_id = channel.getId();
       final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(this.confirmationEmbededs(channel_id, uuid.toString(), pData.getString("pseudo")));
       final ArrayList<ActionRow> msgActions = Helper.getActionRowsfromJson(this.confirmationActions(channel_id));
-      Helper.preparePrivateCustomMsg(channel, msgEmbededs, msgActions).queue();
+      Helper.preparePrivateCustomMsg(channel, msgEmbededs, msgActions).submit(true);
     });
 
   }
