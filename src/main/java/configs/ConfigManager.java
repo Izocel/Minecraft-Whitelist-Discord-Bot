@@ -52,6 +52,9 @@ public final class ConfigManager {
     private final String paramPseudoJava="pseudo-java";
     private final String paramPseudoBed="pseudo-bedrock";
 
+    private final String paramPseudoJava="pseudo-java";
+    private final String paramPseudoBed="pseudo-bedrock";
+
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private HashMap<String, String> configs = new HashMap<>();
