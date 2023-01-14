@@ -35,7 +35,7 @@ public class ServerCommand extends ListenerAdapter {
             final Integer msgDelaySec = 120;
             final String serverName = event.getGuild().getName();
     
-            event.reply("** 📝`" + serverName + "` | Informations ** " + 
+            event.reply("** 📝`" + serverName + "` || Informations ** " + 
                     this.main.getBukkitManager().getServerInfoString() +
                     "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
                     "\n\n**Mondes: **" + getWorldsInfos() +
