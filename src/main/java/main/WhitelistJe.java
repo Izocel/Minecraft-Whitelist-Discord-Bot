@@ -94,7 +94,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             updateAllPlayers();
 
             Logger.getLogger("WhiteList-Je").info(this.getfiglet());
-            guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).queue();
+            guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).submit(true);
             
         } catch (Exception e) {
             try {
@@ -104,7 +104,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                 guildManager.getAdminChannel().sendMessage("**`OUPS`, Le plugin `" + this.getName() + "`" +
                  " a rencontré des `problèmes` à l'initialisation**\n" + 
                  "**Regarder les fichers de `log` !!!!**\n\n" + 
-                 getPluginInfos(false)).queue();
+                 getPluginInfos(false)).submit(true);
 
             } catch (Exception err) {
                 transaction.setThrowable(err);
@@ -129,7 +129,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est unloader**\n\n" + getPluginInfos(false)).queue();
+        guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est unloader**\n\n" + getPluginInfos(false)).submit(true);
     }
 
     public DiscordManager getDiscordManager() {

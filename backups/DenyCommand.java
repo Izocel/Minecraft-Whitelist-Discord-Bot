@@ -33,7 +33,7 @@ public class DenyCommand extends ListenerAdapter {
                     !roleManager.hasRole(event.getMember(), "809003930884505602") ||
                     !roleManager.hasRole(event.getMember(), "926270775298752512") ||
                     !roleManager.hasRole(event.getMember(), "783839953372053516")) {
-                event.reply("Vous n'êtes pas autorisé à effectuer cette commmande !").setEphemeral(true).queue();
+                event.reply("Vous n'êtes pas autorisé à effectuer cette commmande !").setEphemeral(true).submit(true);
                 return;
             }
             jda = main.getDiscordManager().jda;
@@ -49,10 +49,10 @@ public class DenyCommand extends ListenerAdapter {
                 final ResultSet resultset = pstmt.executeQuery();
                 
                 if (!resultset.next()) {
-                    event.reply("Joueur introuvable").setEphemeral(true).queue();
+                    event.reply("Joueur introuvable").setEphemeral(true).submit(true);
                     return;
                 }
-                event.reply("Vous venez de supprimer `" + resultset.getString("users.name") + "` (<@" + resultset.getString("users.discord") + ">) de la base de données !").setEphemeral(true).queue();
+                event.reply("Vous venez de supprimer `" + resultset.getString("users.name") + "` (<@" + resultset.getString("users.discord") + ">) de la base de données !").setEphemeral(true).submit(true);
                 if(Bukkit.getPlayer(resultset.getString("users.name")) != null && Bukkit.getPlayer(resultset.getString("users.name")).isOnline()) {
                     Bukkit.getScheduler().runTask(main, () -> {
                         try {
@@ -62,11 +62,11 @@ public class DenyCommand extends ListenerAdapter {
 ;                        }
                     });
                 }
-                jda.getTextChannelById("1013374066540941362").sendMessage("Suppression - La demande de `" + resultset.getString("users.name") + "` (<@" + resultset.getString("users.discord") + ">) a été supprimée par <@" + event.getMember().getId() + ">").queue();
+                jda.getTextChannelById("1013374066540941362").sendMessage("Suppression - La demande de `" + resultset.getString("users.name") + "` (<@" + resultset.getString("users.discord") + ">) a été supprimée par <@" + event.getMember().getId() + ">").submit(true);
                 if(whitelistManager.getPlayersAllowed().contains(resultset.getString("users.name"))) {
                     whitelistManager.getPlayersAllowed().remove(resultset.getString("users.name"));
                 }
-                event.getGuild().getMemberById(resultset.getString("users.discord")).modifyNickname(jda.getUserById(resultset.getString("users.discord")).getName()).queue();
+                event.getGuild().getMemberById(resultset.getString("users.discord")).modifyNickname(jda.getUserById(resultset.getString("users.discord")).getName()).submit(true);
                 final PreparedStatement preparedstatement2 = connection.prepareStatement("DELETE FROM users WHERE BINARY discord = " + resultset.getString("users.discord"));
                 
                 preparedstatement2.executeUpdate();

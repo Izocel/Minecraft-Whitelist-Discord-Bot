@@ -30,7 +30,7 @@
 //             switch (action) {
 //                 /*case "add": @TODO Poubelle
 //                     if (!alphanumeric.isAlphanumeric(event.getOption("pseudo").getAsString())) {
-//                         event.reply("Ce pseudo ne doit pas comporter de caractères spéciaux à part les underscores _ et tirets -").setEphemeral(true).queue();
+//                         event.reply("Ce pseudo ne doit pas comporter de caractères spéciaux à part les underscores _ et tirets -").setEphemeral(true).submit(true);
 //                         return;
 //                     }
 //                     OfflinePlayer player = Bukkit.getOfflinePlayer(event.getOption("pseudo").getAsString());
@@ -38,17 +38,17 @@
 //                         @Override
 //                         public void run() {
 //                     if (Bukkit.getServer().getWhitelistedPlayers().contains(player)) {
-//                         event.reply("Ce joueur est déjà sur la whitelist").setEphemeral(true).queue();
+//                         event.reply("Ce joueur est déjà sur la whitelist").setEphemeral(true).submit(true);
 //                         return;
 //                     }
 //                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "whitelist add " + event.getOption("pseudo").getAsString());
-//                             event.reply("Le joueur " + event.getOption("pseudo").getAsString() + " a été ajouté à la whitelist").setEphemeral(true).queue();
+//                             event.reply("Le joueur " + event.getOption("pseudo").getAsString() + " a été ajouté à la whitelist").setEphemeral(true).submit(true);
 //                         }
 //                     }.runTask(main);
 //                     break;
 //                 case "remove":
 //                     if (!alphanumeric.isAlphanumeric(event.getOption("pseudo").getAsString())) {
-//                         event.reply("Ce pseudo ne doit pas comporter de caractères spéciaux à part les underscores _ et tirets -").setEphemeral(true).queue();
+//                         event.reply("Ce pseudo ne doit pas comporter de caractères spéciaux à part les underscores _ et tirets -").setEphemeral(true).submit(true);
 //                         return;
 //                     }
 //                     OfflinePlayer playerr = Bukkit.getOfflinePlayer(event.getOption("pseudo").getAsString());
@@ -56,11 +56,11 @@
 //                         @Override
 //                         public void run() {
 //                     if (!Bukkit.getServer().getWhitelistedPlayers().contains(playerr)) {
-//                         event.reply("Ce joueur n'est pas sur la whitelist").setEphemeral(true).queue();
+//                         event.reply("Ce joueur n'est pas sur la whitelist").setEphemeral(true).submit(true);
 //                         return;
 //                     }
 //                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "whitelist remove " + event.getOption("pseudo").getAsString());
-//                             event.reply("Le joueur " + event.getOption("pseudo").getAsString() + " a été supprimé de la whitelist").setEphemeral(true).queue();}
+//                             event.reply("Le joueur " + event.getOption("pseudo").getAsString() + " a été supprimé de la whitelist").setEphemeral(true).submit(true);}
 //                     }.runTask(main);
 //                     break;*/
 //                 case "on":
@@ -70,15 +70,15 @@
 //                             @Override
 //                             public void run() {
 //                                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "whitelist on");
-//                                 event.reply("Mise à jour de la whitelist sur ON").setEphemeral(true).queue();
+//                                 event.reply("Mise à jour de la whitelist sur ON").setEphemeral(true).submit(true);
 //                             }
 //                         }.runTask(main);
 //                     } else {
-//                         event.reply("Vous n'avez pas accès à cette commande !").setEphemeral(true).queue();
+//                         event.reply("Vous n'avez pas accès à cette commande !").setEphemeral(true).submit(true);
 //                     }
 //                     break;
 //                 case "list" :
-//                     event.reply(getPlayersOnline()).setEphemeral(true).queue();
+//                     event.reply(getPlayersOnline()).setEphemeral(true).submit(true);
 //                 break;
 //                 case "off":
 //                     if(event.getMember().getId().equals("258071819108614144") ||
@@ -87,17 +87,17 @@
 //                             @Override
 //                             public void run() {
 //                                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "whitelist off");
-//                                 event.reply("Mise à jour de la whitelist sur OFF").setEphemeral(true).queue();
+//                                 event.reply("Mise à jour de la whitelist sur OFF").setEphemeral(true).submit(true);
 //                             }
 //                         }.runTask(main);
 //                     } else {
-//                         event.reply("Vous n'avez pas accès à cette commande !").setEphemeral(true).queue();
+//                         event.reply("Vous n'avez pas accès à cette commande !").setEphemeral(true).submit(true);
 //                         return;
 //                     }
 //                     break;
 //                 case " ":
 //                 default:
-//                     event.reply("Érreur syntaxe de la commande").setEphemeral(true).queue();
+//                     event.reply("Érreur syntaxe de la commande").setEphemeral(true).submit(true);
 //                     return;
 //             }
 //             return;
