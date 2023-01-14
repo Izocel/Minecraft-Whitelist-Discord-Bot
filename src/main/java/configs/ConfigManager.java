@@ -49,8 +49,8 @@ public final class ConfigManager {
 
     private final String pluginVersion="2023.1";
 
-    private final String paramPseudoJava="pseudo-java";
-    private final String paramPseudoBed="pseudo-bedrock";
+    private final String paramPseudoJava="Java";
+    private final String paramPseudoBed="Bedrock";
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
