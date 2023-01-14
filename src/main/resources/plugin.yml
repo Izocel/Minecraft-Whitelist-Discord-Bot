@@ -5,5 +5,5 @@ api-version: 1.15
 author: Izocel
 commands:
    wje-link:
-      description: Pour confirmer le lien entre votre compte Minecraft et votre Discord.
+      description: Used to authenticate your Discord and Minecraft accounts.
       usage: /<wje-link-command>

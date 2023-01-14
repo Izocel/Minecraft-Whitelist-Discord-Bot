@@ -136,7 +136,7 @@ public class DiscordManager {
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
             .addOption(OptionType.STRING, paramA, "Votre pseudo Java -> Minecraft®", false)
             .addOption(OptionType.STRING, paramB, "Votre pseudo Bedrock -> Minecraft®", false)
-            .queue();
+            .submit(true);
 
             // Lookup
             final String lookCmd = this.plugin.getConfigManager().get("lookupMcPlayerCmdName", "lookupMcPlayerCmdName");
