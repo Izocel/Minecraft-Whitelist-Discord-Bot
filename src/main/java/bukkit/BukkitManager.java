@@ -1,3 +1,5 @@
+//Fichier modifié
+
 package bukkit;
 
 import java.util.UUID;
@@ -62,11 +64,7 @@ public class BukkitManager {
         sb.append("\n\tIp: `" + paperMcIp + "`");
         sb.append("\n\tPort Java: `" + protJ + "`");
         sb.append("\n\tPort Bedrock: `" + portB + "`");
-        sb.append("\n\tVersion: `" + version + "`");
-        sb.append("\n\tOnline Mode: `" + onlineStr + "`");
-        sb.append("\n\tWhitelisted: `" + fwStr + "`");
-        sb.append("\n\tDefault Gamemode: `" + gameMode.name() + "`");
-        sb.append("\n\tDescription: `" + description + "`");
+        sb.append("\n\tSeed: `[-7795804451891021298]`");
 
         return sb.toString();
     }
