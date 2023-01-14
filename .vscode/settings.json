@@ -18,5 +18,6 @@
     "java.debug.logLevel": "verbose",
     "java.maven.downloadSources": true,
     "java.eclipse.downloadSources": true,
-    "java.implementationsCodeLens.enabled": false
+    "java.implementationsCodeLens.enabled": false,
+    "java.compile.nullAnalysis.mode": "disabled"
 }
