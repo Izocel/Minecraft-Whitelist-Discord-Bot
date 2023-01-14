@@ -136,7 +136,7 @@ public class RegisterCommand extends ListenerAdapter {
                     final boolean isConfirmed = found.isConfirmed();
 
                     if (found.getUserId() != user.getId()) {
-                        replyJava = "❌ **Ce pseudo Java est déjà enregistrer par un autre joueur**";
+                        replyJava = "❌ **Ce pseudo Java est déjà enregistrer par un autre joueur gros tata**";
                     }
 
                     else if (!isAllowed) {
