@@ -46,7 +46,7 @@ public class GuildLeave extends ListenerAdapter {
     //         if(whitelistManager.getPlayersAllowed().contains(resultset.getString("users.name"))) {
     //             whitelistManager.getPlayersAllowed().remove(resultset.getString("users.name"));
     //         }
-    //         jda.getTextChannelById("1013374066540941362").sendMessage("Suppression - Le joueur `" + resultset.getString("users.name") + "` - <@" + event.getMember().getId() + "> a quitté le serveur discord").queue();
+    //         jda.getTextChannelById("1013374066540941362").sendMessage("Suppression - Le joueur `" + resultset.getString("users.name") + "` - <@" + event.getMember().getId() + "> a quitté le serveur discord").submit(true);
     //     } catch (SQLException e) {
     //         SentryService.captureEx(e);
     //     }

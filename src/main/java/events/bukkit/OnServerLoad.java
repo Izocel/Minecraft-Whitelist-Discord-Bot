@@ -24,7 +24,7 @@ public class OnServerLoad implements Listener {
         sb.append(this.main.getBukkitManager().getServerInfoString());
         
         this.main.getGuildManager().getAdminChannel()
-            .sendMessage(sb.toString()).queue();
+            .sendMessage(sb.toString()).submit(true);
     }
 
 }

@@ -125,7 +125,7 @@ public class DiscordManager {
             final String srvCmd = this.plugin.getConfigManager().get("serverCmdName", "server");
             jda.addEventListener(new ServerCommand(plugin));
             jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
-            .queue();
+            .submit(true);
 
             // Register
             final String paramA = Configs.get("paramPseudoJava", "pseudo-java");
@@ -136,7 +136,7 @@ public class DiscordManager {
             jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
             .addOption(OptionType.STRING, paramA, "Votre pseudo Java -> Minecraft®", false)
             .addOption(OptionType.STRING, paramB, "Votre pseudo Bedrock -> Minecraft®", false)
-            .queue();
+            .submit(true);
 
             // Lookup
             final String lookCmd = this.plugin.getConfigManager().get("lookupMcPlayerCmdName", "lookupMcPlayerCmdName");
@@ -144,20 +144,20 @@ public class DiscordManager {
             jda.upsertCommand(lookCmd, "Trouver des infos de joueurs Minecraft® par UUID ou pseudo.")
             .addOption(OptionType.STRING, "type", "UUID || PSEUDO", true)
             .addOption(OptionType.STRING, "value", "Le uuid ou le pseudo de recherche.", true)
-            .queue();
+            .submit(true);
     
             // // Whitelist
             // jda.addEventListener(new WhitelistCommand(plugin));
             // jda.upsertCommand("whitelist", "Commande whitelist du
             // serveur").addOption(OptionType.STRING,
             // "action", "add/remove/on/off",true).addOption(OptionType.STRING, "pseudo", "Pseudo du joueur", false)
-            // .queue();
+            // .submit(true);
     
             // // Deny
             // jda.addEventListener(new DenyCommand(plugin));
             // jda.upsertCommand("deny", "Refuser l'accès au serveur (réservé au
             // staff)").addOption(OptionType.MENTIONABLE,
-            // "mention", "Mentionner un membre", true).queue();
+            // "mention", "Mentionner un membre", true).submit(true);
             
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");

@@ -23,9 +23,8 @@ import models.JavaData;
 import models.User;
 
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-
-import configs.ConfigManager;
 
 public class RegisterCommand extends ListenerAdapter {
     private Logger logger;
@@ -62,8 +61,8 @@ public class RegisterCommand extends ListenerAdapter {
 
             if (javaOpt == null && bedOpt == null) {
                 event.reply("❌**Vous devez fournir au moins un pseudo pour utiliser cette commande...**")
-                        .setEphemeral(true).queue();
-                    
+                        .setEphemeral(true).submit(true);
+
                 tx.setData("state", "empty form");
                 tx.finish(SpanStatus.OK);
                 return;
@@ -73,7 +72,7 @@ public class RegisterCommand extends ListenerAdapter {
             final String pseudoBedrock = bedOpt != null ? bedOpt.getAsString() : null;
             if (pseudoJava == null && pseudoBedrock == null) {
                 event.reply("❌**Vos pseudo n'ont pas pu être retrouvés dans la commande...**")
-                        .setEphemeral(true).queue();
+                        .setEphemeral(true).submit(true);
 
                 tx.setData("state", "empty form 2");
                 tx.finish(SpanStatus.OK);
@@ -84,7 +83,7 @@ public class RegisterCommand extends ListenerAdapter {
             boolean bedrockValid = pseudoBedrock != null && this.validatePseudo(event, pseudoBedrock, "Bedrock");
             if (!javaValid && !bedrockValid) {
                 event.reply("❌ Vos `identifiants` comportaient des `erreurs`.\n Vérifiez vos mesages privés.")
-                        .setEphemeral(true).queue();
+                        .setEphemeral(true).submit(true);
 
                 tx.setData("state", "invalid form");
                 tx.finish(SpanStatus.OK);
@@ -111,7 +110,7 @@ public class RegisterCommand extends ListenerAdapter {
             }
 
             if (javaUuid == null && bedrockUuid == null) {
-                event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).queue();
+                event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).submit(true);
 
                 tx.setData("state", "uuids not found");
                 tx.finish(SpanStatus.OK);
@@ -168,7 +167,7 @@ public class RegisterCommand extends ListenerAdapter {
                                             discordId + " " + javaUuid, "✔️ Accepter"),
                                     Button.secondary(this.rejectId + " " + pseudoJava + " " +
                                             discordId + " " + javaUuid, "❌ Refuser")))
-                            .queue();
+                            .submit(true);
 
                     replyJava = "**Votre demande d'accès `Java` pour `" + pseudoJava
                             + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**";
@@ -221,20 +220,20 @@ public class RegisterCommand extends ListenerAdapter {
                                             discordId + " " + bedrockUuid, "✔️ Accepter"),
                                     Button.secondary(this.rejectId + " " + pseudoBedrock + " " +
                                             discordId + " " + bedrockUuid, "❌ Refuser")))
-                            .queue();
+                            .submit(true);
 
                     replyBedrock = "**Votre demande d'accès `Bedrock` pour `" + pseudoBedrock
                             + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**";
                 }
             }
 
-            event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).queue();
+            event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).submit(true);
 
             tx.setData("state", "registered");
             tx.finish(SpanStatus.OK);
 
         } catch (Exception e) {
-            event.reply("Une erreur est survenu contactez un admin !!!").setEphemeral(true).queue();
+            event.reply("Une erreur est survenu contactez un admin !!!").setEphemeral(true).submit(true);
             tx.setData("error-state", "error");
             tx.finish(SpanStatus.INTERNAL_ERROR);
             SentryService.captureEx(e);
@@ -249,7 +248,7 @@ public class RegisterCommand extends ListenerAdapter {
 
             final String id = event.getMember().getId();
             this.plugin.getDiscordManager().jda.openPrivateChannelById(id).queue(channel -> {
-                channel.sendMessage(errMsg).queue();
+                channel.sendMessage(errMsg).submit(true);
             });
             return false;
         }
@@ -296,7 +295,7 @@ public class RegisterCommand extends ListenerAdapter {
 
             if (!isAuthorized) {
                 event.reply("Dommage vous n'avez pas les accès...¯\\_(ツ)_/¯")
-                        .setEphemeral(true).queue();
+                        .setEphemeral(true).submit(true);
 
                 throw new Exception("Commande répondu pas un role non authorisé." +
                         "\nUser name: <@" + respMember + ">" +
@@ -326,13 +325,12 @@ public class RegisterCommand extends ListenerAdapter {
             }
             child.finish(SpanStatus.OK);
 
-
             tx.setData("state", "done replying to /register");
             tx.finish(SpanStatus.OK);
 
         } catch (Exception e) {
 
-            if(child != null) {
+            if (child != null) {
                 child.setData("state", "unkwown");
                 child.finish();
             }
@@ -387,7 +385,7 @@ public class RegisterCommand extends ListenerAdapter {
 
             if (!ok) {
                 event.reply("❌**Le joueur n'a pas pu être enregistrer réessayez...**")
-                        .setEphemeral(true).queue();
+                        .setEphemeral(true).submit(true);
                 return;
             }
 
@@ -395,12 +393,12 @@ public class RegisterCommand extends ListenerAdapter {
                     .setActionRow(net.dv8tion.jda.api.interactions.components.Button
                             .primary(this.acceptId_conf, "✔️ Accepter par " + event.getMember().getEffectiveName())
                             .asDisabled())
-                    .queue();
+                    .submit(true);
 
             final String avatarUrl = plugin.getBukkitManager().getAvatarUrl(uuid, "72");
             final String newMsg = "**Nous te souhaitons bienvenue, <@" + discordId + "> :: `" + pseudo
                     + "` Enjoy  ⛏🧱 !!!**\n" + avatarUrl;
-            gManager.getWelcomeChannel().sendMessage(newMsg).queue();
+            gManager.getWelcomeChannel().sendMessage(newMsg).submit(true);
 
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 String msg = newMsg;
@@ -408,15 +406,15 @@ public class RegisterCommand extends ListenerAdapter {
                     msg = newMsg + "\n**Vous avez `" + hoursToConfirm
                             + "h` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer votre compte`.**";
                 }
-                channel.sendMessage(msg).queue();
+                channel.sendMessage(msg).submit(true);
             });
 
             event.reply("✔️ **Le joueur <@" + discordId + "> a bien été approuvé avec le pseudo: `" + pseudo + "`.**")
-                    .setEphemeral(true).queue();
+                    .setEphemeral(true).submit(true);
 
         } catch (Exception e) {
             event.reply("❌**Une erreur est survenu, contactez un admin !!!**")
-                    .setEphemeral(true).queue();
+                    .setEphemeral(true).submit(true);
             SentryService.captureEx(e);
         }
     }
@@ -431,16 +429,16 @@ public class RegisterCommand extends ListenerAdapter {
                     .setActionRow(net.dv8tion.jda.api.interactions.components.Button
                             .primary(this.rejectId_conf, "❌ Refuser par " + event.getMember().getEffectiveName())
                             .asDisabled())
-                    .queue();
+                    .submit(true);
 
             final String newMsg = "**❌ Votre enregistrement sur le serveur a été refusé.**";
 
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
-                channel.sendMessage(newMsg).queue();
+                channel.sendMessage(newMsg).submit(true);
             });
 
             event.reply("❌ **Le joueur <@" + discordId + "> a bien été refusé pour le pseudo: `" + pseudo + "`.**")
-                    .setEphemeral(true).queue();
+                    .setEphemeral(true).submit(true);
 
             plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
 
