@@ -1,3 +1,5 @@
+//fichier modifié
+
 package configs;
 
 import java.util.HashMap;
@@ -7,19 +9,19 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="xxxxxxx";
+    private final String discordBotToken="xxxxxxxxxxxxxxxxxxxxxxxx";
 
-    private final String discordOwnerId="807839780309172255";
-    private final String discordServerId="770057600867237898";
-    private final String discordWelcomeChanelId="770148932075782176";
-    private final String discordAdminChanelId="805222201027985478";
-    private final String discordWhitelistChanelId="805222201027985478";
-    private final String botLogChannelId="805222201027985478";
-    private final String javaLogChannelId="892178805941215243";
+private final String discordOwnerId="807839780309172255";
+private final String discordServerId="770057600867237898";
+private final String discordWelcomeChanelId="770148932075782176";
+private final String discordAdminChanelId="805222201027985478";
+private final String discordWhitelistChanelId="805222201027985478";
+private final String botLogChannelId="805222201027985478";
+private final String javaLogChannelId="892178805941215243";
 
-    private final String discordAdminRoleId="809003930884505602";
-    private final String discordModeratorRoleId="783839953372053516";
-    private final String discordDevRoleId="926270775298752512";
+private final String discordAdminRoleId="809003930884505602";
+private final String discordModeratorRoleId="783839953372053516";
+private final String discordDevRoleId="926270775298752512";
     
     private final String mysqlHost="localhost";
     private final String mysqlPort="3306";
@@ -49,8 +51,8 @@ public final class ConfigManager {
 
     private final String pluginVersion="2023.1";
 
-    private final String paramPseudoJava="Java";
-    private final String paramPseudoBed="Bedrock";
+    private final String paramPseudoJava="java";
+    private final String paramPseudoBed="bedrock";
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 

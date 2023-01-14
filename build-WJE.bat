@@ -13,7 +13,7 @@ copy /y %BUILDER%\pom.xml %BUILDER%\backups\pom.bck
 
 call java --version
 call mvn --version
-call mvn -U clean install package -f %BUILDER%
+call mvn clean install package
 
 echo Job's done look if BUILD SUCCES...
 set /p "id=</>Press enter to continue:"
