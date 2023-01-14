@@ -128,8 +128,8 @@ public class DiscordManager {
             .queue();
 
             // Register
-            final String paramA = Configs.get("paramPseudoJava", "pseudo-java");
-            final String paramB = Configs.get("paramPseudoBed", "pseudo-bedrock");
+            final String paramA = Configs.get("paramPseudoJava", "java");
+            final String paramB = Configs.get("paramPseudoBed", "bedrock");
 
             final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(plugin));
@@ -181,6 +181,3 @@ public class DiscordManager {
 		return this.guild;
 	}
 }
-
-
-// TEST BIDON

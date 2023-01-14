@@ -73,7 +73,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     public String getVersion() {
-        return this.configManager.get("pluginVersion", "2023.1");
+        return this.configManager.get("pluginVersion", "2022.2");
     }
 
     @Override
@@ -111,16 +111,6 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                 transaction.setStatus(SpanStatus.INTERNAL_ERROR);
                 SentryService.captureEx(err);
             }
-        }
-
-        if(true) {
-            JSONArray x = DaoManager.getUsersDao().findAll();
-            JSONArray y = DaoManager.getBedrockDataDao().findAll();
-            JSONArray z = DaoManager.getJavaDataDao().findAll();
-    
-            this.logger.info("" + x.toString());
-            this.logger.info("" + y.toString());
-            this.logger.info("" + z.toString());
         }
 
         transaction.setStatus(SpanStatus.OK);
