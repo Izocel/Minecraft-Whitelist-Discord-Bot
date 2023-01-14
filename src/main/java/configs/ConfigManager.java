@@ -7,7 +7,7 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
+    private final String discordBotToken="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
     private final String discordOwnerId="272924120142970892";
     private final String discordServerId="276931890735218689";
@@ -48,9 +48,6 @@ public final class ConfigManager {
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
     private final String pluginVersion="2023.1";
-
-    private final String paramPseudoJava="pseudo-java";
-    private final String paramPseudoBed="pseudo-bedrock";
 
     private final String paramPseudoJava="pseudo-java";
     private final String paramPseudoBed="pseudo-bedrock";
