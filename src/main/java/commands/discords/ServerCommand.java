@@ -37,9 +37,7 @@ public class ServerCommand extends ListenerAdapter {
     
             event.reply("** 📝`" + serverName + "` | Informations ** " + 
                     this.main.getBukkitManager().getServerInfoString() +
-                    "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
-                    "\n\n**Mondes: **" + getWorldsInfos() +
-                    "\n**Développeurs:** <@272924120142970892> 👨‍💻"
+                    "\n\n**Développeurs:** <@272924120142970892> + <@258071819108614144>👨‍💻 👨‍💻"
     
             ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
 
