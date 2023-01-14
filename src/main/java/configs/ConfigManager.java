@@ -52,6 +52,9 @@ public final class ConfigManager {
     private final String paramPseudoJava="pseudo-java";
     private final String paramPseudoBed="pseudo-bedrock";
 
+    // FR, EN, FR_EN, EN_FR
+    private final String defaultLang="FR";
+
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private HashMap<String, String> configs = new HashMap<>();
@@ -94,6 +97,7 @@ public final class ConfigManager {
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
         configs.put("paramPseudoJava", this.paramPseudoJava);
         configs.put("paramPseudoBed", this.paramPseudoBed);
+        configs.put("defaultLang", this.defaultLang);
     }
 
     public String get(String key, String defaultValue) {
