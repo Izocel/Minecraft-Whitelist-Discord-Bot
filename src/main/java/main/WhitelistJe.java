@@ -113,6 +113,16 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             }
         }
 
+        if(true) {
+            JSONArray x = DaoManager.getUsersDao().findAll();
+            JSONArray y = DaoManager.getBedrockDataDao().findAll();
+            JSONArray z = DaoManager.getJavaDataDao().findAll();
+    
+            this.logger.info("" + x.toString());
+            this.logger.info("" + y.toString());
+            this.logger.info("" + z.toString());
+        }
+
         transaction.setStatus(SpanStatus.OK);
         transaction.finish();
     }

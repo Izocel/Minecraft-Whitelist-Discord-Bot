@@ -1,6 +1,6 @@
 @echo off
 cls
-set BUILDER=C:\projects\Minecraft-Whitelist-Discord-Bot
+set BUILDER=C:\Users\Utilisateur\Desktop\Whitelist-je\13
 set CONFFILE=pom.xml
 cd %BUILDER%
 
@@ -13,7 +13,7 @@ copy /y %BUILDER%\pom.xml %BUILDER%\backups\pom.bck
 
 call java --version
 call mvn --version
-call mvn clean install package
+call mvn -U clean install package -f %BUILDER%
 
 echo Job's done look if BUILD SUCCES...
 set /p "id=</>Press enter to continue:"
