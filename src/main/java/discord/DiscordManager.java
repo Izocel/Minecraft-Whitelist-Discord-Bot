@@ -180,19 +180,16 @@ public class DiscordManager {
             valueLabel = LOCAL.translate("PARAM_LOOKUP_LABEL");
 
             // Server
-            jda.addEventListener(new ServerCommand(plugin));
             jda.upsertCommand(srvCmdName, srvCmdDesc)
             .submit(true);
 
             // Register
-            jda.addEventListener(new RegisterCommand(plugin));
             jda.upsertCommand(rgstrCmdName, rgstrCmdDesc)
             .addOption(OptionType.STRING, paramJ, paramLabelJ, false)
             .addOption(OptionType.STRING, paramB, paramLabelB, false)
             .submit(true);
 
             // Search
-            jda.addEventListener(new LookupMcPlayerCommand(plugin));
             jda.upsertCommand(lookCmdName, lookDesc)
                 .addOption(OptionType.STRING, "type", "`UUID` || `PSEUDO`", true)
                 .addOption(OptionType.STRING, "value", valueLabel, true)
