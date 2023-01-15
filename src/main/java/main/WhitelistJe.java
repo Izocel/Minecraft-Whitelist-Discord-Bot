@@ -26,7 +26,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     private Logger logger;
     public WhitelistJe instance;
-    static LocalManager LOCALES;
+    public static LocalManager LOCALES;
     private BukkitManager bukkitManager;
     private GuildManager guildManager;
     private ConfigManager configManager;
