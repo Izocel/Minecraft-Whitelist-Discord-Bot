@@ -17,6 +17,7 @@ import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
 import services.sentry.SentryService;
@@ -25,6 +26,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     private Logger logger;
     public WhitelistJe instance;
+    static LocalManager LOCALES;
     private BukkitManager bukkitManager;
     private GuildManager guildManager;
     private ConfigManager configManager;
@@ -83,6 +85,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         try {
             instance = this;
             configManager = new ConfigManager();
+            LOCALES = new LocalManager(configManager);
             sentryService = new SentryService(this);
             transaction = sentryService.createTx("onEnable", "configurePlugin");
 
