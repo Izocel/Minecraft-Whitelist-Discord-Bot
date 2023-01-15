@@ -23,7 +23,6 @@ import models.JavaData;
 import models.User;
 
 import java.awt.*;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class RegisterCommand extends ListenerAdapter {
@@ -44,12 +43,7 @@ public class RegisterCommand extends ListenerAdapter {
         if (!event.getChannel().getType().toString().equals("TEXT")) {
             return;
         }
-
-        final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
-        if (!event.getName().equals(cmdName)) {
-            return;
-        }
-
+        
         ITransaction tx = Sentry.startTransaction("RegisterCommand", "register Mc®");
 
         try {
