@@ -48,10 +48,10 @@ public class RegisterCommand extends ListenerAdapter {
 
         final LocalManager LOCAL = WhitelistJe.LOCALES;
 
-        LOCAL.setNextLang(Lang.FR.value);
-        final String frCmdName = LOCAL.translate("CMD_REGISTER");
         LOCAL.setNextLang(Lang.EN.value);
         final String enCmdName = LOCAL.translate("CMD_REGISTER");
+        LOCAL.setNextLang(Lang.FR.value);
+        final String frCmdName = LOCAL.translate("CMD_REGISTER");
         
         String paramA = "";
         String paramB = "";
