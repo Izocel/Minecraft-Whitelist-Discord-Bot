@@ -8,11 +8,10 @@ public class LocalManager {
 
     private Logger logger;
     private String defaultLang = "FR";
-    private String nextInteractionLang;
+    private String nextInteractionLang = "FR";
 
     public LocalManager(ConfigManager configs) {
-        this.defaultLang = configs.get("defaultLang", "FR");
-        this.nextInteractionLang = this.defaultLang;
+        this.setNextLang(configs.get("defaultLang", "FR"));
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
@@ -27,11 +26,6 @@ public class LocalManager {
     }
 
     public String getNextLang() {
-        if (this.nextInteractionLang.length() < 1 || !this.isSupported(this.nextInteractionLang)) {
-            this.logger.info("Using default language: " + this.defaultLang);
-            this.nextInteractionLang = this.defaultLang;
-        }
-
         return this.nextInteractionLang;
     }
 
@@ -60,27 +54,32 @@ public class LocalManager {
     }
 
     private final String getEn(String key) {
-        final String txt = En.valueOf(key).trans;
-        if (txt.length() < 1) {
-            return key;
+        try {
+            return En.valueOf(key).trans;
+        } catch (Exception e) {
+            this.logger.warning("MISSING KEY: " + key);
         }
-        return txt;
+
+        return "MISSING KEY: " + key;
     }
 
     private final String getFr(String key) {
-        final String txt = Fr.valueOf(key).trans;
-        if (txt.length() < 1) {
-            return key;
+        try {
+            return Fr.valueOf(key).trans;
+        } catch (Exception e) {
+            this.logger.warning("MISSING KEY: " + key);
         }
-        return txt;
+
+        return "MISSING KEY: " + key;
     }
 
     Boolean isSupported(String lang) {
-        if (Lang.valueOf(lang).value == lang) {
-            return true;
+        try {
+            return Lang.valueOf(lang).value == lang;
+        } catch (Exception e) {
+            this.logger.warning("Is not a supported language: " + nextInteractionLang);
         }
-
-        this.logger.warning("Is not a supported language: " + nextInteractionLang);
+        
         return false;
     }
 }
