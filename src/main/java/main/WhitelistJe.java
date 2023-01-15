@@ -17,6 +17,7 @@ import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
 import services.sentry.SentryService;
@@ -25,6 +26,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     private Logger logger;
     public WhitelistJe instance;
+    static LocalManager LOCALES;
     private BukkitManager bukkitManager;
     private GuildManager guildManager;
     private ConfigManager configManager;
@@ -64,25 +66,40 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     public String getPluginInfos(boolean toConsole) {
-
-        final String devName = toConsole ? "@xXx-RaFuX#1345" : "<@272924120142970892>";
-
-        return "Name: `" + this.getName() + "`\n" +
-        "Version: `" + this.getVersion() + "`\n" +
-        "Developped by: " + devName + "\n\n";
+        final StringBuilder sb = new StringBuilder();
+        final String devName = toConsole
+                ? "@xXx-RaFuX#1345"
+                : "<@272924120142970892>";
+        
+        sb.append(String.format(
+            LOCALES.translate("PLUGIN_NAME"),
+            this.getName() + "\n"
+        ));
+        sb.append(String.format(
+            LOCALES.translate("PLUGIN_VERSION"),
+            this.getVersion() + "\n"
+        ));
+        sb.append(String.format(
+            LOCALES.translate("PLUGIN_DEVBY"),
+            devName + "\n\n"
+        ));
+        
+        return sb.toString();
     }
 
     public String getVersion() {
-        return this.configManager.get("pluginVersion", "2023.1");
+        return this.configManager.get("pluginVersion");
     }
 
     @Override
     public void onEnable() {
         ITransaction transaction = Sentry.startTransaction("onEnable", "configurePlugin");
+        final StringBuilder sb = new StringBuilder();
 
         try {
             instance = this;
             configManager = new ConfigManager();
+            LOCALES = new LocalManager(configManager);
             sentryService = new SentryService(this);
             transaction = sentryService.createTx("onEnable", "configurePlugin");
 
@@ -90,21 +107,37 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             discordManager = new DiscordManager(this);
             guildManager = new GuildManager(discordManager.getGuild(), this);
             bukkitManager = new BukkitManager(this);
-    
+
             updateAllPlayers();
 
-            Logger.getLogger("WhiteList-Je").info(this.getfiglet());
-            guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est loader**\n\n" + getPluginInfos(false)).submit(true);
+            sb.append(String.format(
+                LOCALES.translate("PLUGIN_HELLO"),
+                this.getName()
+            ));
+            sb.append(getPluginInfos(false));
             
+            guildManager.getAdminChannel()
+                .sendMessage(sb.toString()).submit(true);
+
+            Logger.getLogger("WhiteList-Je").info(this.getfiglet());
+
         } catch (Exception e) {
             try {
                 transaction.setThrowable(e);
                 transaction.setStatus(SpanStatus.INTERNAL_ERROR);
                 SentryService.captureEx(e);
-                guildManager.getAdminChannel().sendMessage("**`OUPS`, Le plugin `" + this.getName() + "`" +
-                 " a rencontré des `problèmes` à l'initialisation**\n" + 
-                 "**Regarder les fichers de `log` !!!!**\n\n" + 
-                 getPluginInfos(false)).submit(true);
+
+                sb.delete(0, sb.length());
+
+                sb.append(String.format(
+                    LOCALES.translate("PLUGIN_HELLO_ERROR"),
+                    this.getName()
+                ));
+
+                sb.append(LOCALES.translate("CHECK_LOGS") + "\n\n");
+                sb.append(getPluginInfos(false));
+
+                guildManager.getAdminChannel().sendMessage(sb.toString()).submit(true);
 
             } catch (Exception err) {
                 transaction.setThrowable(err);
@@ -119,7 +152,16 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        guildManager.getAdminChannel().sendMessage("**Le plugin `" + this.getName() + "` est unloader**\n\n" + getPluginInfos(false)).submit(true);
+        final StringBuilder sb = new StringBuilder();
+        
+        sb.append(String.format(
+            LOCALES.translate("PLUGIN_GOODBYE"),
+            this.getName()
+        ));
+        sb.append(getPluginInfos(false));
+
+        guildManager.getAdminChannel()
+            .sendMessage(sb.toString()).submit(true);
     }
 
     public DiscordManager getDiscordManager() {
@@ -148,16 +190,16 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public JSONArray updateAllPlayers() {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
-        .startChild("updateAllPlayers");
-        
+                .startChild("updateAllPlayers");
+
         this.players = new JSONArray();
 
         JSONArray java = DaoManager.getJavaDataDao().findAll();
-        if(java != null)
+        if (java != null)
             this.players.putAll(java);
 
         JSONArray bedrocks = DaoManager.getBedrockDataDao().findAll();
-        if(bedrocks != null)
+        if (bedrocks != null)
             this.players.putAll(bedrocks);
 
         updateAllowedPlayers();
@@ -169,16 +211,16 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public JSONArray updateAllowedPlayers() {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
-        .startChild("updateAllowedPlayers");
+                .startChild("updateAllowedPlayers");
 
         this.playersAllowed = new JSONArray();
 
         JSONArray java = DaoManager.getJavaDataDao().findAllowed();
-        if(java != null)
+        if (java != null)
             this.playersAllowed.putAll(java);
 
         JSONArray bedrocks = DaoManager.getBedrockDataDao().findAllowed();
-        if(bedrocks != null)
+        if (bedrocks != null)
             this.playersAllowed.putAll(bedrocks);
 
         process.setStatus(SpanStatus.OK);
@@ -190,7 +232,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         Integer userId = -1;
         this.updateAllPlayers();
 
-        if(this.players == null) {
+        if (this.players == null) {
             return -1;
         }
 
@@ -198,7 +240,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             for (Object object : this.players) {
                 final JSONObject player = (JSONObject) object;
                 final String uuidReccord = player.optString("uuid");
-    
+
                 if (uuidReccord.equals(uuid.toString())) {
                     userId = player.getInt("id");
                     break;
@@ -215,7 +257,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         Integer allowedUserId = -1;
         this.updateAllowedPlayers();
 
-        if(this.playersAllowed == null) {
+        if (this.playersAllowed == null) {
             return -1;
         }
 
@@ -240,7 +282,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         Integer allowedUserId = -1;
         this.updateAllowedPlayers();
 
-        if(this.playersAllowed == null) {
+        if (this.playersAllowed == null) {
             return -1;
         }
 
@@ -248,7 +290,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             for (Object object : this.playersAllowed) {
                 final JSONObject player = (JSONObject) object;
                 final String uuidReccord = player.getString("uuid");
-    
+
                 if (uuidReccord.equals(uuid.toString())) {
                     final boolean confirmed = player.optString("confirmed").equals("1");
                     allowedUserId = confirmed ? player.getInt("id") : -1;
@@ -266,7 +308,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         JSONObject data = null;
         this.updateAllPlayers();
 
-        if(this.players == null) {
+        if (this.players == null) {
             return null;
         }
 
@@ -274,7 +316,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             for (Object object : this.players) {
                 final JSONObject playerData = (JSONObject) object;
                 final String uuidReccord = playerData.getString("uuid");
-    
+
                 if (uuidReccord.equals(uuid.toString())) {
                     data = playerData;
                     break;
@@ -289,7 +331,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public boolean deletePlayerRegistration(UUID UUID) {
         try {
-            if(UUID == null) {
+            if (UUID == null) {
                 return false;
             }
 
@@ -297,11 +339,11 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
-            if(javaData != null) {
+            if (javaData != null) {
                 return javaData.delete(DaoManager.getJavaDataDao()) > 0;
             }
 
-            else if(bedData != null) {
+            else if (bedData != null) {
                 return bedData.delete(DaoManager.getBedrockDataDao()) > 0;
             }
 
@@ -316,7 +358,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public boolean deleteAllPlayerData(UUID UUID) {
         try {
-            if(UUID == null) {
+            if (UUID == null) {
                 return false;
             }
 
@@ -324,14 +366,14 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
-            if(javaData != null) {
+            if (javaData != null) {
                 return DaoManager.getUsersDao().findUser(javaData.getUserId())
-                .delete(DaoManager.getUsersDao()) > 0;
+                        .delete(DaoManager.getUsersDao()) > 0;
             }
 
-            else if(bedData != null) {
+            else if (bedData != null) {
                 return DaoManager.getUsersDao().findUser(bedData.getUserId())
-                .delete(DaoManager.getUsersDao()) > 0;
+                        .delete(DaoManager.getUsersDao()) > 0;
             }
 
             return false;
