@@ -112,7 +112,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
             sb.append(String.format(
                 LOCALES.translate("PLUGIN_HELLO"),
-                this.getName()
+                this.getName(), LOCALES.translate("ISACTIVE")
             ));
             sb.append(getPluginInfos(false));
             
@@ -131,7 +131,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
                 sb.append(String.format(
                     LOCALES.translate("PLUGIN_HELLO_ERROR"),
-                    this.getName()
+                    this.getName(), LOCALES.translate("ISINACTIVE")
                 ));
 
                 sb.append(LOCALES.translate("CHECK_LOGS") + "\n\n");

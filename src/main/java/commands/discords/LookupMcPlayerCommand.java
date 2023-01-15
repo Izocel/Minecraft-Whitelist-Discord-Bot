@@ -32,7 +32,17 @@ public class LookupMcPlayerCommand extends ListenerAdapter {
         LOCAL.setNextLang(Lang.EN.value);
         final String enCmdName = LOCAL.translate("CMD_LOOKUP");
 
-        if (!event.getName().equals(frCmdName) && !event.getName().equals(enCmdName))
+        String lang = "";
+        if (event.getName().equals(frCmdName)) {
+            lang = "fr";
+        }
+        else if (event.getName().equals(enCmdName)) {
+            LOCAL.setNextLang(Lang.EN.value);
+            lang = "en";
+        } 
+
+        LOCAL.nextIsDefault();
+        if(lang.length() < 1)
             return;
 
         ITransaction tx = Sentry.startTransaction("LookupMcPlayerCommand", "dig Mc® player json");
