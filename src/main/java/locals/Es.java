@@ -11,9 +11,9 @@ public enum Es {
     ERROR("ERREUR"), // à traduire
 
     //PLUGIN
-    PLUGIN_HELLO("**Le plugin `%s` " + ISACTIVE + "**\n\n"), // à traduire
-    PLUGIN_HELLO_ERROR("**`" + ERROR + "`, Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"), // à traduire
-    PLUGIN_GOODBYE("**Le plugin `%s` " + ISINACTIVE + "**\n\n"), // à traduire
+    PLUGIN_HELLO("**Le plugin `%s` %s**\n\n"), // à traduire
+    PLUGIN_HELLO_ERROR("**`ERREUR:` Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"), // à traduire
+    PLUGIN_GOODBYE("**Le plugin `%s` %s**\n\n"), // à traduire
     PLUGIN_NAME("Nom: `%s`"), // à traduire
     PLUGIN_VERSION("Version: `%s`"), // à traduire
     PLUGIN_DEVBY("Développer par: `%s`"), // à traduire

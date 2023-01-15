@@ -10,9 +10,9 @@ public enum En {
     ERROR("ERROR"),
 
     //PLUGIN
-    PLUGIN_HELLO("**The plugin `%s` " + ISACTIVE + "**\n\n"),
-    PLUGIN_HELLO_ERROR("**`" + ERROR + "`, The plugin `%s` as encountered errors at initialisation**\n"),
-    PLUGIN_GOODBYE("**The plugin `%s` " + ISINACTIVE + "**\n\n"),
+    PLUGIN_HELLO("**The plugin `%s` %s**\n\n"),
+    PLUGIN_HELLO_ERROR("**`ERROR:` The plugin `%s` as encountered errors at initialisation**\n"),
+    PLUGIN_GOODBYE("**The plugin `%s` %s**\n\n"),
     PLUGIN_NAME("Name: `%s`"),
     PLUGIN_VERSION("Version: `%s`"),
     PLUGIN_DEVBY("Developped by: `%s`"),
