@@ -2,39 +2,39 @@ package locals;
 
 public enum Es {
     //GLOBAL
-    RAINY("pluvieux"),
-    SUNNY("ensoleillé"),
-    NAME("nom"),
-    VERSION("version"),
-    ISACTIVE("est actif"),
-    ISINACTIVE("est inactif"),
-    ERROR("ERREUR"),
+    RAINY("pluvieux"), // à traduire
+    SUNNY("ensoleillé"), // à traduire
+    NAME("nom"), // à traduire
+    VERSION("version"), // à traduire
+    ISACTIVE("est actif"), // à traduire
+    ISINACTIVE("est inactif"), // à traduire
+    ERROR("ERREUR"), // à traduire
 
     //PLUGIN
-    PLUGIN_HELLO("**Le plugin `%s` " + ISACTIVE + "**\n\n"),
-    PLUGIN_HELLO_ERROR("**`" + ERROR + "`, Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"),
-    PLUGIN_GOODBYE("**Le plugin `%s` " + ISINACTIVE + "**\n\n"),
-    PLUGIN_NAME("Nom: `%s`"),
-    PLUGIN_VERSION("Version: `%s`"),
-    PLUGIN_DEVBY("Développer par: `%s`"),
+    PLUGIN_HELLO("**Le plugin `%s` " + ISACTIVE + "**\n\n"), // à traduire
+    PLUGIN_HELLO_ERROR("**`" + ERROR + "`, Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"), // à traduire
+    PLUGIN_GOODBYE("**Le plugin `%s` " + ISINACTIVE + "**\n\n"), // à traduire
+    PLUGIN_NAME("Nom: `%s`"), // à traduire
+    PLUGIN_VERSION("Version: `%s`"), // à traduire
+    PLUGIN_DEVBY("Développer par: `%s`"), // à traduire
 
     //ERRORS
-    CHECK_LOGS("**Regarder les fichers de `log` !!!!**"),
+    CHECK_LOGS("**Regarder les fichers de `log` !!!!**"), // à traduire
 
     //DISCORD CMD
-    CMD_SERVER("serveur"),
-    CMD_REGISTER("enregistrer"),
-    CMD_LOOKUP("recherche"),
+    CMD_SERVER("serveur"), // à traduire
+    CMD_REGISTER("enregistrer"), // à traduire
+    CMD_LOOKUP("recherche"), // à traduire
     //PARAMS
-    PARAM_PJAVA("java"),
-    PARAM_PBEDR("bedrock"),
-    PARAM_REGISTR_LABELJ("Votre pseudo Java"),
-    PARAM_REGISTR_LABELB("Votre pseudo Bedrock"),
-    PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"),
+    PARAM_PJAVA("java"), // à traduire
+    PARAM_PBEDR("bedrock"), // à traduire
+    PARAM_REGISTR_LABELJ("Votre pseudo Java"), // à traduire
+    PARAM_REGISTR_LABELB("Votre pseudo Bedrock"), // à traduire
+    PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"), // à traduire
     //DESC
-    DESC_SERVER("Afficher les informations du serveur `Minecraft®`."),
-    DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."),
-    DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."),
+    DESC_SERVER("Afficher les informations du serveur `Minecraft®`."), // à traduire
+    DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."), // à traduire
+    DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."), // à traduire
 
     ;
 
