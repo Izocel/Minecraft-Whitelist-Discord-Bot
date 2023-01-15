@@ -59,8 +59,8 @@ public class RegisterCommand extends ListenerAdapter {
         ITransaction tx = Sentry.startTransaction("RegisterCommand", "register Mc®");
 
         try {
-            final String paramA = this.plugin.getConfigManager().get("paramPseudoJava", "pseudo-java");
-            final String paramB = this.plugin.getConfigManager().get("paramPseudoBed", "pseudo-bedrock");
+            final String paramA = this.plugin.getConfigManager().get("paramPseudoJava", "java");
+            final String paramB = this.plugin.getConfigManager().get("paramPseudoBed", "bedrock");
 
             final OptionMapping javaOpt = event.getOption(paramA);
             final OptionMapping bedOpt = event.getOption(paramB);
