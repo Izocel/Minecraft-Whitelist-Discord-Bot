@@ -6,6 +6,8 @@ import configs.ConfigManager;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import locals.Lang;
+import locals.LocalManager;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -23,6 +25,16 @@ public class LookupMcPlayerCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
+        final LocalManager LOCAL = WhitelistJe.LOCALES;
+
+        LOCAL.setNextLang(Lang.FR.value);
+        final String frCmdName = LOCAL.translate("CMD_LOOKUP");
+        LOCAL.setNextLang(Lang.EN.value);
+        final String enCmdName = LOCAL.translate("CMD_LOOKUP");
+
+        if (!event.getName().equals(frCmdName) && !event.getName().equals(enCmdName))
+            return;
+
         ITransaction tx = Sentry.startTransaction("LookupMcPlayerCommand", "dig Mc® player json");
         String lookupMsg = "";
 

@@ -10,22 +10,33 @@ import configs.ConfigManager;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import locals.Lang;
 import locals.LocalManager;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class ServerCommand extends ListenerAdapter {
-    private WhitelistJe main;
+    private WhitelistJe plugin;
     private ConfigManager configs;
 
-    public ServerCommand(WhitelistJe main) {
-        this.main = main;
-        this.configs = this.main.getConfigManager();
+    public ServerCommand(WhitelistJe plugin) {
+        this.plugin = plugin;
+        this.configs = this.plugin.getConfigManager();
     }
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
+        final LocalManager LOCAL = WhitelistJe.LOCALES;
+
+        LOCAL.setNextLang(Lang.FR.value);
+        final String frCmdName = LOCAL.translate("CMD_SERVER");
+        LOCAL.setNextLang(Lang.EN.value);
+        final String enCmdName = LOCAL.translate("CMD_SERVER");
+
+        if (!event.getName().equals(frCmdName) && !event.getName().equals(enCmdName))
+            return;
+
         ITransaction tx = Sentry.startTransaction("ServerInfosCommand", "get MC® server infos");
 
         try {
@@ -33,8 +44,10 @@ public class ServerCommand extends ListenerAdapter {
             final String serverName = event.getGuild().getName();
     
             event.reply("** 📝`" + serverName + "` | Informations ** " + 
-                    this.main.getBukkitManager().getServerInfoString() +
-                    "\n\n**Développeurs:** <@272924120142970892> + <@258071819108614144>👨‍💻 👨‍💻"
+                    this.plugin.getBukkitManager().getServerInfoString() +
+                    "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
+                    "\n\n**Mondes: **" + getWorldsInfos() +
+                    "\n**Développeurs:** <@272924120142970892> + <@258071819108614144>👨‍💻 👨‍💻"
     
             ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
 
