@@ -34,7 +34,16 @@ public class ServerCommand extends ListenerAdapter {
         LOCAL.setNextLang(Lang.EN.value);
         final String enCmdName = LOCAL.translate("CMD_SERVER");
 
-        if (!event.getName().equals(frCmdName) && !event.getName().equals(enCmdName))
+        LOCAL.nextIsDefault();
+
+        String lang = "";
+        if (event.getName().equals(frCmdName))
+            lang = "fr";
+
+        else if (event.getName().equals(enCmdName))
+            lang = "en";
+
+        if(lang.length() < 1)
             return;
 
         ITransaction tx = Sentry.startTransaction("ServerInfosCommand", "get MC® server infos");

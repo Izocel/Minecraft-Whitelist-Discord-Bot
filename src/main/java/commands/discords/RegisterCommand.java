@@ -52,15 +52,30 @@ public class RegisterCommand extends ListenerAdapter {
         final String frCmdName = LOCAL.translate("CMD_REGISTER");
         LOCAL.setNextLang(Lang.EN.value);
         final String enCmdName = LOCAL.translate("CMD_REGISTER");
+        
+        String paramA = "";
+        String paramB = "";
 
-        if (!event.getName().equals(frCmdName) && !event.getName().equals(enCmdName))
+        String lang = "";
+        if (event.getName().equals(frCmdName)) {
+            paramA = LOCAL.translate("PARAM_PJAVA");
+            paramB = LOCAL.translate("PARAM_PBEDR");
+            lang = "fr";
+        }
+        else if (event.getName().equals(enCmdName)) {
+            LOCAL.setNextLang(Lang.EN.value);
+            paramA = LOCAL.translate("PARAM_PJAVA");
+            paramB = LOCAL.translate("PARAM_PBEDR");
+            lang = "en";
+        } 
+
+        LOCAL.nextIsDefault();
+        if(lang.length() < 1)
             return;
         
         ITransaction tx = Sentry.startTransaction("RegisterCommand", "register Mc®");
 
         try {
-            final String paramA = this.plugin.getConfigManager().get("paramPseudoJava", "pseudo-java");
-            final String paramB = this.plugin.getConfigManager().get("paramPseudoBed", "pseudo-bedrock");
 
             final OptionMapping javaOpt = event.getOption(paramA);
             final OptionMapping bedOpt = event.getOption(paramB);
