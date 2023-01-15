@@ -18,9 +18,23 @@ public enum Fr {
     PLUGIN_VERSION("Version: `%s`"),
     PLUGIN_DEVBY("Développer par: `%s`"),
 
-
     //ERRORS
     CHECK_LOGS("**Regarder les fichers de `log` !!!!**"),
+
+    //DISCORD CMD
+    CMD_SERVER("serveur"),
+    CMD_REGISTER("enregistrer"),
+    CMD_LOOKUP("recherche"),
+    //PARAMS
+    PARAM_PJAVA("pseudo-java"),
+    PARAM_PBEDR("pseudo-bedrock"),
+    PARAM_REGISTR_LABELJ("Votre pseudo Java"),
+    PARAM_REGISTR_LABELB("Votre pseudo Bedrock"),
+    PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"),
+    //DESC
+    DESC_SERVER("Afficher les informations du serveur `Minecraft®`."),
+    DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."),
+    DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."),
 
     ;
 

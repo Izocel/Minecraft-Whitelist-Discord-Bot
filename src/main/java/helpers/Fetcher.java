@@ -8,7 +8,6 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.net.http.HttpResponse;
 import java.util.Map;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 import org.json.JSONArray;
 

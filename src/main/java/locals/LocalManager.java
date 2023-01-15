@@ -8,11 +8,10 @@ public class LocalManager {
 
     private Logger logger;
     private String defaultLang = "FR";
-    private String nextInteractionLang;
+    private String nextInteractionLang = "FR";
 
     public LocalManager(ConfigManager configs) {
-        this.defaultLang = configs.get("defaultLang", "FR");
-        this.nextInteractionLang = this.defaultLang;
+        this.setNextLang(configs.get("defaultLang", "FR"));
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
@@ -26,12 +25,21 @@ public class LocalManager {
         this.nextInteractionLang = lang;
     }
 
-    public String getNextLang() {
-        if (this.nextInteractionLang.length() < 1 || !this.isSupported(this.nextInteractionLang)) {
+    public String setDefault(String lang) {
+        if (lang.length() < 1 || !this.isSupported(lang)) {
             this.logger.info("Using default language: " + this.defaultLang);
-            this.nextInteractionLang = this.defaultLang;
+            lang = this.defaultLang;
         }
 
+        this.defaultLang = lang;
+        return this.defaultLang;
+    }
+
+    public void nextIsDefault() {
+        this.nextInteractionLang = this.defaultLang;
+    }
+
+    public String getNextLang() {
         return this.nextInteractionLang;
     }
 
@@ -48,9 +56,9 @@ public class LocalManager {
             case "EN":
                 return getEn(key);
             case "EN_FR":
-                return "\nENGLISH: " + getEn(key) + "\nFRANÇAIS: " + getFr(key);
+                return "\n🇺🇸 ENGLISH: " + getEn(key) + "\n🇨🇦 FRANÇAIS: " + getFr(key);
             case "FR_EN":
-                return "\nFRANÇAIS: " + getFr(key) + "\nENGLISH: " + getEn(key);
+                return "\n🇨🇦 FRANÇAIS: " + getFr(key) + "\n🇺🇸 ENGLISH: " + getEn(key);
 
             default:
                 break;
@@ -60,27 +68,32 @@ public class LocalManager {
     }
 
     private final String getEn(String key) {
-        final String txt = En.valueOf(key).trans;
-        if (txt.length() < 1) {
-            return key;
+        try {
+            return En.valueOf(key).trans;
+        } catch (Exception e) {
+            this.logger.warning("MISSING KEY: " + key);
         }
-        return txt;
+
+        return "MISSING KEY: " + key;
     }
 
     private final String getFr(String key) {
-        final String txt = Fr.valueOf(key).trans;
-        if (txt.length() < 1) {
-            return key;
+        try {
+            return Fr.valueOf(key).trans;
+        } catch (Exception e) {
+            this.logger.warning("MISSING KEY: " + key);
         }
-        return txt;
+
+        return "MISSING KEY: " + key;
     }
 
     Boolean isSupported(String lang) {
-        if (Lang.valueOf(lang).value == lang) {
-            return true;
+        try {
+            return Lang.valueOf(lang).value == lang;
+        } catch (Exception e) {
+            this.logger.warning("Is not a supported language: " + nextInteractionLang);
         }
-
-        this.logger.warning("Is not a supported language: " + nextInteractionLang);
+        
         return false;
     }
 }

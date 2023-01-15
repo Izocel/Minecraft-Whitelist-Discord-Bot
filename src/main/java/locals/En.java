@@ -20,6 +20,22 @@ public enum En {
     //ERRORS
     CHECK_LOGS("**Check your `log` files !!!!**"),
 
+    //DISCORD CMD
+    CMD_SERVER("server"),
+    CMD_REGISTER("register"),
+    CMD_LOOKUP("search"),
+    //PARAMS
+    PARAM_PJAVA("java-pseudo"),
+    PARAM_PBEDR("bedrock-pseudo"),
+    PARAM_REGISTR_LABELJ("Your Java pseudo"),
+    PARAM_REGISTR_LABELB("Your Bedrock pseudo"),
+    PARAM_LOOKUP_LABEL("The uuid or pseudo to search for"),
+    //DESC
+    DESC_SERVER("Show the `Minecraft®` server informations."),
+    DESC_REGISTR("Register on the `Minecraft®` server."),
+    DESC_LOOKUP("Find `Minecraft®` players infos by uuid or pseudo."),
+
+
     ;
 
     final String trans;
