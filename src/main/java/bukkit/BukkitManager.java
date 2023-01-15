@@ -64,7 +64,8 @@ public class BukkitManager {
         sb.append("\n\tIp: `" + paperMcIp + "`");
         sb.append("\n\tPort Java: `" + protJ + "`");
         sb.append("\n\tPort Bedrock: `" + portB + "`");
-        sb.append("\n\tSeed: `[-7795804451891021298]`");
+        sb.append("\n\n\tSeed Survival: `[-7795804451891021298]`");
+        sb.append("\n\tSeed Creative: `[-324183832]`");
 
         return sb.toString();
     }
