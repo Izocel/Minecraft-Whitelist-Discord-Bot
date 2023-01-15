@@ -16,6 +16,8 @@ import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import locals.Lang;
+import locals.LocalManager;
 import services.sentry.SentryService;
 import main.WhitelistJe;
 import models.BedrockData;
@@ -43,6 +45,16 @@ public class RegisterCommand extends ListenerAdapter {
         if (!event.getChannel().getType().toString().equals("TEXT")) {
             return;
         }
+
+        final LocalManager LOCAL = WhitelistJe.LOCALES;
+
+        LOCAL.setNextLang(Lang.FR.value);
+        final String frCmdName = LOCAL.translate("CMD_REGISTER");
+        LOCAL.setNextLang(Lang.EN.value);
+        final String enCmdName = LOCAL.translate("CMD_REGISTER");
+
+        if (!event.getName().equals(frCmdName) && !event.getName().equals(enCmdName))
+            return;
         
         ITransaction tx = Sentry.startTransaction("RegisterCommand", "register Mc®");
 
