@@ -10,6 +10,7 @@ import configs.ConfigManager;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
+import locals.LocalManager;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -25,10 +26,6 @@ public class ServerCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-        final String cmdName = this.main.getConfigManager().get("serverCmdName", "server");
-        if (!event.getName().equals(cmdName))
-            return;
-
         ITransaction tx = Sentry.startTransaction("ServerInfosCommand", "get MC® server infos");
 
         try {
