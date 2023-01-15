@@ -25,6 +25,20 @@ public class LocalManager {
         this.nextInteractionLang = lang;
     }
 
+    public String setDefault(String lang) {
+        if (lang.length() < 1 || !this.isSupported(lang)) {
+            this.logger.info("Using default language: " + this.defaultLang);
+            lang = this.defaultLang;
+        }
+
+        this.defaultLang = lang;
+        return this.defaultLang;
+    }
+
+    public void nextIsDefault() {
+        this.nextInteractionLang = this.defaultLang;
+    }
+
     public String getNextLang() {
         return this.nextInteractionLang;
     }
@@ -42,9 +56,9 @@ public class LocalManager {
             case "EN":
                 return getEn(key);
             case "EN_FR":
-                return "\nENGLISH: " + getEn(key) + "\nFRANÇAIS: " + getFr(key);
+                return "\n🇺🇸 ENGLISH: " + getEn(key) + "\n🇨🇦 FRANÇAIS: " + getFr(key);
             case "FR_EN":
-                return "\nFRANÇAIS: " + getFr(key) + "\nENGLISH: " + getEn(key);
+                return "\n🇨🇦 FRANÇAIS: " + getFr(key) + "\n🇺🇸 ENGLISH: " + getEn(key);
 
             default:
                 break;

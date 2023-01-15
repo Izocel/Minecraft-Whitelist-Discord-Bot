@@ -14,6 +14,8 @@ import configs.ConfigManager;
 import events.discords.OnUserConfirm;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
+import locals.Lang;
+import locals.LocalManager;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -120,50 +122,88 @@ public class DiscordManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
         .startChild("DiscordManager.setupCommands");
 
+        LocalManager LOCAL = WhitelistJe.LOCALES;
+
         try {
-            // Server
-            final String srvCmd = this.plugin.getConfigManager().get("serverCmdName", "server");
+            // FRENCH COMMAND
+            LOCAL.setNextLang(Lang.FR.value);
+
+            String srvCmdName = LOCAL.translate("CMD_SERVER");
+            String srvCmdDesc = LOCAL.translate("DESC_SERVER");
+            
+            String rgstrCmdName = LOCAL.translate("CMD_REGISTER");
+            String rgstrCmdDesc = LOCAL.translate("DESC_REGISTR");
+            String paramJ = LOCAL.translate("PARAM_PJAVA");
+            String paramB = LOCAL.translate("PARAM_PBEDR");
+            String paramLabelJ = LOCAL.translate("PARAM_REGISTR_LABELJ");
+            String paramLabelB = LOCAL.translate("PARAM_REGISTR_LABELB");
+
+            String lookCmdName = LOCAL.translate("CMD_LOOKUP");
+            String lookDesc = LOCAL.translate("DESC_LOOKUP");
+            String valueLabel = LOCAL.translate("PARAM_LOOKUP_LABEL");
+
+            // Serveur
             jda.addEventListener(new ServerCommand(plugin));
-            jda.upsertCommand(srvCmd, "Afficher les informations du serveur `Minecraft®`")
+            jda.upsertCommand(srvCmdName, srvCmdDesc)
+            .submit(true);
+
+            // Enregistrer
+            jda.addEventListener(new RegisterCommand(plugin));
+            jda.upsertCommand(rgstrCmdName, rgstrCmdDesc)
+            .addOption(OptionType.STRING, paramJ, paramLabelJ, false)
+            .addOption(OptionType.STRING, paramB, paramLabelB, false)
+            .submit(true);
+
+            // Recherche
+            jda.addEventListener(new LookupMcPlayerCommand(plugin));
+            jda.upsertCommand(lookCmdName, lookDesc)
+                .addOption(OptionType.STRING, "type", "`UUID` || `PSEUDO`", true)
+                .addOption(OptionType.STRING, "value", valueLabel, true)
+                .submit(true);
+
+
+            // ENGLISH COMMANDS
+            LOCAL.setNextLang(Lang.EN.value);
+
+            srvCmdName = LOCAL.translate("CMD_SERVER");
+            srvCmdDesc = LOCAL.translate("DESC_SERVER");
+
+            rgstrCmdName = LOCAL.translate("CMD_REGISTER");
+            rgstrCmdDesc = LOCAL.translate("DESC_REGISTR");
+            paramJ = LOCAL.translate("PARAM_PJAVA");
+            paramB = LOCAL.translate("PARAM_PBEDR");
+            paramLabelJ = LOCAL.translate("PARAM_REGISTR_LABELJ");
+            paramLabelB = LOCAL.translate("PARAM_REGISTR_LABELB");
+
+            lookCmdName = LOCAL.translate("CMD_LOOKUP");
+            lookDesc = LOCAL.translate("DESC_LOOKUP");
+            valueLabel = LOCAL.translate("PARAM_LOOKUP_LABEL");
+
+            // Server
+            jda.addEventListener(new ServerCommand(plugin));
+            jda.upsertCommand(srvCmdName, srvCmdDesc)
             .submit(true);
 
             // Register
-            final String paramA = Configs.get("paramPseudoJava", "pseudo-java");
-            final String paramB = Configs.get("paramPseudoBed", "pseudo-bedrock");
-
-            final String rgstrCmd = this.plugin.getConfigManager().get("registerCmdName", "register");
             jda.addEventListener(new RegisterCommand(plugin));
-            jda.upsertCommand(rgstrCmd, "S'enregister sur le serveur")
-            .addOption(OptionType.STRING, paramA, "Votre pseudo Java -> Minecraft®", false)
-            .addOption(OptionType.STRING, paramB, "Votre pseudo Bedrock -> Minecraft®", false)
+            jda.upsertCommand(rgstrCmdName, rgstrCmdDesc)
+            .addOption(OptionType.STRING, paramJ, paramLabelJ, false)
+            .addOption(OptionType.STRING, paramB, paramLabelB, false)
             .submit(true);
 
-            // Lookup
-            final String lookCmd = this.plugin.getConfigManager().get("lookupMcPlayerCmdName", "lookupMcPlayerCmdName");
+            // Search
             jda.addEventListener(new LookupMcPlayerCommand(plugin));
-            jda.upsertCommand(lookCmd, "Trouver des infos de joueurs Minecraft® par UUID ou pseudo.")
-            .addOption(OptionType.STRING, "type", "UUID || PSEUDO", true)
-            .addOption(OptionType.STRING, "value", "Le uuid ou le pseudo de recherche.", true)
-            .submit(true);
-    
-            // // Whitelist
-            // jda.addEventListener(new WhitelistCommand(plugin));
-            // jda.upsertCommand("whitelist", "Commande whitelist du
-            // serveur").addOption(OptionType.STRING,
-            // "action", "add/remove/on/off",true).addOption(OptionType.STRING, "pseudo", "Pseudo du joueur", false)
-            // .submit(true);
-    
-            // // Deny
-            // jda.addEventListener(new DenyCommand(plugin));
-            // jda.upsertCommand("deny", "Refuser l'accès au serveur (réservé au
-            // staff)").addOption(OptionType.MENTIONABLE,
-            // "mention", "Mentionner un membre", true).submit(true);
+            jda.upsertCommand(lookCmdName, lookDesc)
+                .addOption(OptionType.STRING, "type", "`UUID` || `PSEUDO`", true)
+                .addOption(OptionType.STRING, "value", valueLabel, true)
+                .submit(true);
             
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");
             SentryService.captureEx(e);
         }
 
+        LOCAL.nextIsDefault();
         process.setStatus(SpanStatus.OK);
         process.finish();
     }

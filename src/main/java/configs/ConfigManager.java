@@ -40,17 +40,10 @@ public final class ConfigManager {
     // MC commands names
     private final String confirmLinkCmdName="wje-link";
 
-    // Discord commands names
-    private final String serverCmdName="server";
-    private final String registerCmdName="register";
-    private final String lookupMcPlayerCmdName="dig-player";
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
     private final String pluginVersion="2023.1";
-
-    private final String paramPseudoJava="pseudo-java";
-    private final String paramPseudoBed="pseudo-bedrock";
 
     // FR, EN, FR_EN, EN_FR
     private final String defaultLang="FR";
@@ -90,13 +83,7 @@ public final class ConfigManager {
         
         configs.put("confirmLinkCmdName", this.confirmLinkCmdName);
 
-        configs.put("serverCmdName", this.serverCmdName);
-        configs.put("registerCmdName", this.registerCmdName);
-        configs.put("lookupMcPlayerCmdName", this.lookupMcPlayerCmdName);
-
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
-        configs.put("paramPseudoJava", this.paramPseudoJava);
-        configs.put("paramPseudoBed", this.paramPseudoBed);
         configs.put("defaultLang", this.defaultLang);
     }
 
