@@ -23,10 +23,6 @@ public class LookupMcPlayerCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(SlashCommandEvent event) {
-        final String cmdName = this.main.getConfigManager().get("lookupMcPlayerCmdName", "lookupMcPlayerCmdName");
-        if (!event.getName().equals(cmdName))
-            return;
-
         ITransaction tx = Sentry.startTransaction("LookupMcPlayerCommand", "dig Mc® player json");
         String lookupMsg = "";
 

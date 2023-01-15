@@ -122,7 +122,7 @@ public class DiscordManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
         .startChild("DiscordManager.setupCommands");
 
-        LocalManager LOCAL = WhitelistJe.LOCALES;
+        final LocalManager LOCAL = WhitelistJe.LOCALES;
 
         try {
             // FRENCH COMMAND
