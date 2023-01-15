@@ -66,9 +66,9 @@ public class BukkitManager {
         sb.append("\n\tPort Bedrock: `" + portB + "`");
         sb.append("\n\n\tSeed Survival: `[-7795804451891021298]`");
         sb.append("\n\tSeed Creative: `[-324183832]`");
-        sb.append("\n\n\tMap du Serveur Survival: http://server.minecraft.tumeniaises.ca:9992/");
-        sb.append("\n\n\tDiscord officiel du Podcast Tu me Niaises: https://discord.tumeniaises.ca");
-        sb.append("\n\tYoutube du Podcast Tu me Niaises: https://www.youtube.com/c/Tumeniaises");
+        sb.append("\n\n\tMap du Serveur Survival: `http://server.minecraft.tumeniaises.ca:9992/`");
+        sb.append("\n\n\tDiscord officiel du Podcast Tu me Niaises: `https://discord.tumeniaises.ca`");
+        sb.append("\n\tYoutube du Podcast Tu me Niaises: `https://www.youtube.com/c/Tumeniaises`");
 
 
 
