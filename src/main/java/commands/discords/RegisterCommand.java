@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.Button;
 import services.api.PlayerDbApi;
 import dao.DaoManager;
-import functions.GuildManager;
+import discord.GuildManager;
 import helpers.Helper;
 import io.sentry.ISpan;
 import io.sentry.ITransaction;

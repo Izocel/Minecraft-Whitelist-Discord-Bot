@@ -90,7 +90,7 @@ public class OnPlayerJoin implements Listener {
     private String getDisallowMsg(String tagDiscord, String mcUUID) {
         final String cmdName = this.plugin.getConfigManager().get("registerCmdName", "register");
         return "\n\n§c§lLe délai pour confirmer ce compte est dépassé..." +
-                "\n§fLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
+                "\n§fLe compte  Discord®: " + tagDiscord + " a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§lEssayez de refaire une demande sur discord, utiliser la commande:\n§9    /" + cmdName +
                 "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +
                 "\n§fIdentifiant de la demande: " + mcUUID + "\n \n";
@@ -98,7 +98,7 @@ public class OnPlayerJoin implements Listener {
 
     private String getAllowMsg(String tagDiscord, String mcUUID) {
         final String cmdName = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
-        return "§f§lLe compte " + tagDiscord + " Discord® a fait une demande pour relier ce compte Minecraft®." +
+        return "§f§lLe compte  Discord®: " + tagDiscord + " a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§f§lPour comfirmer cette demande utiliser la commande:\n§9    /" + cmdName +
                 "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +
                 "\n§fIdentifiant de la demande: \n" + mcUUID + "\n \n";

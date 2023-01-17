@@ -23,7 +23,7 @@ public final class ConfigManager {
     
     private final String mysqlHost="localhost";
     private final String mysqlPort="3306";
-    private final String mysqlDb="whitelist_je";
+    private final String mysqlDb="test_wje";
     private final String mysqlUser="whitelist_je";
     private final String mysqlPass="@whitelist_je2022";
     private final String mysqlDefTable="wje_users";
@@ -36,10 +36,6 @@ public final class ConfigManager {
     private final String paperMcIp="server.ip.or.dns.resolvable.adress";
     private final String showSubWorlddMeteo="false";
     private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
-
-    // MC commands names
-    private final String confirmLinkCmdName="wje-link";
-
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
@@ -80,9 +76,6 @@ public final class ConfigManager {
         configs.put("pluginVersion", this.pluginVersion);
         configs.put("showSubWorlddMeteo", this.showSubWorlddMeteo);
         configs.put("hoursToConfirmMcAccount", this.hoursToConfirmMcAccount);
-        
-        configs.put("confirmLinkCmdName", this.confirmLinkCmdName);
-
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
         configs.put("defaultLang", this.defaultLang);
     }
