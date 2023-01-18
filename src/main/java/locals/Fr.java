@@ -40,7 +40,7 @@ public enum Fr {
     PLUGIN_GOODBYE("**Le plugin `%s` %s **\n\n"),
     PLUGIN_NAME("Nom: `%s`"),
     PLUGIN_VERSION("Version: `%s`"),
-    PLUGIN_DEVBY("Développer par: %s"),
+    PLUGIN_DEVBY("Développé par: %s"),
 
     //INFOS
     INFO_LEGITIMATE("Si cette demande vous semble illégitime, contactez un administrateur!!!"),
