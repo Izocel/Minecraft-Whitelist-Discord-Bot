@@ -104,7 +104,7 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen</artifactId>
-            <version>3.17.6</version>
+            <version>3.17.7</version>
         </dependency>
         <dependency>
             <groupId>io.sentry</groupId>
