@@ -1,4 +1,4 @@
-package functions;
+package discord;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,21 +17,21 @@ public class GuildManager {
 
     private Logger logger;
     private Guild guild;
-    
+
     public String adminChannelId;
     public String botLogchannelId;
     public String javaLogChannelId;
     public String whitelistChannelId;
-	private ConfigManager configManager;
-	private String ownerId;
-	private String adminRoleId;
-	private String modoRoleId;
+    private ConfigManager configManager;
+    private String ownerId;
+    private String adminRoleId;
+    private String modoRoleId;
     private String devRoleId;
     private String welcomeChannelId;
 
     public GuildManager(Guild guild, WhitelistJe plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
-        .startChild("GuildManager");
+                .startChild("GuildManager");
 
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.configManager = new ConfigManager();
@@ -56,11 +56,10 @@ public class GuildManager {
         this.ownerId = this.guild.getOwner().getId();
     }
 
-
     public Guild getGuild() {
         return this.guild;
     }
-    
+
     public String getOwnerId() {
         return this.ownerId;
     }
@@ -72,11 +71,11 @@ public class GuildManager {
     public Role findRole(String roleId) {
         try {
             Role guildRole = this.guild.getRoleById(roleId);
-            if(guildRole == null) {
+            if (guildRole == null) {
                 this.logger.warning("Role was not found in the guild");
             }
             return guildRole;
-    
+
         } catch (Exception e) {
             this.logger.warning("Problem while looking for a role on a guild");
             SentryService.captureEx(e);
@@ -87,11 +86,11 @@ public class GuildManager {
     public Member findMember(String memberId) {
         try {
             Member guildMember = this.guild.getMemberById(memberId);
-            if(guildMember == null) {
+            if (guildMember == null) {
                 this.logger.warning("Member was not found in the guild");
             }
             return guildMember;
-    
+
         } catch (Exception e) {
             this.logger.warning("Problem while looking for a member on a guild");
             SentryService.captureEx(e);
@@ -113,18 +112,18 @@ public class GuildManager {
 
         try {
             Member foundMember = this.findMember(memberId);
-            if(foundMember == null) {
+            if (foundMember == null) {
                 this.logger.warning("Member was not found in the guild");
             }
 
             Role guildRole = this.findRole(roleId);
-            if(guildRole == null) {
+            if (guildRole == null) {
                 this.logger.warning("Role was not found in the guild");
             }
-    
+
             List<Role> memberRoles = foundMember.getRoles();
             for (Role role : memberRoles) {
-                if(role.getId().equals(guildRole.getId())) {
+                if (role.getId().equals(guildRole.getId())) {
                     return true;
                 }
             }
@@ -149,7 +148,6 @@ public class GuildManager {
         return this.guild.getTextChannelById(this.welcomeChannelId);
     }
 
-
     public TextChannel getAdminChannel() {
         return this.guild.getTextChannelById(this.adminChannelId);
     }
@@ -166,9 +164,9 @@ public class GuildManager {
         return this.guild.getTextChannelById(this.javaLogChannelId);
     }
 
-	public boolean isOwner(String memberId) {
-		return memberId.equals(this.getOwnerId());
-	}
+    public boolean isOwner(String memberId) {
+        return memberId.equals(this.getOwnerId());
+    }
 
     public boolean isAdmin(String memberId) {
         return this.verifyRole(memberId, this.getAdminRoleId());

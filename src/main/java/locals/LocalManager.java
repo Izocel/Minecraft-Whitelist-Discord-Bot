@@ -3,6 +3,10 @@ package locals;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
+import io.sentry.ITransaction;
+import io.sentry.Sentry;
+import io.sentry.SpanStatus;
+import services.sentry.SentryService;
 
 public class LocalManager {
 
@@ -44,10 +48,20 @@ public class LocalManager {
     }
 
     public String translate(String key) {
+        ITransaction transaction = Sentry.startTransaction("LOCALES", "translate");
+        String msg = "!!!!!! UNSUPPORTED TRADUCTION LANG !!!!!!";
 
         if (key.length() < 1) {
+            msg = "!!!!!! EMPTY TRADUCTION KEY !!!!!!";
+            
+            Exception e = new Exception(msg);
+            transaction.setData("msg", msg);
+            transaction.setThrowable(e);
+            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+            SentryService.captureEx(e);
+
             this.logger.warning("Local key was empty: " + key);
-            return "!!!!!! EMPTY TRADUCTION KEY !!!!!!";
+            return msg;
         }
 
         switch (this.getNextLang()) {
@@ -64,36 +78,71 @@ public class LocalManager {
                 break;
         }
 
-        return "!!!!!! UNSUPPORTED TRADUCTION LANG !!!!!!";
+        Exception e = new Exception(msg);
+        transaction.setData("msg", msg);
+        transaction.setThrowable(e);
+        transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+        SentryService.captureEx(e);
+
+        this.logger.warning(msg);
+        return msg;
     }
 
     private final String getEn(String key) {
+        ITransaction transaction = Sentry.startTransaction("LOCALES", "getEn");
+        final String msg = "MISSING KEY: " + key;
+
         try {
             return En.valueOf(key).trans;
         } catch (Exception e) {
-            this.logger.warning("MISSING KEY: " + key);
+            this.logger.warning(e.getMessage());
+            transaction.setData("msg", msg);
+            transaction.setThrowable(e);
+            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+            SentryService.captureEx(e);
         }
 
+        this.logger.warning(msg);
         return "MISSING KEY: " + key;
     }
 
     private final String getFr(String key) {
+        ITransaction transaction = Sentry.startTransaction("LOCALES", "getFr");
+        final String msg = "MISSING KEY: " + key;
+
         try {
             return Fr.valueOf(key).trans;
         } catch (Exception e) {
-            this.logger.warning("MISSING KEY: " + key);
+            this.logger.warning(e.getMessage());
+            transaction.setData("msg", msg);
+            transaction.setThrowable(e);
+            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+            SentryService.captureEx(e);
         }
 
+        this.logger.warning(msg);
         return "MISSING KEY: " + key;
     }
 
     Boolean isSupported(String lang) {
+        ITransaction transaction = Sentry.startTransaction("LOCALES", "isSupported");
+        final String msg = "Is not a supported language: " + nextInteractionLang;
+
         try {
-            return Lang.valueOf(lang).value == lang;
+            if(Lang.valueOf(lang).value == lang) {
+                transaction.setStatus(SpanStatus.OK);
+                transaction.finish();
+                return true;
+            }
         } catch (Exception e) {
-            this.logger.warning("Is not a supported language: " + nextInteractionLang);
+            this.logger.warning(e.getMessage());
+            transaction.setData("msg", msg);
+            transaction.setThrowable(e);
+            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+            SentryService.captureEx(e);
         }
         
+        this.logger.warning(msg);
         return false;
     }
 }

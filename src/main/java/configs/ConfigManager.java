@@ -40,11 +40,7 @@ public final class ConfigManager {
     private final String showSubWorlddMeteo = "false";
     private final String hoursToConfirmMcAccount = "48"; // zero to not use this feature
 
-    // MC commands names
-    private final String confirmLinkCmdName = "wje-link";
-
-
-    private final String minecrafInfosLink = "https://www.fiverr.com/rvdprojects";
+    private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
     private final String pluginVersion = "2023.1";
 
@@ -83,9 +79,6 @@ public final class ConfigManager {
         configs.put("pluginVersion", this.pluginVersion);
         configs.put("showSubWorlddMeteo", this.showSubWorlddMeteo);
         configs.put("hoursToConfirmMcAccount", this.hoursToConfirmMcAccount);
-
-        configs.put("confirmLinkCmdName", this.confirmLinkCmdName);
-
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
         configs.put("defaultLang", this.defaultLang);
     }

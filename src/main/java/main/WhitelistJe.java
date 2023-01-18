@@ -12,7 +12,7 @@ import bukkit.BukkitManager;
 import configs.ConfigManager;
 import dao.DaoManager;
 import discord.DiscordManager;
-import functions.GuildManager;
+import discord.GuildManager;
 import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
