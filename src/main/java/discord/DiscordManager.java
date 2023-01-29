@@ -27,6 +27,7 @@ import services.sentry.SentryService;
 
 public class DiscordManager {
     public WhitelistJe plugin;
+    private ConfigManager configs;
     public JDA jda;
 
     private Logger logger;
@@ -56,7 +57,7 @@ public class DiscordManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
         .startChild("DiscordManager.connect");
         try {
-            jda = JDABuilder.create(Configs.get("discordBotToken", null),
+            jda = JDABuilder.create(this.configs.get("discordBotToken", null),
                     EnumSet.allOf(GatewayIntent.class))
                     .build()
                     .awaitReady();
@@ -97,14 +98,14 @@ public class DiscordManager {
                 this.logger.warning("Discord bot's tokken already in use on another DS !!!");
             }
 
-            guildId = Configs.get("discordServerId", null);
+            guildId = this.configs.get("discordServerId", null);
             this.guild = jda.getGuildById(guildId);
             this.servername = this.guild.getName();
             this.guildId = this.guild.getId();
             this.inviteUrl = this.setInvite();
             this.ownerId = this.guild.getOwnerId();
         } catch (Exception e) {
-            this.logger.warning("Discord bot's not authorized into this guild. (Check: " + Configs.getClass().getSimpleName() +")");
+            this.logger.warning("Discord bot's not authorized into this guild. (Check: " + this.configs.getClass().getSimpleName() +")");
         }
     }
 

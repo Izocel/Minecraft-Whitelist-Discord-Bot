@@ -3,18 +3,20 @@ package locals;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
-
 import services.sentry.SentryService;
 
 public class LocalManager {
-
+    
     private Logger logger;
+    private ConfigManager configs;
     private String defaultLang = "FR";
     private String nextInteractionLang = "FR";
 
     public LocalManager(ConfigManager configs) {
-        this.setNextLang(configs.get("defaultLang", "FR"));
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+
+        this.configs = configs;
+        this.setNextLang(this.configs.get("defaultLang", "FR"));
     }
 
     public final void setNextLang(String lang) {
