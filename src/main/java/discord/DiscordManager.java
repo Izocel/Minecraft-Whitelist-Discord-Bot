@@ -27,17 +27,16 @@ import services.sentry.SentryService;
 
 public class DiscordManager {
     public WhitelistJe plugin;
-    private ConfigManager configs;
     public JDA jda;
 
+    private Guild guild;
     private Logger logger;
-    private String servername = "Discord® Server";
-    private boolean isPrivateBot = true;
+    private String ownerId;
     private String guildId;
     private String inviteUrl;
-	private Guild guild;
-    private String ownerId;
-    static private ConfigManager Configs = new ConfigManager();
+    private ConfigManager configs;
+    private boolean isPrivateBot = true;
+    private String servername = "Discord® Server";
 
     public DiscordManager(WhitelistJe plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
@@ -45,6 +44,8 @@ public class DiscordManager {
 
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
+        this.configs = plugin.getConfigManager();
+
         this.connect();
         this.setupCommands();
         this.setupListener();

@@ -97,26 +97,42 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         final StringBuilder sb = new StringBuilder();
 
         try {
+            logger.info("aaa");
             this.configManager = new ConfigManager();
+            logger.info("bbb");
             LOCALES = new LocalManager(this);
+            logger.info("ccc");
             sentryService = new SentryService(this);
+            logger.info("ddd");
             transaction = sentryService.createTx("onEnable", "configurePlugin");
+            logger.info("eee");
 
             daoManager = new DaoManager(this);
+            logger.info("fff");
             discordManager = new DiscordManager(this);
+            logger.info("ggg");
             guildManager = new GuildManager(this);
+            logger.info("hhh");
             bukkitManager = new BukkitManager(this);
+            logger.info("iii");
 
             updateAllPlayers();
+
+            logger.info("jjj");
 
             sb.append(String.format(
                 LOCALES.translate("PLUGIN_HELLO"),
                 this.getName(), LOCALES.translate("ISACTIVE")
             ));
+
+            logger.info("kkk");
             sb.append(getPluginInfos(false));
+            logger.info("lll");
             
             guildManager.getAdminChannel()
                 .sendMessage(sb.toString()).submit(true);
+
+            logger.info("mmm");
 
             logger.info(this.getfiglet());
 
