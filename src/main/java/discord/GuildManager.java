@@ -29,13 +29,13 @@ public class GuildManager {
     private String devRoleId;
     private String welcomeChannelId;
 
-    public GuildManager(Guild guild, WhitelistJe plugin) {
+    public GuildManager(WhitelistJe plugin) {
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("GuildManager");
-
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
-        this.configManager = new ConfigManager();
-        this.guild = guild;
+        
+        this.configManager = plugin.getConfigManager();
+        this.guild = plugin.getDiscordManager().getGuild();
         this.setupIds();
 
         process.setStatus(SpanStatus.OK);

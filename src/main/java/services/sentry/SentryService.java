@@ -17,25 +17,26 @@ import io.sentry.protocol.User;
 import main.WhitelistJe;
 
 public class SentryService {
-
+  
+  private Logger logger;
+  private static User user;
+  private WhitelistJe plugin;
+  private static WhitelistJe main;
   private boolean enabled = true;
   private String debugMode = "debug";
-  private WhitelistJe plugin;
-  private static User user;
+  
   HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
-  private Logger logger;
-  private static WhitelistJe main;
 
   public SentryService(WhitelistJe plugin) {
     this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
 
     this.plugin = plugin;
-    main = this.plugin;
+    SentryService.main = this.plugin;
     
     final User user = new User();
-    final String id = this.plugin.getConfigManager().get("discordServerId", "discordServerId");
-    final String username = this.plugin.getConfigManager().get("discordOwnerId", "discordOwnerId");
-    final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "paperMcIp");
+    final String id = this.plugin.getConfigManager().get("discordServerId", "?discordServerId?");
+    final String username = this.plugin.getConfigManager().get("discordOwnerId", "?discordOwnerId?");
+    final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "?paperMcIp?");
     final String envType = this.plugin.getConfigManager().get("envType", "?envType?");
     final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
     

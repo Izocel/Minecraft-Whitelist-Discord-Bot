@@ -94,17 +94,17 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     @Override
     public final void onEnable() {
         ITransaction transaction = Sentry.startTransaction("onEnable", "configurePlugin");
-        transaction.setStatus(SpanStatus.INTERNAL_ERROR);
-
         final StringBuilder sb = new StringBuilder();
 
         try {
-            configManager = new ConfigManager();
+            this.configManager = new ConfigManager();
+            LOCALES = new LocalManager(this);
             sentryService = new SentryService(this);
-            LOCALES = new LocalManager(configManager);
-            daoManager = new DaoManager(configManager, this);
+            transaction = sentryService.createTx("onEnable", "configurePlugin");
+
+            daoManager = new DaoManager(this);
             discordManager = new DiscordManager(this);
-            guildManager = new GuildManager(discordManager.getGuild(), this);
+            guildManager = new GuildManager(this);
             bukkitManager = new BukkitManager(this);
 
             updateAllPlayers();
@@ -118,8 +118,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             guildManager.getAdminChannel()
                 .sendMessage(sb.toString()).submit(true);
 
-            logger.info("oooooooooooooooooooooooooooo");
             logger.info(this.getfiglet());
+
 
         } catch (Exception e) {
             try {

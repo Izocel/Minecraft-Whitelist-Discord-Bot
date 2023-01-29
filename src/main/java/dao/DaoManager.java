@@ -18,13 +18,13 @@ public class DaoManager {
     protected static JavaDataDao javaDataDao = null;
     private Logger logger;
 
-    public DaoManager(ConfigManager configs, WhitelistJe plugin) {
+    public DaoManager(WhitelistJe plugin) {
         try {
             ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("DaoManager");
 
             this.logger = Logger.getLogger("WJE:" + getClass().getSimpleName());
-            dataSource = DbPoolFactory.getMysqlPool(configs);
+            dataSource = DbPoolFactory.getMysqlPool(plugin.getConfigManager());
 
             process.setStatus(SpanStatus.OK);
             process.finish();
