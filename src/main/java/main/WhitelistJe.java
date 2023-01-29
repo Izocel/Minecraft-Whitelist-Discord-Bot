@@ -97,45 +97,41 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         final StringBuilder sb = new StringBuilder();
 
         try {
-            logger.info("aaa");
             this.configManager = new ConfigManager();
-            logger.info("bbb");
+            logger.info("LOADED: ConfigManager");
+            
             LOCALES = new LocalManager(this);
-            logger.info("ccc");
+            logger.info("LOADED: LocalManager");
+            
             sentryService = new SentryService(this);
-            logger.info("ddd");
             transaction = sentryService.createTx("onEnable", "configurePlugin");
-            logger.info("eee");
-
+            logger.info("LOADED: SentryService");
+            
             daoManager = new DaoManager(this);
-            logger.info("fff");
+            logger.info("LOADED: DaoManager");
+            
             discordManager = new DiscordManager(this);
-            logger.info("ggg");
+            logger.info("LOADED: DiscordManager");
+            
             guildManager = new GuildManager(this);
-            logger.info("hhh");
+            logger.info("LOADED: GuildManager");
+            
             bukkitManager = new BukkitManager(this);
-            logger.info("iii");
+            logger.info("LOADED: BukkitManager");
 
             updateAllPlayers();
-
-            logger.info("jjj");
+            logger.info("UPDATED PLAYERS CACHE");
 
             sb.append(String.format(
                 LOCALES.translate("PLUGIN_HELLO"),
                 this.getName(), LOCALES.translate("ISACTIVE")
             ));
-
-            logger.info("kkk");
-            sb.append(getPluginInfos(false));
-            logger.info("lll");
             
+            sb.append(getPluginInfos(false));
             guildManager.getAdminChannel()
                 .sendMessage(sb.toString()).submit(true);
 
-            logger.info("mmm");
-
             logger.info(this.getfiglet());
-
 
         } catch (Exception e) {
             try {
