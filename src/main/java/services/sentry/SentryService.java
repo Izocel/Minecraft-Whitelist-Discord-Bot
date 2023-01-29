@@ -144,7 +144,7 @@ public class SentryService {
     Exception ex = new Exception(error.getMessage() + userToString());
     err.printStackTrace();
 
-    if(!main.getConfigManager().get("envType", "production").equals("devMode"))
+    if(!main.getConfigManager().get("envType", "production").equals("dev"))
       return Sentry.captureException(ex);
 
     return null;
