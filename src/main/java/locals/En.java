@@ -14,6 +14,7 @@ public enum En {
 
     //REPLIES
     LANG_CHANGED("Your language was changed"),
+    LANG_CURRENT("You current language is"),
 
     //TITLES
     TITLE_ACCOUNT_CONFIRM("Your accounts confirmation"),

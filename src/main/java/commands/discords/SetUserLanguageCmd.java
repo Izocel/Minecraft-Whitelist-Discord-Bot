@@ -38,12 +38,21 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
         final String oldLang = user.getLang();
         final String lang = this.getStringParam(KEY_PARAM_LANG);
 
+        final StringBuilder sb = new StringBuilder();
+        sb.append(translateForUser("LANG_CURRENT") + ": ");
+        sb.append("`" + user.getLang() + "`");
+
+        if(lang == null || oldLang.equals(lang.toUpperCase())) {
+            this.submitReply(sb.toString());
+            return;
+        }
+
         if(lang != null) {
             user.setLang(lang);
             user.saveUser();
         }
 
-        final StringBuilder sb = new StringBuilder();
+        sb.delete(0, sb.length());
         sb.append(translateForUser("LANG_CHANGED") + ": ");
         sb.append("`" + oldLang + "` --> `" + user.getLang() + "`");
         

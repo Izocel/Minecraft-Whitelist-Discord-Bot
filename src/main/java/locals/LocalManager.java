@@ -154,7 +154,7 @@ public class LocalManager {
         lang = lang.toUpperCase();
 
         try {
-            if (Lang.valueOf(lang).value == lang) {
+            if (Lang.valueOf(lang).value.equals(lang)) {
                 return true;
             }
         } catch (Exception e) {

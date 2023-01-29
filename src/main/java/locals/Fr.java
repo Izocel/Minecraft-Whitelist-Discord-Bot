@@ -14,6 +14,8 @@ public enum Fr {
 
     //REPLIES
     LANG_CHANGED("Votre langue a été modifié"),
+    LANG_CURRENT("Votre langue est actuellement"),
+
 
     //TITLES
     TITLE_ACCOUNT_CONFIRM("Confirmation de vos comptes"),

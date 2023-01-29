@@ -14,6 +14,7 @@ public enum Es {
 
     //REPLIES
     LANG_CHANGED("Tu idioma fue cambiado"), // à traduire
+    LANG_CURRENT("Su idioma es actualmente"), // à traduire
 
     //TITLES
     TITLE_ACCOUNT_CONFIRM("Confirmation de vos comptes"), // à traduire
