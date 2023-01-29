@@ -25,7 +25,6 @@ import services.sentry.SentryService;
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
     private Logger logger;
-    public WhitelistJe instance;
     public static LocalManager LOCALES;
     private BukkitManager bukkitManager;
     private GuildManager guildManager;
@@ -93,11 +92,16 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        logger.info("xxxxxxxxxxxxxxxxxxxxxxxxxx");
         ITransaction transaction = Sentry.startTransaction("onEnable", "configurePlugin");
         final StringBuilder sb = new StringBuilder();
+        
+        transaction.setStatus(SpanStatus.INTERNAL_ERROR);
+        SentryService.captureEx(new Exception("enaaabllbe"));
+
+        logger.info("oooooooooooooooooooooooooooo");
 
         try {
-            instance = this;
             configManager = new ConfigManager();
             LOCALES = new LocalManager(configManager);
             sentryService = new SentryService(this);

@@ -3,9 +3,7 @@ package locals;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
-import io.sentry.ITransaction;
-import io.sentry.Sentry;
-import io.sentry.SpanStatus;
+
 import services.sentry.SentryService;
 
 public class LocalManager {
@@ -19,7 +17,8 @@ public class LocalManager {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
-    public void setNextLang(String lang) {
+    public final void setNextLang(String lang) {
+        lang = lang.toUpperCase();
         if (lang.length() < 1 || !this.isSupported(lang)) {
             this.logger.info("Using default language: " + this.defaultLang);
             this.nextInteractionLang = this.defaultLang;
@@ -29,7 +28,8 @@ public class LocalManager {
         this.nextInteractionLang = lang;
     }
 
-    public String setDefault(String lang) {
+    public final String setDefault(String lang) {
+        lang = lang.toUpperCase();
         if (lang.length() < 1 || !this.isSupported(lang)) {
             this.logger.info("Using default language: " + this.defaultLang);
             lang = this.defaultLang;
@@ -39,110 +39,155 @@ public class LocalManager {
         return this.defaultLang;
     }
 
-    public void nextIsDefault() {
+    public final void nextIsDefault() {
         this.nextInteractionLang = this.defaultLang;
     }
 
-    public String getNextLang() {
+    public final String getNextLang() {
         return this.nextInteractionLang;
     }
 
-    public String translate(String key) {
-        ITransaction transaction = Sentry.startTransaction("LOCALES", "translate");
-        String msg = "!!!!!! UNSUPPORTED TRADUCTION LANG !!!!!!";
+    public final String translate(String key) {
 
         if (key.length() < 1) {
-            msg = "!!!!!! EMPTY TRADUCTION KEY !!!!!!";
-            
-            Exception e = new Exception(msg);
-            transaction.setData("msg", msg);
-            transaction.setThrowable(e);
-            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
-            SentryService.captureEx(e);
-
-            this.logger.warning("Local key was empty: " + key);
+            final String msg = "Local key was empty for: " + key;
+            SentryService.captureEx(new Exception(msg));
+            this.logger.warning(msg);
             return msg;
         }
 
-        switch (this.getNextLang()) {
+        return translateBy(key, this.getNextLang());
+    }
+
+    public final String translateBy(String key, String lang) {
+
+        if (key.length() < 1) {
+            final String msg = "Local key was empty for: " + key;
+            SentryService.captureEx(new Exception(msg));
+            this.logger.warning(msg);
+            return msg;
+        }
+
+        switch (lang.toUpperCase()) {
             case "FR":
                 return getFr(key);
             case "EN":
                 return getEn(key);
-            case "EN_FR":
-                return "\n🇺🇸 ENGLISH: " + getEn(key) + "\n🇨🇦 FRANÇAIS: " + getFr(key);
+            case "ES":
+                return getEs(key);
             case "FR_EN":
                 return "\n🇨🇦 FRANÇAIS: " + getFr(key) + "\n🇺🇸 ENGLISH: " + getEn(key);
-
+            case "FR_ES":
+                return "\n🇨🇦 FRANÇAIS: " + getFr(key) + "\n🇺🇸 ESPAÑOLA: " + getEs(key);
+            case "EN_FR":
+                return "\n🇺🇸 ENGLISH: " + getEn(key) + "\n🇨🇦 FRANÇAIS: " + getFr(key);
+            case "EN_ES":
+                return "\n🇨🇦 ENGLISH: " + getEn(key) + "\n🇺🇸 ESPAÑOLA: " + getEs(key);
+            case "ES_FR":
+                return "\n🇨🇦 ESPAÑOLA: " + getEs(key) + "\n🇺🇸 FRANÇAIS: " + getFr(key);
+            case "ES_EN":
+                return "\n🇨🇦 ESPAÑOLA: " + getEs(key) + "\n🇺🇸 ENGLISH: " + getEn(key);
             default:
                 break;
         }
 
-        Exception e = new Exception(msg);
-        transaction.setData("msg", msg);
-        transaction.setThrowable(e);
-        transaction.setStatus(SpanStatus.INTERNAL_ERROR);
-        SentryService.captureEx(e);
+        final String msg = "!!!!!! UNSUPPORTED TRADUCTION LANG !!!!!!";
 
         this.logger.warning(msg);
+        SentryService.captureEx(new Exception(msg));
+
         return msg;
     }
 
     private final String getEn(String key) {
-        ITransaction transaction = Sentry.startTransaction("LOCALES", "getEn");
         final String msg = "MISSING KEY: " + key;
 
         try {
             return En.valueOf(key).trans;
         } catch (Exception e) {
             this.logger.warning(e.getMessage());
-            transaction.setData("msg", msg);
-            transaction.setThrowable(e);
-            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
             SentryService.captureEx(e);
         }
 
         this.logger.warning(msg);
+        SentryService.captureEx(new Exception(msg));
         return "MISSING KEY: " + key;
     }
 
     private final String getFr(String key) {
-        ITransaction transaction = Sentry.startTransaction("LOCALES", "getFr");
         final String msg = "MISSING KEY: " + key;
 
         try {
             return Fr.valueOf(key).trans;
         } catch (Exception e) {
             this.logger.warning(e.getMessage());
-            transaction.setData("msg", msg);
-            transaction.setThrowable(e);
-            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
             SentryService.captureEx(e);
         }
 
         this.logger.warning(msg);
+        SentryService.captureEx(new Exception(msg));
         return "MISSING KEY: " + key;
     }
 
-    Boolean isSupported(String lang) {
-        ITransaction transaction = Sentry.startTransaction("LOCALES", "isSupported");
-        final String msg = "Is not a supported language: " + nextInteractionLang;
+    private final String getEs(String key) {
+        final String msg = "MISSING KEY: " + key;
 
         try {
-            if(Lang.valueOf(lang).value == lang) {
-                transaction.setStatus(SpanStatus.OK);
-                transaction.finish();
+            return Es.valueOf(key).trans;
+        } catch (Exception e) {
+            this.logger.warning(e.getMessage());
+            SentryService.captureEx(e);
+        }
+
+        this.logger.warning(msg);
+        SentryService.captureEx(new Exception(msg));
+        return "MISSING KEY: " + key;
+    }
+
+    public final Boolean isSupported(String lang) {
+        final String msg = "Is not a supported language: " + lang;
+        lang = lang.toUpperCase();
+
+        logger.info("newLang: " + lang);
+        logger.info(Lang.valueOf(lang).value);
+
+        try {
+            if (Lang.valueOf(lang).value == lang) {
                 return true;
             }
         } catch (Exception e) {
             this.logger.warning(e.getMessage());
-            transaction.setData("msg", msg);
-            transaction.setThrowable(e);
-            transaction.setStatus(SpanStatus.INTERNAL_ERROR);
             SentryService.captureEx(e);
         }
-        
+
         this.logger.warning(msg);
+        SentryService.captureEx(new Exception(msg));
+
+        return false;
+    }
+
+    public final boolean setCheckEventLocal(String eventName, String cmdLocalKey) {
+        String translatedName = "";
+
+        this.setNextLang(Lang.FR.value);
+        translatedName = this.translate(cmdLocalKey);
+        if (eventName.equals(translatedName)) {
+            return true;
+        }
+
+        this.setNextLang(Lang.EN.value);
+        translatedName = this.translate(cmdLocalKey);
+        if (eventName.equals(translatedName)) {
+            return true;
+        }
+
+        this.setNextLang(Lang.ES.value);
+        translatedName = this.translate(cmdLocalKey);
+        if (eventName.equals(translatedName)) {
+            return true;
+        }
+
+        this.nextIsDefault();
         return false;
     }
 }

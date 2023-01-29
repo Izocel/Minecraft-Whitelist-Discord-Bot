@@ -7,67 +7,58 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import configs.ConfigManager;
-import io.sentry.ITransaction;
-import io.sentry.Sentry;
 import io.sentry.SpanStatus;
-import locals.Lang;
-import locals.LocalManager;
 import main.WhitelistJe;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.JDA;
 
-public class ServerCommand extends ListenerAdapter {
-    private WhitelistJe plugin;
+public class ServerCommand extends BaseCmd {
+    private final static String KEY_CMD_NAME = "CMD_REGISTER";
+    private final static String KEY_CMD_DESC = "DESC_REGISTR";
+
+    public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
+        String cmdName = LOCAL.translate(KEY_CMD_NAME);
+        String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
+
+        jda.addEventListener(new ServerCommand(plugin));
+        jda.upsertCommand(cmdName, cmdDesc)
+                .submit(true);
+    }
+
     private ConfigManager configs;
 
     public ServerCommand(WhitelistJe plugin) {
-        this.plugin = plugin;
+        super(plugin,
+                "ServerCommand",
+                "CMD_SERVER",
+                "ServerInfosCommand",
+                "GET MC® server infos");
         this.configs = this.plugin.getConfigManager();
     }
 
     @Override
-    public void onSlashCommand(SlashCommandEvent event) {
-        final LocalManager LOCAL = WhitelistJe.LOCALES;
+    protected final void execute() {
 
-        LOCAL.setNextLang(Lang.FR.value);
-        final String frCmdName = LOCAL.translate("CMD_SERVER");
-        LOCAL.setNextLang(Lang.EN.value);
-        final String enCmdName = LOCAL.translate("CMD_SERVER");
-
-        LOCAL.nextIsDefault();
-
-        String lang = "";
-        if (event.getName().equals(frCmdName))
-            lang = "fr";
-
-        else if (event.getName().equals(enCmdName))
-            lang = "en";
-
-        if(lang.length() < 1)
+        if (this.member == null) {
+            final String reply = LOCAL.translate("MEMBERONLY_CMD");
+            event.reply(reply).setEphemeral(true).submit(true);
+            tx.setData("error-state", "guild reserved");
+            tx.finish(SpanStatus.UNAVAILABLE);
             return;
-
-        ITransaction tx = Sentry.startTransaction("ServerInfosCommand", "get MC® server infos");
-
-        try {
-            final Integer msgDelaySec = 120;
-            final String serverName = event.getGuild().getName();
-    
-            event.reply("** 📝`" + serverName + "` | Informations ** " + 
-                    this.plugin.getBukkitManager().getServerInfoString() +
-                    "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
-                    "\n\n**Mondes: **" + getWorldsInfos() +
-                    "\n**Développeurs:** <@272924120142970892> 👨‍💻"
-    
-            ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
-
-            tx.setData("state", "infos delivered");
-            tx.finish(SpanStatus.OK);
-
-        } catch (Exception e) {
-            tx.setThrowable(e);
-            tx.setData("error-state", "error");
-            tx.finish(SpanStatus.INTERNAL_ERROR);
         }
+
+        final Integer msgDelaySec = 120;
+        final String serverName = event.getGuild().getName();
+
+        event.reply("** 📝`" + serverName + "` | Informations ** " +
+                this.plugin.getBukkitManager().getServerInfoString() +
+                "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
+                "\n\n**Mondes: **" + getWorldsInfos() +
+                "\n**Développeurs:** <@272924120142970892> 👨‍💻"
+
+        ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
+
+        tx.setData("state", "infos delivered");
+        tx.finish(SpanStatus.OK);
     }
 
     public String getWorldsInfos() {
@@ -100,10 +91,11 @@ public class ServerCommand extends ListenerAdapter {
             if (world.isThundering())
                 emotes += "🌧";
 
-            sb.append("\n\t" + emotes + " Météo et temps: **" + name + "**\n\t`" + (hours <= 9 ? "0" + hours : hours) + ":"
+            sb.append("\n\t" + emotes + " Météo et temps: **" + name + "**\n\t`" + (hours <= 9 ? "0" + hours : hours)
+                    + ":"
                     + (minutes <= 9 ? "0" + minutes : minutes) + " (" + isDay + ")`\n\t" + weather + "\n\n\t");
 
-            if(!configs.get("showSubWorlddMeteo", "false").equals("true")) {
+            if (!configs.get("showSubWorlddMeteo", "false").equals("true")) {
                 break;
             }
         }
@@ -125,4 +117,5 @@ public class ServerCommand extends ListenerAdapter {
                                 .replace("[", "")
                         : "");
     }
+
 }

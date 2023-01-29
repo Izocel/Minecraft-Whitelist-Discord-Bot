@@ -12,6 +12,9 @@ public enum Fr {
     MINECRAFT_ALREADYREGISTERED("Ce compte est déja confirmé..."),
     ACCOUNTSINFOS("Informations de comptes"),
 
+    //REPLIES
+    LANG_CHANGED("Votre langue a été modifié"),
+
     //TITLES
     TITLE_ACCOUNT_CONFIRM("Confirmation de vos comptes"),
 
@@ -36,7 +39,7 @@ public enum Fr {
 
     //PLUGIN
     PLUGIN_HELLO("**Le plugin `%s` %s **\n\n"),
-    PLUGIN_HELLO_ERROR("**`ERREUR:` Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"),
+    PLUGIN_HELLO_ERROR("❌ **`ERREUR:` Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"),
     PLUGIN_GOODBYE("**Le plugin `%s` %s **\n\n"),
     PLUGIN_NAME("Nom: `%s`"),
     PLUGIN_VERSION("Version: `%s`"),
@@ -47,14 +50,14 @@ public enum Fr {
     INFO_TRYREGISTERAGAIN("Essayez de refaire une demande d'enregistrment sur Discord®."),
 
     //WARNS
-    WARN_REGISTRATIONDELAY("Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."),
+    WARN_REGISTRATIONDELAY("❌ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."),
 
     //ERRORS
-    ERROR("ERREUR"),
+    ERROR("❌ ERREUR"),
     CONTACT_ADMNIN("Contactez un admin..."),
     CHECK_LOGS("**Regarder les fichers de `log`!!!!**"),
     NOTREGISTERED("Votre enregistrement n'a pas pu être retrouvé..."),
-    CMD_ERROR("Désoler... une erreur est survenu lors de cette demande!!!"),
+    CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"),
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),
@@ -63,19 +66,25 @@ public enum Fr {
     CMD_SERVER("serveur"),
     CMD_REGISTER("enregistrer"),
     CMD_LOOKUP("recherche"),
+    CMD_SETLOCAL("langue"),
     //PARAMS
     PARAM_PJAVA("pseudo-java"),
     PARAM_PBEDR("pseudo-bedrock"),
     PARAM_REGISTR_LABELJ("Votre pseudo Java"),
     PARAM_REGISTR_LABELB("Votre pseudo Bedrock"),
     PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"),
+    PARAM_LOCAL_SETLOCAL("langue"),
+    PARAM_LOCAL_LABEL("Language disponible: ['FR, EN, ES']"),
     //DESC
     DESC_SERVER("Afficher les informations du serveur `Minecraft®`."),
     DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."),
     DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."),
+    DESC_SETLOCAL("Changer la langue d'affichage.\n FR: francais, EN: english, ES: española."),
 
     //ACL
-    USERONLY_CMD("Cette commande est réservée aux utilisateurs enregistrés par Discord®."),
+    TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."),
+    MEMBERONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels de guild utilisant ce plugin."),
+    USERONLY_CMD("❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®."),
 
     ;
 

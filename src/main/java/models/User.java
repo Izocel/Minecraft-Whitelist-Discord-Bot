@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 
 import dao.DaoManager;
+import main.WhitelistJe;
 import net.dv8tion.jda.api.entities.Member;
 import services.sentry.SentryService;
 
@@ -12,7 +13,7 @@ public class User extends BaseModel {
     private Integer id = -1;
     private String discordId;
     private String discordTag;
-    private String lang = "fr";
+    private String lang = "FR";
     private String createdAt;
     private String updatedAt;
 
@@ -20,6 +21,10 @@ public class User extends BaseModel {
     private JSONArray bedData = new JSONArray();
 
     public User() {}
+    public User(String discordId, String discordTag) {
+        this.setDiscordId(discordId);
+        this.setDiscordTag(discordTag);
+    }
 
     public User(JSONObject json) {
         this.id = json.getInt("id");
@@ -70,6 +75,15 @@ public class User extends BaseModel {
         this.updatedAt = updatedAt;
     }
 
+    public String getLang() {
+        return this.lang.toUpperCase();
+    }
+
+    public void setLang(String lang) {
+        if(WhitelistJe.LOCALES.isSupported(lang) && !lang.contains("_"))
+            this.lang = lang.toUpperCase();
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject jsonObj = new JSONObject();
@@ -113,10 +127,8 @@ public class User extends BaseModel {
     }
 
     public static User getFromMember(Member member) {
-        final net.dv8tion.jda.api.entities.User userDc = member.getUser();
-        final String userId = userDc.getId();
-
-        User user = DaoManager.getUsersDao().findByDiscordId(userId);
+        final String discordId = member.getUser().getId();
+        User user = DaoManager.getUsersDao().findByDiscordId(discordId);
 
         if (user == null || user.getId() < 1) {
             return null;
@@ -127,18 +139,21 @@ public class User extends BaseModel {
 
     public static User updateFromMember(Member member) {
         final net.dv8tion.jda.api.entities.User userDc = member.getUser();
-        final String userId = userDc.getId();
-        final String userTag = userDc.getAsTag();
+        final String discordId = userDc.getId();
+        final String discordTag = userDc.getAsTag();
 
-        User user = DaoManager.getUsersDao().findByDiscordId(userId);
+        User user = DaoManager.getUsersDao().findByDiscordId(discordId);
 
         if (user == null || user.getId() < 1) {
-            user = new User();
+            user = new User(discordId, discordTag);
         }
+        
+        user.setDiscordTag(discordTag);
+        final Integer userId = user.saveUser();
 
-        user.setDiscordId(userId);
-        user.setDiscordTag(userTag);
-        user.saveUser();
+        if(userId < 1) {
+            return null;
+        }
 
         return getFromMember(member);
     }
