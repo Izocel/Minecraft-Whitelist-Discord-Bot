@@ -11,7 +11,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
     private final static String KEY_PARAM_LANG = "PARAM_LOCAL_SETLOCAL";
     private final static String KEY_PARAM_LANG_LABEL = "PARAM_LOCAL_LABEL";
 
-    public static final void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String localLangParam = LOCAL.translate(KEY_PARAM_LANG);
@@ -25,7 +25,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
     }
 
     public SetUserLanguageCmd(WhitelistJe plugin) {
-        super(plugin, 
+        super(plugin,
             "SetUserLanguageCmd",
             "CMD_SETLOCAL",
             "SetUserLanguage",
@@ -39,7 +39,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
         final String lang = this.getStringParam(KEY_PARAM_LANG);
 
         final StringBuilder sb = new StringBuilder();
-        sb.append(translateForUser("LANG_CURRENT") + ": ");
+        sb.append(useTranslator("LANG_CURRENT") + ": ");
         sb.append("`" + user.getLang() + "`");
 
         if(lang == null || oldLang.equals(lang.toUpperCase())) {
@@ -53,7 +53,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
         }
 
         sb.delete(0, sb.length());
-        sb.append(translateForUser("LANG_CHANGED") + ": ");
+        sb.append(useTranslator("LANG_CHANGED") + ": ");
         sb.append("`" + oldLang + "` --> `" + user.getLang() + "`");
         
         this.submitReply(sb.toString());

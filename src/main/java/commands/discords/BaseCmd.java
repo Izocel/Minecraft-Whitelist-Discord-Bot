@@ -34,11 +34,13 @@ public abstract class BaseCmd extends ListenerAdapter {
     protected String mainTransactionName;
     protected String mainOperationName;
     protected net.dv8tion.jda.api.entities.User eventUser;
+    protected String cmdLang;
 
     abstract void execute();
 
-    protected BaseCmd(WhitelistJe plugin, String childClassName, String cmdNameTradKey, String mainTransactionName,
-            String mainOperationName) {
+    protected BaseCmd(WhitelistJe plugin,
+        String childClassName, String cmdNameTradKey,
+        String mainTransactionName, String mainOperationName) {
         this.plugin = plugin;
         this.childClassName = childClassName;
         this.logger = Logger.getLogger("WJE:" + childClassName);
@@ -59,6 +61,7 @@ public abstract class BaseCmd extends ListenerAdapter {
         this.member = event.getMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
+        this.cmdLang = LOCAL.getNextLang();
         this.setWjeUser();
 
         ITransaction trx = Sentry.startTransaction(this.mainTransactionName, this.mainOperationName);
@@ -68,7 +71,7 @@ public abstract class BaseCmd extends ListenerAdapter {
         try {
             this.execute();
         } catch (Exception e) {
-            final String reply = LOCAL.translate("CMD_ERROR") + ": " + LOCAL.translate("CONTACT_ADMNIN");
+            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMNIN");
 
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "error");
@@ -83,6 +86,12 @@ public abstract class BaseCmd extends ListenerAdapter {
 
     }
 
+    /**
+     * Checks all langugae eventName to find the current language and
+     * prevent multiple event calls.
+     * @param SlashCommandEvent event 
+     * @return Boolean
+     */
     protected final boolean isValidToContinue(SlashCommandEvent event) {
         return !event.isAcknowledged()
                 && LOCAL.setCheckEventLocal(event.getName(), cmdNameTradKey);
@@ -108,13 +117,40 @@ public abstract class BaseCmd extends ListenerAdapter {
         });
     }
 
-    protected final String translateForUser(String key) {
+    protected final String useTranslator(String key) {
+        if(user != null) {
+            return translateUser(key);
+        }
+        else if (cmdLang != null) {
+            return translateCmd(key);
+        }
+        else {
+            return translate(key);
+        }
+    }
+
+    protected final String translateUser(String key) {
         if (user == null) {
-            logger.warning("Undefined User for translate event");
-            return LOCAL.translate(key);
+            return translate(key);
         }
 
-        return LOCAL.translateBy(key, this.user.getLang());
+        return translateBy(key, this.user.getLang());
+    }
+
+    protected final String translateCmd(String key) {
+        if (this.cmdLang == null) {
+            return translate(key);
+        }
+
+        return translateBy(key, this.cmdLang);
+    }
+
+    protected final String translateBy(String key, String lang) {
+        return LOCAL.translateBy(key, lang);
+    }
+
+    protected final String translate(String key) {
+        return LOCAL.translate(key);
     }
 
     protected final void submitReply(String msg) {

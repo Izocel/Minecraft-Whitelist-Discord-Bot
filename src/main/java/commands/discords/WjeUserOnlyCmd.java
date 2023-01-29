@@ -25,6 +25,7 @@ public abstract class WjeUserOnlyCmd extends BaseCmd {
         this.member = event.getMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
+        this.cmdLang = LOCAL.getNextLang();
         this.setWjeUser();
 
         ITransaction trx = Sentry.startTransaction(this.mainTransactionName, this.mainOperationName);
@@ -32,7 +33,7 @@ public abstract class WjeUserOnlyCmd extends BaseCmd {
         this.tx = trx;
 
         if (this.member == null) {
-            final String reply = LOCAL.translate("MEMBERONLY_CMD");
+            final String reply = useTranslator("MEMBERONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "guild reserved");
             tx.finish(SpanStatus.UNAVAILABLE);
@@ -40,7 +41,7 @@ public abstract class WjeUserOnlyCmd extends BaseCmd {
         }
 
         if (this.user == null) {
-            final String reply = LOCAL.translate("USERONLY_CMD");
+            final String reply = useTranslator("USERONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "unregistered");
             tx.finish(SpanStatus.UNAUTHENTICATED);
@@ -50,7 +51,7 @@ public abstract class WjeUserOnlyCmd extends BaseCmd {
         try {
             this.execute();
         } catch (Exception e) {
-            final String reply = LOCAL.translate("CMD_ERROR") + ": " + LOCAL.translate("CONTACT_ADMNIN");
+            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMNIN");
 
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "error");
