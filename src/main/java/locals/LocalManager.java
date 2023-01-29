@@ -153,9 +153,6 @@ public class LocalManager {
         final String msg = "Is not a supported language: " + lang;
         lang = lang.toUpperCase();
 
-        logger.info("newLang: " + lang);
-        logger.info(Lang.valueOf(lang).value);
-
         try {
             if (Lang.valueOf(lang).value == lang) {
                 return true;
