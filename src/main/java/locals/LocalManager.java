@@ -150,7 +150,7 @@ public class LocalManager {
     }
 
     public final Boolean isSupported(String lang) {
-        final String msg = "Is not a supported language: " + lang;
+        final String msg = "Is not a supported traduction: " + lang;
         lang = lang.toUpperCase();
 
         try {
