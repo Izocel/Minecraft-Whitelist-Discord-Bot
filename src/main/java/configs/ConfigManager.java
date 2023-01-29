@@ -23,7 +23,6 @@ public final class ConfigManager {
     private final String discordAdminRoleId = "809003930884505602";
     private final String discordModeratorRoleId = "783839953372053516";
     private final String discordDevRoleId = "926270775298752512";
-    private final String discordHelperId = "1063902284788015134";
 
     private final String mysqlHost = "localhost";
     private final String mysqlPort = "3306";
@@ -65,7 +64,6 @@ public final class ConfigManager {
         configs.put("discordAdminRoleId", this.discordAdminRoleId);
         configs.put("discordModeratorRoleId", this.discordModeratorRoleId);
         configs.put("discordDevRoleId", this.discordDevRoleId);
-        configs.put("discordHelperRoleId", this.discordHelperId);
         configs.put("mysqlHost", this.mysqlHost);
         configs.put("mysqlPort", this.mysqlPort);
         configs.put("mysqlDb", this.mysqlDb);
