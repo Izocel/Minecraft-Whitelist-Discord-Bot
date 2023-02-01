@@ -29,6 +29,7 @@ public enum Fr {
     CONNECTED_USERS("Joueurs connectés"),
     SERVER_ACTIVITIES("🌿 Activités du serveur"),
     TIME_METEO("Météo et temps"),
+    SOME_EXAMPLES("Voici des examples"),
 
     //REPLIES
     LANG_CHANGED("Votre langue a été modifié"),
@@ -78,6 +79,8 @@ public enum Fr {
     CHECK_LOGS("**Regarder les fichers de `log`!!!!**"),
     NOTREGISTERED("Votre enregistrement n'a pas pu être retrouvé..."),
     CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"),
+    LOOKUP_ERROR("Cette valeur de recherche n'est pas valide..."),
+    LOOKUP_PARAM_ERROR("Vous devez choisir un type de rcherche valide"),
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),

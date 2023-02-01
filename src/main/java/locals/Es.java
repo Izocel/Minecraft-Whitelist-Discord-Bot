@@ -29,6 +29,7 @@ public enum Es {
     CONNECTED_USERS("Joueurs connectés"), // à traduire
     SERVER_ACTIVITIES("🌿 Activités du serveur"), // à traduire
     TIME_METEO("Météo et temps"), // à traduire
+    SOME_EXAMPLES("Voici des examples"), // à traduire
 
     //REPLIES
     LANG_CHANGED("Tu idioma fue cambiado"), // à traduire
@@ -77,6 +78,8 @@ public enum Es {
     CHECK_LOGS("**Regarder les fichers de `log`!!!!**"), // à traduire
     NOTREGISTERED("Votre enregistrement n'a pas pu être retrouvé..."), // à traduire
     CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"), // à traduire
+    LOOKUP_ERROR("Cette valeur de recherche n'est pas valide..."), // à traduire
+    LOOKUP_PARAM_ERROR("Vous devez choisir un type de recherche valide"), // à traduire
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"), // à traduire

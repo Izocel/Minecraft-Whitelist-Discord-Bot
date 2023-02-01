@@ -29,6 +29,7 @@ public enum En {
     CONNECTED_USERS("Connected users"),
     SERVER_ACTIVITIES("🌿 Server activities"),
     TIME_METEO("Meteo and time"),
+    SOME_EXAMPLES("Here's some examples"),
 
     //REPLIES
     LANG_CHANGED("Your language was changed"),
@@ -77,6 +78,8 @@ public enum En {
     CHECK_LOGS("**Check your `log` files!!!!**"),
     NOTREGISTERED("Your registration could not be fetched..."),
     CMD_ERROR("❌ Sorry... an error as occured during this request!!!"),
+    LOOKUP_ERROR("This lookup value is not valid..."),
+    LOOKUP_PARAM_ERROR("You must choose a valid lookup type"),
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),
