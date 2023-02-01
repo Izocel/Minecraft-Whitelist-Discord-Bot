@@ -1,29 +1,27 @@
 package events.bukkit;
 
-import java.util.logging.Logger;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
 
+import locals.LocalManager;
 import main.WhitelistJe;
 
 public class OnServerLoad implements Listener {
-    private WhitelistJe main;
-    private Logger logger;
+    private WhitelistJe plugin;
 
-    public OnServerLoad(WhitelistJe main) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
-        this.main = main;
+    public OnServerLoad(WhitelistJe plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler
     public void onServerLoad(ServerLoadEvent event) {
+        LocalManager LOCAL = WhitelistJe.LOCALES;
         StringBuilder sb = new StringBuilder();
-        sb.append("**Le serveur est up and running boyyssss!** ");
-        sb.append(this.main.getBukkitManager().getServerInfoString());
+        sb.append("**" + LOCAL.translate("SERVER_IS_UP") + "** ");
+        sb.append(this.plugin.getBukkitManager().getServerInfoString(LOCAL.getNextLang()));
         
-        this.main.getGuildManager().getAdminChannel()
+        this.plugin.getGuildManager().getAdminChannel()
             .sendMessage(sb.toString()).submit(true);
     }
 

@@ -19,21 +19,20 @@ public abstract class WjeUserOnlyCmd extends BaseCmd {
             return;
         }
         
-        this.user = null;
         this.event = event;
         this.guild = event.getGuild();
         this.member = event.getMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
-        this.cmdLang = LOCAL.getNextLang();
         this.setWjeUser();
+        this.setCommandLang();
 
         ITransaction trx = Sentry.startTransaction(this.mainTransactionName, this.mainOperationName);
         trx.setData("CommandClass", childClassName);
         this.tx = trx;
 
         if (this.member == null) {
-            final String reply = useTranslator("MEMBERONLY_CMD");
+            final String reply = useTranslator("GUILDONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "guild reserved");
             tx.finish(SpanStatus.UNAVAILABLE);

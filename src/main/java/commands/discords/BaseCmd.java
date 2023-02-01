@@ -55,14 +55,13 @@ public abstract class BaseCmd extends ListenerAdapter {
             return;
         }
 
-        this.user = null;
         this.event = event;
         this.guild = event.getGuild();
         this.member = event.getMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
-        this.cmdLang = LOCAL.getNextLang();
         this.setWjeUser();
+        this.setCommandLang();
 
         ITransaction trx = Sentry.startTransaction(this.mainTransactionName, this.mainOperationName);
         trx.setData("CommandClass", childClassName);
@@ -89,7 +88,7 @@ public abstract class BaseCmd extends ListenerAdapter {
     /**
      * Checks all langugae eventName to find the current language and
      * prevent multiple event calls.
-     * @param SlashCommandEvent event 
+     * @param SlashCommandEvent event
      * @return Boolean
      */
     protected final boolean isValidToContinue(SlashCommandEvent event) {
@@ -104,6 +103,16 @@ public abstract class BaseCmd extends ListenerAdapter {
     protected final void setWjeUser() {
         if (member != null)
             this.user = User.getFromMember(member);
+        else
+            this.user = null;
+    }
+
+    protected final void setCommandLang() {
+        if (user != null) {
+            this.cmdLang = user.getLang();
+        } else {
+            this.cmdLang = LOCAL.getNextLang();
+        }
     }
 
     protected final void sendMsgToUser(String msg) {
@@ -118,39 +127,11 @@ public abstract class BaseCmd extends ListenerAdapter {
     }
 
     protected final String useTranslator(String key) {
-        if(user != null) {
-            return translateUser(key);
-        }
-        else if (cmdLang != null) {
-            return translateCmd(key);
-        }
-        else {
-            return translate(key);
-        }
-    }
-
-    protected final String translateUser(String key) {
-        if (user == null) {
-            return translate(key);
-        }
-
-        return translateBy(key, this.user.getLang());
-    }
-
-    protected final String translateCmd(String key) {
-        if (this.cmdLang == null) {
-            return translate(key);
-        }
-
         return translateBy(key, this.cmdLang);
     }
 
     protected final String translateBy(String key, String lang) {
         return LOCAL.translateBy(key, lang);
-    }
-
-    protected final String translate(String key) {
-        return LOCAL.translate(key);
     }
 
     protected final void submitReply(String msg) {

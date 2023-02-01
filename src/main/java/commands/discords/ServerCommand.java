@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import configs.ConfigManager;
+import helpers.Helper;
 import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
@@ -39,7 +40,7 @@ public class ServerCommand extends BaseCmd {
     protected final void execute() {
 
         if (this.member == null) {
-            final String reply = LOCAL.translate("MEMBERONLY_CMD");
+            final String reply = useTranslator("GUILDONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "guild reserved");
             tx.finish(SpanStatus.UNAVAILABLE);
@@ -47,13 +48,19 @@ public class ServerCommand extends BaseCmd {
         }
 
         final Integer msgDelaySec = 120;
-        final String serverName = event.getGuild().getName();
+        final String guildName = event.getGuild().getName();
 
-        event.reply("** 📝`" + serverName + "` | Informations ** " +
-                this.plugin.getBukkitManager().getServerInfoString() +
-                "\n\n**Serveur: ** \n\t" + getPlayersOnline() +
-                "\n\n**Mondes: **" + getWorldsInfos() +
-                "\n**Développeurs:** <@272924120142970892> 👨‍💻"
+        final String informationField = useTranslator("INFORMATION");
+        final String serverField = useTranslator("SERVER");
+        final String worldsField = useTranslator("WORLDS");
+        final String devSField = useTranslator("DEVS");
+
+        final String title = "** 📝`" + guildName + "` | " + informationField + " ** ";
+
+        event.reply(title + this.plugin.getBukkitManager().getServerInfoString(this.cmdLang) +
+                "\n\n**" + serverField + ": ** \n\t" + getPlayersOnline() +
+                "\n\n**" + worldsField + ": **" + getWorldsInfos() +
+                "\n**" + devSField + ": ** <@272924120142970892> 👨‍💻"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
 
@@ -64,6 +71,10 @@ public class ServerCommand extends BaseCmd {
     public String getWorldsInfos() {
         List<World> worlds = Bukkit.getWorlds();
         StringBuilder sb = new StringBuilder();
+        
+        final String stormyField = useTranslator("STORMY");
+        final String rainyField = useTranslator("RAINY");
+        final String NO = useTranslator("NO");
 
         for (World world : worlds) {
             final String name = world.getName();
@@ -72,28 +83,26 @@ public class ServerCommand extends BaseCmd {
                     hours = gameTime / 1000 + 6,
                     minutes = (gameTime % 1000) * 60 / 1000;
 
-            String weather = "`" + (world.hasStorm() ? "Orageux" : "Non orageux") + "`\n\t`"
-                    + (world.isThundering() ? "Pluvieux" : "Non pluvieux") + "`",
-                    isDay = hours <= 17 ? "Jour" : "Nuit",
-                    emotes;
+            String weather = "`" + (world.hasStorm() ? Helper.capitalize(stormyField) : NO + " " + stormyField) + "`\n\t`"
+                    + (world.isThundering() ? Helper.capitalize(rainyField) : NO + " " + rainyField) + "`",
+                    isDay = hours <= 17 ? useTranslator("DAY") : useTranslator("NIGHT"), emotes;
 
-            if (isDay.equals("Jour")) {
-                emotes = "☀️";
-            } else {
-                emotes = "🌙";
-            }
+            emotes = hours <= 17
+                ? "☀️" 
+                : "🌙";
 
-            if (hours >= 24) {
-                hours -= 24;
-            }
-            if (world.hasStorm())
+            if (world.hasStorm()) 
                 emotes += "🌩";
-            if (world.isThundering())
+            if (world.isThundering()) 
                 emotes += "🌧";
 
-            sb.append("\n\t" + emotes + " Météo et temps: **" + name + "**\n\t`" + (hours <= 9 ? "0" + hours : hours)
-                    + ":"
-                    + (minutes <= 9 ? "0" + minutes : minutes) + " (" + isDay + ")`\n\t" + weather + "\n\n\t");
+            if (hours >= 24) 
+                hours -= 24;
+
+            sb.append("\n\t" + emotes + " " + useTranslator("TIME_METEO") + ": **" + name + "**\n\t`" 
+                + (hours <= 9 ? "0" + hours : hours)
+                + ":"
+                + (minutes <= 9 ? "0" + minutes : minutes) + " (" + isDay + ")`\n\t" + weather + "\n\n\t");
 
             if (!this.configs.get("showSubWorlddMeteo", "false").equals("true")) {
                 break;
@@ -104,18 +113,20 @@ public class ServerCommand extends BaseCmd {
     }
 
     public String getPlayersOnline() {
-        return "**🌿 Activités du serveur**\n\t`"
-                + (Bukkit.getOnlinePlayers().size() <= 1 ? Bukkit.getOnlinePlayers().size() + " joueurs connectés"
-                        : Bukkit.getOnlinePlayers().size() + " joueurs connectés")
-                + "`\n\t"
-                + (Bukkit.getOnlinePlayers().size() != 0
-                        ? Bukkit.getOnlinePlayers().toString().replace("CraftPlayer{name=", "")
-                                .replace("}", "")
-                                .replace("]", "")
-                                .replace("{", "")
-                                .replace("_", "⎽")
-                                .replace("[", "")
-                        : "");
+        final int nbPlayers = Bukkit.getOnlinePlayers().size();
+        final String title = useTranslator("SERVER_ACTIVITIES");
+        return "**" + title + "*\n\t`" +
+            (nbPlayers > 1 
+                ? nbPlayers + " " + useTranslator("CONNECTED_USERS")
+                : nbPlayers + " " + useTranslator("CONNECTED_USER")
+            )
+            + "`\n\t" +
+            (nbPlayers != 0
+                ? Bukkit.getOnlinePlayers().toString().replace("CraftPlayer{name=", "")
+                    .replace("}", "") .replace("]", "") .replace("{", "")
+                    .replace("_", "⎽") .replace("[", "")
+                : ""
+            );
     }
 
 }
