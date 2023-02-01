@@ -68,7 +68,7 @@ public class RegisterCommand extends BaseCmd {
     protected final void execute() {
         
         if (this.member == null) {
-            final String reply = LOCAL.translate("MEMBERONLY_CMD");
+            final String reply = LOCAL.translate("GUILDONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "guild reserved");
             tx.finish(SpanStatus.UNAVAILABLE);

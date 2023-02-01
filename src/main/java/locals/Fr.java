@@ -2,15 +2,33 @@ package locals;
 
 public enum Fr {
     //GLOBAL
+    YES("Oui"),
+    NO("Non"),
     RAINY("pluvieux"),
     SUNNY("ensoleillé"),
+    STORMY("orageux"),
+    DAY("Jour"),
+    NIGHT("Nuit"),
     NAME("nom"),
-    VERSION("version"),
+    VERSION("Version"),
     ISACTIVE("est actif"),
     ISINACTIVE("est inactif"),
     DOREGISTER("Enregistrer vous sur le serveur Discord®"),
     MINECRAFT_ALREADYREGISTERED("Ce compte est déja confirmé..."),
     ACCOUNTSINFOS("Informations de comptes"),
+    INFORMATION("Informations"),
+    SERVER("Serveur"),
+    WORLDS("Mondes"),
+    DEVS("Développeurs"),
+    PORT("Port"),
+    ONLINE_MODE("Mode en ligne"),
+    WHITELISTED("Whitelisted"),
+    DEFAULT_GAMEMOD("Mode de jeu default"),
+    DESCRIPTION("Description"),
+    CONNECTED_USER("Joueur connecté"),
+    CONNECTED_USERS("Joueurs connectés"),
+    SERVER_ACTIVITIES("🌿 Activités du serveur"),
+    TIME_METEO("Météo et temps"),
 
     //REPLIES
     LANG_CHANGED("Votre langue a été modifié"),
@@ -85,8 +103,11 @@ public enum Fr {
 
     //ACL
     TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."),
-    MEMBERONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels de guild utilisant ce plugin."),
+    GUILDONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels de guild utilisant ce plugin."),
     USERONLY_CMD("❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®."),
+
+    //MISC
+    SERVER_IS_UP("Le serveur est up and running boyyssss!"),
 
     ;
 

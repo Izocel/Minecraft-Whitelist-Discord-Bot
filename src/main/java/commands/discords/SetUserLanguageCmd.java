@@ -53,7 +53,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
         }
 
         sb.delete(0, sb.length());
-        sb.append(useTranslator("LANG_CHANGED") + ": ");
+        sb.append(translateBy("LANG_CHANGED", user.getLang()) + ": ");
         sb.append("`" + oldLang + "` --> `" + user.getLang() + "`");
         
         this.submitReply(sb.toString());

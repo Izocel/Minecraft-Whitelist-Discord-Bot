@@ -2,15 +2,33 @@ package locals;
 
 public enum En {
     //GLOBAL
+    YES("Yes"),
+    NO("No"),
     RAINY("rainy"),
     SUNNY("sunny"),
+    STORMY("stormy"),
+    DAY("Day"),
+    NIGHT("Night"),
     NAME("name"),
-    VERSION("version"),
+    VERSION("Version"),
     ISACTIVE("is active"),
     ISINACTIVE("is inactive"),
     DOREGISTER("Register on the Discord® server"),
     MINECRAFT_ALREADYREGISTERED("This account is already confirmed..."),
     ACCOUNTSINFOS("Accounts informations"),
+    INFORMATION("Informations"),
+    SERVER("Server"),
+    WORLDS("Worlds"),
+    DEVS("Developers"),
+    PORT("Port"),
+    ONLINE_MODE("Online mode"),
+    WHITELISTED("Whitelisted"),
+    DEFAULT_GAMEMOD("Default gamemode"),
+    DESCRIPTION("Description"),
+    CONNECTED_USER("Connected user"),
+    CONNECTED_USERS("Connected users"),
+    SERVER_ACTIVITIES("🌿 Server activities"),
+    TIME_METEO("Meteo and time"),
 
     //REPLIES
     LANG_CHANGED("Your language was changed"),
@@ -84,8 +102,11 @@ public enum En {
 
     //ACL
     TEXTONLY_CMD("❌ This command is available only through textual channels."),
-    MEMBERONLY_CMD("❌ This command is available only through textual guild channels using this."),
+    GUILDONLY_CMD("❌ This command is available only through textual guild channels using this."),
     USERONLY_CMD("❌ This command id reserved for Discord® registered users only."),
+
+    //MISC
+    SERVER_IS_UP("The server is up and running boyyssss!"),
 
     ;
 

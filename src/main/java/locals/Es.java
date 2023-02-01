@@ -2,15 +2,33 @@ package locals;
 
 public enum Es {
     //GLOBAL
-    RAINY("pluvieux"), // à traduire
-    SUNNY("ensoleillé"), // à traduire
+    YES("Si"),
+    NO("No"),
+    RAINY("lluvioso"),
+    SUNNY("soleado"),
+    STORMY("tormentoso"),
+    DAY("Día"),
+    NIGHT("Noche"),
     NAME("nom"), // à traduire
-    VERSION("version"), // à traduire
+    VERSION("Version"), // à traduire
     ISACTIVE("est actif"), // à traduire
     ISINACTIVE("est inactif"), // à traduire
     DOREGISTER("Enregistrer vous sur le serveur Discord®"), // à traduire
     MINECRAFT_ALREADYREGISTERED("Ce compte est déja confirmé..."), // à traduire
     ACCOUNTSINFOS("Informations de comptes"), // à traduire
+    INFORMATION("Informations"), // à traduire
+    SERVER("Serveur"), // à traduire
+    WORLDS("Mondes"), // à traduire
+    DEVS("Développeurs"), // à traduire
+    PORT("Port"), // à traduire
+    ONLINE_MODE("Mode en ligne"), // à trauire
+    WHITELISTED("Whitelisted"), // à traduire
+    DEFAULT_GAMEMOD("Mode de jeu"), // à traduire
+    DESCRIPTION("Description"), // à traduire
+    CONNECTED_USER("Joueur connecté"), // à traduire
+    CONNECTED_USERS("Joueurs connectés"), // à traduire
+    SERVER_ACTIVITIES("🌿 Activités du serveur"), // à traduire
+    TIME_METEO("Météo et temps"), // à traduire
 
     //REPLIES
     LANG_CHANGED("Tu idioma fue cambiado"), // à traduire
@@ -84,8 +102,11 @@ public enum Es {
 
     //ACL
     TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."), // à traduire
-    MEMBERONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuel de guild utilisant ce plugin."), // à traduire
+    GUILDONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuel de guild utilisant ce plugin."), // à traduire
     USERONLY_CMD("❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®."), // à traduire
+
+    //MISC
+    SERVER_IS_UP("Le serveur est up and running boyyssss!"), // à traduire
 
     ;
 
