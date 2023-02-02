@@ -18,6 +18,7 @@ import events.bukkit.OnPlayerLoggin;
 import events.bukkit.OnServerLoad;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
+import locals.LocalManager;
 import main.WhitelistJe;
 import models.BedrockData;
 import models.JavaData;
@@ -29,10 +30,10 @@ public class BukkitManager {
     private Logger logger;
 
     public BukkitManager(WhitelistJe plugin) {
+        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("BukkitManager");
 
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
         this.registerEvents(plugin);
         this.registerCommands(plugin);
@@ -45,7 +46,7 @@ public class BukkitManager {
         return Bukkit.getServer();
     }
 
-    public String getServerInfoString() {
+    public String getServerInfoString(String lang) {
         final String ip = Bukkit.getServer().getIp();
         final String version = Bukkit.getServer().getVersion();
         final String description = Bukkit.getServer().getMotd();
@@ -53,12 +54,23 @@ public class BukkitManager {
         final boolean onlineMode = Bukkit.getServer().getOnlineMode();
         final boolean usingWhiteList = Bukkit.getServer().hasWhitelist();
         final boolean forceWhitelist = Bukkit.getServer().isWhitelistEnforced();
-        final String onlineStr = onlineMode ? "`true`" : "`false`";
-        final String fwStr = forceWhitelist ? "`true`" : "`false`";
 
-        final String protJ = this.plugin.getConfigManager().get("portJava", "???");
+        final String portJ = this.plugin.getConfigManager().get("portJava", "???");
         final String portB = this.plugin.getConfigManager().get("portBedrock", "???");
         final String paperMcIp = this.plugin.getConfigManager().get("paperMcIp", "???");
+
+        final LocalManager LOCAL = WhitelistJe.LOCALES;
+        final String portField = LOCAL.translateBy("PORT", lang);
+        final String versionField = LOCAL.translateBy("VERSION", lang);
+        final String onlineField = LOCAL.translateBy("ONLINE_MODE", lang);
+        final String whitelistField = LOCAL.translateBy("WHITELISTED", lang);
+        final String defaultGModefield = LOCAL.translateBy("DEFAULT_GAMEMOD", lang);
+        final String descField = LOCAL.translateBy("DESCRIPTION", lang);
+        final String YES = LOCAL.translateBy("YES", lang);
+        final String NO = LOCAL.translateBy("NO", lang);
+
+        final String onlineStr = onlineMode ? "`" + YES +  "`" : "`" + NO +  "`";
+        final String fwStr = forceWhitelist ? "`" + YES +  "`" : "`" + NO +  "`";
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n\tIp: `" + paperMcIp + "`");

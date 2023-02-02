@@ -23,6 +23,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
   public static String acceptId = "linkAccept";
   public static String rejectId = "linkReject";
+  private ConfigManager configs;
 
   public ConfirmLinkCmd(WhitelistJe plugin, String cmdName) {
     super(plugin, cmdName);
@@ -120,7 +121,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String mcUuidLabel = LOCAL.translate("LABEL_MIBECRAFT_UUID");
     final String policy = LOCAL.translate("EMBD_LINK_POLICY");
 
-    final String embedUrl = configs.get("minecrafInfosLink", "https://www.fiverr.com/rvdprojects?up_rollout=true");
+    final String embedUrl = this.configs.get("minecrafInfosLink", "https://www.fiverr.com/rvdprojects?up_rollout=true");
 
     final String jsonEmbeded = """
     {

@@ -17,44 +17,26 @@ import io.sentry.protocol.User;
 import main.WhitelistJe;
 
 public class SentryService {
-
-  private String debugMode = "debug";
-  private boolean enabled = true;
-  private WhitelistJe plugin;
+  
+  private Logger logger;
   private static User user;
-  HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
+  private WhitelistJe plugin;
   private static WhitelistJe main;
-
-  @Override
-  protected void finalize() throws Throwable {
-      finalyzeAllTransaction();
-  }
-
-  private void finalyzeAllTransaction() {
-    try {
-      if(pendingTransactions != null &&  getTxSize() > 0)
-      pendingTransactions.forEach((key,tx) -> {
-        try {
-          tx.setData("finalStatus", "with destruction");
-          tx.finish();
-        } catch (Exception e) {
-          captureEx(e);
-        }
-      });
-    } catch (Exception e) {
-      captureEx(e);
-    }
-
-  }
+  private boolean enabled = true;
+  private String debugMode = "debug";
+  
+  HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
 
   public SentryService(WhitelistJe plugin) {
+    this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+
     this.plugin = plugin;
-    main = this.plugin;
+    SentryService.main = this.plugin;
     
     final User user = new User();
-    final String id = this.plugin.getConfigManager().get("discordServerId", "discordServerId");
-    final String username = this.plugin.getConfigManager().get("discordOwnerId", "discordOwnerId");
-    final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "paperMcIp");
+    final String id = this.plugin.getConfigManager().get("discordServerId", "?discordServerId?");
+    final String username = this.plugin.getConfigManager().get("discordOwnerId", "?discordOwnerId?");
+    final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "?paperMcIp?");
     final String envType = this.plugin.getConfigManager().get("envType", "?envType?");
     final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
     
@@ -77,6 +59,27 @@ public class SentryService {
     });
   }
 
+  @Override
+  protected void finalize() throws Throwable {
+      finalyzeAllTransaction();
+  }
+
+  private void finalyzeAllTransaction() {
+    try {
+      if(pendingTransactions != null &&  getTxSize() > 0)
+      pendingTransactions.forEach((key,tx) -> {
+        try {
+          tx.setData("finalStatus", "with destruction");
+          tx.finish();
+        } catch (Exception e) {
+          captureEx(e);
+        }
+      });
+    } catch (Exception e) {
+      captureEx(e);
+    }
+
+  }
   
   public ITransaction createTx(String name, String operation) {
     final Integer size = getTxSize();
@@ -142,9 +145,10 @@ public class SentryService {
   public static @NotNull SentryId captureEx(Throwable error) {
     Exception err = new Exception(error.getMessage());
     Exception ex = new Exception(error.getMessage() + userToString());
+    Logger.getLogger("WJE: SentryService").warning("WARNING: ");
     err.printStackTrace();
 
-    if(!main.getConfigManager().get("envType", "production").equals("devMode"))
+    if(!main.getConfigManager().get("envType", "production").equals("dev"))
       return Sentry.captureException(ex);
 
     return null;

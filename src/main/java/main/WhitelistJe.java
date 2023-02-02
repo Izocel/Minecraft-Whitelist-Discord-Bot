@@ -25,8 +25,6 @@ import services.sentry.SentryService;
 public final class WhitelistJe extends JavaPlugin implements Listener {
 
     private Logger logger;
-    public WhitelistJe instance;
-    public static LocalManager LOCALES;
     private BukkitManager bukkitManager;
     private GuildManager guildManager;
     private ConfigManager configManager;
@@ -37,7 +35,9 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     private JSONArray playersAllowed = new JSONArray();
     private SentryService sentryService;
 
-    public String getfiglet() {
+    public static LocalManager LOCALES;
+
+    public final String getfiglet() {
         String figlet = """
 
                  __       __  __        __    __                __  __              __               _____
@@ -65,7 +65,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
-    public String getPluginInfos(boolean toConsole) {
+    public final String getPluginInfos(boolean toConsole) {
         final StringBuilder sb = new StringBuilder();
         final String devName = toConsole
                 ? "@xXx-RaFuX#1345"
@@ -92,34 +92,46 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     @Override
-    public void onEnable() {
+    public final void onEnable() {
         ITransaction transaction = Sentry.startTransaction("onEnable", "configurePlugin");
         final StringBuilder sb = new StringBuilder();
 
         try {
-            instance = this;
-            configManager = new ConfigManager();
-            LOCALES = new LocalManager(configManager);
+            this.configManager = new ConfigManager();
+            logger.info("LOADED: ConfigManager");
+            
+            LOCALES = new LocalManager(this);
+            logger.info("LOADED: LocalManager");
+            
             sentryService = new SentryService(this);
             transaction = sentryService.createTx("onEnable", "configurePlugin");
-
-            daoManager = new DaoManager(configManager, this);
+            logger.info("LOADED: SentryService");
+            
+            daoManager = new DaoManager(this);
+            logger.info("LOADED: DaoManager");
+            
             discordManager = new DiscordManager(this);
-            guildManager = new GuildManager(discordManager.getGuild(), this);
+            logger.info("LOADED: DiscordManager");
+            
+            guildManager = new GuildManager(this);
+            logger.info("LOADED: GuildManager");
+            
             bukkitManager = new BukkitManager(this);
+            logger.info("LOADED: BukkitManager");
 
             updateAllPlayers();
+            logger.info("UPDATED PLAYERS CACHE");
 
             sb.append(String.format(
                 LOCALES.translate("PLUGIN_HELLO"),
                 this.getName(), LOCALES.translate("ISACTIVE")
             ));
-            sb.append(getPluginInfos(false));
             
+            sb.append(getPluginInfos(false));
             guildManager.getAdminChannel()
                 .sendMessage(sb.toString()).submit(true);
 
-            Logger.getLogger("WhiteList-Je").info(this.getfiglet());
+            logger.info(this.getfiglet());
 
         } catch (Exception e) {
             try {
@@ -151,7 +163,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     @Override
-    public void onDisable() {
+    public final void onDisable() {
         final StringBuilder sb = new StringBuilder();
         
         sb.append(String.format(
@@ -164,31 +176,31 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             .sendMessage(sb.toString()).submit(true);
     }
 
-    public DiscordManager getDiscordManager() {
+    public final DiscordManager getDiscordManager() {
         return this.discordManager;
     }
 
-    public DaoManager getDaoManager() {
+    public final DaoManager getDaoManager() {
         return this.daoManager;
     }
 
-    public ConfigManager getConfigManager() {
-        return this.configManager;
+    public final ConfigManager getConfigManager() {
+        return configManager;
     }
 
-    public GuildManager getGuildManager() {
+    public final GuildManager getGuildManager() {
         return this.guildManager;
     }
 
-    public BukkitManager getBukkitManager() {
+    public final BukkitManager getBukkitManager() {
         return this.bukkitManager;
     }
 
-    public SentryService getSentryService() {
+    public final SentryService getSentryService() {
         return this.sentryService;
     }
 
-    public JSONArray updateAllPlayers() {
+    public final JSONArray updateAllPlayers() {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
                 .startChild("updateAllPlayers");
 
@@ -209,7 +221,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return this.players;
     }
 
-    public JSONArray updateAllowedPlayers() {
+    public final JSONArray updateAllowedPlayers() {
         ISpan process = getSentryService().findWithuniqueName("onEnable")
                 .startChild("updateAllowedPlayers");
 
@@ -228,7 +240,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return this.playersAllowed;
     }
 
-    public Integer getPlayerId(UUID uuid) {
+    public final Integer getPlayerId(UUID uuid) {
         Integer userId = -1;
         this.updateAllPlayers();
 
@@ -253,7 +265,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return userId;
     }
 
-    public Integer playerIsAllowed(UUID uuid) {
+    public final Integer playerIsAllowed(UUID uuid) {
         Integer allowedUserId = -1;
         this.updateAllowedPlayers();
 
@@ -278,7 +290,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return allowedUserId;
     }
 
-    public Integer playerIsConfirmed(UUID uuid) {
+    public final Integer playerIsConfirmed(UUID uuid) {
         Integer allowedUserId = -1;
         this.updateAllowedPlayers();
 
@@ -304,7 +316,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return allowedUserId;
     }
 
-    public JSONObject getMinecraftDataJson(UUID uuid) {
+    public final JSONObject getMinecraftDataJson(UUID uuid) {
         JSONObject data = null;
         this.updateAllPlayers();
 
@@ -329,7 +341,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return data;
     }
 
-    public boolean deletePlayerRegistration(UUID UUID) {
+    public final boolean deletePlayerRegistration(UUID UUID) {
         try {
             if (UUID == null) {
                 return false;
@@ -356,7 +368,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     }
 
-    public boolean deleteAllPlayerData(UUID UUID) {
+    public final boolean deleteAllPlayerData(UUID UUID) {
         try {
             if (UUID == null) {
                 return false;

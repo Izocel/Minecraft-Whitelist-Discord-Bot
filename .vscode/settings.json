@@ -12,7 +12,7 @@
         "**/.settings": false,
         "**/.factorypath": false
     },
-    "explorerExclude.backup": null,
+    "explorerExclude.backup": {},
     "java.dependency.syncWithFolderExplorer": true,
     "java.dependency.packagePresentation": "hierarchical",
     "java.debug.logLevel": "verbose",

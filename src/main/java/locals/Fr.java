@@ -2,15 +2,39 @@ package locals;
 
 public enum Fr {
     //GLOBAL
+    YES("Oui"),
+    NO("Non"),
     RAINY("pluvieux"),
     SUNNY("ensoleillé"),
+    STORMY("orageux"),
+    DAY("Jour"),
+    NIGHT("Nuit"),
     NAME("nom"),
-    VERSION("version"),
+    VERSION("Version"),
     ISACTIVE("est actif"),
     ISINACTIVE("est inactif"),
     DOREGISTER("Enregistrer vous sur le serveur Discord®"),
     MINECRAFT_ALREADYREGISTERED("Ce compte est déja confirmé..."),
     ACCOUNTSINFOS("Informations de comptes"),
+    INFORMATION("Informations"),
+    SERVER("Serveur"),
+    WORLDS("Mondes"),
+    DEVS("Développeurs"),
+    PORT("Port"),
+    ONLINE_MODE("Mode en ligne"),
+    WHITELISTED("Whitelisted"),
+    DEFAULT_GAMEMOD("Mode de jeu default"),
+    DESCRIPTION("Description"),
+    CONNECTED_USER("Joueur connecté"),
+    CONNECTED_USERS("Joueurs connectés"),
+    SERVER_ACTIVITIES("🌿 Activités du serveur"),
+    TIME_METEO("Météo et temps"),
+    SOME_EXAMPLES("Voici des examples"),
+
+    //REPLIES
+    LANG_CHANGED("Votre langue a été modifié"),
+    LANG_CURRENT("Votre langue est actuellement"),
+
 
     //TITLES
     TITLE_ACCOUNT_CONFIRM("Confirmation de vos comptes"),
@@ -36,7 +60,7 @@ public enum Fr {
 
     //PLUGIN
     PLUGIN_HELLO("**Le plugin `%s` %s **\n\n"),
-    PLUGIN_HELLO_ERROR("**`ERREUR:` Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"),
+    PLUGIN_HELLO_ERROR("❌ **`ERREUR:` Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"),
     PLUGIN_GOODBYE("**Le plugin `%s` %s **\n\n"),
     PLUGIN_NAME("Nom: `%s`"),
     PLUGIN_VERSION("Version: `%s`"),
@@ -47,14 +71,16 @@ public enum Fr {
     INFO_TRYREGISTERAGAIN("Essayez de refaire une demande d'enregistrment sur Discord®."),
 
     //WARNS
-    WARN_REGISTRATIONDELAY("Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."),
+    WARN_REGISTRATIONDELAY("❌ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."),
 
     //ERRORS
-    ERROR("ERREUR"),
+    ERROR("❌ ERREUR"),
     CONTACT_ADMNIN("Contactez un admin..."),
     CHECK_LOGS("**Regarder les fichers de `log`!!!!**"),
     NOTREGISTERED("Votre enregistrement n'a pas pu être retrouvé..."),
-    CMD_ERROR("Désoler... une erreur est survenu lors de cette demande!!!"),
+    CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"),
+    LOOKUP_ERROR("Cette valeur de recherche n'est pas valide..."),
+    LOOKUP_PARAM_ERROR("Vous devez choisir un type de rcherche valide"),
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),
@@ -63,19 +89,28 @@ public enum Fr {
     CMD_SERVER("serveur"),
     CMD_REGISTER("enregistrer"),
     CMD_LOOKUP("recherche"),
+    CMD_SETLOCAL("langue"),
     //PARAMS
     PARAM_PJAVA("java"),
     PARAM_PBEDR("bedrock"),
     PARAM_REGISTR_LABELJ("Votre pseudo Java"),
     PARAM_REGISTR_LABELB("Votre pseudo Bedrock"),
     PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"),
+    PARAM_LOCAL_SETLOCAL("langue"),
+    PARAM_LOCAL_LABEL("Language disponible: ['FR, EN, ES']"),
     //DESC
     DESC_SERVER("Afficher les informations du serveur `Minecraft®`."),
     DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."),
     DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."),
+    DESC_SETLOCAL("Changer la langue d'affichage.\n FR: francais, EN: english, ES: española."),
 
     //ACL
-    USERONLY_CMD("Cette commande est réservée aux utilisateurs enregistrés par Discord®."),
+    TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."),
+    GUILDONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels de guild utilisant ce plugin."),
+    USERONLY_CMD("❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®."),
+
+    //MISC
+    SERVER_IS_UP("Le serveur est up and running boyyssss!"),
 
     ;
 

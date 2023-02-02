@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import commands.discords.LookupMcPlayerCommand;
 import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
+import commands.discords.SetUserLanguageCmd;
 import configs.ConfigManager;
 import events.discords.OnUserConfirm;
 import io.sentry.ISpan;
@@ -20,7 +21,6 @@ import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.InviteAction;
 import services.sentry.SentryService;
@@ -29,14 +29,14 @@ public class DiscordManager {
     public WhitelistJe plugin;
     public JDA jda;
 
+    private Guild guild;
     private Logger logger;
-    private String servername = "Discord® Server";
-    private boolean isPrivateBot = true;
+    private String ownerId;
     private String guildId;
     private String inviteUrl;
-	private Guild guild;
-    private String ownerId;
-    static private ConfigManager Configs = new ConfigManager();
+    private ConfigManager configs;
+    private boolean isPrivateBot = true;
+    private String servername = "Discord® Server";
 
     public DiscordManager(WhitelistJe plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
@@ -44,6 +44,8 @@ public class DiscordManager {
 
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
+        this.configs = plugin.getConfigManager();
+
         this.connect();
         this.setupCommands();
         this.setupListener();
@@ -56,7 +58,7 @@ public class DiscordManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
         .startChild("DiscordManager.connect");
         try {
-            jda = JDABuilder.create(Configs.get("discordBotToken", null),
+            jda = JDABuilder.create(this.configs.get("discordBotToken", null),
                     EnumSet.allOf(GatewayIntent.class))
                     .build()
                     .awaitReady();
@@ -97,14 +99,14 @@ public class DiscordManager {
                 this.logger.warning("Discord bot's tokken already in use on another DS !!!");
             }
 
-            guildId = Configs.get("discordServerId", null);
+            guildId = this.configs.get("discordServerId", null);
             this.guild = jda.getGuildById(guildId);
             this.servername = this.guild.getName();
             this.guildId = this.guild.getId();
             this.inviteUrl = this.setInvite();
             this.ownerId = this.guild.getOwnerId();
         } catch (Exception e) {
-            this.logger.warning("Discord bot's not authorized into this guild. (Check: " + Configs.getClass().getSimpleName() +")");
+            this.logger.warning("Discord bot's not authorized into this guild. (Check: " + this.configs.getClass().getSimpleName() +")");
         }
     }
 
@@ -125,75 +127,19 @@ public class DiscordManager {
         final LocalManager LOCAL = WhitelistJe.LOCALES;
 
         try {
-            // FRENCH COMMAND
-            LOCAL.setNextLang(Lang.FR.value);
+            String[] langArr = {Lang.FR.value, Lang.EN.value, Lang.ES.value};
 
-            String srvCmdName = LOCAL.translate("CMD_SERVER");
-            String srvCmdDesc = LOCAL.translate("DESC_SERVER");
-            
-            String rgstrCmdName = LOCAL.translate("CMD_REGISTER");
-            String rgstrCmdDesc = LOCAL.translate("DESC_REGISTR");
-            String paramJ = LOCAL.translate("PARAM_PJAVA");
-            String paramB = LOCAL.translate("PARAM_PBEDR");
-            String paramLabelJ = LOCAL.translate("PARAM_REGISTR_LABELJ");
-            String paramLabelB = LOCAL.translate("PARAM_REGISTR_LABELB");
-
-            String lookCmdName = LOCAL.translate("CMD_LOOKUP");
-            String lookDesc = LOCAL.translate("DESC_LOOKUP");
-            String valueLabel = LOCAL.translate("PARAM_LOOKUP_LABEL");
-
-            // Serveur
-            jda.addEventListener(new ServerCommand(plugin));
-            jda.upsertCommand(srvCmdName, srvCmdDesc)
-            .submit(true);
-
-            // Enregistrer
-            jda.addEventListener(new RegisterCommand(plugin));
-            jda.upsertCommand(rgstrCmdName, rgstrCmdDesc)
-            .addOption(OptionType.STRING, paramJ, paramLabelJ, false)
-            .addOption(OptionType.STRING, paramB, paramLabelB, false)
-            .submit(true);
-
-            // Recherche
-            jda.addEventListener(new LookupMcPlayerCommand(plugin));
-            jda.upsertCommand(lookCmdName, lookDesc)
-                .addOption(OptionType.STRING, "type", "`UUID` || `PSEUDO`", true)
-                .addOption(OptionType.STRING, "value", valueLabel, true)
-                .submit(true);
-
-
-            // ENGLISH COMMANDS
-            LOCAL.setNextLang(Lang.EN.value);
-
-            srvCmdName = LOCAL.translate("CMD_SERVER");
-            srvCmdDesc = LOCAL.translate("DESC_SERVER");
-
-            rgstrCmdName = LOCAL.translate("CMD_REGISTER");
-            rgstrCmdDesc = LOCAL.translate("DESC_REGISTR");
-            paramJ = LOCAL.translate("PARAM_PJAVA");
-            paramB = LOCAL.translate("PARAM_PBEDR");
-            paramLabelJ = LOCAL.translate("PARAM_REGISTR_LABELJ");
-            paramLabelB = LOCAL.translate("PARAM_REGISTR_LABELB");
-
-            lookCmdName = LOCAL.translate("CMD_LOOKUP");
-            lookDesc = LOCAL.translate("DESC_LOOKUP");
-            valueLabel = LOCAL.translate("PARAM_LOOKUP_LABEL");
-
-            // Server
-            jda.upsertCommand(srvCmdName, srvCmdDesc)
-            .submit(true);
-
-            // Register
-            jda.upsertCommand(rgstrCmdName, rgstrCmdDesc)
-            .addOption(OptionType.STRING, paramJ, paramLabelJ, false)
-            .addOption(OptionType.STRING, paramB, paramLabelB, false)
-            .submit(true);
-
-            // Search
-            jda.upsertCommand(lookCmdName, lookDesc)
-                .addOption(OptionType.STRING, "type", "`UUID` || `PSEUDO`", true)
-                .addOption(OptionType.STRING, "value", valueLabel, true)
-                .submit(true);
+            for (int i = 0; i < langArr.length; i++) {
+                LOCAL.setNextLang(langArr[i]);
+                // Serveur
+                ServerCommand.REGISTER_CMD(jda, plugin);
+                // Enregistrer
+                RegisterCommand.REGISTER_CMD(jda, plugin);
+                //Recherche
+                LookupMcPlayerCommand.REGISTER_CMD(jda, plugin);
+                // User transaltion
+                SetUserLanguageCmd.REGISTER_CMD(jda, plugin);
+            }
             
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");

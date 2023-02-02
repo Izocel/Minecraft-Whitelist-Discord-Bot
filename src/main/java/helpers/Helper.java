@@ -28,6 +28,14 @@ public class Helper {
     public static long dayMSLONG = 86400000;
     public static long hourMSLONG = dayMSLONG / 24;
 
+    public static String capitalize(String str) {
+        String firstLetter = str.substring(0, 1);
+        final String remainingLetters = str.substring(1, str.length());
+
+        firstLetter = firstLetter.toUpperCase();
+        return firstLetter + remainingLetters;
+    }
+
     public static String decimalToHex(Long decimal) {
         if(decimal == null) {
             return null;
