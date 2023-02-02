@@ -41,14 +41,13 @@ public class RegisterCommand extends BaseCmd {
         String paramB = LOCAL.translate(KEY_PARAM_BEDR);
         String paramLabelJ = LOCAL.translate(KEY_PARAM_JAVA_LABEL);
         String paramLabelB = LOCAL.translate(KEY_PARAM_BEDR_LABEL);
-        
+
         jda.addEventListener(new RegisterCommand(plugin));
         jda.upsertCommand(cmdName, cmdDesc)
-        .addOption(OptionType.STRING, paramJ, paramLabelJ, false)
-        .addOption(OptionType.STRING, paramB, paramLabelB, false)
-        .submit(true);
+                .addOption(OptionType.STRING, paramJ, paramLabelJ, false)
+                .addOption(OptionType.STRING, paramB, paramLabelB, false)
+                .submit(true);
     }
-
 
     private String acceptId = "acceptAction";
     private String rejectId = "rejectAction";
@@ -56,17 +55,16 @@ public class RegisterCommand extends BaseCmd {
     private String rejectId_conf = "rejectConfAction";
 
     public RegisterCommand(WhitelistJe plugin) {
-        super(plugin, 
-            "RegisterCommand", 
-            "CMD_REGISTER",
-            "RegisterCommand",
-            "Register Mc®"
-        );
+        super(plugin,
+                "RegisterCommand",
+                "CMD_REGISTER",
+                "RegisterCommand",
+                "Register Mc®");
     }
 
     @Override
     protected final void execute() {
-        
+
         if (this.member == null) {
             final String reply = useTranslator("GUILDONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
@@ -107,8 +105,8 @@ public class RegisterCommand extends BaseCmd {
         boolean javaValid = this.validatePseudo(event, pseudoJava, "Java");
         boolean bedrockValid = this.validatePseudo(event, pseudoBedrock, "Bedrock");
         if (!javaValid && !bedrockValid) {
-            reply =  useTranslator("REGISTER_CMD_FORMAT_ERROR") + "\n" + 
-                useTranslator("INFO_CHECK_YOUR_MSG");
+            reply = useTranslator("REGISTER_CMD_FORMAT_ERROR") + "\n" +
+                    useTranslator("INFO_CHECK_YOUR_MSG");
 
             event.reply(reply).setEphemeral(true).submit(true);
 
@@ -162,7 +160,7 @@ public class RegisterCommand extends BaseCmd {
 
                 else if (!isAllowed) {
                     replyJava = String.format(useTranslator("WARN_NOT_ACCEPTED_YET"), "Java") + "\n"
-                        + useTranslator("INFO_CONTACT_ADMIN_MORE_INFO") ;
+                            + useTranslator("INFO_CONTACT_ADMIN_MORE_INFO");
                 }
 
                 else if (isAllowed && isConfirmed) {
@@ -193,7 +191,7 @@ public class RegisterCommand extends BaseCmd {
 
                 else if (!isAllowed) {
                     replyJava = String.format(useTranslator("WARN_NOT_ACCEPTED_YET"), "Bedrock") + "\n"
-                        + useTranslator("INFO_CONTACT_ADMIN_MORE_INFO") ;
+                            + useTranslator("INFO_CONTACT_ADMIN_MORE_INFO");
                 }
 
                 else if (isAllowed && isConfirmed) {
@@ -206,84 +204,30 @@ public class RegisterCommand extends BaseCmd {
                 }
             }
         }
-        
-        if(!sendJava && !sendBedrock) {
+
+        if (!sendJava && !sendBedrock) {
             event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).submit(true);
             tx.setData("state", "Registration request was aborted.");
             tx.finish(SpanStatus.PERMISSION_DENIED);
             return;
         }
 
-        if(sendJava == true) {
-            EmbedBuilder embeded = this.getRequestEmbeded(event, pseudoJava, javaUuid, "Java");
-            GuildManager gManager = this.plugin.getGuildManager();
-
-            gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
-                    .setActionRows(ActionRow.of(
-                            Button.primary(this.acceptId + " " + pseudoJava + " " +
-                                    discordId + " " + javaUuid, "✔️ Accepter"),
-                            Button.secondary(this.rejectId + " " + pseudoJava + " " +
-                                    discordId + " " + javaUuid, "❌ Refuser")))
-                    .submit(true);
-
-            replyJava = "**Votre demande d'accès `Java` pour `" + pseudoJava
-                    + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**";
+        if (sendJava == true) {
+            submitRequestEmbeded(discordId, pseudoJava, javaUuid, "Java");
+            replyJava = String.format(useTranslator("INFO_ACCES_REQUESTED"), "Java", pseudoJava)
+                    + "\n" + useTranslator("INFO_PLZ_AWAIT");
         }
 
-        if(sendBedrock == true) {
-            EmbedBuilder embeded = this.getRequestEmbeded(event, pseudoBedrock, bedrockUuid, "Bedrock");
-            GuildManager gManager = this.plugin.getGuildManager();
-
-            gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
-                    .setActionRows(ActionRow.of(
-                            Button.primary(this.acceptId + " " + pseudoBedrock + " " +
-                                    discordId + " " + bedrockUuid, "✔️ Accepter"),
-                            Button.secondary(this.rejectId + " " + pseudoBedrock + " " +
-                                    discordId + " " + bedrockUuid, "❌ Refuser")))
-                    .submit(true);
-
-            replyBedrock = "**Votre demande d'accès `Bedrock` pour `" + pseudoBedrock
-                    + "` a été envoyé aux modérateurs.**\n**Merci de patienter jusqu'à une prise de décision de leur part.**";
+        if (sendBedrock == true) {
+            submitRequestEmbeded(discordId, pseudoBedrock, bedrockUuid, "Bedrock");
+            replyBedrock = String.format(useTranslator("INFO_ACCES_REQUESTED"), "Bedrock", pseudoBedrock)
+                    + "\n" + useTranslator("INFO_PLZ_AWAIT");
         }
-
 
         event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).submit(true);
         tx.setData("state", "Registration request sent succesfully.");
         tx.finish(SpanStatus.OK);
 
-    }
-
-    private boolean validatePseudo(SlashCommandEvent event, String pseudo, String type) {
-        if(pseudo == null) {
-            return false;
-        }
-
-        if (!Helper.isMcPseudo(pseudo)) {
-            final String errMsg = "❌ Votre pseudo `" + type + "`: `" + pseudo
-                    + "` devrait comporter entre `3` et `16` caractères" +
-                    "\n et ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`";
-
-            this.sendMsgToUser(errMsg);
-            return false;
-        }
-        return true;
-    }
-
-    private EmbedBuilder getRequestEmbeded(SlashCommandEvent event, String pseudo, String uuid, String type) {
-
-        final String avatarUrl = type == "Bedrock"
-                ? "https://api.tydiumcraft.net/v1/players/skin?uuid=" + uuid + "&size=72"
-                : type == "Java"
-                        ? "https://mc-heads.net/body/" + uuid + "/72"
-                        : "https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg";
-
-        return new EmbedBuilder().setTitle("Un joueur `" + type + "` veut s'enregister sur votre serveur `Minecraft®`")
-                .setImage(avatarUrl)
-                .addField("Pseudo", pseudo, true)
-                .addField("Discord", "<@" + member.getId() + ">", true)
-                .setThumbnail(eventUser.getAvatarUrl())
-                .setFooter("ID: " + member.getId() + "\nUUID: " + uuid)
-                .setColor(new Color(0x9b7676));
     }
 
     @Override
@@ -295,29 +239,38 @@ public class RegisterCommand extends BaseCmd {
             return;
         }
 
+        this.user = null;
+        this.cmdLang = null;
+        this.event = null;
+        this.member = null;
+        this.eventUser = null;
+        this.channel = null;
+
         try {
+            this.member = event.getMember();
+            this.channel = event.getChannel();
             final GuildManager gManager = this.plugin.getGuildManager();
-            if (!event.getChannel().getId().equals(gManager.adminChannelId)
-                    && !event.getChannel().getId().equals(gManager.whitelistChannelId)) {
+
+            if (!channel.getId().equals(gManager.adminChannelId)
+                    && !channel.getId().equals(gManager.whitelistChannelId)) {
 
                 tx.setData("state", "bad channel -> stoping event");
                 tx.finish(SpanStatus.OK);
                 return;
             }
 
-            final Member respMember = event.getMember();
-            final boolean isAuthorized = gManager.isOwner(respMember.getId())
-                    || gManager.isAdmin(respMember.getId())
-                    || gManager.isModo(respMember.getId())
-                    || gManager.isDev(respMember.getId());
+            final boolean isAuthorized = gManager.isOwner(member.getId())
+                    || gManager.isAdmin(member.getId())
+                    || gManager.isModo(member.getId())
+                    || gManager.isDev(member.getId());
 
             if (!isAuthorized) {
-                event.reply("Dommage vous n'avez pas les accès...¯\\_(ツ)_/¯")
+                event.reply(LOCAL.useDefault("ROLE_NOT_ALLOWED"))
                         .setEphemeral(true).submit(true);
 
-                throw new Exception("Commande répondu pas un role non authorisé." +
-                        "\nUser name: <@" + respMember + ">" +
-                        "\nChannel name:" + event.getChannel().getName() +
+                throw new Exception("🔒 Commande répondu pas un role non authorisé. 🔒" +
+                        "\nUser name: <@" + member + ">" +
+                        "\nChannel name:" + channel.getName() +
                         "\nMessage id: " + event.getMessage().getId());
             }
 
@@ -348,7 +301,6 @@ public class RegisterCommand extends BaseCmd {
             tx.finish(SpanStatus.OK);
 
         } catch (Exception e) {
-
             if (child != null) {
                 child.setData("state", "unkwown");
                 child.finish();
@@ -361,23 +313,67 @@ public class RegisterCommand extends BaseCmd {
         }
     }
 
+    private void submitRequestEmbeded(String discordId, String pseudo, String uuid, String type) {
+        EmbedBuilder embeded = this.getRequestEmbeded(event, pseudo, uuid, type);
+        GuildManager gManager = this.plugin.getGuildManager();
+
+        gManager.getAdminChannel().sendMessageEmbeds(embeded.build())
+                .setActionRows(ActionRow.of(
+                        Button.primary(this.acceptId + " " + pseudo + " " + discordId + " " + uuid,
+                                LOCAL.useDefault("BTN_ACCEPT")),
+                        Button.secondary(this.rejectId + " " + pseudo + " " + discordId + " " + uuid,
+                                LOCAL.useDefault("BTN_REFUSE"))))
+                .submit(true);
+    }
+
+    private boolean validatePseudo(SlashCommandEvent event, String pseudo, String type) {
+        if (pseudo == null) {
+            return false;
+        }
+
+        if (!Helper.isMcPseudo(pseudo)) {
+            final String errMsg = String.format(useTranslator("WARN_BAD_PSEUDO_FORMAT_EXPLAIN"), type, pseudo);
+            this.sendMsgToUser(errMsg);
+            return false;
+        }
+        return true;
+    }
+
+    private EmbedBuilder getRequestEmbeded(SlashCommandEvent event, String pseudo, String uuid, String type) {
+
+        final String avatarUrl = type == "Bedrock"
+                ? "https://api.tydiumcraft.net/v1/players/skin?uuid=" + uuid + "&size=72"
+                : type == "Java"
+                        ? "https://mc-heads.net/body/" + uuid + "/72"
+                        : "https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg";
+
+        final String title = String.format(LOCAL.useDefault("INFO_REGISTER_REQUEST"), type);
+        return new EmbedBuilder().setTitle(title)
+                .setImage(avatarUrl)
+                .addField("Pseudo", pseudo, true)
+                .addField("Discord", "<@" + member.getId() + ">", true)
+                .setThumbnail(eventUser.getAvatarUrl())
+                .setFooter("ID: " + member.getId() + "\nUUID: " + uuid)
+                .setColor(new Color(0x9b7676));
+    }
+
     private EmbedBuilder getAcceptedEmbeded(String pseudo, String discordId) {
         return new EmbedBuilder()
-                .setTitle("Demande acceptée")
+                .setTitle(LOCAL.useDefault("INFO_ACCEPTED_REQUEST"))
                 .addField("Pseudo", pseudo, true)
-                .addField("Discord", "<@" + discordId + ">", true)
-                .setThumbnail(this.plugin.getDiscordManager().jda
-                        .getUserById(discordId).getAvatarUrl())
+                .addField("Membre", "<@" + discordId + ">", true)
+                .setThumbnail(this.plugin.getDiscordManager()
+                    .jda.getUserById(discordId).getAvatarUrl())
                 .setFooter("ID " + discordId)
                 .setColor(new Color(0x484d95));
     }
 
     private EmbedBuilder getRejectedEmbeded(String pseudo, String discordId) {
-        return new EmbedBuilder().setTitle("Demande refusée")
+        return new EmbedBuilder().setTitle(LOCAL.useDefault("INFO_REJECTED_REQUEST"))
                 .addField("Pseudo", pseudo, true)
-                .addField("Discord", "<@" + discordId + ">", true)
-                .setThumbnail(this.plugin.getDiscordManager().jda
-                        .getUserById(discordId).getAvatarUrl())
+                .addField("Membre", "<@" + discordId + ">", true)
+                .setThumbnail(this.plugin.getDiscordManager()
+                    .jda.getUserById(discordId).getAvatarUrl())
                 .setFooter("ID " + discordId)
                 .setColor(new Color(0x44474d));
     }
@@ -398,41 +394,44 @@ public class RegisterCommand extends BaseCmd {
                     : null;
 
             final boolean confirmed = hoursToConfirm == null || hoursToConfirm < 1;
-            final boolean ok = plugin.getBukkitManager().setPlayerAsAllowed(newUser.getId(), messageId, true,
+            final boolean ok = plugin.getBukkitManager().setPlayerAsAllowed(
+                    newUser.getId(), messageId, true,
                     moderatorId, uuid,
                     confirmed, pseudo);
 
             if (!ok) {
-                event.reply("❌**Le joueur n'a pas pu être enregistrer réessayez...**")
-                        .setEphemeral(true).submit(true);
+                event.reply(LOCAL.useDefault("CMD_ERROR") 
+                    + " --> " + LOCAL.useDefault("WARN_REGISTRATIONDELAY"))
+                    .setEphemeral(true).submit(true);
                 return;
             }
 
+            final String label = String.format(LOCAL.useDefault("INFO_ACCEPTED_BY"), member.getEffectiveName());
             event.getMessage().editMessageEmbeds(newMsgContent.build())
                     .setActionRow(net.dv8tion.jda.api.interactions.components.Button
-                            .primary(this.acceptId_conf, "✔️ Accepter par " + event.getMember().getEffectiveName())
+                            .primary(this.acceptId_conf, label)
                             .asDisabled())
                     .submit(true);
 
             final String avatarUrl = plugin.getBukkitManager().getAvatarUrl(uuid, "72");
-            final String newMsg = "**Nous te souhaitons bienvenue, <@" + discordId + "> :: `" + pseudo
-                    + "` Enjoy  ⛏🧱 !!!**\n" + avatarUrl;
+            final String newMsg = String.format(LOCAL.useDefault("INFO_WELCOME_USER"), discordId, pseudo) + "\n" + avatarUrl;
             gManager.getWelcomeChannel().sendMessage(newMsg).submit(true);
 
+
+            
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 String msg = newMsg;
                 if (hoursToConfirm > 0) {
-                    msg = newMsg + "\n**Vous avez `" + hoursToConfirm
-                            + "h` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer votre compte`.**";
+                    msg = newMsg + "\n" + String.format(translateBy("INFO_TIME_TO_CONFIRM", user.getLang()), hoursToConfirm);
                 }
                 channel.sendMessage(msg).submit(true);
             });
 
-            event.reply("✔️ **Le joueur <@" + discordId + "> a bien été approuvé avec le pseudo: `" + pseudo + "`.**")
+            event.reply(String.format(LOCAL.useDefault("INFO_USER_WAS_ACCEPTED"), discordId, pseudo))
                     .setEphemeral(true).submit(true);
 
         } catch (Exception e) {
-            event.reply("❌**Une erreur est survenu, contactez un admin !!!**")
+            event.reply(LOCAL.useDefault("CMD_ERROR"))
                     .setEphemeral(true).submit(true);
             SentryService.captureEx(e);
         }
@@ -441,24 +440,24 @@ public class RegisterCommand extends BaseCmd {
     // Reject
     private void handleRejected(ButtonClickEvent event, String discordId, String pseudo, String uuid) {
         try {
+            plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
             final EmbedBuilder newMsgContent = this.getRejectedEmbeded(pseudo, discordId);
 
+            final String label = String.format(LOCAL.useDefault("INFO_REJECTED_BY"), member.getEffectiveName());
             event.getMessage().editMessageEmbeds(newMsgContent.build())
                     .setActionRow(net.dv8tion.jda.api.interactions.components.Button
-                            .primary(this.rejectId_conf, "❌ Refuser par " + event.getMember().getEffectiveName())
+                            .primary(this.rejectId_conf, label)
                             .asDisabled())
                     .submit(true);
 
-            final String newMsg = "**❌ Votre enregistrement sur le serveur a été refusé.**";
+            final String newMsg = LOCAL.useDefault("INFO_REJECTED_USER");
 
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 channel.sendMessage(newMsg).submit(true);
             });
 
-            event.reply("❌ **Le joueur <@" + discordId + "> a bien été refusé pour le pseudo: `" + pseudo + "`.**")
+            event.reply(String.format(LOCAL.useDefault("INFO_USER_WAS_REJECTED"), discordId, pseudo))
                     .setEphemeral(true).submit(true);
-
-            plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
 
         } catch (Exception e) {
             SentryService.captureEx(e);

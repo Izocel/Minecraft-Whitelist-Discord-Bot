@@ -31,6 +31,10 @@ public enum Fr {
     TIME_METEO("Météo et temps"),
     SOME_EXAMPLES("Voici des examples"),
 
+    //BUTTONS
+    BTN_ACCEPT("✔️ Accepter"),
+    BTN_REFUSE("❌ Refuser"),
+
     //REPLIES
     LANG_CHANGED("Votre langue a été modifié"),
     LANG_CURRENT("Votre langue est actuellement"),
@@ -74,11 +78,24 @@ public enum Fr {
     INFO_ALREADY_ACCEPTED_CONNECT("**Votre compte `%s` est déjà accepté sur le serveur...**\n" + "Il suffit de vous connecter. `Enjoy` ⛏🧱"),
     INFO_MUST_CONFIRM_ACCOUNT("**Une confirmation de votre compte `%s` est nécéssaire.**\n"),
     INFO_TIME_TO_CONFIRM_SINCE("Pour confimer votre compte vous aviez `%ih` depuis l'aprobation pour vous connecter au server Mincecraft®\n"),
+    INFO_ACCES_REQUESTED("**Votre demande d'accès `%s` pour `%s` a été envoyé aux modérateurs.**"),
+    INFO_PLZ_AWAIT("**Merci de patienter jusqu'à une prise de décision de leur part.**"),
+    INFO_REGISTER_REQUEST("Un joueur `%s` veut s'enregister sur votre serveur `Minecraft®`"),
+    INFO_ACCEPTED_BY("✔️ Accepté par: %s"),
+    INFO_REJECTED_BY("❌ Refusé par: %s"),
+    INFO_ACCEPTED_REQUEST("Demande acceptée"),
+    INFO_REJECTED_REQUEST("Demande refusée"),
+    INFO_WELCOME_USER("**Nous te souhaitons bienvenue, <@%s> :: `%s`.Enjoy  ⛏🧱 !!!**"),
+    INFO_TIME_TO_CONFIRM("**Vous avez `%sh` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer` votre compte.**"),
+    INFO_USER_WAS_ACCEPTED("✔️ **Le joueur <@%s> a bien été approuvé pour le pseudo: `%s`.**"),
+    INFO_USER_WAS_REJECTED("❌ **Le joueur <@%s> a bien été refusé pour le pseudo: `%s`.**"),
+    INFO_REJECTED_USER("**❌ Votre enregistrement sur le serveur a été refusé.**"),
 
     //WARNS
     WARN_REGISTRATIONDELAY("⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."),
     WARN_ALREADTY_REGISTERED("⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**"),
     WARN_NOT_ACCEPTED_YET("⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**"),
+    WARN_BAD_PSEUDO_FORMAT_EXPLAIN("⚠️ Votre pseudo `%s`: `%s`, devrait comporter entre `3` et `16` caractères.\nIl ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`."),
 
     //ERRORS
     ERROR("❌ ERREUR"),
@@ -92,7 +109,6 @@ public enum Fr {
     REGISTER_CMD_FORMAT_ERROR("❌ Vos `identifiants` comportaient des `erreurs` de format."),
     REGISTER_CMD_NOT_FOUND_UUID("❌ **Votre UUID `%s` n'a pas pu être retrouvés sur les serveurs...**"),
     REGISTER_CMD_ERROR("❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**"),
-
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),
@@ -120,6 +136,7 @@ public enum Fr {
     TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."),
     GUILDONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels de guild utilisant ce plugin."),
     USERONLY_CMD("❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®."),
+    ROLE_NOT_ALLOWED("🔒 Dommage vous n'avez pas les roles nécéssaires... 🔒"),
 
     //MISC
     SERVER_IS_UP("Le serveur est up and running boyyssss!"),

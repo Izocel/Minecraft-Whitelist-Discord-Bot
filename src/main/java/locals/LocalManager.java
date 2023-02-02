@@ -52,6 +52,10 @@ public class LocalManager {
         return this.nextInteractionLang;
     }
 
+    public final String useDefault(String key) {
+        return this.translateBy(key, this.defaultLang);
+    }
+
     public final String translate(String key) {
 
         if (key.length() < 1) {
