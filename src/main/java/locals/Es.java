@@ -68,9 +68,16 @@ public enum Es {
     //INFOS
     INFO_LEGITIMATE("Si cette demande vous semble illégitime, contactez un administrateur!!!"), // à traduire
     INFO_TRYREGISTERAGAIN("Essayez de refaire une demande d'enregistrment sur Discord®."), // à traduire
+    INFO_CHECK_YOUR_MSG("Voir les détails dans vos messages privés."), // à traduire
+    INFO_CONTACT_ADMIN_MORE_INFO("Pour en s'avoir d'avantage, contactez un administrateur directement..."), // à traduire
+    INFO_ALREADY_ACCEPTED_CONNECT("**Votre compte `%s` est déjà accepté sur le serveur...**\n" + "Il suffit de vous connecter. `Enjoy` ⛏🧱"), // à traduire
+    INFO_MUST_CONFIRM_ACCOUNT("**Une confirmation de votre compte `%s` est nécéssaire.**\n"), // à traduire
+    INFO_TIME_TO_CONFIRM_SINCE("Pour confimer votre compte vous aviez `%ih` depuis l'aprobation pour vous connecter au server Mincecraft®\n"), // à traduire
 
     //WARNS
-    WARN_REGISTRATIONDELAY("❌ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."), // à traduire
+    WARN_REGISTRATIONDELAY("⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."), // à traduire
+    WARN_ALREADTY_REGISTERED("⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**"), // à traduire
+    WARN_NOT_ACCEPTED_YET("⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**"), // à traduire
 
     //ERRORS
     ERROR("❌ ERREUR"), // à traduire
@@ -80,6 +87,10 @@ public enum Es {
     CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"), // à traduire
     LOOKUP_ERROR("Cette valeur de recherche n'est pas valide..."), // à traduire
     LOOKUP_PARAM_ERROR("Vous devez choisir un type de recherche valide"), // à traduire
+    REGISTER_CMD_PARAM_ERROR("Vous devez fournir au moins un pseudo pour utiliser cette commande..."), // à traduire
+    REGISTER_CMD_FORMAT_ERROR("❌ Vos `identifiants` comportaient des `erreurs` de format."), // à traduire
+    REGISTER_CMD_NOT_FOUND_UUID("❌ **Votre UUID `%s` n'a pas pu être retrouvés sur les serveurs...**"), // à traduire
+    REGISTER_CMD_ERROR("❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**"), // à traduire
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"), // à traduire

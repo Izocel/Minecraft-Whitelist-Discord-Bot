@@ -69,9 +69,16 @@ public enum Fr {
     //INFOS
     INFO_LEGITIMATE("Si cette demande vous semble illégitime, contactez un administrateur!!!"),
     INFO_TRYREGISTERAGAIN("Essayez de refaire une demande d'enregistrment sur Discord®."),
+    INFO_CHECK_YOUR_MSG("Voir les détails dans vos messages privés."),
+    INFO_CONTACT_ADMIN_MORE_INFO("Pour en s'avoir d'avantage, contactez un administrateur directement..."),
+    INFO_ALREADY_ACCEPTED_CONNECT("**Votre compte `%s` est déjà accepté sur le serveur...**\n" + "Il suffit de vous connecter. `Enjoy` ⛏🧱"),
+    INFO_MUST_CONFIRM_ACCOUNT("**Une confirmation de votre compte `%s` est nécéssaire.**\n"),
+    INFO_TIME_TO_CONFIRM_SINCE("Pour confimer votre compte vous aviez `%ih` depuis l'aprobation pour vous connecter au server Mincecraft®\n"),
 
     //WARNS
-    WARN_REGISTRATIONDELAY("❌ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."),
+    WARN_REGISTRATIONDELAY("⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."),
+    WARN_ALREADTY_REGISTERED("⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**"),
+    WARN_NOT_ACCEPTED_YET("⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**"),
 
     //ERRORS
     ERROR("❌ ERREUR"),
@@ -81,6 +88,11 @@ public enum Fr {
     CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"),
     LOOKUP_ERROR("Cette valeur de recherche n'est pas valide..."),
     LOOKUP_PARAM_ERROR("Vous devez choisir un type de rcherche valide"),
+    REGISTER_CMD_PARAM_ERROR("Vous devez fournir au moins un pseudo pour utiliser cette commande..."),
+    REGISTER_CMD_FORMAT_ERROR("❌ Vos `identifiants` comportaient des `erreurs` de format."),
+    REGISTER_CMD_NOT_FOUND_UUID("❌ **Votre UUID `%s` n'a pas pu être retrouvés sur les serveurs...**"),
+    REGISTER_CMD_ERROR("❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**"),
+
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),

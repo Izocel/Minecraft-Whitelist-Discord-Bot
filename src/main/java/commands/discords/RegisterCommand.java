@@ -68,7 +68,7 @@ public class RegisterCommand extends BaseCmd {
     protected final void execute() {
         
         if (this.member == null) {
-            final String reply = LOCAL.translate("GUILDONLY_CMD");
+            final String reply = useTranslator("GUILDONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "guild reserved");
             tx.finish(SpanStatus.UNAVAILABLE);
@@ -85,7 +85,7 @@ public class RegisterCommand extends BaseCmd {
         final OptionMapping bedOpt = event.getOption(LOCAL.translate(KEY_PARAM_BEDR));
 
         if (javaOpt == null && bedOpt == null) {
-            event.reply("❌**Vous devez fournir au moins un pseudo pour utiliser cette commande...**")
+            event.reply("❌**" + useTranslator("REGISTER_CMD_PARAM_ERROR") + "**")
                     .setEphemeral(true).submit(true);
 
             tx.setData("state", "Empty pseudo credentials");
@@ -96,7 +96,7 @@ public class RegisterCommand extends BaseCmd {
         final String pseudoJava = javaOpt != null ? javaOpt.getAsString() : null;
         final String pseudoBedrock = bedOpt != null ? bedOpt.getAsString() : null;
         if (pseudoJava == null && pseudoBedrock == null) {
-            event.reply("❌**Vos pseudo n'ont pas pu être retrouvés dans la commande...**")
+            event.reply("❌**" + useTranslator("REGISTER_CMD_PARAM_ERROR") + "**")
                     .setEphemeral(true).submit(true);
 
             tx.setData("state", "User-Mc-Data not found");
@@ -107,8 +107,8 @@ public class RegisterCommand extends BaseCmd {
         boolean javaValid = this.validatePseudo(event, pseudoJava, "Java");
         boolean bedrockValid = this.validatePseudo(event, pseudoBedrock, "Bedrock");
         if (!javaValid && !bedrockValid) {
-            reply = "❌ Vos `identifiants` comportaient des `erreurs` de format.\n" + 
-                "Voir les détails dans vos messages privés.";
+            reply =  useTranslator("REGISTER_CMD_FORMAT_ERROR") + "\n" + 
+                useTranslator("INFO_CHECK_YOUR_MSG");
 
             event.reply(reply).setEphemeral(true).submit(true);
 
@@ -120,14 +120,14 @@ public class RegisterCommand extends BaseCmd {
         if (pseudoJava != null) {
             javaUuid = PlayerDbApi.getMinecraftUUID(pseudoJava);
             if (javaUuid == null) {
-                replyJava = "❌ **Votre UUID `Java` n'a pas pu être retrouvés sur les serveurs...**";
+                replyJava = String.format(useTranslator("REGISTER_CMD_NOT_FOUND_UUID"), "Java");
             }
         }
         if (pseudoBedrock != null) {
             bedrockUuid = PlayerDbApi.getXboxUUID(pseudoBedrock);
 
             if (bedrockUuid == null) {
-                replyBedrock = "❌ **Votre UUID `Bedrock` n'a pas pu être retrouvés sur les serveurs...**";
+                replyJava = String.format(useTranslator("REGISTER_CMD_NOT_FOUND_UUID"), "Bedrock");
             }
         }
 
@@ -148,7 +148,7 @@ public class RegisterCommand extends BaseCmd {
         boolean sendJava = false;
         if (javaUuid != null) {
 
-            replyJava = "❌ **Désoler, l'enregistrement pour votre pseudo Java ne c'est pas bien passé.**";
+            replyJava = String.format(useTranslator("REGISTER_CMD_ERROR"), "Java");
             JavaData jData = DaoManager.getJavaDataDao().findWithUuid(javaUuid);
             sendJava = jData == null;
 
@@ -157,23 +157,21 @@ public class RegisterCommand extends BaseCmd {
                 final boolean isConfirmed = jData.isConfirmed();
 
                 if (jData.getUserId() != user.getId()) {
-                    replyJava = "❌ **Ce pseudo Java est déjà enregistrer par un autre joueur**";
+                    replyJava = String.format(useTranslator("WARN_ALREADTY_REGISTERED"), "Java");
                 }
 
                 else if (!isAllowed) {
-                    replyJava = "❌ **Ce compte Java n'a pas encore été accepté sur le serveur.**\n" +
-                            "Pour en s'avoir d'avantage, contactez un administrateur directement...";
+                    replyJava = String.format(useTranslator("WARN_NOT_ACCEPTED_YET"), "Java") + "\n"
+                        + useTranslator("INFO_CONTACT_ADMIN_MORE_INFO") ;
                 }
 
                 else if (isAllowed && isConfirmed) {
-                    replyJava = "**Votre compte Java est déjà accepté sur le serveur...**\n" +
-                            "Il suffit de vous connecter. `Enjoy` ⛏🧱";
+                    replyJava = String.format(useTranslator("INFO_ALREADY_ACCEPTED_CONNECT"), "Java");
                 }
 
                 else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                    replyJava = "**Une confirmation de votre compte Java est nécéssaire.**\n" +
-                            "Pour confimer votre compte vous aviez `" + hoursToConfirm
-                            + "h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
+                    replyJava = String.format(useTranslator(""), "Java") +
+                            String.format(useTranslator("INFO_TIME_TO_CONFIRM_SINCE"), hoursToConfirm);
                 }
             }
         }
@@ -181,7 +179,7 @@ public class RegisterCommand extends BaseCmd {
         boolean sendBedrock = false;
         if (bedrockUuid != null) {
 
-            replyBedrock = "❌ **Désoler, l'enregistrement pour votre pseudo Bedrock ne c'est pas bien passé.**";
+            replyJava = String.format(useTranslator("REGISTER_CMD_ERROR"), "Bedrock");
             BedrockData bData = DaoManager.getBedrockDataDao().findWithUuid(bedrockUuid);
             sendBedrock = bData == null;
 
@@ -190,29 +188,24 @@ public class RegisterCommand extends BaseCmd {
                 final boolean isConfirmed = bData.isConfirmed();
 
                 if (bData.getUserId() != user.getId()) {
-                    replyBedrock = "❌ **Ce pseudo Bedrock est déjà enregistrer par un autre joueur**";
+                    replyJava = String.format(useTranslator("WARN_ALREADTY_REGISTERED"), "Bedrock");
                 }
 
                 else if (!isAllowed) {
-                    replyBedrock = "❌ **Ce compte Bedrock n'a pas encore été accepté sur le serveur.**\n" +
-                            "Pour en s'avoir d'avantage, contactez un administrateur directement...";
+                    replyJava = String.format(useTranslator("WARN_NOT_ACCEPTED_YET"), "Bedrock") + "\n"
+                        + useTranslator("INFO_CONTACT_ADMIN_MORE_INFO") ;
                 }
 
                 else if (isAllowed && isConfirmed) {
-                    replyBedrock = "**Votre compte Bedrock est déjà accepté sur le serveur...**\n" +
-                            "Il suffit de vous connecter. `Enjoy` ⛏🧱";
-
+                    replyJava = String.format(useTranslator("INFO_ALREADY_ACCEPTED_CONNECT"), "Bedrock");
                 }
 
                 else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                    replyBedrock = "**Une confirmation de votre compte Bedrock est nécéssaire.**\n" +
-                            "Pour confimer votre compte vous aviez `" + hoursToConfirm
-                            + "h` depuis l'aprobation pour vous connecter au server Mincecraft®\n";
+                    replyJava = String.format(useTranslator(""), "Bedrock") +
+                            String.format(useTranslator("INFO_TIME_TO_CONFIRM_SINCE"), hoursToConfirm);
                 }
-
             }
         }
-        
         
         if(!sendJava && !sendBedrock) {
             event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).submit(true);

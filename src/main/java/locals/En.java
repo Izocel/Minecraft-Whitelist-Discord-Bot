@@ -68,9 +68,16 @@ public enum En {
     //INFOS
     INFO_LEGITIMATE("If this request seems illegitimate to you, contact an administrator!!!"),
     INFO_TRYREGISTERAGAIN("Try to do a registration request on Discord®."),
+    INFO_CHECK_YOUR_MSG("See more deetails in your private messages."),
+    INFO_CONTACT_ADMIN_MORE_INFO("To get more informations, contact an admin directly..."),
+    INFO_ALREADY_ACCEPTED_CONNECT("**Your `%s` account is already registered...**\n" + "You can simply join it now. `Enjoy` ⛏🧱"),
+    INFO_MUST_CONFIRM_ACCOUNT("**A confrimation for your `%s` account is needed.**\n"),
+    INFO_TIME_TO_CONFIRM_SINCE("To confirm your account, you had `%ih` since the approbation, and connect to the Mincecraft® server\n"),
 
     //WARNS
-    WARN_REGISTRATIONDELAY("❌ You're already registered, but the delay to confirm this account is overdue..."),
+    WARN_REGISTRATIONDELAY("⚠️ You're already registered, but the delay to confirm this account is overdue..."),
+    WARN_ALREADTY_REGISTERED("⚠️ **This `%s` pseudo is already registered to another player**"),
+    WARN_NOT_ACCEPTED_YET("⚠️ **This `%s` account was not yet accepted on the server by admins.**"),
 
     //ERRORS
     ERROR("❌ ERROR"),
@@ -80,6 +87,10 @@ public enum En {
     CMD_ERROR("❌ Sorry... an error as occured during this request!!!"),
     LOOKUP_ERROR("This lookup value is not valid..."),
     LOOKUP_PARAM_ERROR("You must choose a valid lookup type"),
+    REGISTER_CMD_PARAM_ERROR("You must provide at least one pseudo for this command..."),
+    REGISTER_CMD_FORMAT_ERROR("❌ Your `identifications` contains format `errors`."),
+    REGISTER_CMD_NOT_FOUND_UUID("❌ **Your `%s` UUID could not be found on the servers...**"),
+    REGISTER_CMD_ERROR("❌ **Sorry, the registration for your `%s` account, could not be completed.**"),
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),
