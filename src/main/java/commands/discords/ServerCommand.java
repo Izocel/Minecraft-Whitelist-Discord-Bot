@@ -58,8 +58,6 @@ public class ServerCommand extends BaseCmd {
         final String title = "** 📝`" + guildName + "` | " + informationField + " ** ";
 
         event.reply(title + this.plugin.getBukkitManager().getServerInfoString(this.cmdLang) +
-                "\n\n**" + serverField + ": ** \n\t" + getPlayersOnline() +
-                "\n\n**" + worldsField + ": **" + getWorldsInfos() +
                 "\n**" + devSField + ": <@272924120142970892> & <@258071819108614144> 👨‍💻👨‍💻"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
