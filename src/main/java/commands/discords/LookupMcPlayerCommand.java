@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import io.sentry.SpanStatus;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import services.api.PlayerDbApi;
 
@@ -36,9 +37,9 @@ public class LookupMcPlayerCommand extends BaseCmd {
 
     @Override
     protected final void execute() {
-
-        if (this.member == null) {
-            final String reply = LOCAL.translate("GUILDONLY_CMD");
+        final ChannelType chanType = event.getChannel().getType();
+        if (chanType != ChannelType.TEXT && chanType != ChannelType.PRIVATE) {
+            final String reply = LOCAL.translate("TEXTONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "textual reserved");
             tx.finish(SpanStatus.UNAVAILABLE);
