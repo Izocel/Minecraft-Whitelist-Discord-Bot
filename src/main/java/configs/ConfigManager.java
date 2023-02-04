@@ -27,7 +27,7 @@ public final class ConfigManager {
     private final String mysqlUser="whitelist_je";
     private final String mysqlPass="@Whitelist_je2022";
     private final String mysqlDefTable="wje_users";
-    private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/";
+    private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
     private final String mysqlMaxConnection="15";
     private final String mysqlMaxConnectionIDLE="5";
 
