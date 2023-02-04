@@ -37,7 +37,7 @@ public class LookupMcPlayerCommand extends BaseCmd {
     @Override
     protected final void execute() {
 
-        if (!event.getChannel().getType().toString().equals("TEXTONLY_CMD")) {
+        if (this.member == null) {
             final String reply = LOCAL.translate("GUILDONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "textual reserved");
