@@ -422,7 +422,7 @@ public class RegisterCommand extends BaseCmd {
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 String msg = newMsg;
                 if (hoursToConfirm > 0) {
-                    msg = newMsg + "\n" + String.format(translateBy("INFO_TIME_TO_CONFIRM", user.getLang()), hoursToConfirm);
+                    msg = newMsg + "\n" + String.format(translateBy("INFO_TIME_TO_CONFIRM", newUser.getLang()), hoursToConfirm);
                 }
                 channel.sendMessage(msg).submit(true);
             });
