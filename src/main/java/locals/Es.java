@@ -31,6 +31,10 @@ public enum Es {
     TIME_METEO("Météo et temps"), // à traduire
     SOME_EXAMPLES("Voici des examples"), // à traduire
 
+    //BUTTONS
+    BTN_ACCEPT("✔️ Aceptar"),
+    BTN_REFUSE("❌ Rechazar"),
+
     //REPLIES
     LANG_CHANGED("Tu idioma fue cambiado"), // à traduire
     LANG_CURRENT("Su idioma es actualmente"), // à traduire
@@ -68,9 +72,29 @@ public enum Es {
     //INFOS
     INFO_LEGITIMATE("Si cette demande vous semble illégitime, contactez un administrateur!!!"), // à traduire
     INFO_TRYREGISTERAGAIN("Essayez de refaire une demande d'enregistrment sur Discord®."), // à traduire
+    INFO_CHECK_YOUR_MSG("Voir les détails dans vos messages privés."), // à traduire
+    INFO_CONTACT_ADMIN_MORE_INFO("Pour en s'avoir d'avantage, contactez un administrateur directement..."), // à traduire
+    INFO_ALREADY_ACCEPTED_CONNECT("**Votre compte `%s` est déjà accepté sur le serveur...**\n" + "Il suffit de vous connecter. `Enjoy` ⛏🧱"), // à traduire
+    INFO_MUST_CONFIRM_ACCOUNT("**Une confirmation de votre compte `%s` est nécéssaire.**\n"), // à traduire
+    INFO_TIME_TO_CONFIRM_SINCE("Pour confimer votre compte vous aviez `%ih` depuis l'aprobation pour vous connecter au server Mincecraft®\n"), // à traduire
+    INFO_ACCES_REQUESTED("**Votre demande d'accès `%s` pour `%s` a été envoyé aux modérateurs.**"), // à traduire
+    INFO_PLZ_AWAIT("**Merci de patienter jusqu'à une prise de décision de leur part.**"), // à traduire
+    INFO_REGISTER_REQUEST("Un joueur `%s` veut s'enregister sur votre serveur `Minecraft®`"), // à traduire
+    INFO_ACCEPTED_BY("✔️ Aceptado por: %s"),
+    INFO_REJECTED_BY("❌ Denegado por: %s"),
+    INFO_ACCEPTED_REQUEST("Petición aceptada"),
+    INFO_REJECTED_REQUEST("Solicitud rechazada"),
+    INFO_WELCOME_USER("**Nous te souhaitons bienvenue, <@%s> :: `%s`.Enjoy  ⛏🧱 !!!**"), // à traduire
+    INFO_TIME_TO_CONFIRM("**Vous avez `%sh` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer` votre compte.**"), // à traduire
+    INFO_USER_WAS_ACCEPTED("✔️ **Le joueur <@%s> a bien été approuvé pour le pseudo: `%s`.**"), // à traduire
+    INFO_USER_WAS_REJECTED("❌ **Le joueur <@%s> a bien été refusé pour le pseudo: `%s`.**"), // à traduire
+    INFO_REJECTED_USER("**❌ Votre enregistrement sur le serveur a été refusé.**"), // à traduire
 
     //WARNS
-    WARN_REGISTRATIONDELAY("❌ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."), // à traduire
+    WARN_REGISTRATIONDELAY("⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."), // à traduire
+    WARN_ALREADTY_REGISTERED("⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**"), // à traduire
+    WARN_NOT_ACCEPTED_YET("⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**"), // à traduire
+    WARN_BAD_PSEUDO_FORMAT_EXPLAIN("⚠️ Votre pseudo `%s`: `%s`, devrait comporter entre `3` et `16` caractères.\nIl ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`."), // à traduire
 
     //ERRORS
     ERROR("❌ ERREUR"), // à traduire
@@ -80,6 +104,10 @@ public enum Es {
     CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"), // à traduire
     LOOKUP_ERROR("Cette valeur de recherche n'est pas valide..."), // à traduire
     LOOKUP_PARAM_ERROR("Vous devez choisir un type de recherche valide"), // à traduire
+    REGISTER_CMD_PARAM_ERROR("Vous devez fournir au moins un pseudo pour utiliser cette commande..."), // à traduire
+    REGISTER_CMD_FORMAT_ERROR("❌ Vos `identifiants` comportaient des `erreurs` de format."), // à traduire
+    REGISTER_CMD_NOT_FOUND_UUID("❌ **Votre UUID `%s` n'a pas pu être retrouvés sur les serveurs...**"), // à traduire
+    REGISTER_CMD_ERROR("❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**"), // à traduire
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"), // à traduire
@@ -107,6 +135,7 @@ public enum Es {
     TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."), // à traduire
     GUILDONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuel de guild utilisant ce plugin."), // à traduire
     USERONLY_CMD("❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®."), // à traduire
+    ROLE_NOT_ALLOWED("🔒 Lástima que no tienes los roles necesarios... 🔒"),
 
     //MISC
     SERVER_IS_UP("Le serveur est up and running boyyssss!"), // à traduire

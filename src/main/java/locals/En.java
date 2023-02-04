@@ -31,6 +31,10 @@ public enum En {
     TIME_METEO("Meteo and time"),
     SOME_EXAMPLES("Here's some examples"),
 
+    //BUTTONS
+    BTN_ACCEPT("✔️ Accept"),
+    BTN_REFUSE("❌ Refuse"),    
+
     //REPLIES
     LANG_CHANGED("Your language was changed"),
     LANG_CURRENT("You current language is"),
@@ -68,9 +72,29 @@ public enum En {
     //INFOS
     INFO_LEGITIMATE("If this request seems illegitimate to you, contact an administrator!!!"),
     INFO_TRYREGISTERAGAIN("Try to do a registration request on Discord®."),
+    INFO_CHECK_YOUR_MSG("See more deetails in your private messages."),
+    INFO_CONTACT_ADMIN_MORE_INFO("To get more informations, contact an admin directly..."),
+    INFO_ALREADY_ACCEPTED_CONNECT("**Your `%s` account is already registered...**\n" + "You can simply join it now. `Enjoy` ⛏🧱"),
+    INFO_MUST_CONFIRM_ACCOUNT("**A confrimation for your `%s` account is needed.**\n"),
+    INFO_TIME_TO_CONFIRM_SINCE("To confirm your account, you had `%ih` since the approbation, and connect to the Mincecraft® server\n"),
+    INFO_ACCES_REQUESTED("**Your `%s` access request for `%s` was sent to moderators.**"),
+    INFO_PLZ_AWAIT("**Thank you for waiting until the approval by one of them.**"),
+    INFO_REGISTER_REQUEST("A `%s` player want to register on your `Minecraft®` server"),
+    INFO_ACCEPTED_BY("✔️ Accepted by: %s"),
+    INFO_REJECTED_BY("❌ Rejected by: %s"),
+    INFO_ACCEPTED_REQUEST("Request acepted"),
+    INFO_REJECTED_REQUEST("Request rejected"),
+    INFO_WELCOME_USER("**We are glad to welcome, <@%s> :: `%s`.Enjoy  ⛏🧱 !!!**"),
+    INFO_TIME_TO_CONFIRM("**You have `%sh` to connect to the `Minecraft®` server, and `confirm` your account.**"),
+    INFO_USER_WAS_ACCEPTED("✔️ **The player <@%s> was gently accepted for the pseudo: `%s`.**"),
+    INFO_USER_WAS_REJECTED("❌ **The player <@%s> was strongly refused for the pseudo: `%s`.**"),
+    INFO_REJECTED_USER("**❌ Your regitration on the server was rejected.**"),
 
     //WARNS
-    WARN_REGISTRATIONDELAY("❌ You're already registered, but the delay to confirm this account is overdue..."),
+    WARN_REGISTRATIONDELAY("⚠️ You're already registered, but the delay to confirm this account is overdue..."),
+    WARN_ALREADTY_REGISTERED("⚠️ **This `%s` pseudo is already registered to another player**"),
+    WARN_NOT_ACCEPTED_YET("⚠️ **This `%s` account was not yet accepted on the server by admins.**"),
+    WARN_BAD_PSEUDO_FORMAT_EXPLAIN("⚠️ Your `%s` pseudo: `%s`, should containt between `3` and `16` characters.\nIt should not contain specials characters except underscores `_` or dashes `-`."),
 
     //ERRORS
     ERROR("❌ ERROR"),
@@ -80,6 +104,10 @@ public enum En {
     CMD_ERROR("❌ Sorry... an error as occured during this request!!!"),
     LOOKUP_ERROR("This lookup value is not valid..."),
     LOOKUP_PARAM_ERROR("You must choose a valid lookup type"),
+    REGISTER_CMD_PARAM_ERROR("You must provide at least one pseudo for this command..."),
+    REGISTER_CMD_FORMAT_ERROR("❌ Your `identifications` contains format `errors`."),
+    REGISTER_CMD_NOT_FOUND_UUID("❌ **Your `%s` UUID could not be found on the servers...**"),
+    REGISTER_CMD_ERROR("❌ **Sorry, the registration for your `%s` account, could not be completed.**"),
 
     //MINECRAFT_CMD
     CMD_LINK("wje-link"),
@@ -107,6 +135,7 @@ public enum En {
     TEXTONLY_CMD("❌ This command is available only through textual channels."),
     GUILDONLY_CMD("❌ This command is available only through textual guild channels using this."),
     USERONLY_CMD("❌ This command id reserved for Discord® registered users only."),
+    ROLE_NOT_ALLOWED("🔒 Too bad you don't have the necessary roles... 🔒"),
 
     //MISC
     SERVER_IS_UP("The server is up and running boyyssss!"),
