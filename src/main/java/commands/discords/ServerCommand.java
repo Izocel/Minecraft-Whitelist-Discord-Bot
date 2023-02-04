@@ -115,7 +115,7 @@ public class ServerCommand extends BaseCmd {
     public String getPlayersOnline() {
         final int nbPlayers = Bukkit.getOnlinePlayers().size();
         final String title = useTranslator("SERVER_ACTIVITIES");
-        return "**" + title + "*\n\t`" +
+        return "**" + title + "**\n\t`" +
             (nbPlayers > 1 
                 ? nbPlayers + " " + useTranslator("CONNECTED_USERS")
                 : nbPlayers + " " + useTranslator("CONNECTED_USER")
