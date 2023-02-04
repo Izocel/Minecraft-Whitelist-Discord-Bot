@@ -414,7 +414,7 @@ public class RegisterCommand extends BaseCmd {
                     .submit(true);
 
             final String avatarUrl = plugin.getBukkitManager().getAvatarUrl(uuid, "72");
-            final String newMsg = String.format(LOCAL.useDefault("INFO_WELCOME_USER"), discordId, pseudo) + "\n" + avatarUrl;
+            final String newMsg = String.format(translateBy("INFO_WELCOME_USER", newUser.getLang()), discordId, pseudo) + "\n" + avatarUrl;
             gManager.getWelcomeChannel().sendMessage(newMsg).submit(true);
 
 
