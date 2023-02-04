@@ -414,7 +414,7 @@ public class RegisterCommand extends BaseCmd {
                     .submit(true);
 
             final String avatarUrl = plugin.getBukkitManager().getAvatarUrl(uuid, "72");
-            final String newMsg = String.format(LOCAL.useDefault("INFO_WELCOME_USER"), discordId, pseudo) + "\n" + avatarUrl;
+            final String newMsg = String.format(translateBy("INFO_WELCOME_USER", newUser.getLang()), discordId, pseudo) + "\n" + avatarUrl;
             gManager.getWelcomeChannel().sendMessage(newMsg).submit(true);
 
 
@@ -422,7 +422,7 @@ public class RegisterCommand extends BaseCmd {
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 String msg = newMsg;
                 if (hoursToConfirm > 0) {
-                    msg = newMsg + "\n" + String.format(translateBy("INFO_TIME_TO_CONFIRM", user.getLang()), hoursToConfirm);
+                    msg = newMsg + "\n" + String.format(translateBy("INFO_TIME_TO_CONFIRM", newUser.getLang()), hoursToConfirm);
                 }
                 channel.sendMessage(msg).submit(true);
             });

@@ -21,11 +21,11 @@ public final class ConfigManager {
     private final String discordModeratorRoleId="1021054284214833182";
     private final String discordDevRoleId="1021054460438523976";
     
-    private final String mysqlHost="localhost";
+    private final String mysqlHost="10.8.0.1";
     private final String mysqlPort="3306";
-    private final String mysqlDb="test_wje";
+    private final String mysqlDb="whitelist_je";
     private final String mysqlUser="whitelist_je";
-    private final String mysqlPass="@whitelist_je2022";
+    private final String mysqlPass="@Whitelist_je2022";
     private final String mysqlDefTable="wje_users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
     private final String mysqlMaxConnection="15";

@@ -60,7 +60,7 @@ public class ServerCommand extends BaseCmd {
         event.reply(title + this.plugin.getBukkitManager().getServerInfoString(this.cmdLang) +
                 "\n\n**" + serverField + ": ** \n\t" + getPlayersOnline() +
                 "\n\n**" + worldsField + ": **" + getWorldsInfos() +
-                "\n**" + devSField + ": ** <@272924120142970892> 👨‍💻"
+                "\n**" + devSField + "**: <@272924120142970892> 👨‍💻"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
 
@@ -74,6 +74,7 @@ public class ServerCommand extends BaseCmd {
         
         final String stormyField = useTranslator("STORMY");
         final String rainyField = useTranslator("RAINY");
+        final String YES = useTranslator("YES");
         final String NO = useTranslator("NO");
 
         for (World world : worlds) {
@@ -83,18 +84,20 @@ public class ServerCommand extends BaseCmd {
                     hours = gameTime / 1000 + 6,
                     minutes = (gameTime % 1000) * 60 / 1000;
 
-            String weather = "`" + (world.hasStorm() ? Helper.capitalize(stormyField) : NO + " " + stormyField) + "`\n\t`"
-                    + (world.isThundering() ? Helper.capitalize(rainyField) : NO + " " + rainyField) + "`",
+            String weather = Helper.capitalize(rainyField) + ": `"  + (world.hasStorm() ? YES : NO) + "`\n\t" +
+                    Helper.capitalize(stormyField) + ": `" + (world.isThundering() ? YES : NO) + "`",
                     isDay = hours <= 17 ? useTranslator("DAY") : useTranslator("NIGHT"), emotes;
 
             emotes = hours <= 17
-                ? "☀️" 
-                : "🌙";
+                ? "☀️ " 
+                : "🌒 ";
 
-            if (world.hasStorm()) 
-                emotes += "🌩";
-            if (world.isThundering()) 
-                emotes += "🌧";
+            if(world.hasStorm() && world.isThundering())
+                emotes += "⛈️";
+            else if (world.hasStorm()) 
+                emotes += "🌧️";
+            else if (world.isThundering()) 
+                emotes += "🌩️";
 
             if (hours >= 24) 
                 hours -= 24;
@@ -115,7 +118,7 @@ public class ServerCommand extends BaseCmd {
     public String getPlayersOnline() {
         final int nbPlayers = Bukkit.getOnlinePlayers().size();
         final String title = useTranslator("SERVER_ACTIVITIES");
-        return "**" + title + "*\n\t`" +
+        return "**" + title + "**\n\t`" +
             (nbPlayers > 1 
                 ? nbPlayers + " " + useTranslator("CONNECTED_USERS")
                 : nbPlayers + " " + useTranslator("CONNECTED_USER")
