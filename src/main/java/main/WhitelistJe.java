@@ -185,7 +185,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     }
 
     public final ConfigManager getConfigManager() {
-        return configManager;
+        return this.configManager;
     }
 
     public final GuildManager getGuildManager() {
