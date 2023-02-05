@@ -76,7 +76,7 @@ public enum En {
     INFO_CONTACT_ADMIN_MORE_INFO("To get more informations, contact an admin directly..."),
     INFO_ALREADY_ACCEPTED_CONNECT("**Your `%s` account is already registered...**\n" + "You can simply join it now. `Enjoy` ⛏🧱"),
     INFO_MUST_CONFIRM_ACCOUNT("**A confrimation for your `%s` account is needed.**\n"),
-    INFO_TIME_TO_CONFIRM_SINCE("To confirm your account, you had `%ih` since the approbation, and connect to the Mincecraft® server\n"),
+    INFO_TIME_TO_CONFIRM_SINCE("To confirm your account, you had `%sh` since the approbation, and connect to the Mincecraft® server\n"),
     INFO_ACCES_REQUESTED("**Your `%s` access request for `%s` was sent to moderators.**"),
     INFO_PLZ_AWAIT("**Thank you for waiting until the approval by one of them.**"),
     INFO_REGISTER_REQUEST("A `%s` player want to register on your `Minecraft®` server"),

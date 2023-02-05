@@ -168,7 +168,7 @@ public class RegisterCommand extends BaseCmd {
                 }
 
                 else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                    replyJava = String.format(useTranslator(""), "Java") +
+                    replyJava = String.format(useTranslator("INFO_MUST_CONFIRM_ACCOUNT"), "Java") +
                             String.format(useTranslator("INFO_TIME_TO_CONFIRM_SINCE"), hoursToConfirm);
                 }
             }
@@ -199,7 +199,7 @@ public class RegisterCommand extends BaseCmd {
                 }
 
                 else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                    replyJava = String.format(useTranslator(""), "Bedrock") +
+                    replyJava = String.format(useTranslator("INFO_MUST_CONFIRM_ACCOUNT"), "Bedrock") +
                             String.format(useTranslator("INFO_TIME_TO_CONFIRM_SINCE"), hoursToConfirm);
                 }
             }

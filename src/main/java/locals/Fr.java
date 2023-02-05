@@ -77,7 +77,7 @@ public enum Fr {
     INFO_CONTACT_ADMIN_MORE_INFO("Pour en s'avoir d'avantage, contactez un administrateur directement..."),
     INFO_ALREADY_ACCEPTED_CONNECT("**Votre compte `%s` est déjà accepté sur le serveur...**\n" + "Il suffit de vous connecter. `Enjoy` ⛏🧱"),
     INFO_MUST_CONFIRM_ACCOUNT("**Une confirmation de votre compte `%s` est nécéssaire.**\n"),
-    INFO_TIME_TO_CONFIRM_SINCE("Pour confimer votre compte vous aviez `%ih` depuis l'aprobation pour vous connecter au server Mincecraft®\n"),
+    INFO_TIME_TO_CONFIRM_SINCE("Pour confimer votre compte vous aviez `%sh` depuis l'aprobation pour vous connecter au server Mincecraft®\n"),
     INFO_ACCES_REQUESTED("**Votre demande d'accès `%s` pour `%s` a été envoyé aux modérateurs.**"),
     INFO_PLZ_AWAIT("**Merci de patienter jusqu'à une prise de décision de leur part.**"),
     INFO_REGISTER_REQUEST("Un joueur `%s` veut s'enregister sur votre serveur `Minecraft®`"),
