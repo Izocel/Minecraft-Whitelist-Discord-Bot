@@ -13,8 +13,8 @@ import main.WhitelistJe;
 import net.dv8tion.jda.api.JDA;
 
 public class ServerCommand extends BaseCmd {
-    private final static String KEY_CMD_NAME = "CMD_REGISTER";
-    private final static String KEY_CMD_DESC = "DESC_REGISTR";
+    private final static String KEY_CMD_NAME = "CMD_SERVER";
+    private final static String KEY_CMD_DESC = "DESC_SERVER";
 
     public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
