@@ -61,7 +61,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       }
 
       final Integer confirmHourDelay = Integer.valueOf(
-          configs.get("hoursToConfirmMcAccount", "24"));
+        configs.get("hoursToConfirmMcAccount", "24"));
 
       final boolean canConfirm = Helper.isWithinXXHour(
           Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
