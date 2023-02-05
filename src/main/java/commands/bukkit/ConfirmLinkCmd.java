@@ -27,6 +27,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
   public ConfirmLinkCmd(WhitelistJe plugin, String cmdName) {
     super(plugin, cmdName);
+    configs = plugin.getConfigManager();
   }
 
   @Override
@@ -60,7 +61,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       }
 
       final Integer confirmHourDelay = Integer.valueOf(
-          plugin.getConfigManager().get("hoursToConfirmMcAccount", "24"));
+          configs.get("hoursToConfirmMcAccount", "24"));
 
       final boolean canConfirm = Helper.isWithinXXHour(
           Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
@@ -113,7 +114,6 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
   private String confirmationEmbededs(String channel_id, String uuid, String pseudo) {
     LocalManager LOCAL = WhitelistJe.LOCALES;
-    ConfigManager configs = plugin.getConfigManager();
 
     final String title = LOCAL.translate("TITLE_ACCOUNT_CONFIRM");
     final String description = "**" + LOCAL.translate("EMBD_LINK_DESC") + "**";
