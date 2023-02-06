@@ -44,14 +44,14 @@ public enum En {
 
     //EMBEDS
     EMBD_LINK_DESC("Please confirm this relation request"),
-    EMBD_LINK_YESME("Yes it's me"),
-    EMBD_LINK_NOTME("No it's not me"),
-    EMBD_LINK_POLICY("When clicking on `YES` you assert that those accounts are to be linked, and that you're the legitimate holder.\n" +
+    EMBD_LINK_YESME("Yes it\'s me"),
+    EMBD_LINK_NOTME("No it\'s not me"),
+    EMBD_LINK_POLICY("When clicking on `YES` you assert that those accounts are to be linked, and that you\'re the legitimate holder.\n" +
         "When clicking on `NO` the temporary links will be dissolved, and all current or further activities will be suspended."),
 
     //LABELS
     LABEL_LONG_MC("Minecraft® identification"),
-    LABEL_MIBECRAFT_UUID("Minecraft® uuid"),
+    LABEL_MINECRAFT_UUID("Minecraft® uuid"),
     LABEL_LONG_DC("Discord® identification"),
     LABEL_DISCORD_ID("Discord® id"),
     LABEL_DISCORD_TAG("Discord® tag"),

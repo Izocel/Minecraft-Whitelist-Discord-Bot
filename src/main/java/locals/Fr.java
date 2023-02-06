@@ -45,14 +45,14 @@ public enum Fr {
 
     //EMBEDS
     EMBD_LINK_DESC("Veuillez confirmer la demande de relation"),
-    EMBD_LINK_YESME("Oui, c'est bien moi"),
-    EMBD_LINK_NOTME("Non, ce n'est pas moi"),
+    EMBD_LINK_YESME("Oui, c\'est bien moi"),
+    EMBD_LINK_NOTME("Non, ce n\'est pas moi"),
     EMBD_LINK_POLICY("En cliquant sur `OUI` vous confirmez que ces comptes seront reliés et que vous en êtes le détenteur.\n" +
         "En cliquant sur `NON` les liens temporaires seront détruits et toutes activitées courrantes et futures seront suspendues."),
 
     //LABELS
     LABEL_LONG_MC("Identifiant Minecraft®"),
-    LABEL_MIBECRAFT_UUID("Minecraft® uuid"),
+    LABEL_MINECRAFT_UUID("Minecraft® uuid"),
     LABEL_LONG_DC("Identifiant Discord®"),
     LABEL_DISCORD_ID("Discord® id"),
     LABEL_DISCORD_TAG("Discord® tag"),

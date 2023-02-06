@@ -91,7 +91,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     return "\n\n§c§l" + LOCAL.translate("WARN_REGISTRATIONDELAY") +
         "\n§f" + LOCAL.translate("ACCOUNTSINFOS") +
         "\n§f" + LOCAL.translate("LABEL_DISCORD_TAG") + ": " + tagDiscord +
-        "\n§f" + LOCAL.translate("LABEL_MIBECRAFT_UUID") + ": " + mcUUID +
+        "\n§f" + LOCAL.translate("LABEL_MINECRAFT_UUID") + ": " + mcUUID +
         "\n\n§l" + LOCAL.translate("INFO_TRYREGISTERAGAIN") +
         "\n§9" + LOCAL.translate("LABEL_USECMD") + cmdName +
         "\n\n§c" + LOCAL.translate("INFO_LEGITIMATE");
@@ -118,7 +118,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String title = LOCAL.translate("TITLE_ACCOUNT_CONFIRM");
     final String description = "**" + LOCAL.translate("EMBD_LINK_DESC") + "**";
     final String mcNameLabel = LOCAL.translate("LABEL_LONG_MC");
-    final String mcUuidLabel = LOCAL.translate("LABEL_MIBECRAFT_UUID");
+    final String mcUuidLabel = LOCAL.translate("LABEL_MINECRAFT_UUID");
     final String policy = LOCAL.translate("EMBD_LINK_POLICY");
 
     final String embedUrl = this.configs.get("minecrafInfosLink", "https://www.fiverr.com/rvdprojects?up_rollout=true");
@@ -170,7 +170,6 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String jsonEmbeded = """
     {
       "components": [
-
         {
           "type": "1",
           "components": [
