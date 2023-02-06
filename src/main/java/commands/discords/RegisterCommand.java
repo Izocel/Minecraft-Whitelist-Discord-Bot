@@ -287,7 +287,7 @@ public class RegisterCommand extends BaseCmd {
             if (actionId.equals(this.acceptId)) {
                 child.setData("type", "accepted");
 
-                final User newUser = User.updateFromMember(member);
+                final User newUser = User.updateFromMember(gManager.findMember(discordId));
                 this.handleAccepted(event, newUser, pseudo, uuid);
                 tx.setData("state", "ACCEPTED /register");
 

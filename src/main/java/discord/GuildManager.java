@@ -83,9 +83,9 @@ public class GuildManager {
         }
     }
 
-    public Member findMember(String memberId) {
+    public Member findMember(String userId) {
         try {
-            Member guildMember = this.guild.getMemberById(memberId);
+            Member guildMember = this.guild.getMemberById(userId);
             if (guildMember == null) {
                 this.logger.warning("Member was not found in the guild");
             }
