@@ -33,7 +33,7 @@ public final class ConfigManager {
 
     private final String portJava="25565";
     private final String portBedrock="19132";
-    private final String paperMcIp="server.ip.or.dns.resolvable.adress";
+    private final String paperMcIp="rvdprojects.synology.me";
     private final String showSubWorlddMeteo="false";
     private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
 
