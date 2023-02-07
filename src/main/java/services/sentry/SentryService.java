@@ -34,8 +34,8 @@ public class SentryService {
     SentryService.main = this.plugin;
     
     final User user = new User();
+    final String username = "?discordOwnerId?";
     final String id = this.plugin.getConfigManager().get("discordServerId", "?discordServerId?");
-    final String username = this.plugin.getConfigManager().get("discordOwnerId", "?discordOwnerId?");
     final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "?paperMcIp?");
     final String envType = this.plugin.getConfigManager().get("envType", "?envType?");
     final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;

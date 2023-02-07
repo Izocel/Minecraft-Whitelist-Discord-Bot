@@ -9,13 +9,12 @@ public final class ConfigManager {
     private final String envType="production";
     private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
 
-    private final String discordOwnerId="272924120142970892";
     private final String discordServerId="276931890735218689";
     private final String discordWelcomeChanelId="925583159964352643";
     private final String discordAdminChanelId="927283856053252106";
     private final String discordWhitelistChanelId="927283856053252106";
-    private final String botLogChannelId="927283856053252106";
-    private final String javaLogChannelId="927283856053252106";
+    private final String botLogChannelId="927283856053252106"; // unused yet
+    private final String javaLogChannelId="927283856053252106"; // unused yet
 
     private final String discordAdminRoleId="293133215500075010";
     private final String discordModeratorRoleId="1021054284214833182";
@@ -34,7 +33,7 @@ public final class ConfigManager {
     private final String portJava="25565";
     private final String portBedrock="19132";
     private final String paperMcIp="rvdprojects.synology.me";
-    private final String showSubWorlddMeteo="false";
+    private final String showSubWorlddMeteo="true";
     private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
@@ -51,7 +50,6 @@ public final class ConfigManager {
     public ConfigManager() {
         configs.put("envType", this.envType);
         configs.put("discordBotToken", this.discordBotToken);
-        configs.put("discordOwnerId", this.discordOwnerId);
         configs.put("discordServerId", this.discordServerId);
         configs.put("botLogChannelId", this.botLogChannelId);
         configs.put("javaLogChannelId", this.javaLogChannelId);
