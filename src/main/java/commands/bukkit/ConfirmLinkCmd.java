@@ -35,6 +35,8 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     Player player = (Player) sender;
     LocalManager LOCAL = WhitelistJe.LOCALES;
 
+    String userLang = LOCAL.getNextLang();
+
     try {
       final JSONObject playerData = plugin.getMinecraftDataJson(player.getUniqueId());
 
@@ -52,10 +54,11 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       final String registrationDate = playerData.optString("created_at", null);
 
       final User user = DaoManager.getUsersDao().findUser(userId);
+      userLang = user.getLang();
 
       if (isConfirmed) {
-        final String msg = LOCAL.translate("MINECRAFT_ALREADYREGISTERED") + "\n" +
-            LOCAL.translate("LABEL_DISCORD_ID") + ": " + user.getDiscordId();
+        final String msg = LOCAL.translateBy("MINECRAFT_ALREADYREGISTERED", userLang) + "\n" +
+            LOCAL.translateBy("LABEL_DISCORD_ID", userLang) + ": " + user.getDiscordId();
         player.sendMessage(msg);
         return;
       }
@@ -67,7 +70,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
           Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
 
       if (!canConfirm) {
-        final String msg = getDisallowMsg(user.getDiscordTag(), uuid);
+        final String msg = getDisallowMsg(user.getDiscordTag(), uuid, userLang);
         player.setWhitelisted(false);
         player.kickPlayer(msg);
         plugin.deletePlayerRegistration(player.getUniqueId());
@@ -75,29 +78,29 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       }
 
       Member member = plugin.getGuildManager().findMember(user.getDiscordId());
-      this.sendConfimationEmbeded(member, player);
+      this.sendConfimationEmbeded(member, player, userLang);
 
     } catch (Exception e) {
-      player.sendMessage(LOCAL.translate("CMD_ERROR"));
+      player.sendMessage(LOCAL.translateBy("CMD_ERROR", userLang));
       SentryService.captureEx(e);
     }
 
   }
 
-  public String getDisallowMsg(String tagDiscord, String mcUUID) {
+  public String getDisallowMsg(String tagDiscord, String mcUUID, String userLang) {
     LocalManager LOCAL = WhitelistJe.LOCALES;
-    final String cmdName = ": \\" + LOCAL.translate("CMD_LINK");
+    final String cmdName = ": \\" + LOCAL.translateBy("CMD_REGISTER", userLang);
 
-    return "\n\n§c§l" + LOCAL.translate("WARN_REGISTRATIONDELAY") +
-        "\n§f" + LOCAL.translate("ACCOUNTSINFOS") +
-        "\n§f" + LOCAL.translate("LABEL_DISCORD_TAG") + ": " + tagDiscord +
-        "\n§f" + LOCAL.translate("LABEL_MINECRAFT_UUID") + ": " + mcUUID +
-        "\n\n§l" + LOCAL.translate("INFO_TRYREGISTERAGAIN") +
-        "\n§9" + LOCAL.translate("LABEL_USECMD") + cmdName +
-        "\n\n§c" + LOCAL.translate("INFO_LEGITIMATE");
+    return "\n\n§c§l" + LOCAL.translateBy("WARN_REGISTRATIONDELAY", userLang) +
+        "\n§f" + LOCAL.translateBy("ACCOUNTSINFOS", userLang) +
+        "\n§f" + LOCAL.translateBy("LABEL_DISCORD_TAG", userLang) + ": " + tagDiscord +
+        "\n§f" + LOCAL.translateBy("LABEL_MINECRAFT_UUID", userLang) + ": " + mcUUID +
+        "\n\n§l" + LOCAL.translateBy("INFO_TRYREGISTERAGAIN", userLang) +
+        "\n§9" + LOCAL.translateBy("LABEL_USECMD", userLang) + cmdName +
+        "\n\n§c" + LOCAL.translateBy("INFO_LEGITIMATE", userLang);
   }
 
-  private void sendConfimationEmbeded(Member member, Player player) {
+  private void sendConfimationEmbeded(Member member, Player player, String lang) {
     final UUID uuid = player.getUniqueId();
     final String discordId = member.getUser().getId();
     final JSONObject pData = plugin.getMinecraftDataJson(uuid);
@@ -105,21 +108,23 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
       final String channel_id = channel.getId();
 
-      final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(this.confirmationEmbededs(channel_id, uuid.toString(), pData.getString("pseudo")));
-      final ArrayList<ActionRow> msgActions = Helper.getActionRowsfromJson(this.confirmationActions(channel_id));
+      final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(
+        this.confirmationEmbededs(channel_id, uuid.toString(), pData.getString("pseudo"), lang)
+      );
+      final ArrayList<ActionRow> msgActions = Helper.getActionRowsfromJson(this.confirmationActions(channel_id, lang));
 
       Helper.preparePrivateCustomMsg(channel, msgEmbededs, msgActions).submit(true);
     });
   }
 
-  private String confirmationEmbededs(String channel_id, String uuid, String pseudo) {
+  private String confirmationEmbededs(String channel_id, String uuid, String pseudo, String lang) {
     LocalManager LOCAL = WhitelistJe.LOCALES;
 
-    final String title = LOCAL.translate("TITLE_ACCOUNT_CONFIRM");
-    final String description = "**" + LOCAL.translate("EMBD_LINK_DESC") + "**";
-    final String mcNameLabel = LOCAL.translate("LABEL_LONG_MC");
-    final String mcUuidLabel = LOCAL.translate("LABEL_MINECRAFT_UUID");
-    final String policy = LOCAL.translate("EMBD_LINK_POLICY");
+    final String title = LOCAL.translateBy("TITLE_ACCOUNT_CONFIRM", lang);
+    final String description = "**" + LOCAL.translateBy("EMBD_LINK_DESC", lang) + "**";
+    final String mcNameLabel = LOCAL.translateBy("LABEL_LONG_MC", lang);
+    final String mcUuidLabel = LOCAL.translateBy("LABEL_MINECRAFT_UUID", lang);
+    final String policy = LOCAL.translateBy("EMBD_LINK_POLICY", lang);
 
     final String embedUrl = this.configs.get("minecrafInfosLink", "https://www.fiverr.com/rvdprojects?up_rollout=true");
 
@@ -161,11 +166,11 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     return jsonEmbeded;
   }
 
-  private String confirmationActions(String channel_id) {
+  private String confirmationActions(String channel_id, String lang) {
     LocalManager LOCAL = WhitelistJe.LOCALES;
 
-    final String YES = '"' + LOCAL.translate("EMBD_LINK_YESME") + '"';
-    final String NO = '"' + LOCAL.translate("EMBD_LINK_NOTME") + '"';
+    final String YES = '"' + LOCAL.translateBy("EMBD_LINK_YESME", lang) + '"';
+    final String NO = '"' + LOCAL.translateBy("EMBD_LINK_NOTME", lang) + '"';
 
     final String jsonEmbeded = """
     {
