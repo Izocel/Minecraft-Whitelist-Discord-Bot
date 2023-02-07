@@ -44,24 +44,24 @@ public class BaseDao implements IDao {
             if(this.connection == null || this.connection.isClosed()) {
                 this.connection = this.datasource.getConnection();
                 this.connection.setAutoCommit(true);
-                logger.info("Db Connection ++");
+                logger.info("Db Connection +");
+                return this.connection;
             }
         } catch (Exception e) {
-
+            logger.warning("Exception while getting a BD connection\nTrying again...");
             try {
                 this.connection = this.datasource.getConnection();
                 this.connection.setAutoCommit(true);
                 logger.info("Db Connection ++");
+                return this.connection;
             } catch (Exception err) {
                 logger.warning("Unable to get a BD connection");
+                SentryService.captureEx(e);
                 SentryService.captureEx(err);
                 return this.connection;
             }
-
-            logger.warning("Unable to get a BD connection");
-            SentryService.captureEx(e);
         }
-
+        logger.info("Db Connection +++");
         return this.connection;
     }
 
