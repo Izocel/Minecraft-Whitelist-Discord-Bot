@@ -168,7 +168,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         
         sb.append(String.format(
             LOCALES.translate("PLUGIN_GOODBYE"),
-            this.getName()
+            this.getName(), LOCALES.translate("ISINACTIVE")
         ));
         sb.append(getPluginInfos(false));
 

@@ -94,22 +94,22 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
-            <version>3.17.7</version>
+            <version>3.17.8</version>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-meta</artifactId>
-            <version>3.17.7</version>
+            <version>3.17.8</version>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen</artifactId>
-            <version>3.17.7</version>
+            <version>3.17.8</version>
         </dependency>
         <dependency>
             <groupId>io.sentry</groupId>
             <artifactId>sentry</artifactId>
-            <version>6.13.0</version>
+            <version>6.13.1</version>
         </dependency>
     </dependencies>
 </project>

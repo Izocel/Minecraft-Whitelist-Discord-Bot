@@ -63,7 +63,7 @@ public class DiscordManager {
                     .build()
                     .awaitReady();
 
-            if(this.isPrivateBot) {this.checkGuild();}
+            this.checkGuild();
             this.plugin.getSentryService().setUsername(this.ownerId);
             this.plugin.getSentryService().setUserId(this.getGuild().getId());
             
