@@ -117,6 +117,7 @@ public enum Es {
     CMD_REGISTER("enregistrer"), // à traduire
     CMD_LOOKUP("recherche"), // à traduire
     CMD_SETLOCAL("traduccion"),
+    CMD_FETCHDB_USERS("miembros información"),
     //PARAMS
     PARAM_PJAVA("pseudo-java"), // à traduire
     PARAM_PBEDR("pseudo-bedrock"), // à traduire
@@ -125,11 +126,14 @@ public enum Es {
     PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"), // à traduire
     PARAM_LOCAL_SETLOCAL("idioma"),
     PARAM_LOCAL_LABEL("Idioma disponible: ['FR, EN, ES']"),
+    PARAM_MEMBER("miembro"),
+    PARAM_MEMBER_LABEL("Miembro del gremio"),
     //DESC
     DESC_SERVER("Afficher les informations du serveur `Minecraft®`."), // à traduire
     DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."), // à traduire
     DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."), // à traduire
     DESC_SETLOCAL("Changer la langue d'affichage.\n FR: francais, EN: english, ES: española."), // à traduire
+    DESC_FETCHDB_USERS("Recuperar miembro registrado DB."),
 
     //ACL
     TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."), // à traduire
