@@ -118,7 +118,7 @@ public enum Fr {
     CMD_REGISTER("enregistrer"),
     CMD_LOOKUP("recherche"),
     CMD_SETLOCAL("langue"),
-    CMD_FETCHDB_USERS("infos membres"),
+    CMD_FETCHDB_USERS("membres"),
     //PARAMS
     PARAM_PJAVA("pseudo-java"),
     PARAM_PBEDR("pseudo-bedrock"),

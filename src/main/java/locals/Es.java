@@ -117,7 +117,7 @@ public enum Es {
     CMD_REGISTER("enregistrer"), // à traduire
     CMD_LOOKUP("recherche"), // à traduire
     CMD_SETLOCAL("traduccion"),
-    CMD_FETCHDB_USERS("miembros información"),
+    CMD_FETCHDB_USERS("miembros"),
     //PARAMS
     PARAM_PJAVA("pseudo-java"), // à traduire
     PARAM_PBEDR("pseudo-bedrock"), // à traduire

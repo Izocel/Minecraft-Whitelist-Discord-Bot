@@ -117,7 +117,7 @@ public enum En {
     CMD_REGISTER("register"),
     CMD_LOOKUP("search"),
     CMD_SETLOCAL("traduction"),
-    CMD_FETCHDB_USERS("members info"),
+    CMD_FETCHDB_USERS("members"),
     //PARAMS
     PARAM_PJAVA("java-pseudo"),
     PARAM_PBEDR("bedrock-pseudo"),
