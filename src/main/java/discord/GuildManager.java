@@ -27,6 +27,7 @@ public class GuildManager {
     private String adminRoleId;
     private String modoRoleId;
     private String devRoleId;
+    private String helperRoleId;
     private String welcomeChannelId;
 
     public GuildManager(WhitelistJe plugin) {
@@ -52,6 +53,7 @@ public class GuildManager {
         this.adminRoleId = this.configManager.get("discordAdminRoleId", null);
         this.modoRoleId = this.configManager.get("discordModeratorRoleId", null);
         this.devRoleId = this.configManager.get("discordDevRoleId", null);
+        this.helperRoleId = this.configManager.get("discordHelperRoleId", null);
 
         this.ownerId = this.guild.getOwner().getId();
     }
@@ -144,6 +146,10 @@ public class GuildManager {
         return this.devRoleId;
     }
 
+    public String getHelperRoleId() {
+        return this.helperRoleId;
+    }
+
     public TextChannel getWelcomeChannel() {
         return this.guild.getTextChannelById(this.welcomeChannelId);
     }
@@ -177,6 +183,10 @@ public class GuildManager {
     }
 
     public boolean isDev(String memberId) {
+        return this.verifyRole(memberId, this.getDevRoleId());
+    }
+
+    public boolean isHelper(String memberId) {
         return this.verifyRole(memberId, this.getDevRoleId());
     }
 }
