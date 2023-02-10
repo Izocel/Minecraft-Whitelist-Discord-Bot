@@ -135,7 +135,11 @@ public abstract class BaseCmd extends ListenerAdapter {
     }
 
     protected final void submitReply(String msg) {
-        this.event.reply(msg).submit(true);
+        this.event.reply(msg).setEphemeral(false).submit(true);
+    }
+
+    protected final void submitReplyEphemeral(String msg) {
+        this.event.reply(msg).setEphemeral(true).submit(true);
     }
 
     protected final Boolean getBoolParam(String paramTradKey) {
