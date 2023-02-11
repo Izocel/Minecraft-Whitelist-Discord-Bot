@@ -117,6 +117,7 @@ public enum En {
     CMD_REGISTER("register"),
     CMD_LOOKUP("search"),
     CMD_SETLOCAL("traduction"),
+    CMD_FETCHDB_USERS("members"),
     //PARAMS
     PARAM_PJAVA("java-pseudo"),
     PARAM_PBEDR("bedrock-pseudo"),
@@ -125,11 +126,14 @@ public enum En {
     PARAM_LOOKUP_LABEL("The uuid or pseudo to search for"),
     PARAM_LOCAL_SETLOCAL("language"),
     PARAM_LOCAL_LABEL("Available language: ['FR, EN, ES']"),
+    PARAM_MEMBER("member"),
+    PARAM_MEMBER_LABEL("A guild member"),
     //DESC
     DESC_SERVER("Show the `Minecraft®` server informations."),
     DESC_REGISTR("Register on the `Minecraft®` server."),
     DESC_LOOKUP("Find `Minecraft®` players infos by uuid or pseudo."),
     DESC_SETLOCAL("Change the display language.\n FR: francais, EN: english, ES: española."),
+    DESC_FETCHDB_USERS("Get info on a member."),
 
     //ACL
     TEXTONLY_CMD("❌ This command is available only through textual channels."),

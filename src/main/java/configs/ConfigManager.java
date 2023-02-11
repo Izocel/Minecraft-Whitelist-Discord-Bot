@@ -7,7 +7,7 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gz1fRt.6zMP2hYuyaF-03LW0NPkibe3jCstAqvVzVLYlQ";
+    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.G7XiEA.Ee9lOtjAIuuMOWIMzFOyE1ieZmnVX-hR_wdjzA";
 
     private final String discordServerId="276931890735218689";
     private final String discordWelcomeChanelId="925583159964352643";
@@ -19,6 +19,7 @@ public final class ConfigManager {
     private final String discordAdminRoleId="293133215500075010";
     private final String discordModeratorRoleId="1021054284214833182";
     private final String discordDevRoleId="1021054460438523976";
+    private final String discordHelperRoleId="1021054460438523976";
     
     private final String mysqlHost="10.8.0.1";
     private final String mysqlPort="3306";
@@ -59,6 +60,7 @@ public final class ConfigManager {
         configs.put("discordAdminRoleId", this.discordAdminRoleId);
         configs.put("discordModeratorRoleId", this.discordModeratorRoleId);
         configs.put("discordDevRoleId", this.discordDevRoleId);
+        configs.put("discordHelperRoleId", this.discordHelperRoleId);
         configs.put("mysqlHost", this.mysqlHost);
         configs.put("mysqlPort", this.mysqlPort);
         configs.put("mysqlDb", this.mysqlDb);

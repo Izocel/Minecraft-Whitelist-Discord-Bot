@@ -43,7 +43,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
         sb.append("`" + user.getLang() + "`");
 
         if(lang == null || oldLang.equals(lang.toUpperCase())) {
-            this.submitReply(sb.toString());
+            this.submitReplyEphemeral(sb.toString());
             return;
         }
 
@@ -56,7 +56,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
         sb.append(translateBy("LANG_CHANGED", user.getLang()) + ": ");
         sb.append("`" + oldLang + "` --> `" + user.getLang() + "`");
         
-        this.submitReply(sb.toString());
+        this.submitReplyEphemeral(sb.toString());
     }
 
 }

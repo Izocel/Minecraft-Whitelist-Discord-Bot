@@ -262,14 +262,15 @@ public class RegisterCommand extends BaseCmd {
             final boolean isAuthorized = gManager.isOwner(member.getId())
                     || gManager.isAdmin(member.getId())
                     || gManager.isModo(member.getId())
-                    || gManager.isDev(member.getId());
+                    || gManager.isDev(member.getId())
+                    || gManager.isHelper(member.getId());
 
             if (!isAuthorized) {
                 event.reply(LOCAL.useDefault("ROLE_NOT_ALLOWED"))
                         .setEphemeral(true).submit(true);
 
                 throw new Exception("🔒 Commande répondu pas un role non authorisé. 🔒" +
-                        "\nUser name: <@" + member + ">" +
+                        "\nUser name: <@" + member.getId() + ">" +
                         "\nChannel name:" + channel.getName() +
                         "\nMessage id: " + event.getMessage().getId());
             }
