@@ -16,10 +16,14 @@ import models.User;
 public class UsersDao extends BaseDao {
 
     private Logger logger;
+    private String tablename2;
+    private String tablename3;
 
     public UsersDao(ComboPooledDataSource poolDs) {
         super(poolDs);
         this.tablename = "wje_users";
+        this.tablename2 = "wje_java_data";
+        this.tablename3 = "wje_bedrock_data";
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
     
