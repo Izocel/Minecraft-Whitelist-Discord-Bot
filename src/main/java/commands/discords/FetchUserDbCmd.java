@@ -68,7 +68,7 @@ public class FetchUserDbCmd extends WjeUserOnlyCmd {
                 sendMsgToUser(sb.toString());
 
                 for (int i = 0; i < data.length(); i++) {
-                    sendMsgToUser(data.getJSONObject(i).toString(1));
+                    sendMsgToUser("```json\n" +  data.getJSONObject(i).toString(1) + "\n```");
                 }
                 
                 tx.setData("state", "success-multiple");
