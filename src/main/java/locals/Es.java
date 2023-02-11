@@ -118,6 +118,7 @@ public enum Es {
     CMD_LOOKUP("recherche"), // à traduire
     CMD_SETLOCAL("traduccion"),
     CMD_FETCHDB_USERS("miembros"),
+    CMD_REMOVEDB_USERS("eliminar"),
     //PARAMS
     PARAM_PJAVA("pseudo-java"), // à traduire
     PARAM_PBEDR("pseudo-bedrock"), // à traduire
@@ -134,6 +135,7 @@ public enum Es {
     DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."), // à traduire
     DESC_SETLOCAL("Changer la langue d'affichage.\n FR: francais, EN: english, ES: española."), // à traduire
     DESC_FETCHDB_USERS("Recuperar miembro registrado DB."),
+    DESC_REMOVEDB_USERS("Elimina todos los datos de un miembro y sácalo de Discord®."),
 
     //ACL
     TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."), // à traduire

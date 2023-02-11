@@ -7,6 +7,7 @@ import javax.security.auth.login.LoginException;
 
 import org.bukkit.Bukkit;
 
+import commands.discords.DeleteUserDbCmd;
 import commands.discords.FetchUserDbCmd;
 import commands.discords.LookupMcPlayerCommand;
 import commands.discords.RegisterCommand;
@@ -142,6 +143,8 @@ public class DiscordManager {
                 SetUserLanguageCmd.REGISTER_CMD(jda, plugin);
                 // User db fetch
                 FetchUserDbCmd.REGISTER_CMD(jda, plugin);
+                // User db remove
+                DeleteUserDbCmd.REGISTER_CMD(jda, plugin);
             }
             
         } catch (Exception e) {
