@@ -118,6 +118,7 @@ public enum En {
     CMD_LOOKUP("search"),
     CMD_SETLOCAL("traduction"),
     CMD_FETCHDB_USERS("members"),
+    CMD_REMOVEDB_USERS("remove"),
     //PARAMS
     PARAM_PJAVA("java-pseudo"),
     PARAM_PBEDR("bedrock-pseudo"),
@@ -134,6 +135,7 @@ public enum En {
     DESC_LOOKUP("Find `Minecraft®` players infos by uuid or pseudo."),
     DESC_SETLOCAL("Change the display language.\n FR: francais, EN: english, ES: española."),
     DESC_FETCHDB_USERS("Get info on a member."),
+    DESC_REMOVEDB_USERS("Delete all of a member's data and kick them from Discord®."),
 
     //ACL
     TEXTONLY_CMD("❌ This command is available only through textual channels."),

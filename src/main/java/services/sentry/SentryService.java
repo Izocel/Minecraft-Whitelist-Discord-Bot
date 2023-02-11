@@ -166,18 +166,22 @@ public class SentryService {
 
   public void setUsername(String username) {
     user.setUsername(username);
+    changeUser(user);
   }
 
   public void setUserEmail(String email) {
     user.setEmail(email);
+    changeUser(user);
   }
 
   public void setUserIpAdress(String ip) {
     user.setIpAddress(ip);
+    changeUser(user);
   }
 
   public void setUserId(String id) {
     user.setId(id);
+    changeUser(user);
   }
 
 }
