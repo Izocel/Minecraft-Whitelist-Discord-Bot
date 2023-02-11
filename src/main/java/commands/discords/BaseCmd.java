@@ -122,7 +122,7 @@ public abstract class BaseCmd extends ListenerAdapter {
         }
 
         this.plugin.getDiscordManager().jda.openPrivateChannelById(eventUser.getId()).queue(channel -> {
-            channel.sendMessage(msg).submit(true);
+            channel.sendMessage(msg).submit(true).isDone();
         });
     }
 

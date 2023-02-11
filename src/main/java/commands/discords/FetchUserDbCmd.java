@@ -71,6 +71,7 @@ public class FetchUserDbCmd extends WjeUserOnlyCmd {
                     sendMsgToUser("```json\n" +  data.getJSONObject(i).toString(1) + "\n```");
                 }
                 
+                submitReplyEphemeral("Infos's been sent to your private messages");
                 tx.setData("state", "success-multiple");
                 tx.finish(SpanStatus.OK);
                 return;
