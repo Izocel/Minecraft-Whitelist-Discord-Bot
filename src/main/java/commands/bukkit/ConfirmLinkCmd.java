@@ -96,9 +96,11 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
     } catch (Exception e) {
       player.sendMessage(LOCAL.translateBy("CMD_ERROR", userLang));
-      SentryService.captureEx(e);
+
+      tx.setThrowable(e);
       tx.setData("state", "error");
       tx.finish(SpanStatus.INTERNAL_ERROR);
+      SentryService.captureEx(e);
     }
 
     tx.setData("state", "confirm success");
