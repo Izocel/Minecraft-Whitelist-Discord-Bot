@@ -33,7 +33,8 @@ public final class ConfigManager {
 
     private final String portJava="25565";
     private final String portBedrock="19132";
-    private final String paperMcIp="rvdprojects.synology.me";
+    private final String javaIp="rvdprojects.synology.me";
+    private final String bedrockIp="rvdprojects.synology.me";
     private final String showSubWorlddMeteo="true";
     private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
 
@@ -72,7 +73,8 @@ public final class ConfigManager {
         configs.put("mysqlMaxConnectionIDLE", this.mysqlMaxConnectionIDLE);
         configs.put("portJava", this.portJava);
         configs.put("portBedrock", this.portBedrock);
-        configs.put("paperMcIp", this.paperMcIp);
+        configs.put("javaIp", this.javaIp);
+        configs.put("bedrockIp", this.bedrockIp);
         configs.put("pluginVersion", this.pluginVersion);
         configs.put("showSubWorlddMeteo", this.showSubWorlddMeteo);
         configs.put("hoursToConfirmMcAccount", this.hoursToConfirmMcAccount);
