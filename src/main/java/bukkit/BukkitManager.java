@@ -55,7 +55,8 @@ public class BukkitManager {
 
         final String portJ = this.plugin.getConfigManager().get("portJava", "???");
         final String portB = this.plugin.getConfigManager().get("portBedrock", "???");
-        final String paperMcIp = this.plugin.getConfigManager().get("paperMcIp", "???");
+        final String javaIp = this.plugin.getConfigManager().get("javaIp", "???");
+        final String bedrockIp = this.plugin.getConfigManager().get("bedrockIp", "???");
 
         final LocalManager LOCAL = WhitelistJe.LOCALES;
         final String portField = LOCAL.translateBy("PORT", lang);
@@ -71,7 +72,8 @@ public class BukkitManager {
         final String fwStr = forceWhitelist ? "`" + YES +  "`" : "`" + NO +  "`";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\n\tIp: `" + paperMcIp + "`");
+        sb.append("\n\tJava Ip: `" + javaIp + "`");
+        sb.append("\n\tBedrock Ip: `" + bedrockIp + "`");
         sb.append("\n\t" + portField + " Java: `" + portJ + "`");
         sb.append("\n\t" + portField + " Bedrock: `" + portB + "`");
         sb.append("\n\t" + versionField + " : `" + version + "`");

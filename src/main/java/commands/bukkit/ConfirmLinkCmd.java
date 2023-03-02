@@ -11,6 +11,9 @@ import org.json.JSONObject;
 import configs.ConfigManager;
 import dao.DaoManager;
 import helpers.Helper;
+import io.sentry.ITransaction;
+import io.sentry.Sentry;
+import io.sentry.SpanStatus;
 import locals.LocalManager;
 import services.sentry.SentryService;
 import main.WhitelistJe;
@@ -32,6 +35,8 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
   @Override
   public void execute(CommandSender sender, Command cmd, String label, String[] args) {
+    ITransaction tx = Sentry.startTransaction("Wje-Link", "comfim user account");
+
     Player player = (Player) sender;
     LocalManager LOCAL = WhitelistJe.LOCALES;
 
@@ -45,6 +50,9 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
             LOCAL.translate("USERONLY_CMD") + "\n" +
             LOCAL.translate("DOREGISTER") + " :: " + LOCAL.translate("CONTACT_ADMNIN");
         player.sendMessage(msg);
+
+        tx.setData("state", "player not yet registered");
+        tx.finish(SpanStatus.OK);
         return;
       }
 
@@ -60,6 +68,9 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
         final String msg = LOCAL.translateBy("MINECRAFT_ALREADYREGISTERED", userLang) + "\n" +
             LOCAL.translateBy("LABEL_DISCORD_ID", userLang) + ": " + user.getDiscordId();
         player.sendMessage(msg);
+
+        tx.setData("state", "already confirmed");
+        tx.finish(SpanStatus.OK);
         return;
       }
 
@@ -74,6 +85,9 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
         player.setWhitelisted(false);
         player.kickPlayer(msg);
         plugin.deletePlayerRegistration(player.getUniqueId());
+
+        tx.setData("state", "delay for confirmation was exceeded");
+        tx.finish(SpanStatus.PERMISSION_DENIED);
         return;
       }
 
@@ -82,8 +96,15 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
     } catch (Exception e) {
       player.sendMessage(LOCAL.translateBy("CMD_ERROR", userLang));
+
+      tx.setThrowable(e);
+      tx.setData("state", "error");
+      tx.finish(SpanStatus.INTERNAL_ERROR);
       SentryService.captureEx(e);
     }
+
+    tx.setData("state", "confirm success");
+    tx.finish(SpanStatus.OK);
 
   }
 
