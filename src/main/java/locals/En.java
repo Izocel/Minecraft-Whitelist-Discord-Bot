@@ -120,8 +120,8 @@ public enum En {
     CMD_FETCHDB_USERS("members"),
     CMD_REMOVEDB_USERS("remove"),
     //PARAMS
-    PARAM_PJAVA("java-pseudo"),
-    PARAM_PBEDR("bedrock-pseudo"),
+    PARAM_PJAVA("java"),
+    PARAM_PBEDR("bedrock"),
     PARAM_REGISTR_LABELJ("Your Java pseudo"),
     PARAM_REGISTR_LABELB("Your Bedrock pseudo"),
     PARAM_LOOKUP_LABEL("The uuid or pseudo to search for"),
