@@ -36,8 +36,8 @@ public enum Es {
     BTN_REFUSE("❌ Rechazar"),
 
     //REPLIES
-    LANG_CHANGED("Tu idioma fue cambiado"), // à traduire   Votre langue a été modifié
-    LANG_CURRENT("Su idioma es actualmente"), // à traduire   Votre langue est actuellement
+    LANG_CHANGED("Tu idioma fue cambiado"),
+    LANG_CURRENT("Su idioma es actualmente"),
 
     //TITLES
     TITLE_ACCOUNT_CONFIRM("Confirmación de sus cuentas"), // à traduire
