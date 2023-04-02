@@ -110,7 +110,7 @@ public enum En {
     REGISTER_CMD_ERROR("❌ **Sorry, the registration for your `%s` account, could not be completed.**"),
 
     //MINECRAFT_CMD
-    CMD_LINK("wje-link"),
+    CMD_LINK("wlink"),
 
     //DISCORD CMD
     CMD_SERVER("server"),

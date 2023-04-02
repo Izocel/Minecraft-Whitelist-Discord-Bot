@@ -111,7 +111,7 @@ public enum Fr {
     REGISTER_CMD_ERROR("❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**"),
 
     //MINECRAFT_CMD
-    CMD_LINK("wje-link"),
+    CMD_LINK("wlink"),
 
     //DISCORD CMD
     CMD_SERVER("serveur"),
