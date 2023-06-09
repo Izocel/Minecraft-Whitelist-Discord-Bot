@@ -1,3 +1,5 @@
+//modifié
+
 package configs;
 
 import java.util.HashMap;
@@ -7,7 +9,7 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="";
+    private final String discordBotToken="MTA5MTg2OTM0MDI0MjAxODMyNA.G8Qz7R.GDvtlQrp-T3PCitHqCuRwWMfNzcO2dOKRiqn_w";
 
     private final String discordServerId="770057600867237898";
     private final String discordWelcomeChanelId="1088581487470850140";
@@ -34,9 +36,9 @@ public final class ConfigManager {
     private final String portJava="25565";
     private final String portBedrock="19132";
     private final String javaIp="tempcity.click";
-    private final String bedrockIp="tempcity.click";
-    private final String showSubWorlddMeteo="true";
-    private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
+    private final String bedrockIp="bedrock.tempcity.click";
+    private final String showSubWorlddMeteo="false";
+    private final String hoursToConfirmMcAccount="48"; // zero to not use this feature
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
