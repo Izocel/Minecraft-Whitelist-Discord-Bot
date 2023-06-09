@@ -72,11 +72,10 @@ public class BukkitManager {
         final String fwStr = forceWhitelist ? "`" + YES +  "`" : "`" + NO +  "`";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\n\tIp: `" + javaIp + "`");
+        sb.append("\n\tIp Java: `" + javaIp + "`");
         sb.append("\n\t" + portField + " Java: `" + portJ + "`");
+        sb.append("\n\tIp Bedrock: `" + bedrockIp + "`");
         sb.append("\n\t" + portField + " Bedrock: `" + portB + "`");
-        sb.append("\n\t" + onlineField + " : `" + onlineStr + "`");
-        sb.append("\n\t" + descField + " : `" + description + "`");
 
         return sb.toString();
     }
