@@ -59,7 +59,6 @@ public class DeleteUserDbCmd extends WjeUserOnlyCmd {
                 tx.setData("state", "not-allowed");
                 tx.finish(SpanStatus.PERMISSION_DENIED);
                 return;
-
             }
             
             final StringBuilder sb = new StringBuilder();
@@ -98,11 +97,10 @@ public class DeleteUserDbCmd extends WjeUserOnlyCmd {
                 }
                 sb.append("Deleted`" + i + "` Java® accounts\n");
             }
-              
 
             JSONArray javaData = lookupBdUser.toJson().optJSONArray("javaData") ;
             if(javaData != null) {
-                for (i = 0; i < bedData.length(); i++) {
+                for (i = 0; i < javaData.length(); i++) {
                     plugin.getBukkitManager().banPlayer(javaData.getJSONObject(i).getString("uuid"));
                 }
                 sb.append("Deleted`" + i + "` Becrock® accounts\n");

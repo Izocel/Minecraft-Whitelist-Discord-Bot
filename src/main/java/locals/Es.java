@@ -116,7 +116,7 @@ public enum Es {
     CMD_SERVER("serveur"), // à traduire
     CMD_REGISTER("enregistrer"), // à traduire
     CMD_LOOKUP("recherche"), // à traduire
-    CMD_SETLOCAL("traduccion"),
+    CMD_SETLOCAL("idioma"),
     CMD_FETCHDB_USERS("miembros"),
     CMD_REMOVEDB_USERS("eliminar"),
     //PARAMS

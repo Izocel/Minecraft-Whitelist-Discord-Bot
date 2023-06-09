@@ -116,7 +116,7 @@ public enum En {
     CMD_SERVER("server"),
     CMD_REGISTER("register"),
     CMD_LOOKUP("search"),
-    CMD_SETLOCAL("traduction"),
+    CMD_SETLOCAL("language"),
     CMD_FETCHDB_USERS("members"),
     CMD_REMOVEDB_USERS("remove"),
     //PARAMS
