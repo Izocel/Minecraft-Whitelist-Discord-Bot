@@ -116,7 +116,7 @@ public enum En {
     CMD_SERVER("server"),
     CMD_REGISTER("register"),
     CMD_LOOKUP("search"),
-    CMD_SETLOCAL("traduction"),
+    CMD_SETLOCAL("language"),
     CMD_FETCHDB_USERS("members"),
     CMD_REMOVEDB_USERS("remove"),
     //PARAMS
@@ -129,6 +129,8 @@ public enum En {
     PARAM_LOCAL_LABEL("Available language: ['FR, EN, ES']"),
     PARAM_MEMBER("member"),
     PARAM_MEMBER_LABEL("A guild member"),
+    PARAM_UUID("uuid"),
+    PARAM_UUID_LABEL("A Minecraft uuid"),
     //DESC
     DESC_SERVER("Show the `Minecraft®` server informations."),
     DESC_REGISTR("Register on the `Minecraft®` server."),

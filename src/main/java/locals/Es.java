@@ -116,7 +116,7 @@ public enum Es {
     CMD_SERVER("serveur"), // à traduire
     CMD_REGISTER("enregistrer"), // à traduire
     CMD_LOOKUP("recherche"), // à traduire
-    CMD_SETLOCAL("traduccion"),
+    CMD_SETLOCAL("idioma"),
     CMD_FETCHDB_USERS("miembros"),
     CMD_REMOVEDB_USERS("eliminar"),
     //PARAMS
@@ -129,6 +129,8 @@ public enum Es {
     PARAM_LOCAL_LABEL("Idioma disponible: ['FR, EN, ES']"),
     PARAM_MEMBER("miembro"),
     PARAM_MEMBER_LABEL("Miembro del gremio"),
+    PARAM_UUID("uuid"),
+    PARAM_UUID_LABEL("Un uuid minecraft"), // à traduire
     //DESC
     DESC_SERVER("Afficher les informations du serveur `Minecraft®`."), // à traduire
     DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."), // à traduire
