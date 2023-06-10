@@ -125,7 +125,7 @@ public class RegisterCommand extends BaseCmd {
             bedrockUuid = PlayerDbApi.getXboxUUID(pseudoBedrock);
 
             if (bedrockUuid == null) {
-                replyJava = String.format(useTranslator("REGISTER_CMD_NOT_FOUND_UUID"), "Bedrock");
+                replyBedrock = String.format(useTranslator("REGISTER_CMD_NOT_FOUND_UUID"), "Bedrock");
             }
         }
 
@@ -177,7 +177,7 @@ public class RegisterCommand extends BaseCmd {
         boolean sendBedrock = false;
         if (bedrockUuid != null) {
 
-            replyJava = String.format(useTranslator("REGISTER_CMD_ERROR"), "Bedrock");
+            replyBedrock = String.format(useTranslator("REGISTER_CMD_ERROR"), "Bedrock");
             BedrockData bData = DaoManager.getBedrockDataDao().findWithUuid(bedrockUuid);
             sendBedrock = bData == null;
 
@@ -186,20 +186,20 @@ public class RegisterCommand extends BaseCmd {
                 final boolean isConfirmed = bData.isConfirmed();
 
                 if (bData.getUserId() != user.getId()) {
-                    replyJava = String.format(useTranslator("WARN_ALREADTY_REGISTERED"), "Bedrock");
+                    replyBedrock = String.format(useTranslator("WARN_ALREADTY_REGISTERED"), "Bedrock");
                 }
 
                 else if (!isAllowed) {
-                    replyJava = String.format(useTranslator("WARN_NOT_ACCEPTED_YET"), "Bedrock") + "\n"
+                    replyBedrock = String.format(useTranslator("WARN_NOT_ACCEPTED_YET"), "Bedrock") + "\n"
                             + useTranslator("INFO_CONTACT_ADMIN_MORE_INFO");
                 }
 
                 else if (isAllowed && isConfirmed) {
-                    replyJava = String.format(useTranslator("INFO_ALREADY_ACCEPTED_CONNECT"), "Bedrock");
+                    replyBedrock = String.format(useTranslator("INFO_ALREADY_ACCEPTED_CONNECT"), "Bedrock");
                 }
 
                 else if (isAllowed && !isConfirmed && hoursToConfirm > 0) {
-                    replyJava = String.format(useTranslator("INFO_MUST_CONFIRM_ACCOUNT"), "Bedrock") +
+                    replyBedrock = String.format(useTranslator("INFO_MUST_CONFIRM_ACCOUNT"), "Bedrock") +
                             String.format(useTranslator("INFO_TIME_TO_CONFIRM_SINCE"), hoursToConfirm);
                 }
             }
@@ -227,7 +227,6 @@ public class RegisterCommand extends BaseCmd {
         event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).submit(true);
         tx.setData("state", "Registration request sent succesfully.");
         tx.finish(SpanStatus.OK);
-
     }
 
     @Override
@@ -363,8 +362,7 @@ public class RegisterCommand extends BaseCmd {
                 .setTitle(LOCAL.useDefault("INFO_ACCEPTED_REQUEST"))
                 .addField("Pseudo", pseudo, true)
                 .addField("Membre", "<@" + discordId + ">", true)
-                .setThumbnail(this.plugin.getDiscordManager()
-                    .jda.getUserById(discordId).getAvatarUrl())
+                .setThumbnail(this.plugin.getDiscordManager().jda.getUserById(discordId).getAvatarUrl())
                 .setFooter("ID " + discordId)
                 .setColor(new Color(0x484d95));
     }
@@ -373,8 +371,7 @@ public class RegisterCommand extends BaseCmd {
         return new EmbedBuilder().setTitle(LOCAL.useDefault("INFO_REJECTED_REQUEST"))
                 .addField("Pseudo", pseudo, true)
                 .addField("Membre", "<@" + discordId + ">", true)
-                .setThumbnail(this.plugin.getDiscordManager()
-                    .jda.getUserById(discordId).getAvatarUrl())
+                .setThumbnail(this.plugin.getDiscordManager().jda.getUserById(discordId).getAvatarUrl())
                 .setFooter("ID " + discordId)
                 .setColor(new Color(0x44474d));
     }
@@ -401,9 +398,9 @@ public class RegisterCommand extends BaseCmd {
                     confirmed, pseudo);
 
             if (!ok) {
-                event.reply(LOCAL.useDefault("CMD_ERROR") 
-                    + " --> " + LOCAL.useDefault("WARN_REGISTRATIONDELAY"))
-                    .setEphemeral(true).submit(true);
+                event.reply(LOCAL.useDefault("CMD_ERROR")
+                        + " --> " + LOCAL.useDefault("WARN_REGISTRATIONDELAY"))
+                        .setEphemeral(true).submit(true);
                 return;
             }
 
@@ -415,15 +412,15 @@ public class RegisterCommand extends BaseCmd {
                     .submit(true);
 
             final String avatarUrl = plugin.getBukkitManager().getAvatarUrl(uuid, "72");
-            final String newMsg = String.format(translateBy("INFO_WELCOME_USER", newUser.getLang()), discordId, pseudo) + "\n" + avatarUrl;
+            final String newMsg = String.format(translateBy("INFO_WELCOME_USER", newUser.getLang()), discordId, pseudo)
+                    + "\n" + avatarUrl;
             gManager.getWelcomeChannel().sendMessage(newMsg).submit(true);
 
-
-            
             this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
                 String msg = newMsg;
                 if (hoursToConfirm > 0) {
-                    msg = newMsg + "\n" + String.format(translateBy("INFO_TIME_TO_CONFIRM", newUser.getLang()), hoursToConfirm);
+                    msg = newMsg + "\n"
+                            + String.format(translateBy("INFO_TIME_TO_CONFIRM", newUser.getLang()), hoursToConfirm);
                 }
                 channel.sendMessage(msg).submit(true);
             });
