@@ -1,6 +1,6 @@
 @echo off
 cls
-set BUILDER=C:\Users\Utilisateur\Desktop\Whitelist-je\15
+set BUILDER=C:\projects\Whitelist-Je\
 set CONFFILE=pom.xml
 cd %BUILDER%
 
