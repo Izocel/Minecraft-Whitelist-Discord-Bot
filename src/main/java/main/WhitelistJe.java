@@ -69,8 +69,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     public final String getPluginInfos(boolean toConsole) {
         final StringBuilder sb = new StringBuilder();
         final String devName = toConsole
-                ? "@xXx-RaFuX#1345 & @WeConnected#9970"
-                : "<@272924120142970892> & <@258071819108614144>";
+                ? "@xXx-RaFuX#1345"
+                : "<@272924120142970892>";
         
         sb.append(String.format(
             LOCALES.translate("PLUGIN_NAME"),
