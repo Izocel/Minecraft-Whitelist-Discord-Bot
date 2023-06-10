@@ -4,149 +4,147 @@ public enum Es {
     //GLOBAL
     YES("Si"),
     NO("No"),
-    RAINY("Lluvioso"),
-    SUNNY("Soleado"),
-    STORMY("Tormentoso"),
+    RAINY("lluvioso"),
+    SUNNY("soleado"),
+    STORMY("tormentoso"),
     DAY("Día"),
     NIGHT("Noche"),
-    NAME("Nombre"),
-    VERSION("Versión"), 
-    ISACTIVE("Está activo"), 
-    ISINACTIVE("Está inactivo"), 
-    DOREGISTER("Regístrate en el servidor Discord®"),
-    MINECRAFT_ALREADYREGISTERED("Esta cuenta ya está confirmada"),
-    ACCOUNTSINFOS("Información de cuentas"), 
-    INFORMATION("Informacións"),
-    SERVER("Servidor"), 
-    WORLDS("Mundos"),
-    DEVS("Devs"),
-    PORT("Port"),
-    ONLINE_MODE("Modo en línea"),
-    WHITELISTED("Whitelisted"),
-    DEFAULT_GAMEMOD("Modo de juego"),
-    DESCRIPTION("Descripción"),
-    CONNECTED_USER("Usuario conectado"),
-    CONNECTED_USERS("Usuarios conectados"),
-    SERVER_ACTIVITIES("🌿 Actividades del servidor"),
-    TIME_METEO("Clima y tiempo"),
-    SOME_EXAMPLES("Aquí hay ejemplos"),
+    NAME("nom"), // à traduire
+    VERSION("Version"), // à traduire
+    ISACTIVE("est actif"), // à traduire
+    ISINACTIVE("est inactif"), // à traduire
+    DOREGISTER("Enregistrer vous sur le serveur Discord®"), // à traduire
+    MINECRAFT_ALREADYREGISTERED("Ce compte est déja confirmé..."), // à traduire
+    ACCOUNTSINFOS("Informations de comptes"), // à traduire
+    INFORMATION("Informations"), // à traduire
+    SERVER("Serveur"), // à traduire
+    WORLDS("Mondes"), // à traduire
+    DEVS("Développeurs"), // à traduire
+    PORT("Port"), // à traduire
+    ONLINE_MODE("Mode en ligne"), // à trauire
+    WHITELISTED("Whitelisted"), // à traduire
+    DEFAULT_GAMEMOD("Mode de jeu"), // à traduire
+    DESCRIPTION("Description"), // à traduire
+    CONNECTED_USER("Joueur connecté"), // à traduire
+    CONNECTED_USERS("Joueurs connectés"), // à traduire
+    SERVER_ACTIVITIES("🌿 Activités du serveur"), // à traduire
+    TIME_METEO("Météo et temps"), // à traduire
+    SOME_EXAMPLES("Voici des examples"), // à traduire
 
     //BUTTONS
     BTN_ACCEPT("✔️ Aceptar"),
     BTN_REFUSE("❌ Rechazar"),
 
     //REPLIES
-    LANG_CHANGED("Tu idioma fue cambiado"),
-    LANG_CURRENT("Su idioma es actualmente"),
+    LANG_CHANGED("Tu idioma fue cambiado"), // à traduire
+    LANG_CURRENT("Su idioma es actualmente"), // à traduire
 
     //TITLES
-    TITLE_ACCOUNT_CONFIRM("Confirmación de sus cuentas"), 
+    TITLE_ACCOUNT_CONFIRM("Confirmation de vos comptes"), // à traduire
 
     //EMBEDS
-    EMBD_LINK_DESC("porfavor confirme la demanda de relación"), 
-    EMBD_LINK_YESME("Sí, soy yo"), 
-    EMBD_LINK_NOTME("No, no soy yo"),
-    EMBD_LINK_POLICY("Eligiendo `Sí` Usted confirma que estas cuentas estan enlace y que usted es el detentor de ellas.\n" + 
-        "Eligiendo `No` los enlaces temporarios seran destruidos y todas las actividades corrientes y futuras seran sospendidas."), 
+    EMBD_LINK_DESC("Veuillez confirmer la demande de relation"), // à traduire
+    EMBD_LINK_YESME("Oui, c\'est bien moi"), // à traduire
+    EMBD_LINK_NOTME("Non, ce n\'est pas moi"), // à traduire
+    EMBD_LINK_POLICY("En cliquant sur `OUI` vous confirmez que ces comptes seront reliés et que vous en êtes le détenteur.\n" + // à traduire
+        "En cliquant sur `NON` les liens temporaires seront détruits et toutes activitées courrantes et futures seront suspendues."), // à traduire
 
     //LABELS
-    LABEL_LONG_MC("Identificación Minecraft®"),
-    LABEL_MINECRAFT_UUID("Minecraft® uuid"), 
-    LABEL_LONG_DC("Identificación Discord®"), 
-    LABEL_DISCORD_ID("Discord® id"), 
-    LABEL_DISCORD_TAG("Discord® tag"), 
-    LABEL_LONG_BEDROCK("Identificación Bedrock®"), 
-    LABEL_BEDROCK_ID("Bedrock® id"),
-    LABEL_LONG_JAVA("Identificación Java"), 
-    LABEL_JAVA_ID("Java® id"),
-    LABEL_USECMD("use la comanda"), 
+    LABEL_LONG_MC("Identifiant Minecraft®"), // à traduire
+    LABEL_MINECRAFT_UUID("Minecraft® uuid"), // à traduire
+    LABEL_LONG_DC("Identifiant Discord®"), // à traduire
+    LABEL_DISCORD_ID("Discord® id"), // à traduire
+    LABEL_DISCORD_TAG("Discord® tag"), // à traduire
+    LABEL_LONG_BEDROCK("Identifiant Bedrock®"), // à traduire
+    LABEL_BEDROCK_ID("Bedrock® id"), // à traduire
+    LABEL_LONG_JAVA("Identifiant Java"), // à traduire
+    LABEL_JAVA_ID("Java® id"), // à traduire
+    LABEL_USECMD("Utilisez la commande"), // à traduire
 
     //PLUGIN
-    PLUGIN_HELLO("**El plugin `%s` %s **\n\n"), 
-    PLUGIN_HELLO_ERROR("❌ **`ERROR:` El Plugin `%s` encontró `problemas` al inicializar**\n"),
-    PLUGIN_GOODBYE("**El plugin `%s` %s **\n\n"),
-    PLUGIN_NAME("Nombre: `%s`"),
-    PLUGIN_VERSION("Versión: `%s`"),
-    PLUGIN_DEVBY("Desarollado por: %s"),         
+    PLUGIN_HELLO("**Le plugin `%s` %s **\n\n"), // à traduire
+    PLUGIN_HELLO_ERROR("❌ **`ERREUR:` Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n"), // à traduire
+    PLUGIN_GOODBYE("**Le plugin `%s` %s **\n\n"), // à traduire
+    PLUGIN_NAME("Nom: `%s`"), // à traduire
+    PLUGIN_VERSION("Version: `%s`"), // à traduire
+    PLUGIN_DEVBY("Développer par: %s"), // à traduire
 
     //INFOS
-    INFO_LEGITIMATE("si esta demanda le parece ilegitima, contacte un administrador!!!"), 
-    INFO_TRYREGISTERAGAIN("Intente volver a solicitar el registro en Discord®."),
-    INFO_CHECK_YOUR_MSG("Ver detalles en sus mensajes privados."), 
-    INFO_CONTACT_ADMIN_MORE_INFO("Para saber mas contacte un administrador directamente..."),
-    INFO_ALREADY_ACCEPTED_CONNECT("**Su cuenta `%s` ya esta aceptada en el servidor...**\n" + "Solo tiene que conectarse usted. `Provecho` ⛏🧱"), 
-    INFO_MUST_CONFIRM_ACCOUNT("**Una confirmación de su cuenta `%s` es necesaria.**\n"), 
-    INFO_TIME_TO_CONFIRM_SINCE("Para confirmar su cuenta usted tiene `%sh` de la aprobacion para conectarse al servidor Mincecraft®\n"), 
-    INFO_ACCES_REQUESTED("**Su demanda de acceso `%s` para `%s` ha sido enviada a los moderadores.**"), 
-    INFO_PLZ_AWAIT("**Merci de patienter jusqu'à une prise de décision de leur part.**"),
-    INFO_REGISTER_REQUEST("Un jugador `%s` quiere registrarse en su servidor `Minecraft®`"), 
+    INFO_LEGITIMATE("Si cette demande vous semble illégitime, contactez un administrateur!!!"), // à traduire
+    INFO_TRYREGISTERAGAIN("Essayez de refaire une demande d'enregistrment sur Discord®."), // à traduire
+    INFO_CHECK_YOUR_MSG("Voir les détails dans vos messages privés."), // à traduire
+    INFO_CONTACT_ADMIN_MORE_INFO("Pour en s'avoir d'avantage, contactez un administrateur directement..."), // à traduire
+    INFO_ALREADY_ACCEPTED_CONNECT("**Votre compte `%s` est déjà accepté sur le serveur...**\n" + "Il suffit de vous connecter. `Enjoy` ⛏🧱"), // à traduire
+    INFO_MUST_CONFIRM_ACCOUNT("**Une confirmation de votre compte `%s` est nécéssaire.**\n"), // à traduire
+    INFO_TIME_TO_CONFIRM_SINCE("Pour confimer votre compte vous aviez `%sh` depuis l'aprobation pour vous connecter au server Mincecraft®\n"), // à traduire
+    INFO_ACCES_REQUESTED("**Votre demande d'accès `%s` pour `%s` a été envoyé aux modérateurs.**"), // à traduire
+    INFO_PLZ_AWAIT("**Merci de patienter jusqu'à une prise de décision de leur part.**"), // à traduire
+    INFO_REGISTER_REQUEST("Un joueur `%s` veut s'enregister sur votre serveur `Minecraft®`"), // à traduire
     INFO_ACCEPTED_BY("✔️ Aceptado por: %s"),
     INFO_REJECTED_BY("❌ Denegado por: %s"),
     INFO_ACCEPTED_REQUEST("Petición aceptada"),
     INFO_REJECTED_REQUEST("Solicitud rechazada"),
-    INFO_WELCOME_USER("**Te dicemos bienvenidos, <@%s> :: `%s`. Provecho  ⛏🧱 !!!**"), 
-    INFO_TIME_TO_CONFIRM("**Tiene `%sh` para conectarse al servidor `Minecraft®` y asi `confirmar` su cuenta.**"), 
-    INFO_USER_WAS_ACCEPTED("✔️ **El jugador <@%s> ha sido aprobado bien por el apodo: `%s`.**"), 
-    INFO_USER_WAS_REJECTED("❌ **El jugador <@%s> ha sido rechazado por el apodo: `%s`.**"), 
-    INFO_REJECTED_USER("**❌ Su registracion en el servidor ha sido rechazada.**"), 
+    INFO_WELCOME_USER("**Nous te souhaitons bienvenue, <@%s> :: `%s`.Enjoy  ⛏🧱 !!!**"), // à traduire
+    INFO_TIME_TO_CONFIRM("**Vous avez `%sh` pour vous connecter au serveur `Minecraft®` et ainsi `confirmer` votre compte.**"), // à traduire
+    INFO_USER_WAS_ACCEPTED("✔️ **Le joueur <@%s> a bien été approuvé pour le pseudo: `%s`.**"), // à traduire
+    INFO_USER_WAS_REJECTED("❌ **Le joueur <@%s> a bien été refusé pour le pseudo: `%s`.**"), // à traduire
+    INFO_REJECTED_USER("**❌ Votre enregistrement sur le serveur a été refusé.**"), // à traduire
 
     //WARNS
-    WARN_REGISTRATIONDELAY("⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar esta cuenta..."), 
-    WARN_ALREADTY_REGISTERED("⚠️ **Este apodo `%s` ya fue registrado por otro jugador**"),
-    WARN_NOT_ACCEPTED_YET("⚠️ **Esta cuenta `%s` no ha sido aceptada todavia por el servidor**"),
-    WARN_BAD_PSEUDO_FORMAT_EXPLAIN("⚠️ Su apodo `%s`: `%s`, debe contener entre `3` y `16` caracteres.\n No debe contener caracteres especiales aparte de las barras abajo `_` o líneas horizontales `-`."), // 
+    WARN_REGISTRATIONDELAY("⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé..."), // à traduire
+    WARN_ALREADTY_REGISTERED("⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**"), // à traduire
+    WARN_NOT_ACCEPTED_YET("⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**"), // à traduire
+    WARN_BAD_PSEUDO_FORMAT_EXPLAIN("⚠️ Votre pseudo `%s`: `%s`, devrait comporter entre `3` et `16` caractères.\nIl ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`."), // à traduire
 
     //ERRORS
-    ERROR("❌ ERROR"),    
-    CONTACT_ADMNIN("Contactar con un administrador..."),
-    CHECK_LOGS("**Mira los archivos de `log`!!!!**"),
-    NOTREGISTERED("No se pudo encontrar su registro..."),
-    CMD_ERROR("❌ Lo sentimos... ¡Ocurrió un error durante esta solicitud!"),
-    LOOKUP_ERROR("Este valor de búsqueda no es válido..."),
-    LOOKUP_PARAM_ERROR("Debe elegir un tipo de búsqueda válido"),
-    REGISTER_CMD_PARAM_ERROR("Usted debe incluir al menos un apodo para usar esta comanda..."),    
-    REGISTER_CMD_FORMAT_ERROR("❌ Sus `identificaciones` tenian `errores` de formato."),      
-    REGISTER_CMD_NOT_FOUND_UUID("❌ **Su UUID `%s` no ha podido ser encontrado en los servidores...**"),       
-    REGISTER_CMD_ERROR("❌ **Disculpe, la registracion para su apodo `%s` no se ha podido realizar bien.**"),     
+    ERROR("❌ ERREUR"), // à traduire
+    CONTACT_ADMNIN("Contactez un admin..."), // à traduire
+    CHECK_LOGS("**Regarder les fichers de `log`!!!!**"), // à traduire
+    NOTREGISTERED("Votre enregistrement n'a pas pu être retrouvé..."), // à traduire
+    CMD_ERROR("❌ Désoler... une erreur est survenu lors de cette demande!!!"), // à traduire
+    LOOKUP_ERROR("Cette valeur de recherche n'est pas valide..."), // à traduire
+    LOOKUP_PARAM_ERROR("Vous devez choisir un type de recherche valide"), // à traduire
+    REGISTER_CMD_PARAM_ERROR("Vous devez fournir au moins un pseudo pour utiliser cette commande..."), // à traduire
+    REGISTER_CMD_FORMAT_ERROR("❌ Vos `identifiants` comportaient des `erreurs` de format."), // à traduire
+    REGISTER_CMD_NOT_FOUND_UUID("❌ **Votre UUID `%s` n'a pas pu être retrouvés sur les serveurs...**"), // à traduire
+    REGISTER_CMD_ERROR("❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**"), // à traduire
 
     //MINECRAFT_CMD
-    CMD_LINK("wje-link"),
+    CMD_LINK("wje-link"), // à traduire
 
     //DISCORD CMD
-    CMD_SERVER("servidor"),       
-    CMD_REGISTER("registrar"),      
-    CMD_LOOKUP("busqueda"),      
-    CMD_SETLOCAL("idioma"),      
-    CMD_FETCHDB_USERS("miembros"),       
-    CMD_REMOVEDB_USERS("retirar"),       
+    CMD_SERVER("serveur"), // à traduire
+    CMD_REGISTER("enregistrer"), // à traduire
+    CMD_LOOKUP("recherche"), // à traduire
+    CMD_SETLOCAL("idioma"),
+    CMD_FETCHDB_USERS("miembros"),
+    CMD_REMOVEDB_USERS("eliminar"),
     //PARAMS
-    PARAM_PJAVA("java"),
-    PARAM_PBEDR("bedrock"),
-    PARAM_REGISTR_LABELJ("Su pseudo Java"),
-    PARAM_REGISTR_LABELB("Su pseudo Bedrock"),
-    PARAM_LOOKUP_LABEL("El uuid o el apodo de búsqueda"),
+    PARAM_PJAVA("pseudo-java"), // à traduire
+    PARAM_PBEDR("pseudo-bedrock"), // à traduire
+    PARAM_REGISTR_LABELJ("Votre pseudo Java"), // à traduire
+    PARAM_REGISTR_LABELB("Votre pseudo Bedrock"), // à traduire
+    PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"), // à traduire
     PARAM_LOCAL_SETLOCAL("idioma"),
     PARAM_LOCAL_LABEL("Idioma disponible: ['FR, EN, ES']"),
     PARAM_MEMBER("miembro"),
     PARAM_MEMBER_LABEL("Miembro del gremio"),
-    PARAM_UUID("uuid"),
-    PARAM_UUID_LABEL("Un uuid minecraft"), // à traduire
     //DESC
-    DESC_SERVER("Mostrar la información del servidor `Minecraft®`."),
-    DESC_REGISTR("Regístrarse en el servidor `Minecraft®`."),
-    DESC_LOOKUP("Encontrar información de jugador de Minecraft® por uuid o pseudo."),
-    DESC_SETLOCAL("Cambiar el idioma de visualización.\n FR: Francés, EN: Inglés, ES: Español."),
-    DESC_FETCHDB_USERS("Récuperer les infos sur un membre."),   // à traduire svp
-    DESC_REMOVEDB_USERS("Eliminar todos los datos de un miembro y expulsarlo de Discord®."),   
+    DESC_SERVER("Afficher les informations du serveur `Minecraft®`."), // à traduire
+    DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."), // à traduire
+    DESC_LOOKUP("Trouver des infos de joueurs Minecraft® par uuid ou pseudo."), // à traduire
+    DESC_SETLOCAL("Changer la langue d'affichage.\n FR: francais, EN: english, ES: española."), // à traduire
+    DESC_FETCHDB_USERS("Recuperar miembro registrado DB."),
+    DESC_REMOVEDB_USERS("Elimina todos los datos de un miembro y sácalo de Discord®."),
 
     //ACL
-    TEXTONLY_CMD("❌ Esta orden solo está disponible en los canales de texto."),
-    GUILDONLY_CMD("❌ Esta orden solo está disponible en los canales de texto de los gremios que usan este plugin."),
-    USERONLY_CMD("❌ Esta orden está reservada para usuarios registrados por Discord®."),
-    ROLE_NOT_ALLOWED("🔒 Lastima que no tiene los rollos necesarios... 🔒"),   
+    TEXTONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuels."), // à traduire
+    GUILDONLY_CMD("❌ Cette commande est disponible seulement dans les cannaux textuel de guild utilisant ce plugin."), // à traduire
+    USERONLY_CMD("❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®."), // à traduire
+    ROLE_NOT_ALLOWED("🔒 Lástima que no tienes los roles necesarios... 🔒"),
 
     //MISC
-    SERVER_IS_UP("El servidor sirve!"),
+    SERVER_IS_UP("Le serveur est up and running boyyssss!"), // à traduire
 
     ;
 

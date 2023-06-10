@@ -110,7 +110,7 @@ public enum En {
     REGISTER_CMD_ERROR("❌ **Sorry, the registration for your `%s` account, could not be completed.**"),
 
     //MINECRAFT_CMD
-    CMD_LINK("wlink"),
+    CMD_LINK("wje-link"),
 
     //DISCORD CMD
     CMD_SERVER("server"),
@@ -120,8 +120,8 @@ public enum En {
     CMD_FETCHDB_USERS("members"),
     CMD_REMOVEDB_USERS("remove"),
     //PARAMS
-    PARAM_PJAVA("java"),
-    PARAM_PBEDR("bedrock"),
+    PARAM_PJAVA("java-pseudo"),
+    PARAM_PBEDR("bedrock-pseudo"),
     PARAM_REGISTR_LABELJ("Your Java pseudo"),
     PARAM_REGISTR_LABELB("Your Bedrock pseudo"),
     PARAM_LOOKUP_LABEL("The uuid or pseudo to search for"),
@@ -129,8 +129,6 @@ public enum En {
     PARAM_LOCAL_LABEL("Available language: ['FR, EN, ES']"),
     PARAM_MEMBER("member"),
     PARAM_MEMBER_LABEL("A guild member"),
-    PARAM_UUID("uuid"),
-    PARAM_UUID_LABEL("A Minecraft uuid"),
     //DESC
     DESC_SERVER("Show the `Minecraft®` server informations."),
     DESC_REGISTR("Register on the `Minecraft®` server."),
