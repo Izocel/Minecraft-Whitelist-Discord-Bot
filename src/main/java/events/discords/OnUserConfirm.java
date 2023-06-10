@@ -1,3 +1,4 @@
+//modifié
 package events.discords;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class OnUserConfirm extends ListenerAdapter {
             final boolean alreadyConfirmed = plugin.playerIsConfirmed(UUID.fromString(uuid)) > 0;
 
             if(alreadyConfirmed) {
-                event.reply("✔️ Vos comptes sont déjà reliés et confirmés.\n Minecraft-UUID: " + uuid).submit(true);
+                event.reply("✔️ Vos comptes sont déjà reliés et Whitelister.\n Minecraft-UUID: " + uuid).submit(true);
                 event.getMessage().editMessage("All good").setActionRows(ActionRow.of(
                     Button.primary("All good", "✔️ All good").asDisabled()
                 )).submit(true);
@@ -54,7 +55,7 @@ public class OnUserConfirm extends ListenerAdapter {
             }
             
         } catch (Exception e) {
-            event.reply("❌ Cette demande a rencontrée des problèmes. Contactez un admin!").submit(true);
+            event.reply("❌ We're having problem with your request. Please contact an Admin on Discord!").submit(true);
             SentryService.captureEx(e);
         }
     }
@@ -67,12 +68,12 @@ public class OnUserConfirm extends ListenerAdapter {
 
             plugin.getBukkitManager().setPlayerAsConfirmed(uuid);
 
-            event.reply("✔️ Vos compte sont maintenant reliés et confirmés.").submit(true);
+            event.reply("✔️ Your accounts are now linked and confirmed.").submit(true);
             event.getMessage().editMessage("All good").setActionRows(ActionRow.of(
                 Button.primary("All good", "✔️ All good").asDisabled()
             )).submit(true);
         } catch (Exception e) {
-            event.reply("❌ Vos compte non pas pu être reliés et confrimés. Contactez un admin!").submit(true);
+            event.reply("❌ Your accounts couldn't be linked and confirmed. Please contact an Admin on Discord!").submit(true);
             SentryService.captureEx(e);
         }
     }
@@ -84,13 +85,13 @@ public class OnUserConfirm extends ListenerAdapter {
 
             plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
 
-            event.reply("✔️ La demande a bien été rejetée.").submit(true);
+            event.reply("✔️ The request has been rejected.").submit(true);
             event.getMessage().editMessage("All good").setActionRows(ActionRow.of(
                 Button.primary("All good", "✔️ All good").asDisabled()
             )).submit(true);
 
         } catch (Exception e) {
-            event.reply("❌ Cette demande a rencontrée des problèmes. Contactez un admin!").submit(true);
+            event.reply("❌ This request has encountered some issues. Please contact an Admin on Discord!").submit(true);
             SentryService.captureEx(e);
         }
     }

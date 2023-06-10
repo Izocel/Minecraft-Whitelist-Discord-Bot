@@ -1,3 +1,5 @@
+//modifié
+
 package configs;
 
 import java.util.HashMap;
@@ -7,25 +9,25 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.G7XiEA.Ee9lOtjAIuuMOWIMzFOyE1ieZmnVX-hR_wdjzA";
+    private final String discordBotToken="MTA5MTg2OTM0MDI0MjAxODMyNA.G8Qz7R.GDvtlQrp-T3PCitHqCuRwWMfNzcO2dOKRiqn_w";
 
-    private final String discordServerId="276931890735218689";
-    private final String discordWelcomeChanelId="925583159964352643";
-    private final String discordAdminChanelId="927283856053252106";
-    private final String discordWhitelistChanelId="927283856053252106";
+    private final String discordServerId="770057600867237898";
+    private final String discordWelcomeChanelId="1088581487470850140";
+    private final String discordAdminChanelId="1060368458816172112";
+    private final String discordWhitelistChanelId="1091582563971248149";
     private final String botLogChannelId="927283856053252106"; // unused yet
     private final String javaLogChannelId="927283856053252106"; // unused yet
 
-    private final String discordAdminRoleId="293133215500075010";
-    private final String discordModeratorRoleId="1021054284214833182";
-    private final String discordDevRoleId="1021054460438523976";
-    private final String discordHelperRoleId="1021054460438523976";
+    private final String discordAdminRoleId="1090853358786588795";
+    private final String discordModeratorRoleId="1090853850489036811";
+    private final String discordDevRoleId="1090854262751371344";
+    private final String discordHelperRoleId="1090854380745535538";
     
-    private final String mysqlHost="10.8.0.1";
-    private final String mysqlPort="3306";
-    private final String mysqlDb="whitelist_je";
-    private final String mysqlUser="whitelist_je";
-    private final String mysqlPass="@Whitelist_je2022";
+    private final String mysqlHost = "localhost";
+    private final String mysqlPort = "3306";
+    private final String mysqlDb = "minecraft";
+    private final String mysqlUser = "minecraft";
+    private final String mysqlPass = "h6u9effkcj735vcypxxj8durh9rjzkjz";
     private final String mysqlDefTable="wje_users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
     private final String mysqlMaxConnection="15";
@@ -33,17 +35,17 @@ public final class ConfigManager {
 
     private final String portJava="25565";
     private final String portBedrock="19132";
-    private final String javaIp="rvdprojects.synology.me";
-    private final String bedrockIp="rvdprojects.synology.me";
-    private final String showSubWorlddMeteo="true";
-    private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
+    private final String javaIp="tempcity.click";
+    private final String bedrockIp="bedrock.tempcity.click";
+    private final String showSubWorlddMeteo="false";
+    private final String hoursToConfirmMcAccount="48"; // zero to not use this feature
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
     private final String pluginVersion="2023.3";
 
     // FR, EN, FR_EN, EN_FR
-    private final String defaultLang="FR";
+    private final String defaultLang="EN";
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
