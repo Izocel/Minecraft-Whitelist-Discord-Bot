@@ -75,12 +75,8 @@ public class BukkitManager {
         sb.append("\n\tJava Ip: `" + javaIp + "`");
         sb.append("\n\tBedrock Ip: `" + bedrockIp + "`");
         sb.append("\n\t" + portField + " Java: `" + portJ + "`");
+        sb.append("\n\tIp Bedrock: `" + bedrockIp + "`");
         sb.append("\n\t" + portField + " Bedrock: `" + portB + "`");
-        sb.append("\n\t" + versionField + " : `" + version + "`");
-        sb.append("\n\t" + onlineField + " : `" + onlineStr + "`");
-        sb.append("\n\t" + whitelistField + " : `" + fwStr + "`");
-        sb.append("\n\t" + defaultGModefield + " : `" + gameMode.name() + "`");
-        sb.append("\n\t" + descField + " : `" + description + "`");
 
         return sb.toString();
     }
