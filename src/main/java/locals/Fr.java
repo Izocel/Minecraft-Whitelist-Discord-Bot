@@ -111,7 +111,7 @@ public enum Fr {
     REGISTER_CMD_ERROR("❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**"),
 
     //MINECRAFT_CMD
-    CMD_LINK("wje-link"),
+    CMD_LINK("wlink"),
 
     //DISCORD CMD
     CMD_SERVER("serveur"),
@@ -121,8 +121,8 @@ public enum Fr {
     CMD_FETCHDB_USERS("membres"),
     CMD_REMOVEDB_USERS("retirer"),
     //PARAMS
-    PARAM_PJAVA("pseudo-java"),
-    PARAM_PBEDR("pseudo-bedrock"),
+    PARAM_PJAVA("java"),
+    PARAM_PBEDR("bedrock"),
     PARAM_REGISTR_LABELJ("Votre pseudo Java"),
     PARAM_REGISTR_LABELB("Votre pseudo Bedrock"),
     PARAM_LOOKUP_LABEL("Le uuid ou le pseudo de recherche"),
