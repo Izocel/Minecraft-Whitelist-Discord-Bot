@@ -42,7 +42,7 @@ public final class ConfigManager {
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 
-    private final String pluginVersion="2023.3";
+    private final String pluginVersion="2023.1";
 
     // FR, EN, FR_EN, EN_FR
     private final String defaultLang="EN";

@@ -129,8 +129,6 @@ public enum En {
     PARAM_LOCAL_LABEL("Available language: ['FR, EN, ES']"),
     PARAM_MEMBER("member"),
     PARAM_MEMBER_LABEL("A guild member"),
-    PARAM_UUID("uuid"),
-    PARAM_UUID_LABEL("A Minecraft uuid"),
     //DESC
     DESC_SERVER("Show the `Minecraft®` server informations."),
     DESC_REGISTR("Register on the `Minecraft®` server."),

@@ -126,12 +126,9 @@ public enum Es {
     PARAM_REGISTR_LABELB("Su pseudo Bedrock"),
     PARAM_LOOKUP_LABEL("El uuid o el apodo de búsqueda"),
     PARAM_LOCAL_SETLOCAL("idioma"),
-    PARAM_LOCAL_LABEL("Idioma disponible: ['FR, EN, ES']"),
-    PARAM_MEMBER("miembro"),
-    PARAM_MEMBER_LABEL("Miembro del gremio"),
-    PARAM_UUID("uuid"),
-    PARAM_UUID_LABEL("Un uuid minecraft"), // à traduire
-
+    PARAM_LOCAL_LABEL("Language disponible: ['FR, EN, ES']"),
+    PARAM_MEMBER("miembro"),    
+    PARAM_MEMBER_LABEL("Un miembro del gremio"),    
     //DESC
     DESC_SERVER("Mostrar la información del servidor `Minecraft®`."),
     DESC_REGISTR("Regístrarse en el servidor `Minecraft®`."),
