@@ -1,5 +1,3 @@
-//modifié
-
 package configs;
 
 import java.util.HashMap;
@@ -35,10 +33,10 @@ public final class ConfigManager {
 
     private final String portJava="25565";
     private final String portBedrock="19132";
-    private final String javaIp="tempcity.click";
-    private final String bedrockIp="bedrock.tempcity.click";
-    private final String showSubWorlddMeteo="false";
-    private final String hoursToConfirmMcAccount="48"; // zero to not use this feature
+    private final String javaIp="rvdprojects.synology.me";
+    private final String bedrockIp="rvdprojects.synology.me";
+    private final String showSubWorlddMeteo="true";
+    private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
 

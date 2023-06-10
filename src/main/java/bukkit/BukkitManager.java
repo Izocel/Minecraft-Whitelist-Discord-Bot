@@ -72,7 +72,8 @@ public class BukkitManager {
         final String fwStr = forceWhitelist ? "`" + YES +  "`" : "`" + NO +  "`";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\n\tIp Java: `" + javaIp + "`");
+        sb.append("\n\tJava Ip: `" + javaIp + "`");
+        sb.append("\n\tBedrock Ip: `" + bedrockIp + "`");
         sb.append("\n\t" + portField + " Java: `" + portJ + "`");
         sb.append("\n\tIp Bedrock: `" + bedrockIp + "`");
         sb.append("\n\t" + portField + " Bedrock: `" + portB + "`");
