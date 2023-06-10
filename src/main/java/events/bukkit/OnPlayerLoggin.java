@@ -1,5 +1,3 @@
-//modifié
-
 package events.bukkit;
 
 import java.util.logging.Logger;
@@ -59,7 +57,7 @@ public class OnPlayerLoggin implements Listener {
 
         final String ds_srvName = this.plugin.getDiscordManager().getServerName();
         final String ds_inviteUrl = this.plugin.getDiscordManager().getInviteUrl();
-        return "§c§lThis server is under Discord® Whitelist!§l" +
+        return "§c§lCe serveur est sous whitelist Discord®§l" +
                 "§a\n\nJoin §l" + ds_srvName + "§a at: §9§n§l" + ds_inviteUrl +
                 "§f\n\n§lServer Version: §f" + version +
                 "§f\n\n§lServer Address: §f" + ip;
@@ -72,9 +70,9 @@ public class OnPlayerLoggin implements Listener {
         final String version = Bukkit.getServer().getVersion();
 
         final String ds_srvName = this.plugin.getDiscordManager().getServerName();
-        return "§c§lThis server is under Discord\u00AE Whitelist!§l" +
-                "§f\n\nIt seems like you have been banned §f from the Server: §a" + ds_srvName +
-                ".\n§fBetter luck next time..." +
+        return "§c§lCe serveur est sous whitelist Discord®§l" +
+                "§f\n\nIl semble que vous ayez été§l banni§f du serveur: §a" + ds_srvName +
+                ".\n§fMeilleur chance la prochaine fois..." +
                 "§f\n\n§lServer Version: §f" + version +
                 "§f\n\n§lServer Address: §f" + ip;
     }
