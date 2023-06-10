@@ -47,8 +47,6 @@ public abstract class BaseCmd extends ListenerAdapter {
         this.cmdNameTradKey = cmdNameTradKey;
         this.mainTransactionName = mainTransactionName;
         this.mainOperationName = mainOperationName;
-
-        this.logger.info("Registered ----> /" + LOCAL.translate(this.cmdNameTradKey));
     }
 
     @Override
