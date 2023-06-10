@@ -1,3 +1,5 @@
+//modifié
+
 package commands.discords;
 
 import java.util.List;
@@ -55,12 +57,11 @@ public class ServerCommand extends BaseCmd {
         final String worldsField = useTranslator("WORLDS");
         final String devSField = useTranslator("DEVS");
 
-        final String title = "** 📝`" + guildName + "` | " + informationField + " ** ";
+        final String title = "** 📝`" + guildName + "` \n\n| " + informationField + " ** ";
 
         event.reply(title + this.plugin.getBukkitManager().getServerInfoString(this.cmdLang) +
                 "\n\n**" + serverField + ": ** \n\t" + getPlayersOnline() +
-                "\n\n**" + worldsField + ": **" + getWorldsInfos() +
-                "\n**" + devSField + "**: <@272924120142970892> 👨‍💻"
+                "\n**" + devSField + "**: <@272924120142970892> & <@258071819108614144> 👨‍💻\u1F468\u200D\u1F4BB"
 
         ).setEphemeral(false).queue((message) -> message.deleteOriginal().queueAfter(msgDelaySec, TimeUnit.SECONDS));
 
