@@ -113,12 +113,12 @@ public enum Es {
     CMD_LINK("wje-link"),
 
     //DISCORD CMD
-    CMD_SERVER("serveur"), // à traduire
-    CMD_REGISTER("enregistrer"), // à traduire
-    CMD_LOOKUP("recherche"), // à traduire
-    CMD_SETLOCAL("idioma"),
-    CMD_FETCHDB_USERS("miembros"),
-    CMD_REMOVEDB_USERS("eliminar"),
+    CMD_SERVER("servidor"),       
+    CMD_REGISTER("registrar"),      
+    CMD_LOOKUP("busqueda"),      
+    CMD_SETLOCAL("idioma"),      
+    CMD_FETCHDB_USERS("miembros"),       
+    CMD_REMOVEDB_USERS("retirar"),       
     //PARAMS
     PARAM_PJAVA("java"),
     PARAM_PBEDR("bedrock"),
@@ -131,6 +131,7 @@ public enum Es {
     PARAM_MEMBER_LABEL("Miembro del gremio"),
     PARAM_UUID("uuid"),
     PARAM_UUID_LABEL("Un uuid minecraft"), // à traduire
+
     //DESC
     DESC_SERVER("Mostrar la información del servidor `Minecraft®`."),
     DESC_REGISTR("Regístrarse en el servidor `Minecraft®`."),
