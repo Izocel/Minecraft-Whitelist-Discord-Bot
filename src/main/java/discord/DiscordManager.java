@@ -42,7 +42,7 @@ public class DiscordManager {
 
     public DiscordManager(WhitelistJe plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
-        .startChild("DiscordManager");
+                .startChild("DiscordManager");
 
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
         this.plugin = plugin;
@@ -58,7 +58,7 @@ public class DiscordManager {
 
     public void connect() {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
-        .startChild("DiscordManager.connect");
+                .startChild("DiscordManager.connect");
         try {
             jda = JDABuilder.create(this.configs.get("discordBotToken", null),
                     EnumSet.allOf(GatewayIntent.class))
@@ -68,11 +68,11 @@ public class DiscordManager {
             this.checkGuild();
             this.plugin.getSentryService().setUsername(this.ownerId);
             this.plugin.getSentryService().setUserId(this.getGuild().getId());
-            
+
             if (jda == null) {
                 throw new LoginException("Cannot initialize JDA");
             }
-            
+
         } catch (LoginException | InterruptedException e) {
             process.setThrowable(e);
             process.setStatus(SpanStatus.INTERNAL_ERROR);
@@ -87,7 +87,7 @@ public class DiscordManager {
     private String setInvite() {
         InviteAction invite = jda.getGuildById(this.guildId).getTextChannels().get(0).createInvite();
         return invite.setMaxAge(0)
-        .complete().getUrl();
+                .complete().getUrl();
     }
 
     public String getServerName() {
@@ -97,7 +97,7 @@ public class DiscordManager {
     private void checkGuild() {
         String guildId;
         try {
-            if(jda.getGuilds().size() > 1) {
+            if (jda.getGuilds().size() > 1) {
                 this.logger.warning("Discord bot's tokken already in use on another DS !!!");
             }
 
@@ -108,13 +108,14 @@ public class DiscordManager {
             this.inviteUrl = this.setInvite();
             this.ownerId = this.guild.getOwnerId();
         } catch (Exception e) {
-            this.logger.warning("Discord bot's not authorized into this guild. (Check: " + this.configs.getClass().getSimpleName() +")");
+            this.logger.warning("Discord bot's not authorized into this guild. (Check: "
+                    + this.configs.getClass().getSimpleName() + ")");
         }
     }
 
     private void setupListener() {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
-        .startChild("DiscordManager.setupListener");
+                .startChild("DiscordManager.setupListener");
 
         jda.addEventListener(new OnUserConfirm(plugin));
 
@@ -124,29 +125,49 @@ public class DiscordManager {
 
     private void setupCommands() {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
-        .startChild("DiscordManager.setupCommands");
+                .startChild("DiscordManager.setupCommands");
 
         final LocalManager LOCAL = WhitelistJe.LOCALES;
 
         try {
-            String[] langArr = {Lang.FR.value, Lang.EN.value, Lang.ES.value};
+            String[] langArr = { Lang.FR.value, Lang.EN.value, Lang.ES.value };
 
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);
                 // Serveur
                 ServerCommand.REGISTER_CMD(jda, plugin);
+            }
+
+            for (int i = 0; i < langArr.length; i++) {
+                LOCAL.setNextLang(langArr[i]);
                 // Enregistrer
                 RegisterCommand.REGISTER_CMD(jda, plugin);
-                //Recherche
+            }
+
+            for (int i = 0; i < langArr.length; i++) {
+                LOCAL.setNextLang(langArr[i]);
+                // Recherche
                 LookupMcPlayerCommand.REGISTER_CMD(jda, plugin);
+            }
+
+            for (int i = 0; i < langArr.length; i++) {
+                LOCAL.setNextLang(langArr[i]);
                 // User transaltion
                 SetUserLanguageCmd.REGISTER_CMD(jda, plugin);
+            }
+
+            for (int i = 0; i < langArr.length; i++) {
+                LOCAL.setNextLang(langArr[i]);
                 // User db fetch
                 FetchUserDbCmd.REGISTER_CMD(jda, plugin);
+            }
+
+            for (int i = 0; i < langArr.length; i++) {
+                LOCAL.setNextLang(langArr[i]);
                 // User db remove
                 DeleteUserDbCmd.REGISTER_CMD(jda, plugin);
             }
-            
+
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");
             SentryService.captureEx(e);
@@ -166,10 +187,9 @@ public class DiscordManager {
         return this.inviteUrl;
     }
 
-	public Guild getGuild() {
-		return this.guild;
-	}
+    public Guild getGuild() {
+        return this.guild;
+    }
 }
-
 
 // TEST BIDON

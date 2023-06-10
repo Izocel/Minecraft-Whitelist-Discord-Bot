@@ -129,6 +129,8 @@ public enum Es {
     PARAM_LOCAL_LABEL("Idioma disponible: ['FR, EN, ES']"),
     PARAM_MEMBER("miembro"),
     PARAM_MEMBER_LABEL("Miembro del gremio"),
+    PARAM_UUID("uuid"),
+    PARAM_UUID_LABEL("Un uuid minecraft"), // à traduire
     //DESC
     DESC_SERVER("Afficher les informations du serveur `Minecraft®`."), // à traduire
     DESC_REGISTR("S'enregister sur le serveur `Minecraft®`."), // à traduire
