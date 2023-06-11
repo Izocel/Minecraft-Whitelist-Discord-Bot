@@ -3,7 +3,6 @@ package models;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
 import dao.DaoManager;
 import main.WhitelistJe;
 import net.dv8tion.jda.api.entities.Member;
@@ -13,7 +12,7 @@ public class User extends BaseModel {
     private Integer id = -1;
     private String discordId;
     private String discordTag;
-    private String lang = "FR";
+    private String lang;
     private String createdAt;
     private String updatedAt;
 
@@ -24,6 +23,7 @@ public class User extends BaseModel {
     public User(String discordId, String discordTag) {
         this.setDiscordId(discordId);
         this.setDiscordTag(discordTag);
+        this.setLang(WhitelistJe.LOCALES.getDefaultLang());
     }
 
     public User(JSONObject json) {
@@ -80,7 +80,7 @@ public class User extends BaseModel {
     }
 
     public void setLang(String lang) {
-        if(WhitelistJe.LOCALES.isSupported(lang) && !lang.contains("_"))
+        if(WhitelistJe.LOCALES.isUserSupported(lang))
             this.lang = lang.toUpperCase();
     }
 
@@ -124,6 +124,10 @@ public class User extends BaseModel {
 
     public Integer saveUser() {
         return this.save(DaoManager.getUsersDao());
+    }
+
+    public Integer deleteUser() {
+        return this.delete(DaoManager.getUsersDao());
     }
 
     public static User getFromMember(Member member) {
