@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import bukkit.BukkitManager;
 import configs.ConfigManager;
 import dao.DaoManager;
-import dao.UsersDao;
 import discord.DiscordManager;
 import discord.GuildManager;
 import io.sentry.ISpan;

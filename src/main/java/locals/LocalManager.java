@@ -11,14 +11,15 @@ public class LocalManager {
     private Logger logger;
     private WhitelistJe plugin;
     private ConfigManager configs;
-    private String defaultLang = "FR";
-    private String nextInteractionLang = "FR";
+    private String defaultLang;
+    private String nextInteractionLang;
 
     public LocalManager(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
 
         this.plugin = plugin;
         this.configs = plugin.getConfigManager();
+        this.setDefault(this.configs.get("defaultLang", "FR"));
         this.setNextLang(this.configs.get("defaultLang", "FR"));
     }
 
@@ -46,6 +47,10 @@ public class LocalManager {
 
     public final void nextIsDefault() {
         this.nextInteractionLang = this.defaultLang;
+    }
+
+    public final String getDefaultLang() {
+        return this.defaultLang;
     }
 
     public final String getNextLang() {
@@ -105,7 +110,7 @@ public class LocalManager {
         this.logger.warning(msg);
         SentryService.captureEx(new Exception(msg));
 
-        return msg;
+        return useDefault(key);
     }
 
     private final String getEn(String key) {
@@ -170,6 +175,10 @@ public class LocalManager {
         SentryService.captureEx(new Exception(msg));
 
         return false;
+    }
+
+    public final Boolean isUserSupported(String lang) {
+        return this.isSupported(lang) && !lang.contains("_");
     }
 
     public final boolean setCheckEventLocal(String eventName, String cmdLocalKey) {

@@ -39,11 +39,11 @@ public final class ConfigManager {
     private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
 
     private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
-
     private final String pluginVersion="2023.3";
 
     // FR, EN, FR_EN, EN_FR
     private final String defaultLang="FR";
+    private final String confirmLinkCmdName="wje-link";
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -80,6 +80,7 @@ public final class ConfigManager {
         configs.put("hoursToConfirmMcAccount", this.hoursToConfirmMcAccount);
         configs.put("minecrafInfosLink", this.minecrafInfosLink);
         configs.put("defaultLang", this.defaultLang);
+        configs.put("confirmLinkCmdName", this.confirmLinkCmdName);
     }
 
     public String get(String key, String defaultValue) {

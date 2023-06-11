@@ -2,8 +2,6 @@ package events.discords;
 
 import java.util.logging.Logger;
 
-import dao.DaoManager;
-import dao.UsersDao;
 import io.sentry.ITransaction;
 import io.sentry.SpanStatus;
 import main.WhitelistJe;
@@ -25,15 +23,7 @@ public class OnGuildMemberRemove extends ListenerAdapter {
     public void onGuildMemberRemove(GuildMemberRemoveEvent event) {
         ITransaction process = plugin.getSentryService().createTx("OnGuildMemberRemove", "deleteUser");
         try {
-            UsersDao dao = DaoManager.getUsersDao(); 
-            User user = dao.findByDiscordId(event.getMember().getId());
-
-            if(user == null || user.getId() < 1) {
-                return;
-            }
-            
-            user.delete(dao);
-            
+            User.updateFromMember(event.getMember()).deleteUser();
         } catch (Exception e) {
             process.setThrowable(e);
             SentryService.captureEx(e);
