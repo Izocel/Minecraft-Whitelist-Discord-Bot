@@ -6,8 +6,8 @@ public final class ConfigManager {
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    private final String envType="production";
-    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.G7XiEA.Ee9lOtjAIuuMOWIMzFOyE1ieZmnVX-hR_wdjzA";
+    private final String envType="developpement";
+    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.GPzSbc.NrfS9YwXCPGY5alIgqdpK6k_DgPqe3MQYegqs4";
 
     private final String discordServerId="276931890735218689";
     private final String discordWelcomeChanelId="925583159964352643";
@@ -21,7 +21,7 @@ public final class ConfigManager {
     private final String discordDevRoleId="1021054460438523976";
     private final String discordHelperRoleId="1021054460438523976";
     
-    private final String mysqlHost="10.8.0.1";
+    private final String mysqlHost="192.168.0.128";
     private final String mysqlPort="3306";
     private final String mysqlDb="whitelist_je";
     private final String mysqlUser="whitelist_je";
