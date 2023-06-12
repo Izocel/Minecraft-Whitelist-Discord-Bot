@@ -36,6 +36,63 @@
 				"isDefault": true
 			},
 			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "flyway-clean",
+			"dependsOn": "",
+			"command": "mvn flyway:clean",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "flyway-migrateUp",
+			"dependsOn": "",
+			"command": "mvn flyway:migrate",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "flyway-revive",
+			"dependsOn": "flyway-clean",
+			"command": "mvn flyway:migrate",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": true
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": []
 		}
 	]
 }
