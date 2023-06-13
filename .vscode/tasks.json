@@ -11,7 +11,7 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": true
+				"clear": false
 			},
 			"group": {
 				"kind": "build",
@@ -29,7 +29,7 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": true
+				"clear": false
 			},
 			"group": {
 				"kind": "test",
@@ -48,7 +48,7 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": true
+				"clear": false
 			},
 			"group": {
 				"kind": "build",
@@ -67,7 +67,26 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": true
+				"clear": false
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
+			"label": "flyway-bases",
+			"dependsOn": "flyway-clean",
+			"command": "mvn flyway:baseline",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
 			},
 			"group": {
 				"kind": "build",
@@ -78,7 +97,7 @@
 		{
 			"type": "shell",
 			"label": "flyway-revive",
-			"dependsOn": "flyway-clean",
+			"dependsOn": "flyway-bases",
 			"command": "mvn flyway:migrate",
 			"presentation": {
 				"echo": true,
@@ -86,7 +105,7 @@
 				"focus": false,
 				"panel": "shared",
 				"showReuseMessage": false,
-				"clear": true
+				"clear": false
 			},
 			"group": {
 				"kind": "build",

@@ -18,16 +18,17 @@ public final class ConfigManager {
 
     private final String discordAdminRoleId="293133215500075010";
     private final String discordModeratorRoleId="1021054284214833182";
-    private final String discordDevRoleId="1021054460438523976";s
+    private final String discordDevRoleId="1021054460438523976";
     private final String discordHelperRoleId="1021054460438523976";
     
-    private final String mysqlHost="127.0.0.1";
+    private final String mysqlHost="192.168.0.128";
     private final String mysqlPort="3306";
     private final String mysqlDb="whitelist_je";
     private final String mysqlUser="whitelist_je";
     private final String mysqlPass="@Whitelist_je2022";
     private final String mysqlDefTable="wje_users";
     private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
+    private final String mariaJdbcUrl="jdbc:mariadb://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
     private final String mysqlMaxConnection="15";
     private final String mysqlMaxConnectionIDLE="5";
 
@@ -69,6 +70,7 @@ public final class ConfigManager {
         configs.put("mysqlPass", this.mysqlPass);
         configs.put("mysqlDefTable", this.mysqlDefTable);
         configs.put("mysqlJdbcUrl", this.mysqlJdbcUrl);
+        configs.put("mariaJdbcUrl", this.mariaJdbcUrl);
         configs.put("mysqlMaxConnection", this.mysqlMaxConnection);
         configs.put("mysqlMaxConnectionIDLE", this.mysqlMaxConnectionIDLE);
         configs.put("portJava", this.portJava);

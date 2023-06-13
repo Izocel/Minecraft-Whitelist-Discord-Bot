@@ -32,6 +32,10 @@ public class DaoManager {
         }
     }
 
+    public static ComboPooledDataSource getDatasource() {
+        return dataSource;
+    }
+
     public static UsersDao getUsersDao() {
         if (usersDao == null) {
             usersDao = new UsersDao(dataSource);
