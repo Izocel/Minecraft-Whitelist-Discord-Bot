@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import configs.ConfigManager;
 import helpers.DbPoolFactory;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;

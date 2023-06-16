@@ -14,6 +14,9 @@ import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
 import commands.discords.SetUserLanguageCmd;
 import configs.ConfigManager;
+import events.discords.OnGuildMemberJoin;
+import events.discords.OnGuildMemberRemove;
+import events.discords.OnGuildMemberUpdate;
 import events.discords.OnUserConfirm;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
@@ -118,6 +121,9 @@ public class DiscordManager {
                 .startChild("DiscordManager.setupListener");
 
         jda.addEventListener(new OnUserConfirm(plugin));
+        jda.addEventListener(new OnGuildMemberJoin(plugin));
+        jda.addEventListener(new OnGuildMemberUpdate(plugin));
+        jda.addEventListener(new OnGuildMemberRemove(plugin));
 
         process.setStatus(SpanStatus.OK);
         process.finish();

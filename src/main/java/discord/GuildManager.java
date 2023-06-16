@@ -1,6 +1,7 @@
 package discord;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
@@ -29,6 +30,8 @@ public class GuildManager {
     private String devRoleId;
     private String helperRoleId;
     private String welcomeChannelId;
+    private Locale locale;
+    private String lang;
 
     public GuildManager(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
@@ -37,10 +40,20 @@ public class GuildManager {
         
         this.configManager = plugin.getConfigManager();
         this.guild = plugin.getDiscordManager().getGuild();
+        this.setupLanguage();
         this.setupIds();
 
         process.setStatus(SpanStatus.OK);
         process.finish();
+    }
+
+    private void setupLanguage() {
+        this.locale = this.guild.getLocale();
+        this.lang = this.locale.getLanguage();
+
+        if(this.lang.length() < 1) {
+            this.lang = WhitelistJe.LOCALES.getDefaultLang();
+        }
     }
 
     private void setupIds() {
