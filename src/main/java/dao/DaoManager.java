@@ -23,13 +23,17 @@ public class DaoManager {
                 .startChild("DaoManager");
 
             this.logger = Logger.getLogger("WJE:" + getClass().getSimpleName());
-            dataSource = DbPoolFactory.getMysqlPool(plugin.getConfigManager());
+            dataSource = DbPoolFactory.getPoolConnection(plugin.getConfigManager());
 
             process.setStatus(SpanStatus.OK);
             process.finish();
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
+    }
+
+    public static ComboPooledDataSource getDatasource() {
+        return dataSource;
     }
 
     public static UsersDao getUsersDao() {

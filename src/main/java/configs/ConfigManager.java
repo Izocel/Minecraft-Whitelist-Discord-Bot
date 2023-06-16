@@ -7,7 +7,7 @@ public final class ConfigManager {
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
     private final String envType="production";
-    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.G7XiEA.Ee9lOtjAIuuMOWIMzFOyE1ieZmnVX-hR_wdjzA";
+    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gn4Tqe.BtLPvmtze547Ib2QRFHywWClvvnbf5ScKAhbZ4";
 
     private final String discordServerId="276931890735218689";
     private final String discordWelcomeChanelId="925583159964352643";
@@ -21,15 +21,16 @@ public final class ConfigManager {
     private final String discordDevRoleId="1021054460438523976";
     private final String discordHelperRoleId="1021054460438523976";
     
-    private final String mysqlHost="10.8.0.1";
-    private final String mysqlPort="3306";
-    private final String mysqlDb="whitelist_je";
-    private final String mysqlUser="whitelist_je";
-    private final String mysqlPass="@Whitelist_je2022";
-    private final String mysqlDefTable="wje_users";
-    private final String mysqlJdbcUrl="jdbc:mysql://"+ mysqlHost + ":" + mysqlPort + "/" + mysqlDb;
-    private final String mysqlMaxConnection="15";
-    private final String mysqlMaxConnectionIDLE="5";
+    private final String dbType="mysql"; //msql or mariadb
+    private final String dbHost="127.0.0.1";
+    private final String dbPort="3306";
+    private final String dbName="whitelist_je";
+    private final String dbUser="whitelist_je";
+    private final String dbPass="mysql";
+    private final String dbDefTable="wje_users";
+    private final String dbJdbcUrl="jdbc:" + dbType + "://"+ dbHost + ":" + dbPort + "/" + dbName;
+    private final String dbMaxConnection="15";
+    private final String dbMaxConnectionIDLE="5";
 
     private final String portJava="25565";
     private final String portBedrock="19132";
@@ -62,15 +63,16 @@ public final class ConfigManager {
         configs.put("discordModeratorRoleId", this.discordModeratorRoleId);
         configs.put("discordDevRoleId", this.discordDevRoleId);
         configs.put("discordHelperRoleId", this.discordHelperRoleId);
-        configs.put("mysqlHost", this.mysqlHost);
-        configs.put("mysqlPort", this.mysqlPort);
-        configs.put("mysqlDb", this.mysqlDb);
-        configs.put("mysqlUser", this.mysqlUser);
-        configs.put("mysqlPass", this.mysqlPass);
-        configs.put("mysqlDefTable", this.mysqlDefTable);
-        configs.put("mysqlJdbcUrl", this.mysqlJdbcUrl);
-        configs.put("mysqlMaxConnection", this.mysqlMaxConnection);
-        configs.put("mysqlMaxConnectionIDLE", this.mysqlMaxConnectionIDLE);
+        configs.put("dbType", this.dbType);
+        configs.put("dbHost", this.dbHost);
+        configs.put("dbPort", this.dbPort);
+        configs.put("dbName", this.dbName);
+        configs.put("dbUser", this.dbUser);
+        configs.put("dbPass", this.dbPass);
+        configs.put("dbDefTable", this.dbDefTable);
+        configs.put("dbJdbcUrl", this.dbJdbcUrl);
+        configs.put("dbMaxConnection", this.dbMaxConnection);
+        configs.put("dbMaxConnectionIDLE", this.dbMaxConnectionIDLE);
         configs.put("portJava", this.portJava);
         configs.put("portBedrock", this.portBedrock);
         configs.put("javaIp", this.javaIp);
