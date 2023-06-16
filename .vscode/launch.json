@@ -11,6 +11,13 @@
             "hostName": "localhost",
             "port": 5005,
             "preLaunchTask": "deploy"
+        },
+        {
+            "type": "java",
+            "name": "Listen Mc Server(Attach)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5005
         }
     ]
 }
