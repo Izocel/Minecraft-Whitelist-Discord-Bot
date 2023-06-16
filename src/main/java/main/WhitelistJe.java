@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import bukkit.BukkitManager;
 import configs.ConfigManager;
 import dao.DaoManager;
+import db.Migrator;
 import discord.DiscordManager;
 import discord.GuildManager;
 import io.sentry.ISpan;
@@ -34,6 +35,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
     private SentryService sentryService;
+    private Migrator migrator;
 
     public static LocalManager LOCALES;
 
@@ -109,6 +111,9 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             
             daoManager = new DaoManager(this);
             logger.info("LOADED: DaoManager");
+
+            // migrator = new Migrator(this);
+            // logger.info("LOADED: Migrator");
             
             discordManager = new DiscordManager(this);
             logger.info("LOADED: DiscordManager");

@@ -11,8 +11,8 @@ public class DbPoolFactory {
         switch (dbType.toLowerCase()) {
             case "mysql":
                 return getMysqlPool(configs);
-            case "mariadb":
-                return getMysqlPool(configs);
+            // case "mariadb":
+            //     return getMysqlPool(configs);
             default:
                 return null;
         }
@@ -23,7 +23,7 @@ public class DbPoolFactory {
         final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 
         // JDBC Driver Name & Database URL
-        final String JDBC_URL = configs.get("dbJbcUrl") + 
+        final String JDBC_URL = configs.get("dbJdbcUrl") + 
             "?connectionAttributes=program_name:WhiteList-Je";
 
         final Integer JDBC_MAX_ACTIVE = Integer.parseInt(configs.get("dbMaxConnection", "15"));
@@ -56,9 +56,7 @@ public class DbPoolFactory {
         final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
 
         // JDBC Driver Name & Database URL
-        final String JDBC_URL = configs.get("dbJbcUrl") + 
-            "?connectionAttributes=program_name:WhiteList-Je";
-
+        final String JDBC_URL = configs.get("dbJdbcUrl");
         final Integer JDBC_MAX_ACTIVE = Integer.parseInt(configs.get("dbMaxConnection", "15"));
         final Integer JDBC_MAX_IDLE = Integer.parseInt(configs.get("dbMaxConnectionIDLE", "5"));
 
