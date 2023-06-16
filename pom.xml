@@ -48,11 +48,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-<<<<<<< HEAD
                 <version>9.19.1</version>
-=======
-                <version>9.19.4</version>
->>>>>>> 73076ffd5cd693b876d99bb502b5b5e82ed943d2
                 <configuration>
                     <configFiles>
                         <configFile>${flyaway.configuration}</configFile>
