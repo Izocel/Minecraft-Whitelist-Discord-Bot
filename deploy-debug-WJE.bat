@@ -7,6 +7,6 @@ cd %BUILDER%
 XCOPY target\%PLUGIN_FILTER% %SERVER%\plugins\ /S /Y
 
 cd %SERVER%
-START "Minecraft" launch.bat
+START "Minecraft-Debug" launch_debug.bat
 
-echo Job's done SERVER is starting...
+echo Job's done SERVER is awaiting debug socket connection...

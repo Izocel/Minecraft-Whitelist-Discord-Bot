@@ -5,12 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "node",
+            "name": "Launch Mc Server",
+            "preLaunchTask": "deploy"
+        },
+        {
             "type": "java",
             "name": "Debug Mc Server(Attach)",
             "request": "attach",
             "hostName": "localhost",
             "port": 5005,
-            "preLaunchTask": "deploy"
+            "preLaunchTask": "deploy-debug"
         },
         {
             "type": "java",

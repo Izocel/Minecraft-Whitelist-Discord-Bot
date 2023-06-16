@@ -20,6 +20,25 @@
 		},
 		{
 			"type": "shell",
+			"label": "deploy-debug",
+			"dependsOn": "build",
+			"command": "call deploy-debug-WJE.bat",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": false,
+				"clear": false
+			},
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"type": "shell",
 			"label": "deploy",
 			"dependsOn": "build",
 			"command": "call deploy-WJE.bat",
