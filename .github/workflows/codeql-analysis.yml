@@ -56,11 +56,11 @@ jobs:
         echo "eula=true" > eula.txt
 
     - name: Mc Server init deploy with plugin
-      uses: canastro/copy-file-action@master
-      with:
-        source: "tests/a.txt"
-        target: "test-a.txt"
-    - run:
+      # uses: canastro/copy-file-action@master
+      # with:
+      #   source: "tests/a.txt"
+      #   target: "test-a.txt"
+      run:
         echo whoami
         echo ls
         nohup java -jar $MINECRAFT nogui &
