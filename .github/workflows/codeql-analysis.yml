@@ -2,16 +2,16 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "latest-stable" ]
+    branches: ["latest-stable"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "latest-stable" ]
+    branches: ["latest-stable"]
   schedule:
-    - cron: '24 23 * * 4'
+    - cron: "24 23 * * 4"
 
 jobs:
   analyze:
-    name: Analyze
+    name: Tests
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -21,41 +21,43 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'java' ]
+        language: ["java"]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Java JDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: 18
-        cache: 'maven'
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: 18
+          cache: "maven"
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{matrix.language}}"
 
-    - name: "Mc Server deploy"
-      uses: mcenv/setup-minecraft@v3
-      with:
-        version: "1.19.4"
-    - run:
-        echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
-        echo ls
-        echo whoami
-        echo "eula=true" > eula.txt
-        cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/*shaded.jar 
-        /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
-        java -jar $MINECRAFT nogui
+      - name: "Mc Server init"
+        uses: mcenv/setup-minecraft@v3
+        with:
+          version: "1.19.4"
+
+      - name: "Mc Server launch"
+        run: |
+          echo ls
+          echo whoami
+          echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
+          echo "eula=true" > eula.txt
+          cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/*shaded.jar
+          /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
+          java -jar $MINECRAFT nogui
