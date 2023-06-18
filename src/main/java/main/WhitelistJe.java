@@ -112,8 +112,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             daoManager = new DaoManager(this);
             logger.info("LOADED: DaoManager");
 
-            // migrator = new Migrator(this);
-            // logger.info("LOADED: Migrator");
+            migrator = new Migrator(this);
+            logger.info("LOADED: Migrator");
             
             discordManager = new DiscordManager(this);
             logger.info("LOADED: DiscordManager");
