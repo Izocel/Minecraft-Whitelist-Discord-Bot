@@ -48,8 +48,6 @@ jobs:
           category: "/language:${{matrix.language}}"
 
       - name: "Mc Server install"
-        uses: actions/checkout@v3
-      - id: minecraft
         uses: mcenv/setup-minecraft@v3
         with:
           version: "release"
@@ -59,7 +57,7 @@ jobs:
 
       - name: "Mc Server deploy plugin"
         run: |
-          ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target
+          ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
           echo
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/
           echo
