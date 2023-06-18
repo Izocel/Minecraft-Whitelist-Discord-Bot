@@ -54,8 +54,11 @@ jobs:
         with:
           version: "release"
       - run: |
-          echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
+          echo Installed Minecraft ${{ steps.minecraft.outputs.version }}.
           echo "eula=true" > eula.txt
+
+      - name: "Mc Server deploy plugin"
+        run: |
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target
           echo
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/
@@ -64,6 +67,6 @@ jobs:
           cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/Whitelist-Je*shaded.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins
 
-      - name: "Mc Server run"
+      - name: "Mc Server launch"
         run: |
           java -jar $MINECRAFT nogui
