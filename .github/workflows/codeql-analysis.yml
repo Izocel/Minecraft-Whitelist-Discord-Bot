@@ -54,10 +54,9 @@ jobs:
 
       - name: "Mc Server launch"
         run: |
-          echo ls
-          echo whoami
-          echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
+          ls
+          whoami
+          echo Running Minecraft...
           echo "eula=true" > eula.txt
-          cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/*shaded.jar
-          /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
+          cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/*shaded.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           java -jar $MINECRAFT nogui
