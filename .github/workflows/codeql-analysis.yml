@@ -47,20 +47,15 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
 
-    - name: "Mc Server init"
+    - name: "Mc Server deploy"
       uses: mcenv/setup-minecraft@v3
       with:
         version: "1.19.4"
     - run:
         echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
-        echo "eula=true" > eula.txt
-
-    - name: Mc Server init deploy with plugin
-      uses: canastro/copy-file-action@master
-      with:
-        source: "/home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/*shaded.jar"
-        target: "/home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/"
-    - run:
-        echo whoami
         echo ls
+        echo whoami
+        echo "eula=true" > eula.txt
+        cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/*shaded.jar 
+        /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
         java -jar $MINECRAFT nogui
