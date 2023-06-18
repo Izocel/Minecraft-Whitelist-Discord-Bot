@@ -47,10 +47,9 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
 
-      - name: "Mc Server deploy"
+      - name: "Mc Server config"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
-          mkdir server_test/plugins/
           echo Jar's target:
           ls target
           cp -f target/*.jar server_test/plugins/
