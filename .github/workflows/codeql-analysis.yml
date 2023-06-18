@@ -2,16 +2,14 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "latest-stable" ]
+    branches: ["master"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "latest-stable" ]
-  schedule:
-    - cron: '24 23 * * 4'
+    branches: ["master"]
 
 jobs:
   analyze:
-    name: Analyze
+    name: Tests
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -21,39 +19,72 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'java' ]
+        language: ["java"]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Java JDK
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: 18
-        cache: 'maven'
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: "temurin"
+          java-version: 18
+          cache: "maven"
 
+      - name: Install Mysql
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          host port: 3306 # Optional, default value is 3306. The port of host
+          container port: 3306 # Optional, default value is 3306. The port of container
+          character set server: "utf8" # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+          collation server: "utf8_general_ci" # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+          mysql version: "8.0" # Optional, default value is "latest". The version of the MySQL
+          mysql database: "whitelist_je" # Optional, default value is "test". The specified database which will be create
+          mysql user: "whitelist_je" # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+          mysql password: mysql # Required if "mysql user" exists. The password for the "mysql user"
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+      - name: Setup Plugin Configs
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/src/main/java/configs/
+          export search="private final String discordBotToken=.*"
+          export replace="private final String discordBotToken=\"$DISCORD_TOKEN\";"
+          mv ConfigManager.java ConfigManager.tmp.java
+          sed "s/$search/$replace/g" ConfigManager.tmp.java > ConfigManager.java
+          rm ConfigManager.tmp.java
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
 
-    - name: "Mc Server"
-      uses: mcenv/setup-minecraft@v3
-      with:
-        version: "1.19.4"
-    - uses: actions/setup-java@v3
-    - run: |
-        echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
-        echo "eula=true" > eula.txt
-        java -jar $MINECRAFT nogui
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{matrix.language}}"
+
+      - name: Seed Database
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          cp -f flyaway.conf.example flyaway.conf
+          mvn flyway:baseline
+          mvn flyway:migrate
+
+      - name: "Mc Server config"
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          echo Target jar:
+          ls target
+          cp -f target/Whitelist-Je*.jar server_test/plugins/
+          echo Plugins:
+          ls server_test/plugins/
+
+      - name: "Mc Server launch"
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
+          java -jar paper.jar nogui
