@@ -1,5 +1,5 @@
 flyway.url=jdbc:mysql://127.0.0.1:3306/whitelist_je
 flyway.defaultSchema=whitelist_je
-flyway.user=root
+flyway.user=whitelist_je
 flyway.password=mysql
-flyway.cleanDisabled=true
+flyway.cleanDisabled=false

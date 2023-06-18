@@ -61,7 +61,8 @@ jobs:
         
       - name: Seed Database
         run: | 
-          mvn flyway:clean
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          cp -f flyaway.conf.exampl flyaway.conf
           mvn flyway:baseline
           mvn flyway:migrate
 
