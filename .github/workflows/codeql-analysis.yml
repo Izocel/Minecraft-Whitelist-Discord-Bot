@@ -51,9 +51,11 @@ jobs:
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
           mkdir server_test/plugins/
+          echo Jar's target:
+          ls target
           cp -f target/*.jar server_test/plugins/
           echo Plugins:
-          ls plugins/
+          ls server_test/plugins/
 
       - name: "Mc Server launch"
         run: |
