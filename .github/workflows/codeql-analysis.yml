@@ -56,4 +56,4 @@ jobs:
 
       - name: "Mc Server launch"
         run: |
-          java -jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test nogui
+          java -jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/paper.jar nogui
