@@ -53,12 +53,14 @@ jobs:
         uses: mcenv/setup-minecraft@v3
         with:
           version: "release"
-      - run: |
+      - run:
           echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
           echo "eula=true" > eula.txt
+          ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target
+          echo
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/
           echo
           mkdir /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
-          cp target/Whitelist-Je*.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
+          cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/Whitelist-Je*shaded.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins
           java -jar $MINECRAFT nogui
