@@ -48,12 +48,6 @@ jobs:
           category: "/language:${{matrix.language}}"
 
       - name: "Mc Server install"
-        uses: mcenv/setup-minecraft@v3
-        with:
-          version: "release"
-          install: true
-
-      - name: "Mc Server install"
         uses: actions/checkout@v3
       - id: minecraft
         uses: mcenv/setup-minecraft@v3
