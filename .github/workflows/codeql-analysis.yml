@@ -53,15 +53,18 @@ jobs:
           version: "release"
           install: true
 
-      - name: "Mc Server launch"
-        run: |
+      - name: "Mc Server install"
+        uses: actions/checkout@v3
+      - id: minecraft
+        uses: mcenv/setup-minecraft@v3
+        with:
+          version: "release"
+      - run: |
+          echo Running Minecraft ${{ steps.minecraft.outputs.version }}.
           echo "eula=true" > eula.txt
-          echo $MINECRAFT
+          ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/
           echo
-
           mkdir /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           cp target/Whitelist-Je*.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins
-
-          echo Running Minecraft...
           java -jar $MINECRAFT nogui

@@ -6,7 +6,7 @@ public final class ConfigManager {
 
     /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-    private final String envType="developement";
+    private final String envType="production";
     private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.G-BnAu.1qt8teQBfIVVP8Wdf887C8bilWz2z3RL4UlS0I";
 
     private final String discordServerId="276931890735218689";
@@ -21,12 +21,12 @@ public final class ConfigManager {
     private final String discordDevRoleId="1021054460438523976";
     private final String discordHelperRoleId="1021054460438523976";
     
-    private final String dbType="mariadb"; //msql or mariadb
-    private final String dbHost="192.168.0.128";
+    private final String dbType="mysql"; //msql or mariadb
+    private final String dbHost="127.0.0.1";
     private final String dbPort="3306";
     private final String dbName="whitelist_je";
     private final String dbUser="whitelist_je";
-    private final String dbPass="@Qwerty123";
+    private final String dbPass="mysql";
     private final String dbDefTable="wje_users";
     private final String dbJdbcUrl="jdbc:" + dbType + "://"+ dbHost + ":" + dbPort + "/" + dbName;
     private final String dbMaxConnection="15";
