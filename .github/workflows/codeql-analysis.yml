@@ -54,9 +54,15 @@ jobs:
 
       - name: "Mc Server launch"
         run: |
-          ls
+          ls target/
+          echo
+          ls runner/
+          echo
+          ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/
+          echo
           whoami
+          echo
           echo Running Minecraft...
           echo "eula=true" > eula.txt
-          cp /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/*shaded.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
+          cp target/*shaded.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           java -jar $MINECRAFT nogui
