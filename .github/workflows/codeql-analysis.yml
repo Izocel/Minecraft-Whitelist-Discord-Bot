@@ -46,6 +46,14 @@ jobs:
           mysql user: 'whitelist_je' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
           mysql password: mysql # Required if "mysql user" exists. The password for the "mysql user"
 
+      - name: Setup Plugin Configs
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}      
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          cd src\main\java\configs\
+          sed "s/private final String discordBotToken=*/private final String discordBotToken="$DISCORD_TOKEN";/g" ConfigManager.java
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
