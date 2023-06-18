@@ -55,14 +55,13 @@ jobs:
 
       - name: "Mc Server launch"
         run: |
-          ls
-          echo
-          ls target/
-          echo
-          echo Running Minecraft...
           echo "eula=true" > eula.txt
+          echo $MINECRAFT
+          echo
+
           mkdir /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           cp target/Whitelist-Je*.jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
           ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins
-          echo
+
+          echo Running Minecraft...
           java -jar $MINECRAFT nogui
