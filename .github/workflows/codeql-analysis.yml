@@ -50,8 +50,12 @@ jobs:
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         run: |
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/src/main/java/configs
-          sed "s/private final String discordBotToken=*/private final String discordBotToken="$DISCORD_TOKEN";/g" ConfigManager.java
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/src/main/java/configs/
+          export search="private final String discordBotToken=.*"
+          export replace="private final String discordBotToken=\"$DISCORD_TOKEN\";"
+          mv ConfigManager.java ConfigManager.tmp.java
+          sed "s/$search/$replace/g" ConfigManager.tmp.java > ConfigManager.java
+          rm ConfigManager.tmp.java
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
