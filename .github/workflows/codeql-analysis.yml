@@ -34,7 +34,7 @@ jobs:
           java-version: 18
           cache: "maven"
 
-      - name: Checkout repository
+      - name: Install Mysql
         uses: mirromutth/mysql-action@v1.1
         with:
           host port: 3306 # Optional, default value is 3306. The port of host
@@ -46,24 +46,24 @@ jobs:
           mysql user: 'whitelist_je' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
           mysql password: mysql # Required if "mysql user" exists. The password for the "mysql user"
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-
-      - name: Seed Database
-        run: | 
-          mvn flyway:clean
-          mvn flyway:baseline
-          mvn flyway:migrate
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
           languages: ${{ matrix.language }}
 
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
           category: "/language:${{matrix.language}}"
+        
+      - name: Seed Database
+        run: | 
+          mvn flyway:clean
+          mvn flyway:baseline
+          mvn flyway:migrate
 
       - name: "Mc Server config"
         run: |
