@@ -52,7 +52,7 @@ jobs:
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
           echo Target jar:
           ls target
-          cp -f target/*.jar server_test/plugins/
+          cp -f target/Whitelist-Je*.jar server_test/plugins/
           echo Plugins:
           ls server_test/plugins/
 
