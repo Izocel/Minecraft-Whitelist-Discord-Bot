@@ -47,22 +47,13 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
 
-      - name: "Mc Server install"
-        uses: mcenv/setup-minecraft@v3
-        with:
-          version: "release"
-      - run: |
-          echo Installed Minecraft ${{ steps.minecraft.outputs.version }}.
-          echo "eula=true" > eula.txt
-
-      - name: "Mc Server deploy plugin"
+      - name: "Mc Server deploy"
         run: |
-          mkdir /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
-          cp -rf "/home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server.properties" /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/
-          cp -rf "/home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/Whitelist-Je-2023.3 20230618.jar" /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins/
-          echo Plugin:
-          ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/.minecraft/plugins
+          mkdir /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins
+          cp -f "/home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/Whitelist-Je-2023.3 20230618.jar" /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/
+          echo Plugins:
+          ls /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/
 
       - name: "Mc Server launch"
         run: |
-          java -jar $MINECRAFT nogui
+          java -jar /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test nogui
