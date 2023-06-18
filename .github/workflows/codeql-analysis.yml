@@ -49,9 +49,9 @@ jobs:
 
       - name: "Mc Server deploy"
         run: |
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/
-          mkdir plugins/
-          cp -f "/home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/target/Whitelist-Je-2023.3 20230618.jar" plugins/
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          mkdir server_test/plugins/
+          cp -f target/*.jar server_test/plugins/
           echo Plugins:
           ls plugins/
 
