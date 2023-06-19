@@ -1,10 +1,15 @@
 package helpers;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -14,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
+import helpers.parsers.YamlFileParser;
 import services.sentry.SentryService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -37,52 +43,52 @@ public class Helper {
     }
 
     public static String decimalToHex(Long decimal) {
-        if(decimal == null) {
+        if (decimal == null) {
             return null;
         }
         return Long.toHexString(decimal);
     }
 
     public static Long hexToDecimal(String hex) {
-        if(hex == null) {
+        if (hex == null) {
             return null;
         }
-        if(hex.contains("-")) {
+        if (hex.contains("-")) {
             hex = hex.replaceAll("-", "");
         }
         return Long.parseLong(hex, 16);
     }
 
     public static boolean isNumeric(String string) {
-        if(string == null) {
+        if (string == null) {
             return false;
         }
         return string.matches("^[0-9]+$");
     }
 
     public static boolean isAlphanumeric(String string) {
-        if(string == null) {
+        if (string == null) {
             return false;
         }
         return string.matches("^[a-zA-Z0-9]+$");
     }
 
     public static boolean isMcPseudo(String string) {
-        if(string == null) {
+        if (string == null) {
             return false;
         }
         return string.matches("^[a-zA-Z0-9_-]{2,16}$");
     }
 
     public static boolean isHexaDecimal(String string) {
-        if(string == null) {
+        if (string == null) {
             return false;
         }
         return string.matches("^[a-fA-F0-9-]+$");
     }
 
     public static boolean isMCUUID(String string) {
-        if(string == null) {
+        if (string == null) {
             return false;
         }
 
@@ -91,37 +97,37 @@ public class Helper {
     }
 
     public static boolean isDatimeString(String string) {
-        if(string == null) {
+        if (string == null) {
             return false;
         }
         return string.matches("^[a-zA-Z0-9-]+[0-9]{2}:[0-9]{2}:[0-9]{2}$");
     }
 
     public static String sanitizeUUID(String uuid) {
-        if(uuid == null || uuid.length() > 36) {
+        if (uuid == null || uuid.length() > 36) {
             return null;
         }
 
         try {
-            if(isMCUUID(uuid)) {
+            if (isMCUUID(uuid)) {
                 return uuid;
             }
 
-            if(isNumeric(uuid)) {
+            if (isNumeric(uuid)) {
                 uuid = decimalToHex(Long.parseLong(uuid));
             }
 
             if (uuid.length() < 32) {
                 uuid = StringUtils.repeat("0", 32 - uuid.length()) + uuid;
             }
-            
-            if(uuid.length() == 32 && !uuid.contains("-")) {
+
+            if (uuid.length() == 32 && !uuid.contains("-")) {
                 String sanitized = "";
                 final Integer[] lengths = { 8, 4, 4, 4 };
 
                 int j = 0;
                 int k = 0;
-                
+
                 for (int i = 0; i < uuid.length(); i++) {
                     sanitized += uuid.charAt(i);
                     k++;
@@ -135,7 +141,7 @@ public class Helper {
                 uuid = sanitized;
             }
 
-            if(!isMCUUID(uuid)) {
+            if (!isMCUUID(uuid)) {
                 return null;
             }
 
@@ -155,7 +161,7 @@ public class Helper {
     public static Timestamp convertStringToTimestamp(String strDate) {
         try {
 
-            if(!isDatimeString(strDate)) {
+            if (!isDatimeString(strDate)) {
                 strDate = strDate.concat(":01");
             }
 
@@ -396,17 +402,17 @@ public class Helper {
     }
 
     public static String toXboxDecimal(String mcUUID) {
-        if(mcUUID == null) {
+        if (mcUUID == null) {
             return null;
         }
 
         try {
-            if(!isMCUUID(mcUUID)) {
+            if (!isMCUUID(mcUUID)) {
                 return null;
             }
             mcUUID = String.valueOf(Helper.hexToDecimal(mcUUID));
 
-            if(!isNumeric(mcUUID)) {
+            if (!isNumeric(mcUUID)) {
                 mcUUID = null;
             }
 
@@ -414,6 +420,16 @@ public class Helper {
 
         } catch (Exception e) {
             SentryService.captureEx(e);
+            return null;
+        }
+    }
+
+    public static String getRessourceFileContent(String filename) {
+        try {
+            final InputStream inputStream = YamlFileParser.class.getResourceAsStream("/".concat(filename));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        } catch (Exception e) {
             return null;
         }
     }

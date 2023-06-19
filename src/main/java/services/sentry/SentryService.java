@@ -144,10 +144,10 @@ public class SentryService {
 
   public static @NotNull SentryId captureEx(Throwable error) {
     Exception err = new Exception(error.getMessage());
-    Exception ex = new Exception(error.getMessage() + userToString());
     Logger.getLogger("WJE: SentryService").warning("WARNING: ");
     err.printStackTrace();
 
+    Exception ex = new Exception(error.getMessage() + userToString());
     if(!main.getConfigManager().get("envType", "production").equals("dev"))
       return Sentry.captureException(ex);
 
