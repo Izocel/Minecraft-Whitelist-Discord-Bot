@@ -47,7 +47,7 @@ public enum En {
     EMBD_LINK_YESME("Yes it\'s me"),
     EMBD_LINK_NOTME("No it\'s not me"),
     EMBD_LINK_POLICY(
-            "When clicking on `YES` you assert that those accounts are to be linked, and that you\'re the legitimate holder.\n"
+            "When clicking on `YES` you assert that those accounts are to be linked, and that you are the legitimate holder.\n"
                     +
                     "When clicking on `NO` the temporary links will be dissolved, and all current or further activities will be suspended."),
 
