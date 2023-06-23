@@ -2,87 +2,84 @@ package configs;
 
 import java.util.HashMap;
 
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+
+import main.WhitelistJe;
+
 public final class ConfigManager {
-
-    /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-    private final String envType="production";
-    private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.G-BnAu.1qt8teQBfIVVP8Wdf887C8bilWz2z3RL4UlS0I";
-
-    private final String discordServerId="276931890735218689";
-    private final String discordWelcomeChanelId="925583159964352643";
-    private final String discordAdminChanelId="927283856053252106";
-    private final String discordWhitelistChanelId="927283856053252106";
-    private final String botLogChannelId="927283856053252106"; // unused yet
-    private final String javaLogChannelId="927283856053252106"; // unused yet
-
-    private final String discordAdminRoleId="293133215500075010";
-    private final String discordModeratorRoleId="1021054284214833182";
-    private final String discordDevRoleId="1021054460438523976";
-    private final String discordHelperRoleId="1021054460438523976";
-    
-    private final String dbType="mysql"; //msql or mariadb
-    private final String dbHost="127.0.0.1";
-    private final String dbPort="3306";
-    private final String dbName="whitelist_je";
-    private final String dbUser="whitelist_je";
-    private final String dbPass="mysql";
-    private final String dbDefTable="wje_users";
-    private final String dbJdbcUrl="jdbc:" + dbType + "://"+ dbHost + ":" + dbPort + "/" + dbName;
-    private final String dbMaxConnection="15";
-    private final String dbMaxConnectionIDLE="5";
-
-    private final String portJava="25565";
-    private final String portBedrock="19132";
-    private final String javaIp="rvdprojects.synology.me";
-    private final String bedrockIp="rvdprojects.synology.me";
-    private final String showSubWorlddMeteo="true";
-    private final String hoursToConfirmMcAccount="24"; // zero to not use this feature
-
-    private final String minecrafInfosLink="https://www.fiverr.com/rvdprojects";
-    private final String pluginVersion="2023.3";
-
-    // FR, EN, FR_EN, EN_FR
-    private final String defaultLang="FR";
-    private final String confirmLinkCmdName="wje-link";
-
-    /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
+    private final String pluginVersion = "2023.3";
+    private final String envType = "development";
 
     private HashMap<String, String> configs = new HashMap<>();
+    private String[] sectionsNames = {
+            "discord",
+            "database",
+            "minecraft",
+            "features",
+            "misc"
+    };
 
     public ConfigManager() {
         configs.put("envType", this.envType);
-        configs.put("discordBotToken", this.discordBotToken);
-        configs.put("discordServerId", this.discordServerId);
-        configs.put("botLogChannelId", this.botLogChannelId);
-        configs.put("javaLogChannelId", this.javaLogChannelId);
-        configs.put("discordWelcomeChanelId", this.discordWelcomeChanelId);
-        configs.put("discordAdminChanelId", this.discordAdminChanelId);
-        configs.put("discordWhitelistChanelId", this.discordWhitelistChanelId);
-        configs.put("discordAdminRoleId", this.discordAdminRoleId);
-        configs.put("discordModeratorRoleId", this.discordModeratorRoleId);
-        configs.put("discordDevRoleId", this.discordDevRoleId);
-        configs.put("discordHelperRoleId", this.discordHelperRoleId);
-        configs.put("dbType", this.dbType);
-        configs.put("dbHost", this.dbHost);
-        configs.put("dbPort", this.dbPort);
-        configs.put("dbName", this.dbName);
-        configs.put("dbUser", this.dbUser);
-        configs.put("dbPass", this.dbPass);
-        configs.put("dbDefTable", this.dbDefTable);
-        configs.put("dbJdbcUrl", this.dbJdbcUrl);
-        configs.put("dbMaxConnection", this.dbMaxConnection);
-        configs.put("dbMaxConnectionIDLE", this.dbMaxConnectionIDLE);
-        configs.put("portJava", this.portJava);
-        configs.put("portBedrock", this.portBedrock);
-        configs.put("javaIp", this.javaIp);
-        configs.put("bedrockIp", this.bedrockIp);
         configs.put("pluginVersion", this.pluginVersion);
-        configs.put("showSubWorlddMeteo", this.showSubWorlddMeteo);
-        configs.put("hoursToConfirmMcAccount", this.hoursToConfirmMcAccount);
-        configs.put("minecrafInfosLink", this.minecrafInfosLink);
-        configs.put("defaultLang", this.defaultLang);
-        configs.put("confirmLinkCmdName", this.confirmLinkCmdName);
+
+        final HashMap<String, ConfigurationSection> sections = new HashMap<>();
+        FileConfiguration yamlConfigs = WhitelistJe.getPlugin(WhitelistJe.class).getConfig();
+        for (final String name : sectionsNames) {
+            final ConfigurationSection section = yamlConfigs.getConfigurationSection(name);
+            sections.put(name, section);
+        }
+
+        final ConfigurationSection discord = sections.get("discord");
+        final ConfigurationSection discord_channels = discord.getConfigurationSection("channels");
+        final ConfigurationSection discord_roles = discord.getConfigurationSection("roles");
+        final ConfigurationSection database = sections.get("database");
+        final ConfigurationSection minecraft = sections.get("minecraft");
+        final ConfigurationSection features = sections.get("features");
+        final ConfigurationSection misc = sections.get("misc");
+
+        configs.put("discordBotToken", discord.getString("boToken"));
+        configs.put("discordServerId", discord.getString("serverId"));
+
+        configs.put("botLogChannelId", discord_channels.getString("welcomeChanelId"));
+        configs.put("javaLogChannelId", discord_channels.getString("adminChanelId"));
+        configs.put("discordWelcomeChanelId", discord_channels.getString("whitelistChanelId"));
+        configs.put("discordAdminChanelId", discord_channels.getString("botLogChannelId"));
+        configs.put("discordWhitelistChanelId", discord_channels.getString("javaLogChannelId"));
+
+        configs.put("discordAdminRoleId", discord_roles.getString("discordAdminRoleId"));
+        configs.put("discordModeratorRoleId", discord_roles.getString("moderatorRoleId"));
+        configs.put("discordDevRoleId", discord_roles.getString("devRoleId"));
+        configs.put("discordHelperRoleId", discord_roles.getString("helperRoleId"));
+
+        configs.put("dbType", database.getString("type"));
+        configs.put("dbHost", database.getString("host"));
+        configs.put("dbPort", database.getString("port"));
+        configs.put("dbName", database.getString("name"));
+        configs.put("dbUser", database.getString("user"));
+        configs.put("dbPass", database.getString("password"));
+        configs.put("dbDefTable", database.getString("defaultTable"));
+        configs.put("dbMaxConnection", database.getString("maxConnection"));
+        configs.put("dbMaxConnectionIDLE", database.getString("maxIdleConnection"));
+
+        configs.put("dbJdbcUrl", "jdbc:"
+                + get("dbType") + "://"
+                + get("dbHost") + ":"
+                + get("dbPort") + "/"
+                + get("dbName"));
+
+        configs.put("portJava", minecraft.getString("portJava"));
+        configs.put("portBedrock", minecraft.getString("portBedrock"));
+        configs.put("javaIp", minecraft.getString("javaIp"));
+        configs.put("bedrockIp", minecraft.getString("bedrockIp"));
+
+        configs.put("hoursToConfirmMcAccount", features.getString("maxHoursFor2FA"));
+        configs.put("showSubWorlddMeteo", features.getString("showAllWordldsMeteo"));
+        configs.put("defaultLang", features.getString("defaultLang"));
+
+        configs.put("confirmLinkCmdName", misc.getString("confirmLinkCmdName"));
+        configs.put("minecraftInfosLink", misc.getString("minecraftInfosLink"));
     }
 
     public String get(String key, String defaultValue) {
@@ -93,6 +90,5 @@ public final class ConfigManager {
     public String get(String key) {
         return this.configs.get(key);
     }
-
 
 }

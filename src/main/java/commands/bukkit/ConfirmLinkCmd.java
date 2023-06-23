@@ -149,7 +149,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String mcUuidLabel = LOCAL.translateBy("LABEL_MINECRAFT_UUID", lang);
     final String policy = LOCAL.translateBy("EMBD_LINK_POLICY", lang);
 
-    final String embedUrl = this.configs.get("minecrafInfosLink", "https://www.fiverr.com/rvdprojects?up_rollout=true");
+    final String embedUrl = this.configs.get("minecraftInfosLink");
 
     final String jsonEmbeded = """
     {

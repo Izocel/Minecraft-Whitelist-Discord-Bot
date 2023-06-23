@@ -1,6 +1,7 @@
 package helpers;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import main.WhitelistJe;
 
@@ -14,8 +15,12 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import static java.nio.file.attribute.PosixFilePermission.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.InvalidPathException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 
 /**
@@ -143,6 +148,16 @@ public class FileHelper {
             FileAttribute<?>[] attrs)
             throws IOException {
         return create(dir, prefix, null, true, attrs);
+    }
+
+        public static String getRessourceFileContent(String filename) {
+        try {
+            final InputStream inputStream = FileHelper.class.getResourceAsStream("/".concat(filename));
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
 
