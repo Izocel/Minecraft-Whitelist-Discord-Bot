@@ -14,7 +14,7 @@ public enum Fr {
     ISACTIVE("est actif"),
     ISINACTIVE("est inactif"),
     DOREGISTER("Enregistrer vous sur le serveur Discord®"),
-    MINECRAFT_ALREADYREGISTERED("Ce compte est déja confirmé..."),
+    MINECRAFT_CONFIRMATIONONITSWAY("Vérifiez vos messages Discord® pour confirmer votre inscription..."),
     ACCOUNTSINFOS("Informations de comptes"),
     INFORMATION("Informations"),
     SERVER("Serveur"),

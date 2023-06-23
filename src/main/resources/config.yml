@@ -1,0 +1,5 @@
+name: WhitelistJe
+version: '${project.version}'
+main: main.WhitelistJe
+api-version: 1.15
+author: Izocel
