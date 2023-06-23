@@ -65,6 +65,7 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
 
     public WhitelistJe() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        saveDefaultConfig();
     }
 
     public final String getPluginInfos(boolean toConsole) {
@@ -72,20 +73,17 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         final String devName = toConsole
                 ? "@xXx-RaFuX#1345"
                 : "<@272924120142970892>";
-        
+
         sb.append(String.format(
-            LOCALES.translate("PLUGIN_NAME"),
-            this.getName() + "\n"
-        ));
+                LOCALES.translate("PLUGIN_NAME"),
+                this.getName() + "\n"));
         sb.append(String.format(
-            LOCALES.translate("PLUGIN_VERSION"),
-            this.getVersion() + "\n"
-        ));
+                LOCALES.translate("PLUGIN_VERSION"),
+                this.getVersion() + "\n"));
         sb.append(String.format(
-            LOCALES.translate("PLUGIN_DEVBY"),
-            devName + "\n\n"
-        ));
-        
+                LOCALES.translate("PLUGIN_DEVBY"),
+                devName + "\n\n"));
+
         return sb.toString();
     }
 
@@ -101,26 +99,26 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         try {
             this.configManager = new ConfigManager();
             logger.info("LOADED: ConfigManager");
-            
+
             LOCALES = new LocalManager(this);
             logger.info("LOADED: LocalManager");
-            
+
             sentryService = new SentryService(this);
             transaction = sentryService.createTx("onEnable", "configurePlugin");
             logger.info("LOADED: SentryService");
-            
+
             daoManager = new DaoManager(this);
             logger.info("LOADED: DaoManager");
 
             migrator = new Migrator(this);
             logger.info("LOADED: Migrator");
-            
+
             discordManager = new DiscordManager(this);
             logger.info("LOADED: DiscordManager");
-            
+
             guildManager = new GuildManager(this);
             logger.info("LOADED: GuildManager");
-            
+
             bukkitManager = new BukkitManager(this);
             logger.info("LOADED: BukkitManager");
 
@@ -128,13 +126,12 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
             logger.info("UPDATED PLAYERS CACHE");
 
             sb.append(String.format(
-                LOCALES.translate("PLUGIN_HELLO"),
-                this.getName(), LOCALES.translate("ISACTIVE")
-            ));
-            
+                    LOCALES.translate("PLUGIN_HELLO"),
+                    this.getName(), LOCALES.translate("ISACTIVE")));
+
             sb.append(getPluginInfos(false));
             guildManager.getAdminChannel()
-                .sendMessage(sb.toString()).submit(true);
+                    .sendMessage(sb.toString()).submit(true);
 
             logger.info(this.getfiglet());
 
@@ -147,9 +144,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
                 sb.delete(0, sb.length());
 
                 sb.append(String.format(
-                    LOCALES.translate("PLUGIN_HELLO_ERROR"),
-                    this.getName(), LOCALES.translate("ISINACTIVE")
-                ));
+                        LOCALES.translate("PLUGIN_HELLO_ERROR"),
+                        this.getName(), LOCALES.translate("ISINACTIVE")));
 
                 sb.append(LOCALES.translate("CHECK_LOGS") + "\n\n");
                 sb.append(getPluginInfos(false));
@@ -170,15 +166,14 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
     @Override
     public final void onDisable() {
         final StringBuilder sb = new StringBuilder();
-        
+
         sb.append(String.format(
-            LOCALES.translate("PLUGIN_GOODBYE"),
-            this.getName(), LOCALES.translate("ISINACTIVE")
-        ));
+                LOCALES.translate("PLUGIN_GOODBYE"),
+                this.getName(), LOCALES.translate("ISINACTIVE")));
         sb.append(getPluginInfos(false));
 
         guildManager.getAdminChannel()
-            .sendMessage(sb.toString()).submit(true);
+                .sendMessage(sb.toString()).submit(true);
     }
 
     public final DiscordManager getDiscordManager() {
