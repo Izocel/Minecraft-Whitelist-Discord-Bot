@@ -9,7 +9,7 @@ import main.WhitelistJe;
 
 public final class ConfigManager {
     private final String pluginVersion = "2023.3";
-    private final String envType = "development";
+    private final String envType = "production";
 
     private HashMap<String, String> configs = new HashMap<>();
     private String[] sectionsNames = {
