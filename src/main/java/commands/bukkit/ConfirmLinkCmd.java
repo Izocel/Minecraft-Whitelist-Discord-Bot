@@ -65,7 +65,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       userLang = user.getLang();
 
       if (isConfirmed) {
-        final String msg = LOCAL.translateBy("MINECRAFT_ALREADYREGISTERED", userLang) + "\n" +
+        final String msg = LOCAL.translateBy("MINECRAFT_ALREADYCONFIRMED", userLang) + "\n" +
             LOCAL.translateBy("LABEL_DISCORD_ID", userLang) + ": " + user.getDiscordId();
         player.sendMessage(msg);
 
@@ -90,9 +90,11 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
         tx.finish(SpanStatus.PERMISSION_DENIED);
         return;
       }
-
+      
       Member member = plugin.getGuildManager().findMember(user.getDiscordId());
       this.sendConfimationEmbeded(member, player, userLang);
+      final String msg = LOCAL.translateBy("MINECRAFT_CONFIRMATIONONITSWAY", userLang);
+      player.sendMessage(msg);
 
     } catch (Exception e) {
       player.sendMessage(LOCAL.translateBy("CMD_ERROR", userLang));
