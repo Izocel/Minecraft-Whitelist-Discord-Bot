@@ -89,13 +89,13 @@ public class User extends BaseModel {
         JSONObject jsonObj = new JSONObject();
         try {
             jsonObj.put("id", this.id);
+            jsonObj.put("lang", this.lang);
             jsonObj.put("discord_id", this.discordId);
             jsonObj.put("discord_tag", this.discordTag);
-            jsonObj.put("javaData", this.javaData);
-            jsonObj.put("bedData", this.bedData);
             jsonObj.put("created_at", this.createdAt);
             jsonObj.put("updated_at", this.updatedAt);
-            jsonObj.put("lang", this.lang);
+            jsonObj.putOnce("javaData", this.javaData);
+            jsonObj.putOnce("bedData", this.bedData);
 
         } catch (Exception e) {
             SentryService.captureEx(e);

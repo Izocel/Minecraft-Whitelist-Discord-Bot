@@ -14,9 +14,10 @@ public enum En {
     ISACTIVE("is active"),
     ISINACTIVE("is inactive"),
     DOREGISTER("Register on the Discord® server"),
-    MINECRAFT_ALREADYREGISTERED("This account is already confirmed..."),
-    ACCOUNTSINFOS("Accounts informations"),
-    INFORMATION("Informations"),
+    MINECRAFT_ALREADYCONFIRMED("This account is already confirmed..."),
+    MINECRAFT_CONFIRMATIONONITSWAY("Check your Discord® messages to confirm your registration..."),
+    ACCOUNTSINFOS("Accounts information"),
+    INFORMATION("Information"),
     SERVER("Server"),
     WORLDS("Worlds"),
     DEVS("Developers"),
@@ -65,20 +66,20 @@ public enum En {
 
     // PLUGIN
     PLUGIN_HELLO("**The plugin `%s` %s**\n\n"),
-    PLUGIN_HELLO_ERROR("❌ **`ERROR:` The plugin `%s` as encountered errors at initialisation**\n"),
+    PLUGIN_HELLO_ERROR("❌ **`ERROR:` The plugin `%s` as encountered errors at initialization**\n"),
     PLUGIN_GOODBYE("**The plugin `%s` %s**\n\n"),
     PLUGIN_NAME("Name: `%s`"),
     PLUGIN_VERSION("Version: `%s`"),
-    PLUGIN_DEVBY("Developped by: %s"),
+    PLUGIN_DEVBY("Developed by: %s"),
 
     // INFOS
     INFO_LEGITIMATE("If this request seems illegitimate to you, contact an administrator!!!"),
     INFO_TRYREGISTERAGAIN("Try to do a registration request on Discord®."),
-    INFO_CHECK_YOUR_MSG("See more deetails in your private messages."),
-    INFO_CONTACT_ADMIN_MORE_INFO("To get more informations, contact an admin directly..."),
+    INFO_CHECK_YOUR_MSG("See more details in your private messages."),
+    INFO_CONTACT_ADMIN_MORE_INFO("To get more information, contact an admin directly..."),
     INFO_ALREADY_ACCEPTED_CONNECT(
             "**Your `%s` account is already registered...**\n" + "You can simply join it now. `Enjoy` ⛏🧱"),
-    INFO_MUST_CONFIRM_ACCOUNT("**A confrimation for your `%s` account is needed.**\n"),
+    INFO_MUST_CONFIRM_ACCOUNT("**A confirmation for your `%s` account is needed.**\n"),
     INFO_TIME_TO_CONFIRM_SINCE(
             "To confirm your account, you had `%sh` since the approbation, and connect to the Mincecraft® server\n"),
     INFO_ACCES_REQUESTED("**Your `%s` access request for `%s` was sent to moderators.**"),
@@ -86,27 +87,27 @@ public enum En {
     INFO_REGISTER_REQUEST("A `%s` player want to register on your `Minecraft®` server"),
     INFO_ACCEPTED_BY("✔️ Accepted by: %s"),
     INFO_REJECTED_BY("❌ Rejected by: %s"),
-    INFO_ACCEPTED_REQUEST("Request acepted"),
+    INFO_ACCEPTED_REQUEST("Request accepted"),
     INFO_REJECTED_REQUEST("Request rejected"),
     INFO_WELCOME_USER("**We are glad to welcome, <@%s> :: `%s`.Enjoy  ⛏🧱 !!!**"),
     INFO_TIME_TO_CONFIRM("**You have `%sh` to connect to the `Minecraft®` server, and `confirm` your account.**"),
     INFO_USER_WAS_ACCEPTED("✔️ **The player <@%s> was gently accepted for the pseudo: `%s`.**"),
     INFO_USER_WAS_REJECTED("❌ **The player <@%s> was strongly refused for the pseudo: `%s`.**"),
-    INFO_REJECTED_USER("**❌ Your regitration on the server was rejected.**"),
+    INFO_REJECTED_USER("**❌ Your registration on the server was rejected.**"),
 
     // WARNS
     WARN_REGISTRATIONDELAY("⚠️ You're already registered, but the delay to confirm this account is overdue..."),
     WARN_ALREADTY_REGISTERED("⚠️ **This `%s` pseudo is already registered to another player**"),
     WARN_NOT_ACCEPTED_YET("⚠️ **This `%s` account was not yet accepted on the server by admins.**"),
     WARN_BAD_PSEUDO_FORMAT_EXPLAIN(
-            "⚠️ Your `%s` pseudo: `%s`, should containt between `3` and `16` characters.\nIt should not contain specials characters except underscores `_` or dashes `-`."),
+            "⚠️ Your `%s` pseudo: `%s`, should contains between `3` and `16` characters.\nIt should not contain specials characters except underscores `_` or dashes `-`."),
 
     // ERRORS
     ERROR("❌ ERROR"),
     CONTACT_ADMNIN("Contact an administrator..."),
     CHECK_LOGS("**Check your `log` files!!!!**"),
     NOTREGISTERED("Your registration could not be fetched..."),
-    CMD_ERROR("❌ Sorry... an error as occured during this request!!!"),
+    CMD_ERROR("❌ Sorry... an error as occurred during this request!!!"),
     LOOKUP_ERROR("This lookup value is not valid..."),
     LOOKUP_PARAM_ERROR("You must choose a valid lookup type"),
     REGISTER_CMD_PARAM_ERROR("You must provide at least one pseudo for this command..."),
@@ -139,7 +140,7 @@ public enum En {
     PARAM_UUID_LABEL("A Minecraft uuid"),
     
     // DESC
-    DESC_SERVER("Show the `Minecraft®` server informations."),
+    DESC_SERVER("Show the `Minecraft®` server information."),
     DESC_REGISTR("Register on the `Minecraft®` server."),
     DESC_LOOKUP("Find `Minecraft®` players infos by uuid or pseudo."),
     DESC_SETLOCAL("Change the display language.\n FR: francais, EN: english, ES: española."),
@@ -153,7 +154,7 @@ public enum En {
     ROLE_NOT_ALLOWED("🔒 Too bad you don't have the necessary roles... 🔒"),
 
     // MISC
-    SERVER_IS_UP("The server is up and running boyyssss!"),
+    SERVER_IS_UP("The server is up and running boys!"),
 
     ;
 
