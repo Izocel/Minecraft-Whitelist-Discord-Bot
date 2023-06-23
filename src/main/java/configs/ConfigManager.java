@@ -39,7 +39,7 @@ public final class ConfigManager {
         final ConfigurationSection features = sections.get("features");
         final ConfigurationSection misc = sections.get("misc");
 
-        configs.put("discordBotToken", discord.getString("boToken"));
+        configs.put("discordBotToken", discord.getString("botToken"));
         configs.put("discordServerId", discord.getString("serverId"));
 
         configs.put("botLogChannelId", discord_channels.getString("welcomeChanelId"));
