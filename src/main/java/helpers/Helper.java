@@ -1,15 +1,10 @@
 package helpers;
 
 import java.awt.Color;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -19,7 +14,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import helpers.parsers.YamlFileParser;
 import services.sentry.SentryService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -423,15 +417,4 @@ public class Helper {
             return null;
         }
     }
-
-    public static String getRessourceFileContent(String filename) {
-        try {
-            final InputStream inputStream = YamlFileParser.class.getResourceAsStream("/".concat(filename));
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
-            return reader.lines().collect(Collectors.joining(System.lineSeparator()));
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
 }

@@ -26,6 +26,7 @@ public class SentryService {
   private String debugMode = "debug";
   
   HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
+  private static String envType;
 
   public SentryService(WhitelistJe plugin) {
     this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
@@ -37,7 +38,7 @@ public class SentryService {
     final String username = "?discordOwnerId?";
     final String id = this.plugin.getConfigManager().get("discordServerId", "?discordServerId?");
     final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "?paperMcIp?");
-    final String envType = this.plugin.getConfigManager().get("envType", "?envType?");
+    SentryService.envType = this.plugin.getConfigManager().get("envType", "?envType?");
     final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
     
 
@@ -148,14 +149,16 @@ public class SentryService {
     err.printStackTrace();
 
     Exception ex = new Exception(error.getMessage() + userToString());
-    if(!main.getConfigManager().get("envType", "production").equals("dev"))
-      return Sentry.captureException(ex);
+    return envType.equals("production")
+      ? Sentry.captureException(ex)
+      : null;
 
-    return null;
   }
 
   public @NotNull SentryId captureEvent(SentryEvent event) {
-    return Sentry.captureEvent(event);
+    return envType.equals("production")
+      ? Sentry.captureEvent(event)
+      : null;
   }
 
   public void changeUser(@Nullable User user) {

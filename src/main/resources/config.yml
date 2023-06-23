@@ -1,5 +1,42 @@
-name: WhitelistJe
-version: '${project.version}'
-main: main.WhitelistJe
-api-version: 1.15
-author: Izocel
+discord:
+  boToken: "MTAxNzk3MTY5MDM0MjQ1NzM1Ng.GfGvlt.apFtskn3OEyDJsiCx6QjhjOB9WwjK7DSaH1srM"
+  serverId: "276931890735218689"
+
+  channels:
+    welcomeChanelId: "925583159964352643"
+    adminChanelId: "927283856053252106"
+    whitelistChanelId: "927283856053252106"
+    botLogChannelId: "927283856053252106" # unused yet
+    javaLogChannelId: "927283856053252106" # unused yet
+
+  roles:
+    discordAdminRoleId: "293133215500075010"
+    moderatorRoleId: "1021054284214833182"
+    devRoleId: "1021054460438523976"
+    helperRoleId: "1021054460438523976"
+
+database:
+  type: "mysql" # mysql or mariadb
+  host: "localhost"
+  port: "3306"
+  name: "whitelist_je"
+  user: "whitelist_je"
+  password: "mysql"
+  defaultTable: "wje_users"
+  maxConnection: "15"
+  maxIdleConnection: "5"
+
+minecraft:
+  portJava: "25565"
+  portBedrock: "19132"
+  javaIp: "rvdprojects.synology.me"
+  bedrockIp: "rvdprojects.synology.me"
+
+features:
+  maxHoursFor2FA: "24" # zero to not use this feature
+  showAllWordldsMeteo: "true"
+  defaultLang: "FR"
+
+misc:
+  confirmLinkCmdName: "wje-link"
+  minecraftInfosLink: "https://www.fiverr.com/rvdprojects"
