@@ -9,7 +9,7 @@ public class JsonFileParser {
 
     public static JSONObject fromFile(String filename) {
         try {
-            final String contents = FileHelper.getRessourceFileContent(filename);
+            final String contents = FileHelper.getResourceFileContent(filename);
             return new JSONObject(contents);
         } catch (Exception e) {
             SentryService.captureEx(e);
