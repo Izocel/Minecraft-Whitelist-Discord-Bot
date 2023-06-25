@@ -50,9 +50,8 @@ public class OnPlayerLoggin implements Listener {
     private Logger logger;
 
     private String getDisallowMsg() {
-        String ip = Bukkit.getServer().getIp();
-        final String staticIp = plugin.getConfigManager().get("paperMcIp", "Not bind to any IP");
-        ip = ip.equals("") ? staticIp : ip;
+        final String javaIp = plugin.getConfigManager().get("javaIp", "Not bind to any IP");
+        final String bedrockIp = plugin.getConfigManager().get("bedrockIp", "Not bind to any IP");
         final String version = Bukkit.getServer().getVersion();
 
         final String ds_srvName = this.plugin.getDiscordManager().getServerName();
@@ -60,13 +59,13 @@ public class OnPlayerLoggin implements Listener {
         return "§c§lCe serveur est sous whitelist Discord®§l" +
                 "§a\n\nJoin §l" + ds_srvName + "§a at: §9§n§l" + ds_inviteUrl +
                 "§f\n\n§lServer Version: §f" + version +
-                "§f\n\n§lServer Address: §f" + ip;
+                "§f\n\n§lServer Java Address: §f" + javaIp +
+                "§f\n\n§lServer Bedrock Address: §f" + bedrockIp;
     }
 
     private String getDisallowBannedMsg() {
-        String ip = Bukkit.getServer().getIp();
-        final String staticIp = plugin.getConfigManager().get("paperMcIp", "Not bind to any IP");
-        ip = ip.equals("") ? staticIp : ip;
+        final String javaIp = plugin.getConfigManager().get("javaIp", "Not bind to any IP");
+        final String bedrockIp = plugin.getConfigManager().get("bedrockIp", "Not bind to any IP");
         final String version = Bukkit.getServer().getVersion();
 
         final String ds_srvName = this.plugin.getDiscordManager().getServerName();
@@ -74,7 +73,8 @@ public class OnPlayerLoggin implements Listener {
                 "§f\n\nIl semble que vous ayez été§l banni§f du serveur: §a" + ds_srvName +
                 ".\n§fMeilleur chance la prochaine fois..." +
                 "§f\n\n§lServer Version: §f" + version +
-                "§f\n\n§lServer Address: §f" + ip;
+                "§f\n\n§lServer Java Address: §f" + javaIp +
+                "§f\n\n§lServer Bedrock Address: §f" + bedrockIp;
     }
 
     public OnPlayerLoggin(WhitelistJe plugin) {

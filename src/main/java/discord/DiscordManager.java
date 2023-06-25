@@ -63,7 +63,8 @@ public class DiscordManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("DiscordManager.connect");
         try {
-            jda = JDABuilder.create(this.configs.get("discordBotToken", null),
+            String token = this.configs.get("discordBotToken", null);
+            jda = JDABuilder.create(token,
                     EnumSet.allOf(GatewayIntent.class))
                     .build()
                     .awaitReady();
@@ -136,7 +137,7 @@ public class DiscordManager {
         final LocalManager LOCAL = WhitelistJe.LOCALES;
 
         try {
-            String[] langArr = { Lang.FR.value, Lang.EN.value, Lang.ES.value };
+            String[] langArr = LOCAL.getBaseLangs();
 
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);

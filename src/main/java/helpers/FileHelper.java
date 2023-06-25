@@ -1,27 +1,19 @@
 package helpers;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.apache.commons.io.FileUtils;
 
 import main.WhitelistJe;
 
-import java.util.EnumSet;
 import java.nio.file.Path;
-import java.nio.file.Files;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.security.SecureRandom;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
-import static java.nio.file.attribute.PosixFilePermission.*;
-
+import java.util.stream.Collectors;
 import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.InvalidPathException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileAlreadyExistsException;
 
 /**
  * Helper class to support creation of temporary files and directories with
@@ -32,156 +24,126 @@ public class FileHelper {
     public static final SecureRandom random = new SecureRandom();
     public static final boolean isPosix = FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
 
-    public static final Path TMP_DIR = Path.of(System.getProperty("java.io.tmpdir") + "/WhitelistJe");
-    public static final Path PLUGIN_DATA_DIR = Path.of(WhitelistJe.getPlugin(WhitelistJe.class).getDataFolder() + "/");
+    public static final WhitelistJe PLUGIN_PROVIDER = WhitelistJe.getPlugin(WhitelistJe.class);
+    public static final Path TMP_DIR = Path.of(System.getProperty("java.io.tmpdir") + "\\WhitelistJe");
+    public static final Path PLUGIN_DIR = Path.of(WhitelistJe.getPlugin(WhitelistJe.class).getDataFolder().toString());
+    public static final String TRADUCTION_DIR_NAME = "traduction";
+    public static final Path TRADUCTION_DIR = Path.of(PLUGIN_DIR + "\\" + TRADUCTION_DIR_NAME);
 
-    public static Path generatePath(String prefix, String suffix, Path dir) {
-        long n = random.nextLong();
-        String s = prefix + Long.toUnsignedString(n) + suffix;
-        Path name = dir.getFileSystem().getPath(s);
-        // the generated name should be a simple file name
-        if (name.getParent() != null)
-            throw new IllegalArgumentException("Invalid prefix or suffix");
-        return dir.resolve(name);
-    }
-
-    // default file and directory permissions (lazily initialized)
-    public static class PosixPermissions {
-        static final FileAttribute<Set<PosixFilePermission>> filePermissions = PosixFilePermissions
-                .asFileAttribute(EnumSet.of(OWNER_READ, OWNER_WRITE));
-        static final FileAttribute<Set<PosixFilePermission>> dirPermissions = PosixFilePermissions
-                .asFileAttribute(EnumSet
-                        .of(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE));
-    }
-
-    /**
-     * Creates a file or directory in the given directory (or in the
-     * temporary directory if dir is {@code null}).
-     */
-    public static Path create(Path dir,
-            String prefix,
-            String suffix,
-            boolean createDirectory,
-            FileAttribute<?>[] attrs)
-            throws IOException {
-        if (prefix == null)
-            prefix = "";
-        if (suffix == null)
-            suffix = (createDirectory) ? "" : ".tmp";
-        if (dir == null)
-            dir = TMP_DIR;
-
-        // in POSIX environments use default file and directory permissions
-        // if initial permissions not given by caller.
-        if (isPosix && (dir.getFileSystem() == FileSystems.getDefault())) {
-            if (attrs.length == 0) {
-                // no attributes so use default permissions
-                attrs = new FileAttribute<?>[1];
-                attrs[0] = (createDirectory) ? PosixPermissions.dirPermissions : PosixPermissions.filePermissions;
-            } else {
-                // check if posix permissions given; if not use default
-                boolean hasPermissions = false;
-                for (int i = 0; i < attrs.length; i++) {
-                    if (attrs[i].name().equals("posix:permissions")) {
-                        hasPermissions = true;
-                        break;
-                    }
-                }
-                if (!hasPermissions) {
-                    FileAttribute<?>[] copy = new FileAttribute<?>[attrs.length + 1];
-                    System.arraycopy(attrs, 0, copy, 0, attrs.length);
-                    attrs = copy;
-                    attrs[attrs.length - 1] = (createDirectory) ? PosixPermissions.dirPermissions
-                            : PosixPermissions.filePermissions;
-                }
-            }
-        }
-
-        // loop generating random names until file or directory can be created
-        @SuppressWarnings("removal")
-        SecurityManager sm = System.getSecurityManager();
-        for (;;) {
-            Path f;
-            try {
-                f = generatePath(prefix, suffix, dir);
-            } catch (InvalidPathException e) {
-                // don't reveal temporary directory location
-                if (sm != null)
-                    throw new IllegalArgumentException("Invalid prefix or suffix");
-                throw e;
-            }
-            try {
-                if (createDirectory) {
-                    return Files.createDirectory(f, attrs);
-                } else {
-                    return Files.createFile(f, attrs);
-                }
-            } catch (SecurityException e) {
-                // don't reveal temporary directory location
-                if (dir == TMP_DIR && sm != null)
-                    throw new SecurityException("Unable to create temporary file or directory");
-                throw e;
-            } catch (FileAlreadyExistsException e) {
-                // ignore
-            }
-        }
-    }
-
-    /**
-     * Creates a temporary file in the given directory, or in the
-     * temporary directory if dir is {@code null}.
-     */
-    static Path createTempFile(Path dir,
-            String prefix,
-            String suffix,
-            FileAttribute<?>[] attrs)
-            throws IOException {
-        return create(dir, prefix, suffix, false, attrs);
-    }
-
-    /**
-     * Creates a temporary directory in the given directory, or in the
-     * temporary directory if dir is {@code null}.
-     */
-    static Path createTempDirectory(Path dir,
-            String prefix,
-            FileAttribute<?>[] attrs)
-            throws IOException {
-        return create(dir, prefix, null, true, attrs);
-    }
-
-        public static String getRessourceFileContent(String filename) {
+    public static String writeResourceToPluginDir(String srcFileName) {
         try {
-            final InputStream inputStream = FileHelper.class.getResourceAsStream("/".concat(filename));
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + srcFileName);
+            final InputStream stream = PLUGIN_PROVIDER.getResource(srcFileName);
+            final File newFile = new File(newFilePath);
+
+            FileUtils.copyInputStreamToFile(stream, newFile);
+            return newFilePath;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String writeResourceToPluginDir(String srcFileName, Boolean overwrite) {
+        try {
+            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + srcFileName);
+            final File newFile = new File(newFilePath);
+
+            if (overwrite != true && newFile.exists()) {
+                return null;
+            }
+
+            final InputStream stream = PLUGIN_PROVIDER.getResource(srcFileName);
+            if (stream == null) {
+                return null;
+            }
+
+            FileUtils.copyInputStreamToFile(stream, newFile);
+            return newFilePath;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String writeToPluginDir(String fileName, String text) {
+        try {
+            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + fileName);
+            final File newFile = new File(newFilePath);
+
+            FileUtils.writeStringToFile(newFile, text, StandardCharsets.UTF_8);
+
+            return newFilePath;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String writeToPluginDir(String fileName, String text, Boolean overwrite) {
+        try {
+            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + fileName);
+            final File newFile = new File(newFilePath);
+
+            if (overwrite != true) {
+                if (newFile.exists()) {
+                    return null;
+                }
+            }
+
+            FileUtils.writeStringToFile(newFile, text, StandardCharsets.UTF_8);
+            return newFilePath;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getResourceFileContent(String filename) {
+        try {
+            final InputStream inputStream = PLUGIN_PROVIDER.getResource(filename);
+            final BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             return reader.lines().collect(Collectors.joining(System.lineSeparator()));
         } catch (Exception e) {
             return null;
         }
     }
-}
 
-/*
- * Copyright (c) 2009, 2021, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
- *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation. Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
- *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
- *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
- */
+    public static FileInputStream getPluginFileStream(String filename) {
+        try {
+            return new FileInputStream(getPluginFile(filename));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static File getPluginFile(String filename) {
+        try {
+            final String filePath = PLUGIN_DIR.toString().concat("\\" + filename);
+            return new File(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static File getPluginTraductionFile(String filename) {
+        try {
+            final String filePath = TRADUCTION_DIR.toString().concat("\\" + filename);
+            return new File(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+}

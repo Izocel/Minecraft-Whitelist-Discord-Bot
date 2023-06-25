@@ -9,24 +9,41 @@ import services.sentry.SentryService;
 public class LocalManager {
 
     private Logger logger;
-    private WhitelistJe plugin;
-    private ConfigManager configs;
     private String defaultLang;
     private String nextInteractionLang;
+    private String[] baseLangs = { Lang.FR.value, Lang.EN.value, Lang.ES.value };
+    private String[] extraLangs = {
+            Lang.FR_EN.value, Lang.FR_ES.value,
+            Lang.ES_EN.value, Lang.ES_FR.value,
+            Lang.EN_FR.value
+    };
+    private Fr Fr;
+    private En En;
+    private Es Es;
 
     public LocalManager(WhitelistJe plugin) {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        this.Fr = new Fr();
+        this.En = new En();
+        this.Es = new Es();
 
-        this.plugin = plugin;
-        this.configs = plugin.getConfigManager();
-        this.setDefault(this.configs.get("defaultLang", "FR"));
-        this.setNextLang(this.configs.get("defaultLang", "FR"));
+        final var configs = plugin.getConfigManager();
+        this.setDefault(configs.get("defaultLang"));
+        this.setNextLang(configs.get("defaultLang"));
+    }
+
+    public final String[] getBaseLangs() {
+        return this.baseLangs;
+    }
+
+    public final String[] getExtraLangs() {
+        return this.extraLangs;
     }
 
     public final void setNextLang(String lang) {
         lang = lang.toUpperCase();
         if (lang.length() < 1 || !this.isSupported(lang)) {
-            this.logger.info("Using default language: " + this.defaultLang);
+            this.logger.warning("Using default language: " + this.defaultLang);
             this.nextInteractionLang = this.defaultLang;
             return;
         }
@@ -37,7 +54,7 @@ public class LocalManager {
     public final String setDefault(String lang) {
         lang = lang.toUpperCase();
         if (lang.length() < 1 || !this.isSupported(lang)) {
-            this.logger.info("Using default language: " + this.defaultLang);
+            this.logger.warning("Using default language: " + this.defaultLang);
             lang = this.defaultLang;
         }
 
@@ -117,7 +134,7 @@ public class LocalManager {
         final String msg = "MISSING KEY: " + key;
 
         try {
-            return En.valueOf(key).trans;
+            return En.getTranslation(key);
         } catch (Exception e) {
             this.logger.warning(e.getMessage());
             SentryService.captureEx(e);
@@ -132,7 +149,7 @@ public class LocalManager {
         final String msg = "MISSING KEY: " + key;
 
         try {
-            return Fr.valueOf(key).trans;
+            return Fr.getTranslation(key);
         } catch (Exception e) {
             this.logger.warning(e.getMessage());
             SentryService.captureEx(e);
@@ -147,7 +164,7 @@ public class LocalManager {
         final String msg = "MISSING KEY: " + key;
 
         try {
-            return Es.valueOf(key).trans;
+            return Es.getTranslation(key);
         } catch (Exception e) {
             this.logger.warning(e.getMessage());
             SentryService.captureEx(e);

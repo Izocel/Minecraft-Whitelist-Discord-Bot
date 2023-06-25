@@ -65,11 +65,11 @@ public class BukkitManager {
         final String whitelistField = LOCAL.translateBy("WHITELISTED", lang);
         final String defaultGModefield = LOCAL.translateBy("DEFAULT_GAMEMOD", lang);
         final String descField = LOCAL.translateBy("DESCRIPTION", lang);
-        final String YES = LOCAL.translateBy("YES", lang);
-        final String NO = LOCAL.translateBy("NO", lang);
+        final String WORD_YES = LOCAL.translateBy("WORD_YES", lang);
+        final String WORD_NO = LOCAL.translateBy("WORD_NO", lang);
 
-        final String onlineStr = onlineMode ? "`" + YES +  "`" : "`" + NO +  "`";
-        final String fwStr = forceWhitelist ? "`" + YES +  "`" : "`" + NO +  "`";
+        final String onlineStr = onlineMode ? "`" + WORD_YES +  "`" : "`" + WORD_NO +  "`";
+        final String fwStr = forceWhitelist ? "`" + WORD_YES +  "`" : "`" + WORD_NO +  "`";
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n\tJava Ip: `" + javaIp + "`");
