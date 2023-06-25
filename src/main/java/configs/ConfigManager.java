@@ -90,8 +90,6 @@ public final class ConfigManager {
         FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
 
         this.setHidden();
-
-        Logger.getLogger("WJE:" + "DEV").warning(FROM_CONFIGS.toString());
     }
 
     private void setHidden() {
