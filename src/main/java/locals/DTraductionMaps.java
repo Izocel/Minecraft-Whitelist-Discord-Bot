@@ -10,6 +10,7 @@ import services.sentry.SentryService;
 public class DTraductionMaps {
     protected LinkedHashMap<String, Object> DEFAULTS = new LinkedHashMap<>();
     protected LinkedHashMap<String, Object> FROM_CONFIGS = new LinkedHashMap<>();
+    boolean wasAltered = false;
     private Logger logger;
 
     public DTraductionMaps() {
@@ -26,11 +27,19 @@ public class DTraductionMaps {
                     + this.getClass().getSimpleName().concat(".yml");
 
             FROM_CONFIGS = YamlFileParser.fromPluginFile(fileName);
+
             DEFAULTS.forEach((k, v) -> {
-                FROM_CONFIGS.putIfAbsent(k, v);
+                if(FROM_CONFIGS.containsKey(k)) {
+                    return;
+                }
+
+                FROM_CONFIGS.put(k, v);
+                wasAltered = true;
             });
 
-            YamlFileParser.toPluginFile(fileName, FROM_CONFIGS);
+            if(wasAltered) {
+                YamlFileParser.toPluginFile(fileName, FROM_CONFIGS);
+            }
 
         } catch (Exception e) {
             SentryService.captureEx(e);

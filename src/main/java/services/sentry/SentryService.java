@@ -37,12 +37,14 @@ public class SentryService {
     final User user = new User();
     final String username = "?discordOwnerId?";
     final String id = this.plugin.getConfigManager().get("discordServerId", "?discordServerId?");
-    final String ipAddress = this.plugin.getConfigManager().get("paperMcIp", "?paperMcIp?");
+    final String email = this.plugin.getConfigManager().get("serverContactEmail", "?serverContactEmail?");
+    final String ipAddress = this.plugin.getConfigManager().get("javaIp", "?javaIp?");
     SentryService.envType = this.plugin.getConfigManager().get("envType", "?envType?");
     final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
     
 
     user.setId(id);
+    user.setEmail(email);
     user.setUsername(username);
     user.setIpAddress(ipAddress);
 

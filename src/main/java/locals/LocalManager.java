@@ -43,7 +43,7 @@ public class LocalManager {
     public final void setNextLang(String lang) {
         lang = lang.toUpperCase();
         if (lang.length() < 1 || !this.isSupported(lang)) {
-            this.logger.info("Using default language: " + this.defaultLang);
+            this.logger.warning("Using default language: " + this.defaultLang);
             this.nextInteractionLang = this.defaultLang;
             return;
         }
@@ -54,7 +54,7 @@ public class LocalManager {
     public final String setDefault(String lang) {
         lang = lang.toUpperCase();
         if (lang.length() < 1 || !this.isSupported(lang)) {
-            this.logger.info("Using default language: " + this.defaultLang);
+            this.logger.warning("Using default language: " + this.defaultLang);
             lang = this.defaultLang;
         }
 

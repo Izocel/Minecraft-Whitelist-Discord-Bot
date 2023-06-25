@@ -44,7 +44,6 @@ public class BaseDao implements IDao {
             if(this.connection == null || this.connection.isClosed()) {
                 this.connection = this.datasource.getConnection();
                 this.connection.setAutoCommit(true);
-                logger.info("Db Connection +");
                 return this.connection;
             }
         } catch (Exception e) {
@@ -52,7 +51,6 @@ public class BaseDao implements IDao {
             try {
                 this.connection = this.datasource.getConnection();
                 this.connection.setAutoCommit(true);
-                logger.info("Db Connection ++");
                 return this.connection;
             } catch (Exception err) {
                 logger.warning("Unable to get a BD connection");
@@ -61,7 +59,6 @@ public class BaseDao implements IDao {
                 return this.connection;
             }
         }
-        logger.info("Db Connection +++");
         return this.connection;
     }
 

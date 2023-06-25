@@ -18,7 +18,7 @@ public class YamlFileParser {
             final Yaml yaml = new Yaml();
             final String contents = FileHelper.getResourceFileContent(filename);
 
-            if(contents == null) {
+            if (contents == null) {
                 return new LinkedHashMap<>();
             }
 
@@ -32,12 +32,17 @@ public class YamlFileParser {
     public static LinkedHashMap<String, Object> fromPluginFile(String filename) {
         try {
             final InputStream contents = FileHelper.getPluginFileStream(filename);
-            if(contents == null) {
+            if (contents == null) {
                 return new LinkedHashMap<>();
             }
 
             final Yaml yaml = new Yaml();
-            return yaml.load(contents);
+            LinkedHashMap<String, Object> parsed = yaml.load(contents);
+
+            if (parsed == null || parsed.isEmpty()) {
+                return new LinkedHashMap<>();
+            }
+            return parsed;
         } catch (Exception e) {
             SentryService.captureEx(e);
         }

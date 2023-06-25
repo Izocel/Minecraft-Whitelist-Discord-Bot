@@ -107,7 +107,7 @@ public class ServerCommand extends BaseCmd {
                 + ":"
                 + (minutes <= 9 ? "0" + minutes : minutes) + " (" + isDay + ")`\n\t" + weather + "\n\n\t");
 
-            if (!this.configs.get("showSubWorlddMeteo", "false").equals("true")) {
+            if (!this.configs.get("showAllWorldsMeteo", "false").equals("true")) {
                 break;
             }
         }
