@@ -1,10 +1,10 @@
 package locals;
 
-public class En extends DLanguageSet {
+public class En extends DTraductionMaps {
 
     public En() {
-        this.DEFAULTS.put("YES", "Yes");
-        this.DEFAULTS.put("NO", "No");
+        this.DEFAULTS.put("WORD_YES", "Yes");
+        this.DEFAULTS.put("WORD_NO", "No");
         this.DEFAULTS.put("RAINY", "rainy");
         this.DEFAULTS.put("SUNNY", "sunny");
         this.DEFAULTS.put("STORMY", "stormy");
@@ -42,7 +42,7 @@ public class En extends DLanguageSet {
         this.DEFAULTS.put("EMBD_LINK_YESME", "Yes it\'s me");
         this.DEFAULTS.put("EMBD_LINK_NOTME", "No it\'s not me");
         this.DEFAULTS.put("EMBD_LINK_POLICY",
-                "When clicking on `YES` you assert that those accounts are to be linked, and that you are the legitimate holder.\nWhen clicking on `NO` the temporary links will be dissolved, and all current or further activities will be suspended.");
+                "When clicking on `WORD_YES` you assert that those accounts are to be linked, and that you are the legitimate holder.\nWhen clicking on `WORD_NO` the temporary links will be dissolved, and all current or further activities will be suspended.");
         this.DEFAULTS.put("LABEL_LONG_MC", "Minecraft® identification");
         this.DEFAULTS.put("LABEL_MINECRAFT_UUID", "Minecraft® uuid");
         this.DEFAULTS.put("LABEL_LONG_DC", "Discord® identification");

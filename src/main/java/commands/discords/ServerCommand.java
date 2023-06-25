@@ -74,8 +74,8 @@ public class ServerCommand extends BaseCmd {
         
         final String stormyField = useTranslator("STORMY");
         final String rainyField = useTranslator("RAINY");
-        final String YES = useTranslator("YES");
-        final String NO = useTranslator("NO");
+        final String WORD_YES = useTranslator("WORD_YES");
+        final String WORD_NO = useTranslator("WORD_NO");
 
         for (World world : worlds) {
             final String name = world.getName();
@@ -84,8 +84,8 @@ public class ServerCommand extends BaseCmd {
                     hours = gameTime / 1000 + 6,
                     minutes = (gameTime % 1000) * 60 / 1000;
 
-            String weather = Helper.capitalize(rainyField) + ": `"  + (world.hasStorm() ? YES : NO) + "`\n\t" +
-                    Helper.capitalize(stormyField) + ": `" + (world.isThundering() ? YES : NO) + "`",
+            String weather = Helper.capitalize(rainyField) + ": `"  + (world.hasStorm() ? WORD_YES : WORD_NO) + "`\n\t" +
+                    Helper.capitalize(stormyField) + ": `" + (world.isThundering() ? WORD_YES : WORD_NO) + "`",
                     isDay = hours <= 17 ? useTranslator("DAY") : useTranslator("NIGHT"), emotes;
 
             emotes = hours <= 17

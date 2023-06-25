@@ -1,11 +1,11 @@
 package locals;
 
-public class Fr extends DLanguageSet {
+public class Fr extends DTraductionMaps {
 
     public Fr() {
         super();
-        this.DEFAULTS.put("YES", "Oui");
-        this.DEFAULTS.put("NO", "Non");
+        this.DEFAULTS.put("WORD_YES", "Oui");
+        this.DEFAULTS.put("WORD_NO", "Non");
         this.DEFAULTS.put("RAINY", "pluvieux");
         this.DEFAULTS.put("SUNNY", "ensoleillé");
         this.DEFAULTS.put("STORMY", "orageux");

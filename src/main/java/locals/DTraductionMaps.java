@@ -1,18 +1,18 @@
 package locals;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 import helpers.FileHelper;
 import helpers.parsers.YamlFileParser;
 import services.sentry.SentryService;
 
-public class DLanguageSet {
-    protected HashMap<String, Object> DEFAULTS = new HashMap<>();
-    protected HashMap<String, Object> FROM_CONFIGS = new HashMap<>();
+public class DTraductionMaps {
+    protected LinkedHashMap<String, Object> DEFAULTS = new LinkedHashMap<>();
+    protected LinkedHashMap<String, Object> FROM_CONFIGS = new LinkedHashMap<>();
     private Logger logger;
 
-    public DLanguageSet() {
+    public DTraductionMaps() {
         this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
     }
 
@@ -22,11 +22,12 @@ public class DLanguageSet {
                 throw new Exception("Default traduction not implemented");
             }
 
-            final String fileName = this.getClass().getSimpleName().concat(".yml");
-            FROM_CONFIGS = YamlFileParser.fromPluginFile(fileName);
+            final String fileName = FileHelper.TRADUCTION_DIR_NAME + "\\"
+                    + this.getClass().getSimpleName().concat(".yml");
 
+            FROM_CONFIGS = YamlFileParser.fromPluginFile(fileName);
             DEFAULTS.forEach((k, v) -> {
-                FROM_CONFIGS.putIfAbsent(k,v);
+                FROM_CONFIGS.putIfAbsent(k, v);
             });
 
             YamlFileParser.toPluginFile(fileName, FROM_CONFIGS);

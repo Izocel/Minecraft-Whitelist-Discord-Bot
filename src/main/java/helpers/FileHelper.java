@@ -27,6 +27,8 @@ public class FileHelper {
     public static final WhitelistJe PLUGIN_PROVIDER = WhitelistJe.getPlugin(WhitelistJe.class);
     public static final Path TMP_DIR = Path.of(System.getProperty("java.io.tmpdir") + "\\WhitelistJe");
     public static final Path PLUGIN_DIR = Path.of(WhitelistJe.getPlugin(WhitelistJe.class).getDataFolder().toString());
+    public static final String TRADUCTION_DIR_NAME = "traduction";
+    public static final Path TRADUCTION_DIR = Path.of(PLUGIN_DIR + "\\" + TRADUCTION_DIR_NAME);
 
     public static String writeResourceToPluginDir(String srcFileName) {
         try {
@@ -54,7 +56,7 @@ public class FileHelper {
             }
 
             final InputStream stream = PLUGIN_PROVIDER.getResource(srcFileName);
-            if(stream == null) {
+            if (stream == null) {
                 return null;
             }
 
@@ -127,6 +129,16 @@ public class FileHelper {
     public static File getPluginFile(String filename) {
         try {
             final String filePath = PLUGIN_DIR.toString().concat("\\" + filename);
+            return new File(filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static File getPluginTraductionFile(String filename) {
+        try {
+            final String filePath = TRADUCTION_DIR.toString().concat("\\" + filename);
             return new File(filePath);
         } catch (Exception e) {
             e.printStackTrace();

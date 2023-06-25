@@ -192,8 +192,8 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   private String confirmationActions(String channel_id, String lang) {
     LocalManager LOCAL = WhitelistJe.LOCALES;
 
-    final String YES = '"' + LOCAL.translateBy("EMBD_LINK_YESME", lang) + '"';
-    final String NO = '"' + LOCAL.translateBy("EMBD_LINK_NOTME", lang) + '"';
+    final String WORD_YES = '"' + LOCAL.translateBy("EMBD_LINK_YESME", lang) + '"';
+    final String WORD_NO = '"' + LOCAL.translateBy("EMBD_LINK_NOTME", lang) + '"';
 
     final String jsonEmbeded = """
     {
@@ -203,14 +203,14 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
           "components": [
             {
               "style": "4",
-              "label": """ + NO + "," + """
+              "label": """ + WORD_NO + "," + """
               "custom_id": '""" + rejectId + "'," + """
               "disabled": false,
               "type": "2"
             },
             {
               "style": "3",
-              "label": """ + YES + "," + """
+              "label": """ + WORD_YES + "," + """
               "custom_id": '""" + acceptId + "'," + """
               "disabled": false,
               "type": "2"
