@@ -3,9 +3,6 @@ package configs;
 import java.util.HashMap;
 
 public final class ConfigManager {
-
-    /////////////////////////// EDIT THE PRIVATE VARS ONLY \\\\\\\\\\\\\\\\\\\\\\\\\\\
-
     private final String envType="production";
     private final String discordBotToken="MTAxNzk3MTY5MDM0MjQ1NzM1Ng.G-BnAu.1qt8teQBfIVVP8Wdf887C8bilWz2z3RL4UlS0I";
 
