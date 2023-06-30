@@ -94,7 +94,10 @@ jobs:
       - name: Infos
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
-          ls 
+          ls server_test
+          echo |
           ls server_test/plugins
+          echo |
           ls server_test/plugins/WhitelistJe
+          echo |
           cat server_test/plugins/WhitelistJe/config.yml
