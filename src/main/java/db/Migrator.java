@@ -8,7 +8,6 @@ import dao.DaoManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import main.WhitelistJe;
-import services.sentry.SentryService;
 
 public class Migrator {
     private WhitelistJe plugin;

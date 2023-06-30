@@ -138,7 +138,7 @@ public class DiscordManager {
         final LocalManager LOCAL = WhitelistJe.LOCALES;
 
         try {
-            String[] langArr = { Lang.FR.value, Lang.EN.value, Lang.ES.value };
+            String[] langArr = LOCAL.getBaseLangs();
 
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);
