@@ -23,7 +23,7 @@ public class DTraductionMaps {
                 throw new Exception("Default traduction not implemented");
             }
 
-            final String fileName = FileHelper.TRADUCTION_DIR_NAME + "\\"
+            final String fileName = FileHelper.TRADUCTION_DIR_NAME + "/"
                     + this.getClass().getSimpleName().concat(".yml");
 
             FROM_CONFIGS = YamlFileParser.fromPluginFile(fileName);

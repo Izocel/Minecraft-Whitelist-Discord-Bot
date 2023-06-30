@@ -25,14 +25,14 @@ public class FileHelper {
     public static final boolean isPosix = FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
 
     public static final WhitelistJe PLUGIN_PROVIDER = WhitelistJe.getPlugin(WhitelistJe.class);
-    public static final Path TMP_DIR = Path.of(System.getProperty("java.io.tmpdir") + "\\WhitelistJe");
+    public static final Path TMP_DIR = Path.of(System.getProperty("java.io.tmpdir") + "/WhitelistJe");
     public static final Path PLUGIN_DIR = Path.of(WhitelistJe.getPlugin(WhitelistJe.class).getDataFolder().toString());
     public static final String TRADUCTION_DIR_NAME = "traduction";
-    public static final Path TRADUCTION_DIR = Path.of(PLUGIN_DIR + "\\" + TRADUCTION_DIR_NAME);
+    public static final Path TRADUCTION_DIR = Path.of(PLUGIN_DIR + "/" + TRADUCTION_DIR_NAME);
 
     public static String writeResourceToPluginDir(String srcFileName) {
         try {
-            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + srcFileName);
+            final String newFilePath = PLUGIN_DIR.toString().concat("/" + srcFileName);
             final InputStream stream = PLUGIN_PROVIDER.getResource(srcFileName);
             final File newFile = new File(newFilePath);
 
@@ -48,7 +48,7 @@ public class FileHelper {
 
     public static String writeResourceToPluginDir(String srcFileName, Boolean overwrite) {
         try {
-            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + srcFileName);
+            final String newFilePath = PLUGIN_DIR.toString().concat("/" + srcFileName);
             final File newFile = new File(newFilePath);
 
             if (overwrite != true && newFile.exists()) {
@@ -72,7 +72,7 @@ public class FileHelper {
 
     public static String writeToPluginDir(String fileName, String text) {
         try {
-            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + fileName);
+            final String newFilePath = PLUGIN_DIR.toString().concat("/" + fileName);
             final File newFile = new File(newFilePath);
 
             FileUtils.writeStringToFile(newFile, text, StandardCharsets.UTF_8);
@@ -88,7 +88,7 @@ public class FileHelper {
 
     public static String writeToPluginDir(String fileName, String text, Boolean overwrite) {
         try {
-            final String newFilePath = PLUGIN_DIR.toString().concat("\\" + fileName);
+            final String newFilePath = PLUGIN_DIR.toString().concat("/" + fileName);
             final File newFile = new File(newFilePath);
 
             if (overwrite != true) {
@@ -128,7 +128,7 @@ public class FileHelper {
 
     public static File getPluginFile(String filename) {
         try {
-            final String filePath = PLUGIN_DIR.toString().concat("\\" + filename);
+            final String filePath = PLUGIN_DIR.toString().concat("/" + filename);
             return new File(filePath);
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +138,7 @@ public class FileHelper {
 
     public static File getPluginTraductionFile(String filename) {
         try {
-            final String filePath = TRADUCTION_DIR.toString().concat("\\" + filename);
+            final String filePath = TRADUCTION_DIR.toString().concat("/" + filename);
             return new File(filePath);
         } catch (Exception e) {
             e.printStackTrace();

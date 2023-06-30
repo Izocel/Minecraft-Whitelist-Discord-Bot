@@ -88,17 +88,5 @@ jobs:
       - name: "Mc® Server launch"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
-          cat plugins/WhitelistJe/config.yml
           java -jar paper.jar nogui
-
-      - name: Infos
-        run: |
-          echo ..............
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
-          ls server_test
-          echo ..............
-          ls server_test/plugins
-          echo ..............
-          ls server_test/plugins/WhitelistJe
-          echo ..............
-          cat server_test/plugins/WhitelistJe/config.yml
+          
