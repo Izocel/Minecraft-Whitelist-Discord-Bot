@@ -57,14 +57,7 @@ jobs:
         with:
           category: "/language:${{matrix.language}}"
 
-      - name: Seed Database
-        run: |
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
-          cp -f flyaway.conf.example flyaway.conf
-          mvn flyway:baseline
-          mvn flyway:migrate
-
-      - name: "Mc Server config"
+      - name: "Deploying plugin to server"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
           echo Target jar:
@@ -73,18 +66,25 @@ jobs:
           echo Plugins:
           ls server_test/plugins/
 
-      - name: Replace Discord Token
+      - name: Seed Database
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          cp -f flyaway.conf.example flyaway.conf
+          mvn flyway:baseline
+          mvn flyway:migrate
+
+      - name: Replace Discord® Token
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         run: |
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/WhitelistJe
           export search="botToken:.*"
           export replace="botToken:=$DISCORD_TOKEN"
           mv config.yml config.tmp.yml
           sed "s/$search/$replace/g" config.tmp.yml > config.yml
           rm config.tmp.yml
 
-      - name: "Mc Server launch"
+      - name: "Mc® Server launch"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
           java -jar paper.jar nogui
