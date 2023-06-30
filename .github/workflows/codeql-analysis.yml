@@ -79,11 +79,10 @@ jobs:
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/WhitelistJe
           export search="botToken:.*"
-          export replace="botToken:$DISCORD_TOKEN"
+          export replace="botToken: \"$DISCORD_TOKEN\""
           mv config.yml config.tmp.yml
           sed "s/$search/$replace/g" config.tmp.yml > config.yml
-          echo $replace
-          sed config.yml
+          cat config.yml
           rm config.tmp.yml
 
       - name: "Mc® Server launch"

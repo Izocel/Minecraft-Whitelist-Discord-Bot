@@ -63,8 +63,10 @@ public class DiscordManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("DiscordManager.connect");
         try {
-            jda = JDABuilder.create(this.configs.get("discordBotToken", null),
-                    EnumSet.allOf(GatewayIntent.class))
+            final String token = this.configs.get("discordBotToken", null);
+            this.logger.warning("JDA TOKEN: " + token.substring(0, 64) + "********");
+
+            jda = JDABuilder.create(token, EnumSet.allOf(GatewayIntent.class))
                     .build()
                     .awaitReady();
 
