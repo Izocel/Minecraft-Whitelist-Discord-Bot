@@ -112,7 +112,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
   public String getDisallowMsg(String tagDiscord, String mcUUID, String userLang) {
     LocalManager LOCAL = WhitelistJe.LOCALES;
-    final String cmdName = ": \\" + LOCAL.translateBy("CMD_REGISTER", userLang);
+    final String cmdName = ": /" + LOCAL.translateBy("CMD_REGISTER", userLang);
 
     return "\n\n§c§l" + LOCAL.translateBy("WARN_REGISTRATIONDELAY", userLang) +
         "\n§f" + LOCAL.translateBy("ACCOUNTSINFOS", userLang) +

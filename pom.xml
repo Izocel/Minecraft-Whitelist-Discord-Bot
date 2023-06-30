@@ -106,17 +106,17 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
-            <version>3.18.4</version>
+            <version>3.18.5</version>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-meta</artifactId>
-            <version>3.18.4</version>
+            <version>3.18.5</version>
         </dependency>
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen</artifactId>
-            <version>3.18.4</version>
+            <version>3.18.5</version>
         </dependency>
         <dependency>
             <groupId>io.sentry</groupId>

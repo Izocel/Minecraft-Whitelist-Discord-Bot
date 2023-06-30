@@ -1,5 +1,5 @@
 discord:
-  botToken: $DISCORD_TOKEN
+  botToken: -----------------------RESOURCE-------------------------------------
   serverId: "276931890735218689"
   channels:
     {
