@@ -90,3 +90,11 @@ jobs:
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
           cat plugins/WhitelistJe/config.yml
           java -jar paper.jar nogui
+
+      - name: Infos
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          ls 
+          ls server_test/plugins
+          ls server_test/plugins/WhitelistJe
+          cat server_test/plugins/WhitelistJe/config.yml
