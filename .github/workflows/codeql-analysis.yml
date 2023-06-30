@@ -67,6 +67,13 @@ jobs:
           echo Plugins:
           ls server_test/plugins/
 
+      - name: Seed Database
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
+          cp -f flyaway.conf.example flyaway.conf
+          mvn flyway:baseline
+          mvn flyway:migrate
+
       - name: Replace Discord® Token
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
@@ -77,13 +84,6 @@ jobs:
           cp config.yml config.tmp.yml
           sed "s/$search/$replace/g" config.tmp.yml > config.yml
           rm config.tmp.yml
-
-      - name: Seed Database
-        run: |
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
-          cp -f flyaway.conf.example flyaway.conf
-          mvn flyway:baseline
-          mvn flyway:migrate
 
       - name: "Mc® Server launch"
         run: |
