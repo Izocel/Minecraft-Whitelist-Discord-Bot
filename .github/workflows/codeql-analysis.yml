@@ -74,16 +74,16 @@ jobs:
           mvn flyway:baseline
           mvn flyway:migrate
 
-      # - name: Replace Discord® Token
-      #   env:
-      #     DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-      #   run: |
-      #     cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/WhitelistJe
-      #     export search="botToken:.*."
-      #     export replace="botToken: $DISCORD_TOKEN"
-      #     cp config.yml config.tmp.yml
-      #     sed "s/$search/$replace/g" config.tmp.yml > config.yml
-      #     rm config.tmp.yml
+      - name: Replace Discord® Token
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/WhitelistJe
+          export search="botToken:.*."
+          export replace="botToken: $DISCORD_TOKEN"
+          cp config.yml config.tmp.yml
+          sed "s/$search/$replace/g" config.tmp.yml > config.yml
+          rm config.tmp.yml
 
       - name: "Mc® Server launch"
         run: |
@@ -93,11 +93,12 @@ jobs:
 
       - name: Infos
         run: |
+          echo ..............
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
           ls server_test
-          echo |
+          echo ..............
           ls server_test/plugins
-          echo |
+          echo ..............
           ls server_test/plugins/WhitelistJe
-          echo |
+          echo ..............
           cat server_test/plugins/WhitelistJe/config.yml
