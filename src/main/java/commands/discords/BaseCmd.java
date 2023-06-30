@@ -39,8 +39,8 @@ public abstract class BaseCmd extends ListenerAdapter {
     abstract void execute();
 
     protected BaseCmd(WhitelistJe plugin,
-        String childClassName, String cmdNameTradKey,
-        String mainTransactionName, String mainOperationName) {
+            String childClassName, String cmdNameTradKey,
+            String mainTransactionName, String mainOperationName) {
         this.plugin = plugin;
         this.childClassName = childClassName;
         this.logger = Logger.getLogger("WJE:" + childClassName);
@@ -90,6 +90,7 @@ public abstract class BaseCmd extends ListenerAdapter {
     /**
      * Checks all langugae eventName to find the current language and
      * prevent multiple event calls.
+     * 
      * @param SlashCommandEvent event
      * @return Boolean
      */
@@ -123,8 +124,25 @@ public abstract class BaseCmd extends ListenerAdapter {
             return;
         }
 
+        if (msg.length() >= 2000) {
+            sendMsgToUser(msg, "message.txt");
+            return;
+        }
+
         this.plugin.getDiscordManager().jda.openPrivateChannelById(eventUser.getId()).queue(channel -> {
             channel.sendMessage(msg).submit(true).isDone();
+        });
+    }
+
+    protected final void sendMsgToUser(String msg, String fileName) {
+        if (eventUser == null) {
+            logger.warning("Undefined User for cmd event");
+            return;
+        }
+
+        // Allows 6.25 Millions characters
+        this.plugin.getDiscordManager().jda.openPrivateChannelById(eventUser.getId()).queue(channel -> {
+            channel.sendFile(msg.getBytes(), fileName).submit(true).isDone();
         });
     }
 

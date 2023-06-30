@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.rvdprojects.whitelistje</groupId>
-    <artifactId>Whitelist-Je</artifactId>
-    <version>2023.3 ${maven.build.timestamp}</version>
+    <artifactId>WhitelistJe</artifactId>
+    <version>2023.3-${maven.build.timestamp}</version>
     <packaging>jar</packaging>
 
     <name>Whitelist Je</name>
@@ -32,7 +32,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -48,7 +48,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>9.19.1</version>
+                <version>9.20.0</version>
                 <configuration>
                     <configFiles>
                         <configFile>${flyaway.configuration}</configFile>
@@ -90,7 +90,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20230227</version>
+            <version>20230618</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -121,22 +121,27 @@
         <dependency>
             <groupId>io.sentry</groupId>
             <artifactId>sentry</artifactId>
-            <version>6.23.0</version>
+            <version>6.24.0</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>9.19.1</version>
+            <version>9.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
-            <version>9.19.1</version>
+            <version>9.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>3.1.4</version>
-        </dependency>        
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
+        </dependency>
     </dependencies>
 </project>
