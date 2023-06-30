@@ -44,17 +44,6 @@ jobs:
           mysql user: "whitelist_je" # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
           mysql password: mysql # Required if "mysql user" exists. The password for the "mysql user"
 
-      - name: Setup Plugin Configs
-        env:
-          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: |
-          # cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/src/main/java/configs/
-          # export search="private final String discordBotToken=.*"
-          # export replace="private final String discordBotToken=\"$DISCORD_TOKEN\";"
-          # mv ConfigManager.java ConfigManager.tmp.java
-          # sed "s/$search/$replace/g" ConfigManager.tmp.java > ConfigManager.java
-          # rm ConfigManager.tmp.java
-
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
@@ -84,9 +73,18 @@ jobs:
           echo Plugins:
           ls server_test/plugins/
 
-      - name: "Mc Server launch"
+      - name: Replace Discord Token
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        run: |
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
+          export search="botToken:.*"
+          export replace="botToken:=$DISCORD_TOKEN"
+          mv config.yml config.tmp.yml
+          sed "s/$search/$replace/g" config.tmp.yml > config.yml
+          rm config.tmp.yml
+
+      - name: "Mc Server launch"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
           java -jar paper.jar nogui
