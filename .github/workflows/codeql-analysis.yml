@@ -82,6 +82,8 @@ jobs:
           export replace="botToken:$DISCORD_TOKEN"
           mv config.yml config.tmp.yml
           sed "s/$search/$replace/g" config.tmp.yml > config.yml
+          echo $replace
+          sed config.yml
           rm config.tmp.yml
 
       - name: "Mc® Server launch"
