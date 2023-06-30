@@ -83,10 +83,10 @@ jobs:
           export replace="botToken: $DISCORD_TOKEN"
           cp config.yml config.tmp.yml
           sed "s/$search/$replace/g" config.tmp.yml > config.yml
-          cat config.yml
           rm config.tmp.yml
 
       - name: "Mc® Server launch"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test
+          cat plugins/WhitelistJe/config.yml
           java -jar paper.jar nogui
