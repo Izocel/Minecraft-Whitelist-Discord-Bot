@@ -47,27 +47,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 
 - ### Comming soon...
 
-#
-
-## QuickStart:
-
-- ### Setup the `private vars` within the [ConfigManager.java](src/main/java/configs/ConfigManager.java) file.
-- ### Setup and run [build-WJE.bat](build-WJE.bat) a backup of your conf. will `automaticly` be added to [backups folder](/backups).
-- ### Put the `${workspacefolder}\target\WJE-shaded.jar` into you server plugins folder.
-
-#
-
 ## Changing commands name:
-
-**Those neeed to be done before building**
-
-- ### Setup the `commands section` within the [plugin.yml](src/main/resources/plugin.yml) file.
-- Plugin.yml example:
-
-      commands:
-            <cmdName>:
-                  description: This is a demo command.
-                  usage: !! I recommend not changing this except the name part !!
 
 - ### Setup any aliases you want in your server `commands.yml` file.
 - commands.yml example:
