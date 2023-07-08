@@ -23,7 +23,7 @@ import models.BedrockData;
 import models.JavaData;
 import services.sentry.SentryService;
 
-public final class WhitelistJe extends JavaPlugin implements Listener {
+public final class WhitelistDMC extends JavaPlugin implements Listener {
 
     private Logger logger;
     private BukkitManager bukkitManager;
@@ -63,8 +63,8 @@ public final class WhitelistJe extends JavaPlugin implements Listener {
         return figlet;
     }
 
-    public WhitelistJe() {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+    public WhitelistDMC() {
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         saveDefaultConfig();
     }
 

@@ -24,7 +24,7 @@ public class UsersDao extends BaseDao {
         this.tablename = "wje_users";
         this.tablename2 = "wje_java_data";
         this.tablename3 = "wje_bedrock_data";
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
     
     public User findUser(Integer id) {

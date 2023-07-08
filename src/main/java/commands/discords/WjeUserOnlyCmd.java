@@ -3,13 +3,13 @@ package commands.discords;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import services.sentry.SentryService;
 
 public abstract class WjeUserOnlyCmd extends BaseCmd {
 
-    protected WjeUserOnlyCmd(WhitelistJe plugin, String childClassName, String cmdNameTradKey, String mainTransactionName, String mainOperationName) {
+    protected WjeUserOnlyCmd(WhitelistDMC plugin, String childClassName, String cmdNameTradKey, String mainTransactionName, String mainOperationName) {
         super(plugin, childClassName, cmdNameTradKey, mainTransactionName, mainOperationName);
     }
 

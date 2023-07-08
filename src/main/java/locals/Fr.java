@@ -104,7 +104,7 @@ public class Fr extends DTraductionMaps {
                 "❌ **Votre UUID `%s` n'a pas pu être retrouvés sur les serveurs...**");
         this.DEFAULTS.put("REGISTER_CMD_ERROR",
                 "❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**");
-        this.DEFAULTS.put("CMD_LINK", "wje-link");
+        this.DEFAULTS.put("CMD_LINK", "w-link");
         this.DEFAULTS.put("CMD_SERVER", "serveur");
         this.DEFAULTS.put("CMD_REGISTER", "enregistrer");
         this.DEFAULTS.put("CMD_LOOKUP", "recherche");

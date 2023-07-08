@@ -1,6 +1,6 @@
 package commands.discords;
 
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
@@ -11,7 +11,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
     private final static String KEY_PARAM_LANG = "PARAM_LOCAL_SETLOCAL";
     private final static String KEY_PARAM_LANG_LABEL = "PARAM_LOCAL_LABEL";
 
-    public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistDMC plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String localLangParam = LOCAL.translate(KEY_PARAM_LANG);
@@ -24,7 +24,7 @@ public class SetUserLanguageCmd extends WjeUserOnlyCmd {
             .submit(true);
     }
 
-    public SetUserLanguageCmd(WhitelistJe plugin) {
+    public SetUserLanguageCmd(WhitelistDMC plugin) {
         super(plugin,
             "SetUserLanguageCmd",
             "CMD_SETLOCAL",

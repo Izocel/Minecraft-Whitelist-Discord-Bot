@@ -58,7 +58,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
             icanhasbukkit:
             - version $1-
             link:
-            - wje-link (or your designated cmd name in the ConfigManager.java)
+            - w-link (or your designated cmd name in the ConfigManager.java)
 
 
 #
@@ -78,7 +78,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 # For first time creation
 /npc2 skin --url https://www.minecraftskins.com/uploads/skins/2023/05/08/warden-boy-21586715.png?v577
 /npc2 hologram add Talk to me to confirm your account
-/npc2 command add wje-link --permissions essentials.msg -p
+/npc2 command add w-link --permissions essentials.msg -p
 /npc2 sitting
 /template create Whitelist-Warden
 /citizens save

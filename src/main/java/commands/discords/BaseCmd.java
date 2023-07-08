@@ -6,7 +6,7 @@ import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import models.User;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -24,10 +24,10 @@ public abstract class BaseCmd extends ListenerAdapter {
     protected Logger logger;
     protected Member member;
     protected ITransaction tx;
-    protected WhitelistJe plugin;
+    protected WhitelistDMC plugin;
     protected MessageChannel channel;
     protected SlashCommandEvent event;
-    protected static LocalManager LOCAL = WhitelistJe.LOCALES;
+    protected static LocalManager LOCAL = WhitelistDMC.LOCALES;
 
     protected String childClassName;
     protected String cmdNameTradKey;
@@ -38,12 +38,12 @@ public abstract class BaseCmd extends ListenerAdapter {
 
     abstract void execute();
 
-    protected BaseCmd(WhitelistJe plugin,
+    protected BaseCmd(WhitelistDMC plugin,
             String childClassName, String cmdNameTradKey,
             String mainTransactionName, String mainOperationName) {
         this.plugin = plugin;
         this.childClassName = childClassName;
-        this.logger = Logger.getLogger("WJE:" + childClassName);
+        this.logger = Logger.getLogger("WDMC:" + childClassName);
         this.cmdNameTradKey = cmdNameTradKey;
         this.mainTransactionName = mainTransactionName;
         this.mainOperationName = mainOperationName;

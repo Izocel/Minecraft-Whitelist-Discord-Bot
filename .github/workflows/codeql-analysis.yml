@@ -60,10 +60,10 @@ jobs:
       - name: "Deploying plugin to server"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
-          mkdir -p server_test/plugins/WhitelistJe
+          mkdir -p server_test/plugins/WhitelistDMC
           echo Target jar:
           ls target
-          cp -f target/WhitelistJe*.jar server_test/plugins/
+          cp -f target/WhitelistDMC*.jar server_test/plugins/
           echo Plugins:
           ls server_test/plugins/
 
@@ -78,7 +78,7 @@ jobs:
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         run: |
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/WhitelistJe
+          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/WhitelistDMC
           export search="botToken:.*."
           export replace="botToken: $DISCORD_TOKEN"
           cp config.yml config.tmp.yml

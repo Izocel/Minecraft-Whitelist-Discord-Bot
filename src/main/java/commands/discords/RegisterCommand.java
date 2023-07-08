@@ -18,7 +18,7 @@ import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import services.sentry.SentryService;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import models.BedrockData;
 import models.JavaData;
 import models.User;
@@ -34,7 +34,7 @@ public class RegisterCommand extends BaseCmd {
     private final static String KEY_PARAM_JAVA_LABEL = "PARAM_REGISTR_LABELJ";
     private final static String KEY_PARAM_BEDR_LABEL = "PARAM_REGISTR_LABELB";
 
-    public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistDMC plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         String paramJ = LOCAL.translate(KEY_PARAM_JAVA);
@@ -54,7 +54,7 @@ public class RegisterCommand extends BaseCmd {
     private String acceptId_conf = "acceptConfAction";
     private String rejectId_conf = "rejectConfAction";
 
-    public RegisterCommand(WhitelistJe plugin) {
+    public RegisterCommand(WhitelistDMC plugin) {
         super(plugin,
                 "RegisterCommand",
                 "CMD_REGISTER",

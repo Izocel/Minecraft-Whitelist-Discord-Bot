@@ -112,7 +112,7 @@ public class Es extends DTraductionMaps {
                 "❌ **Su UUID `%s` no ha podido ser encontrado en los servidores...**");
         this.DEFAULTS.put("REGISTER_CMD_ERROR",
                 "❌ **Disculpe, la registracion para su apodo `%s` no se ha podido realizar bien.**");
-        this.DEFAULTS.put("CMD_LINK", "wje-link");
+        this.DEFAULTS.put("CMD_LINK", "w-link");
         this.DEFAULTS.put("CMD_SERVER", "servidor");
         this.DEFAULTS.put("CMD_REGISTER", "registrar");
         this.DEFAULTS.put("CMD_LOOKUP", "busqueda");

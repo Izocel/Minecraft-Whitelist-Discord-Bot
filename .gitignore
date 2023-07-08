@@ -116,3 +116,4 @@ run/
 
 *.bck
 flyaway.conf
+server_test/*

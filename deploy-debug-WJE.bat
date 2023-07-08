@@ -1,6 +1,6 @@
 set SERVER=C:\projects\PaperMc
 set BUILDER=C:\projects\Whitelist-Je
-set PLUGIN_FILTER=WhitelistJe*shaded.jar
+set PLUGIN_FILTER=Whitelist*shaded.jar
 
 
 cd %BUILDER%

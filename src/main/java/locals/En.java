@@ -104,7 +104,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("REGISTER_CMD_NOT_FOUND_UUID", "❌ **Your `%s` UUID could not be found on the servers...**");
         this.DEFAULTS.put("REGISTER_CMD_ERROR",
                 "❌ **Sorry, the registration for your `%s` account, could not be completed.**");
-        this.DEFAULTS.put("CMD_LINK", "wje-link");
+        this.DEFAULTS.put("CMD_LINK", "w-link");
         this.DEFAULTS.put("CMD_SERVER", "server");
         this.DEFAULTS.put("CMD_REGISTER", "register");
         this.DEFAULTS.put("CMD_LOOKUP", "search");

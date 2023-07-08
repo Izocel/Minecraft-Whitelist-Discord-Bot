@@ -1,4 +1,8 @@
-CREATE TABLE IF NOT EXISTS `wje_users` (
+CREATE DATABASE IF NOT EXISTS whitelist_dmc;
+
+USE whitelist_dmc;
+
+CREATE TABLE IF NOT EXISTS `wdmc_users` (
  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
  `discord_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
  `discord_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -10,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `wje_users` (
  UNIQUE KEY `discord_id_UNIQUE` (`discord_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-CREATE TABLE IF NOT EXISTS `wje_java_data` (
+CREATE TABLE IF NOT EXISTS `wdmc_java_data` (
  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
  `user_id` bigint unsigned NOT NULL,
  `pseudo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -27,10 +31,10 @@ CREATE TABLE IF NOT EXISTS `wje_java_data` (
  UNIQUE KEY `java_uuid_UNIQUE` (`uuid`),
  KEY `accepted_by` (`accepted_by`),
  KEY `revoked_by` (`revoked_by`),
- FOREIGN KEY (user_id) REFERENCES wje_users(id) ON DELETE CASCADE
+ FOREIGN KEY (user_id) REFERENCES wdmc_users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
-CREATE TABLE IF NOT EXISTS `wje_bedrock_data` (
+CREATE TABLE IF NOT EXISTS `wdmc_bedrock_data` (
  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
  `user_id` bigint unsigned NOT NULL,
  `pseudo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -47,5 +51,5 @@ CREATE TABLE IF NOT EXISTS `wje_bedrock_data` (
    UNIQUE KEY `bedrock_uuid_UNIQUE` (`uuid`),
  KEY `accepted_by` (`accepted_by`),
  KEY `revoked_by` (`revoked_by`),
- FOREIGN KEY (user_id) REFERENCES wje_users(id) ON DELETE CASCADE
+ FOREIGN KEY (user_id) REFERENCES wdmc_users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

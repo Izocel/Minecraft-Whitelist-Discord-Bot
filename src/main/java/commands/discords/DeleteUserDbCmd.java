@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import dao.DaoManager;
 import discord.GuildManager;
 import io.sentry.SpanStatus;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import models.BedrockData;
 import models.JavaData;
 import models.User;
@@ -29,7 +29,7 @@ public class DeleteUserDbCmd extends WjeUserOnlyCmd {
     private final static String KEY_PARAM_UUID = "PARAM_UUID";
     private final static String KEY_PARAM_UUID_LABEL = "PARAM_UUID_LABEL";
 
-    public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistDMC plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String localUserParam = LOCAL.translate(KEY_PARAM_USER);
@@ -45,7 +45,7 @@ public class DeleteUserDbCmd extends WjeUserOnlyCmd {
                 .submit(true);
     }
 
-    public DeleteUserDbCmd(WhitelistJe plugin) {
+    public DeleteUserDbCmd(WhitelistDMC plugin) {
         super(plugin,
                 "DeleteUserDbCmd",
                 "CMD_REMOVEDB_USERS",
