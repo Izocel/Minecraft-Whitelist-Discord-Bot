@@ -40,5 +40,42 @@ misc:
   {
     confirmLinkCmdName: w-link,
     minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
-    serverContactEmail: "webdevteam@rvdprojects.com"
+    serverContactEmail: webdevteam@rvdprojects.com,
   }
+linksCommands:
+  linkOne:
+    {
+      useDiscord: true,
+      useMinecraft: true,
+      isPublicMsg: true,
+      permission: everyone,
+      aliasTradKey: CUSTOM_LINK_LINK1_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK1_ALIAS,
+      linkTradKey: CUSTOM_LINK_LINK1_LINK,
+      minecraftTextTradKey: CUSTOM_LINK_LINK1_TXT_MC,
+      discordTextTradKey: CUSTOM_LINK_LINK1_TXT_DISC,
+    }
+  linkTwo:
+    {
+      useDiscord: true,
+      useMinecraft: false,
+      isPublicMsg: false,
+      permission: everyone,
+      aliasTradKey: CUSTOM_LINK_LINK2_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK2_ALIAS,
+      linkTradKey: CUSTOM_LINK_LINK2_LINK,
+      minecraftTextTradKey: CUSTOM_LINK_LINK2_TXT_MC,
+      discordTextTradKey: CUSTOM_LINK_LINK2_TXT_DISC,
+    }
+  linkThree:
+    {
+      useDiscord: false,
+      useMinecraft: true,
+      isPublicMsg: false,
+      permission: everyone,
+      aliasTradKey: CUSTOM_LINK_LINK3_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK3_DESC,
+      linkTradKey: CUSTOM_LINK_LINK3_LINK,
+      minecraftTextTradKey: CUSTOM_LINK_LINK3_TXT_MC,
+      discordTextTradKey: CUSTOM_LINK_LINK3_TXT_DISC,
+    }

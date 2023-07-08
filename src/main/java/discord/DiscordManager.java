@@ -1,6 +1,7 @@
 package discord;
 
 import java.util.EnumSet;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 import javax.security.auth.login.LoginException;
@@ -9,6 +10,7 @@ import org.bukkit.Bukkit;
 
 import commands.discords.DeleteUserDbCmd;
 import commands.discords.FetchUserDbCmd;
+import commands.discords.HyperLinksCommand;
 import commands.discords.LookupMcPlayerCommand;
 import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
@@ -20,7 +22,6 @@ import events.discords.OnGuildMemberUpdate;
 import events.discords.OnUserConfirm;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import locals.Lang;
 import locals.LocalManager;
 import main.WhitelistDmc;
 import net.dv8tion.jda.api.JDA;
@@ -40,8 +41,7 @@ public class DiscordManager {
     private String guildId;
     private String inviteUrl;
     private ConfigManager configs;
-    private boolean isPrivateBot = true;
-    private String servername = "Discord® Server";
+    private String serverName = "Discord® Server";
 
     public DiscordManager(WhitelistDmc plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
@@ -96,7 +96,7 @@ public class DiscordManager {
     }
 
     public String getServerName() {
-        return this.servername;
+        return this.serverName;
     }
 
     private void checkGuild() {
@@ -108,7 +108,7 @@ public class DiscordManager {
 
             guildId = this.configs.get("discordServerId", null);
             this.guild = jda.getGuildById(guildId);
-            this.servername = this.guild.getName();
+            this.serverName = this.guild.getName();
             this.guildId = this.guild.getId();
             this.inviteUrl = this.setInvite();
             this.ownerId = this.guild.getOwnerId();
@@ -142,25 +142,25 @@ public class DiscordManager {
 
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);
-                // Serveur
+                // Server
                 ServerCommand.REGISTER_CMD(jda, plugin);
             }
 
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);
-                // Enregistrer
+                // Register
                 RegisterCommand.REGISTER_CMD(jda, plugin);
             }
 
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);
-                // Recherche
+                // Search
                 LookupMcPlayerCommand.REGISTER_CMD(jda, plugin);
             }
 
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);
-                // User transaltion
+                // User translation
                 SetUserLanguageCmd.REGISTER_CMD(jda, plugin);
             }
 
@@ -175,6 +175,20 @@ public class DiscordManager {
                 // User db remove
                 DeleteUserDbCmd.REGISTER_CMD(jda, plugin);
             }
+
+            // HyperLinks
+            final LinkedHashMap<String, Object> linksMap = configs.getAsMap("linksCommands");
+            linksMap.forEach((key, conf) -> {
+                final LinkedHashMap<String, Object> castedConf = (LinkedHashMap<String, Object>) conf;
+                if(castedConf == null || castedConf.isEmpty()) {
+                    return;
+                }
+
+                for (int i = 0; i < langArr.length; i++) {
+                    LOCAL.setNextLang(langArr[i]);
+                    HyperLinksCommand.REGISTER_CMD(jda, plugin, castedConf);
+                }
+            });
 
         } catch (Exception e) {
             this.logger.warning("Failed to initialize DS commands correctly");

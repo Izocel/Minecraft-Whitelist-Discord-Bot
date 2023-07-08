@@ -87,7 +87,7 @@ INFO_USER_WAS_REJECTED: '❌ **Le joueur <@%s> a bien été refusé pour le pseu
 INFO_REJECTED_USER: '**❌ Votre enregistrement sur le serveur a été refusé.**'
 WARN_REGISTRATIONDELAY: ⚠️ Vous êtes bien enregistré, mais le délai pour confirmer
   ce compte est dépassé...
-WARN_ALREADTY_REGISTERED: ⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**
+WARN_ALREADY_REGISTERED: ⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**
 WARN_NOT_ACCEPTED_YET: ⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**
 WARN_BAD_PSEUDO_FORMAT_EXPLAIN: |-
   ⚠️ Votre pseudo `%s`: `%s`, devrait comporter entre `3` et `16` caractères.
@@ -106,7 +106,7 @@ REGISTER_CMD_NOT_FOUND_UUID: ❌ **Votre UUID `%s` n'a pas pu être retrouvés s
   serveurs...**
 REGISTER_CMD_ERROR: ❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est
   pas bien passé.**
-CMD_LINK: wje-link
+CMD_LINK: w-link
 CMD_SERVER: serveur
 CMD_REGISTER: enregistrer
 CMD_LOOKUP: recherche
@@ -138,7 +138,19 @@ GUILDONLY_CMD: ❌ Cette commande est disponible seulement dans les cannaux text
 USERONLY_CMD: ❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®.
 ROLE_NOT_ALLOWED: 🔒 Dommage vous n'avez pas les roles nécéssaires... 🔒
 SERVER_IS_UP: Le serveur est up and running boyyssss!
-CMD_VOTE: voter
-DESC_VOTE: Utilisé pour obtenir des informations relatives au vote des joueurs.
-VOTE_TITLE: Cliquez ici pour voter pour votre joueur préféré !
-VOTE_LINK: https://tempcity.click/vote
+
+CUSTOM_LINK_LINK1_ALIAS: linkonefr
+CUSTOM_LINK_LINK1_DESC: desc LINK1 fr
+CUSTOM_LINK_LINK1_LINK: https://link1-fr.ca
+CUSTOM_LINK_LINK1_TXT_MC: la valeur du text sur minecraft link1-fr
+CUSTOM_LINK_LINK1_TXT_DISC: la valeur du text sur discord link1-fr
+CUSTOM_LINK_LINK2_ALIAS: linktwofr
+CUSTOM_LINK_LINK2_DESC: desc LINK2 fr
+CUSTOM_LINK_LINK2_LINK: https://link2-fr.ca
+CUSTOM_LINK_LINK2_TXT_MC: la valeur du text sur minecraft link2-fr
+CUSTOM_LINK_LINK2_TXT_DISC: la valeur du text sur discord link2-fr
+CUSTOM_LINK_LINK3_ALIAS: linkthreefr
+CUSTOM_LINK_LINK3_DESC: desc LINK3 fr
+CUSTOM_LINK_LINK3_LINK: https://link3-fr.ca
+CUSTOM_LINK_LINK3_TXT_MC: la valeur du text sur minecraft link3-fr
+CUSTOM_LINK_LINK3_TXT_DISC: la valeur du text sur discord link3-fr

@@ -7,3 +7,6 @@ commands:
    w-link:
       description: Used to authenticate your Discord and Minecraft accounts.
       usage: /<w-link-command>
+   w-hyperlinks:
+      description: Used to send dynamic hyperlinks.
+      usage: /<w-hyperlinks-command>

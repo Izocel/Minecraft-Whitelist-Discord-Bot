@@ -87,7 +87,7 @@ INFO_USER_WAS_REJECTED: '❌ **The player <@%s> was strongly refused for the pse
 INFO_REJECTED_USER: '**❌ Your registration on the server was rejected.**'
 WARN_REGISTRATIONDELAY: ⚠️ You're already registered, but the delay to confirm this
   account is overdue...
-WARN_ALREADTY_REGISTERED: ⚠️ **This `%s` pseudo is already registered to another player**
+WARN_ALREADY_REGISTERED: ⚠️ **This `%s` pseudo is already registered to another player**
 WARN_NOT_ACCEPTED_YET: ⚠️ **This `%s` account was not yet accepted on the server by
   admins.**
 WARN_BAD_PSEUDO_FORMAT_EXPLAIN: |-
@@ -105,7 +105,7 @@ REGISTER_CMD_FORMAT_ERROR: ❌ Your `identifications` contains format `errors`.
 REGISTER_CMD_NOT_FOUND_UUID: ❌ **Your `%s` UUID could not be found on the servers...**
 REGISTER_CMD_ERROR: ❌ **Sorry, the registration for your `%s` account, could not be
   completed.**
-CMD_LINK: wje-link
+CMD_LINK: w-link
 CMD_SERVER: server
 CMD_REGISTER: register
 CMD_LOOKUP: search
@@ -137,7 +137,19 @@ GUILDONLY_CMD: ❌ This command is available only through textual guild channels
 USERONLY_CMD: ❌ This command id reserved for Discord® registered users only.
 ROLE_NOT_ALLOWED: 🔒 Too bad you don't have the necessary roles... 🔒
 SERVER_IS_UP: The server is up and running boys!
-CMD_VOTE: vote
-DESC_VOTE: Used to get infos related to player voting.
-VOTE_TITLE: Click here to vote for your favorite player !
-VOTE_LINK: https://tempcity.click/vote
+
+CUSTOM_LINK_LINK1_ALIAS: linkoneen
+CUSTOM_LINK_LINK1_DESC: desc LINK1 EN
+CUSTOM_LINK_LINK1_LINK: https://link1-en.ca
+CUSTOM_LINK_LINK1_TXT_MC: la valeur du text sur minecraft link1-en
+CUSTOM_LINK_LINK1_TXT_DISC: la valeur du text sur discord link1-en
+CUSTOM_LINK_LINK2_ALIAS: linktwoen
+CUSTOM_LINK_LINK2_DESC: desc LINK2 EN
+CUSTOM_LINK_LINK2_LINK: https://link2-en.ca
+CUSTOM_LINK_LINK2_TXT_MC: la valeur du text sur minecraft link2-en
+CUSTOM_LINK_LINK2_TXT_DISC: la valeur du text sur discord link2-en
+CUSTOM_LINK_LINK3_ALIAS: linkthreeen
+CUSTOM_LINK_LINK3_DESC: desc LINK3 EN
+CUSTOM_LINK_LINK3_LINK: https://link3-en.ca
+CUSTOM_LINK_LINK3_TXT_MC: la valeur du text sur minecraft link3-en
+CUSTOM_LINK_LINK3_TXT_DISC: la valeur du text sur discord link3-en
