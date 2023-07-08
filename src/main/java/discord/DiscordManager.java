@@ -64,7 +64,7 @@ public class DiscordManager {
                 .startChild("DiscordManager.connect");
         try {
             final String token = this.configs.get("discordBotToken", null);
-            this.logger.warning("JDA TOKEN: " + token.substring(0, 64) + "********");
+            this.logger.info("JDA TOKEN: " + token.substring(0, 56) + "********");
 
             jda = JDABuilder.create(token, EnumSet.allOf(GatewayIntent.class))
                     .build()
@@ -177,7 +177,10 @@ public class DiscordManager {
             }
 
             // HyperLinks
-            final LinkedHashMap<String, Object> linksMap = configs.getAsMap("linksCommands");
+            LinkedHashMap<String, Object> linksMap = configs.getAsMap("linksCommands");
+            if(linksMap == null) {
+                linksMap = new LinkedHashMap<>();
+            }
             linksMap.forEach((key, conf) -> {
                 final LinkedHashMap<String, Object> castedConf = (LinkedHashMap<String, Object>) conf;
                 if(castedConf == null || castedConf.isEmpty()) {
