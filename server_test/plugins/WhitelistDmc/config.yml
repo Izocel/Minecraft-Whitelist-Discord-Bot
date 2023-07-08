@@ -39,6 +39,6 @@ features: { maxHoursFor2FA: "24", showAllWorldsMeteo: "true", defaultLang: FR }
 misc:
   {
     confirmLinkCmdName: w-link,
-    minecraftInfosLink: "https://www.fiverr.com/rvdprojects",
+    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
     serverContactEmail: "webdevteam@rvdprojects.com"
   }
