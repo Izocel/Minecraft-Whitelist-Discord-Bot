@@ -2,7 +2,7 @@ package helpers;
 
 import org.apache.commons.io.FileUtils;
 
-import main.WhitelistJe;
+import main.WhitelistDmc;
 
 import java.nio.file.Path;
 import java.nio.charset.StandardCharsets;
@@ -24,9 +24,9 @@ public class FileHelper {
     public static final SecureRandom random = new SecureRandom();
     public static final boolean isPosix = FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
 
-    public static final WhitelistJe PLUGIN_PROVIDER = WhitelistJe.getPlugin(WhitelistJe.class);
-    public static final Path TMP_DIR = Path.of(System.getProperty("java.io.tmpdir") + "/WhitelistJe");
-    public static final Path PLUGIN_DIR = Path.of(WhitelistJe.getPlugin(WhitelistJe.class).getDataFolder().toString());
+    public static final WhitelistDmc PLUGIN_PROVIDER = WhitelistDmc.getPlugin(WhitelistDmc.class);
+    public static final Path TMP_DIR = Path.of(System.getProperty("java.io.tmpdir") + "/WhitelistDmc");
+    public static final Path PLUGIN_DIR = Path.of(WhitelistDmc.getPlugin(WhitelistDmc.class).getDataFolder().toString());
     public static final String TRADUCTION_DIR_NAME = "traduction";
     public static final Path TRADUCTION_DIR = Path.of(PLUGIN_DIR + "/" + TRADUCTION_DIR_NAME);
 

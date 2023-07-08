@@ -9,14 +9,14 @@ import org.bukkit.World;
 import configs.ConfigManager;
 import helpers.Helper;
 import io.sentry.SpanStatus;
-import main.WhitelistJe;
+import main.WhitelistDmc;
 import net.dv8tion.jda.api.JDA;
 
 public class ServerCommand extends BaseCmd {
     private final static String KEY_CMD_NAME = "CMD_SERVER";
     private final static String KEY_CMD_DESC = "DESC_SERVER";
 
-    public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
 
@@ -27,7 +27,7 @@ public class ServerCommand extends BaseCmd {
 
     private ConfigManager configs;
 
-    public ServerCommand(WhitelistJe plugin) {
+    public ServerCommand(WhitelistDmc plugin) {
         super(plugin,
                 "ServerCommand",
                 "CMD_SERVER",

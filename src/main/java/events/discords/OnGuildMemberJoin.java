@@ -4,7 +4,7 @@ import java.util.logging.Logger;
 
 import io.sentry.ITransaction;
 import io.sentry.SpanStatus;
-import main.WhitelistJe;
+import main.WhitelistDmc;
 import models.User;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -12,10 +12,10 @@ import services.sentry.SentryService;
 
 public class OnGuildMemberJoin extends ListenerAdapter {
     private Logger logger;
-    private WhitelistJe plugin;
+    private WhitelistDmc plugin;
 
-    public OnGuildMemberJoin(WhitelistJe plugin) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+    public OnGuildMemberJoin(WhitelistDmc plugin) {
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }
 

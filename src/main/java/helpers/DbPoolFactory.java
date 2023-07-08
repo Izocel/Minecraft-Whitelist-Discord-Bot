@@ -24,7 +24,7 @@ public class DbPoolFactory {
 
         // JDBC Driver Name & Database URL
         final String JDBC_URL = configs.get("dbJdbcUrl") +
-                "?connectionAttributes=program_name:WhiteList-Je";
+                "?connectionAttributes=program_name:Whitelist-DMC";
 
         final Integer JDBC_MAX_ACTIVE = Integer.parseInt(configs.get("dbMaxConnection", "15"));
         final Integer JDBC_MAX_IDLE = Integer.parseInt(configs.get("dbMaxConnectionIDLE", "5"));
@@ -45,8 +45,8 @@ public class DbPoolFactory {
         ds.setMaxPoolSize(JDBC_MAX_ACTIVE);
         ds.setTestConnectionOnCheckin(true);
         ds.setTestConnectionOnCheckout(true);
-        ds.setDescription("Pool for Wje Mc®");
-        ds.setDataSourceName("Wje-plugin");
+        ds.setDescription("Pool for Wdmc Mc®");
+        ds.setDataSourceName("Wdmc-plugin");
 
         return ds;
     }
@@ -57,7 +57,7 @@ public class DbPoolFactory {
 
         // JDBC Driver Name & Database URL
         final String JDBC_URL = configs.get("dbJdbcUrl") +
-                "?connectionAttributes=program_name:WhiteList-Je";
+                "?connectionAttributes=program_name:Whitelist-DMC";
 
         final Integer JDBC_MAX_ACTIVE = Integer.parseInt(configs.get("dbMaxConnection", "15"));
         final Integer JDBC_MAX_IDLE = Integer.parseInt(configs.get("dbMaxConnectionIDLE", "5"));
@@ -78,8 +78,8 @@ public class DbPoolFactory {
         ds.setMaxPoolSize(JDBC_MAX_ACTIVE);
         ds.setTestConnectionOnCheckin(true);
         ds.setTestConnectionOnCheckout(true);
-        ds.setDescription("Pool for Wje Mc®");
-        ds.setDataSourceName("Wje-plugin");
+        ds.setDescription("Pool for Wdmc Mc®");
+        ds.setDataSourceName("Wdmc-plugin");
 
         return ds;
     }

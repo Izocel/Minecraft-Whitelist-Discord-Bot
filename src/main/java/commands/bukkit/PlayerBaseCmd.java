@@ -9,19 +9,19 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import services.sentry.SentryService;
-import main.WhitelistJe;
+import main.WhitelistDmc;
 
 public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
 
-  protected WhitelistJe plugin;
+  protected WhitelistDmc plugin;
   protected String cmdName;
   protected Logger logger;
   
 
-  public PlayerBaseCmd(WhitelistJe plugin, String cmdName) {
+  public PlayerBaseCmd(WhitelistDmc plugin, String cmdName) {
     this.plugin = plugin;
     this.cmdName = cmdName;
-    this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName() + " </>:" + this.cmdName);
+    this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName() + " </>:" + this.cmdName);
   }
   
   @Override

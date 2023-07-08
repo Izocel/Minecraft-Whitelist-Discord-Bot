@@ -10,17 +10,17 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
-import main.WhitelistJe;
+import main.WhitelistDmc;
 import models.BedrockData;
 import models.JavaData;
 import models.User;
 
 public class OnPlayerJoin implements Listener {
-    private WhitelistJe plugin;
+    private WhitelistDmc plugin;
     private Logger logger;
 
-    public OnPlayerJoin(WhitelistJe plugin) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+    public OnPlayerJoin(WhitelistDmc plugin) {
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }
 
@@ -97,7 +97,7 @@ public class OnPlayerJoin implements Listener {
     }
 
     private String getAllowMsg(String tagDiscord, String mcUUID) {
-        final String cmdName = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
+        final String cmdName = this.plugin.getConfigManager().get("confirmLinkCmdName", "w-link");
         return "§f§lLe compte  Discord®: " + tagDiscord + " a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§f§lPour comfirmer cette demande utiliser la commande:\n§9    /" + cmdName +
                 "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +

@@ -21,10 +21,10 @@ public class UsersDao extends BaseDao {
 
     public UsersDao(ComboPooledDataSource poolDs) {
         super(poolDs);
-        this.tablename = "wje_users";
-        this.tablename2 = "wje_java_data";
-        this.tablename3 = "wje_bedrock_data";
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        this.tablename = "wdmc_users";
+        this.tablename2 = "wdmc_java_data";
+        this.tablename3 = "wdmc_bedrock_data";
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
     
     public User findUser(Integer id) {

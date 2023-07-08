@@ -20,8 +20,8 @@ public class BedrockDataDao extends BaseDao {
 
     public BedrockDataDao(ComboPooledDataSource poolDs) {
         super(poolDs);
-        this.tablename = "`wje_bedrock_data`";
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        this.tablename = "`wdmc_bedrock_data`";
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
 
     public JSONArray findWithUser(Integer userId) {

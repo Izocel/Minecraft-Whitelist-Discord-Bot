@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import commands.bukkit.ConfirmLinkCmd;
-import main.WhitelistJe;
+import main.WhitelistDmc;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,12 +15,12 @@ import services.sentry.SentryService;
 
 public class OnUserConfirm extends ListenerAdapter {
     private Logger logger;
-    private WhitelistJe plugin;
+    private WhitelistDmc plugin;
     private String acceptId = ConfirmLinkCmd.acceptId;
     private String rejectId = ConfirmLinkCmd.rejectId;
 
-    public OnUserConfirm(WhitelistJe plugin) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+    public OnUserConfirm(WhitelistDmc plugin) {
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }
 
@@ -65,6 +65,7 @@ public class OnUserConfirm extends ListenerAdapter {
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
             final String uuid = fields.get(1).getValue();
 
+            plugin.getBukkitManager().setPlayerAsConfirmed(uuid);
             plugin.getBukkitManager().setPlayerAsConfirmed(uuid);
 
             event.reply("✔️ Vos compte sont maintenant reliés et confirmés.").submit(true);

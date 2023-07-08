@@ -14,22 +14,22 @@ import io.sentry.SentryEvent;
 import io.sentry.SentryLevel;
 import io.sentry.protocol.SentryId;
 import io.sentry.protocol.User;
-import main.WhitelistJe;
+import main.WhitelistDmc;
 
 public class SentryService {
   
   private Logger logger;
   private static User user;
-  private WhitelistJe plugin;
-  private static WhitelistJe main;
+  private WhitelistDmc plugin;
+  private static WhitelistDmc main;
   private boolean enabled = true;
   private String debugMode = "debug";
   
   HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
   private static String envType;
 
-  public SentryService(WhitelistJe plugin) {
-    this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+  public SentryService(WhitelistDmc plugin) {
+    this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
 
     this.plugin = plugin;
     SentryService.main = this.plugin;
@@ -147,7 +147,7 @@ public class SentryService {
 
   public static @NotNull SentryId captureEx(Throwable error) {
     Exception err = new Exception(error.getMessage());
-    Logger.getLogger("WJE: SentryService").warning("WARNING: ");
+    Logger.getLogger("WDMC: SentryService").warning("WARNING: ");
     err.printStackTrace();
 
     Exception ex = new Exception(error.getMessage() + userToString());

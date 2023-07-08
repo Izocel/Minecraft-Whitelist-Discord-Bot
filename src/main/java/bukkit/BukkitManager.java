@@ -17,18 +17,18 @@ import events.bukkit.OnServerLoad;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
-import main.WhitelistJe;
+import main.WhitelistDmc;
 import models.BedrockData;
 import models.JavaData;
 import services.api.PlayerDbApi;
 import services.sentry.SentryService;
 
 public class BukkitManager {
-    private WhitelistJe plugin;
+    private WhitelistDmc plugin;
     private Logger logger;
 
-    public BukkitManager(WhitelistJe plugin) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+    public BukkitManager(WhitelistDmc plugin) {
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("BukkitManager");
 
@@ -58,7 +58,7 @@ public class BukkitManager {
         final String javaIp = this.plugin.getConfigManager().get("javaIp", "???");
         final String bedrockIp = this.plugin.getConfigManager().get("bedrockIp", "???");
 
-        final LocalManager LOCAL = WhitelistJe.LOCALES;
+        final LocalManager LOCAL = WhitelistDmc.LOCALES;
         final String portField = LOCAL.translateBy("PORT", lang);
         final String versionField = LOCAL.translateBy("VERSION", lang);
         final String onlineField = LOCAL.translateBy("ONLINE_MODE", lang);
@@ -85,7 +85,7 @@ public class BukkitManager {
         return sb.toString();
     }
 
-    private void registerEvents(WhitelistJe plugin) {
+    private void registerEvents(WhitelistDmc plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("BukkitManager.registerEvents");
         try {
@@ -100,11 +100,11 @@ public class BukkitManager {
         process.finish();
     }
 
-    private void registerCommands(WhitelistJe plugin) {
+    private void registerCommands(WhitelistDmc plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("BukkitManager.registerCommands");
 
-        final String linkCmd = this.plugin.getConfigManager().get("confirmLinkCmdName", "wje-link");
+        final String linkCmd = this.plugin.getConfigManager().get("confirmLinkCmdName", "w-link");
 
         try {
             this.plugin.getCommand(linkCmd).setExecutor(new ConfirmLinkCmd(this.plugin, linkCmd));

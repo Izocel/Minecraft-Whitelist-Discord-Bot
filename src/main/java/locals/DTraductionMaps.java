@@ -14,7 +14,7 @@ public class DTraductionMaps {
     private Logger logger;
 
     public DTraductionMaps() {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
 
     private void setMaps() {

@@ -86,7 +86,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Votre enregistrement sur le serveur a été refusé.**");
         this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
                 "⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé...");
-        this.DEFAULTS.put("WARN_ALREADTY_REGISTERED", "⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**");
+        this.DEFAULTS.put("WARN_ALREADY_REGISTERED", "⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**");
         this.DEFAULTS.put("WARN_NOT_ACCEPTED_YET", "⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**");
         this.DEFAULTS.put("WARN_BAD_PSEUDO_FORMAT_EXPLAIN",
                 "⚠️ Votre pseudo `%s`: `%s`, devrait comporter entre `3` et `16` caractères.\nIl ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`.");
@@ -104,7 +104,7 @@ public class Fr extends DTraductionMaps {
                 "❌ **Votre UUID `%s` n'a pas pu être retrouvés sur les serveurs...**");
         this.DEFAULTS.put("REGISTER_CMD_ERROR",
                 "❌ **Désoler, l'enregistrement pour votre pseudo `%s` ne c'est pas bien passé.**");
-        this.DEFAULTS.put("CMD_LINK", "wje-link");
+        this.DEFAULTS.put("CMD_LINK", "w-link");
         this.DEFAULTS.put("CMD_SERVER", "serveur");
         this.DEFAULTS.put("CMD_REGISTER", "enregistrer");
         this.DEFAULTS.put("CMD_LOOKUP", "recherche");
