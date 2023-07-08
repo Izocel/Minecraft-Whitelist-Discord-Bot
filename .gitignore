@@ -127,7 +127,6 @@ server_test/logs/*
 server_test/banned-ips.json
 server_test/banned-players.json
 server_test/bukkit.yml
-server_test/commands.yml
 server_test/help.yml
 server_test/ops.json
 server_test/permissions.yml

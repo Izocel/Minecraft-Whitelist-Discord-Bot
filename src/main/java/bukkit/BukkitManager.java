@@ -10,6 +10,7 @@ import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
 import commands.bukkit.ConfirmLinkCmd;
+import commands.bukkit.HyperLinksCmd;
 import dao.DaoManager;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLoggin;
@@ -108,6 +109,7 @@ public class BukkitManager {
 
         try {
             this.plugin.getCommand(linkCmd).setExecutor(new ConfirmLinkCmd(this.plugin, linkCmd));
+            this.plugin.getCommand("w-hyperlinks").setExecutor(new HyperLinksCmd(this.plugin, "w-hyperlinks"));
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
