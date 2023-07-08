@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import configs.ConfigManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import services.sentry.SentryService;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -33,7 +33,7 @@ public class GuildManager {
     private Locale locale;
     private String lang;
 
-    public GuildManager(WhitelistDMC plugin) {
+    public GuildManager(WhitelistDmc plugin) {
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("GuildManager");
@@ -52,7 +52,7 @@ public class GuildManager {
         this.lang = this.locale.getLanguage();
 
         if(this.lang.length() < 1) {
-            this.lang = WhitelistDMC.LOCALES.getDefaultLang();
+            this.lang = WhitelistDmc.LOCALES.getDefaultLang();
         }
     }
 

@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import commands.bukkit.ConfirmLinkCmd;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -15,11 +15,11 @@ import services.sentry.SentryService;
 
 public class OnUserConfirm extends ListenerAdapter {
     private Logger logger;
-    private WhitelistDMC plugin;
+    private WhitelistDmc plugin;
     private String acceptId = ConfirmLinkCmd.acceptId;
     private String rejectId = ConfirmLinkCmd.rejectId;
 
-    public OnUserConfirm(WhitelistDMC plugin) {
+    public OnUserConfirm(WhitelistDmc plugin) {
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }

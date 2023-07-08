@@ -10,16 +10,16 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import dao.DaoManager;
 import helpers.Helper;
 import services.sentry.SentryService;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import models.BedrockData;
 import models.JavaData;
 import models.User;
 
 public class OnPlayerJoin implements Listener {
-    private WhitelistDMC plugin;
+    private WhitelistDmc plugin;
     private Logger logger;
 
-    public OnPlayerJoin(WhitelistDMC plugin) {
+    public OnPlayerJoin(WhitelistDmc plugin) {
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }

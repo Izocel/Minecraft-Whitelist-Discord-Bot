@@ -5,18 +5,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
 
 import locals.LocalManager;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 
 public class OnServerLoad implements Listener {
-    private WhitelistDMC plugin;
+    private WhitelistDmc plugin;
 
-    public OnServerLoad(WhitelistDMC plugin) {
+    public OnServerLoad(WhitelistDmc plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
     public void onServerLoad(ServerLoadEvent event) {
-        LocalManager LOCAL = WhitelistDMC.LOCALES;
+        LocalManager LOCAL = WhitelistDmc.LOCALES;
         StringBuilder sb = new StringBuilder();
         sb.append("**" + LOCAL.translate("SERVER_IS_UP") + "** ");
         sb.append(this.plugin.getBukkitManager().getServerInfoString(LOCAL.getNextLang()));

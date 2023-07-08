@@ -22,7 +22,7 @@ import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import locals.Lang;
 import locals.LocalManager;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -31,7 +31,7 @@ import net.dv8tion.jda.api.requests.restaction.InviteAction;
 import services.sentry.SentryService;
 
 public class DiscordManager {
-    public WhitelistDMC plugin;
+    public WhitelistDmc plugin;
     public JDA jda;
 
     private Guild guild;
@@ -43,7 +43,7 @@ public class DiscordManager {
     private boolean isPrivateBot = true;
     private String servername = "Discord® Server";
 
-    public DiscordManager(WhitelistDMC plugin) {
+    public DiscordManager(WhitelistDmc plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("DiscordManager");
 
@@ -135,7 +135,7 @@ public class DiscordManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("DiscordManager.setupCommands");
 
-        final LocalManager LOCAL = WhitelistDMC.LOCALES;
+        final LocalManager LOCAL = WhitelistDmc.LOCALES;
 
         try {
             String[] langArr = LOCAL.getBaseLangs();

@@ -7,17 +7,17 @@ import org.flywaydb.core.api.configuration.FluentConfiguration;
 import dao.DaoManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 
 public class Migrator {
-    private WhitelistDMC plugin;
+    private WhitelistDmc plugin;
     private Flyway flyway;
     private Logger logger;
 
     /**
      * @param plugin
      */
-    public Migrator(WhitelistDMC plugin) {
+    public Migrator(WhitelistDmc plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("Migrator");
 

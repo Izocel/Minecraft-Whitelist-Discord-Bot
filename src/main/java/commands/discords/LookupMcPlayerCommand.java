@@ -3,7 +3,7 @@ package commands.discords;
 import org.json.JSONArray;
 
 import io.sentry.SpanStatus;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -15,7 +15,7 @@ public class LookupMcPlayerCommand extends BaseCmd {
     private final static String KEY_CMD_DESC = "DESC_LOOKUP";
     private final static String KEY_PARAM_VALUE_LABEL = "PARAM_LOOKUP_LABEL";
 
-    public static void REGISTER_CMD(JDA jda, WhitelistDMC plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String valueLabel = LOCAL.translate(KEY_PARAM_VALUE_LABEL);
@@ -27,7 +27,7 @@ public class LookupMcPlayerCommand extends BaseCmd {
             .submit(true);
 }
 
-    public LookupMcPlayerCommand(WhitelistDMC plugin) {
+    public LookupMcPlayerCommand(WhitelistDmc plugin) {
         super(plugin,
             "LookupMcPlayerCommand",
             "CMD_LOOKUP",

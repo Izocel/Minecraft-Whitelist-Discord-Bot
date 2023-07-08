@@ -3,13 +3,13 @@ package commands.discords;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import services.sentry.SentryService;
 
 public abstract class UserOnlyCmd extends BaseCmd {
 
-    protected UserOnlyCmd(WhitelistDMC plugin, String childClassName, String cmdNameTradKey, String mainTransactionName, String mainOperationName) {
+    protected UserOnlyCmd(WhitelistDmc plugin, String childClassName, String cmdNameTradKey, String mainTransactionName, String mainOperationName) {
         super(plugin, childClassName, cmdNameTradKey, mainTransactionName, mainOperationName);
     }
 

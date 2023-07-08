@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import dao.DaoManager;
 import discord.GuildManager;
 import io.sentry.SpanStatus;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import models.User;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
@@ -22,7 +22,7 @@ public class FetchUserDbCmd extends UserOnlyCmd {
     private final static String KEY_PARAM_USER = "PARAM_MEMBER";
     private final static String KEY_PARAM_USER_LABEL = "PARAM_MEMBER_LABEL";
 
-    public static void REGISTER_CMD(JDA jda, WhitelistDMC plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String localUserParam = LOCAL.translate(KEY_PARAM_USER);
@@ -35,7 +35,7 @@ public class FetchUserDbCmd extends UserOnlyCmd {
                 .submit(true);
     }
 
-    public FetchUserDbCmd(WhitelistDMC plugin) {
+    public FetchUserDbCmd(WhitelistDmc plugin) {
         super(plugin,
                 "FetchDbCmd",
                 "CMD_FETCHDB_USERS",

@@ -3,7 +3,7 @@ package locals;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import services.sentry.SentryService;
 
 public class LocalManager {
@@ -21,7 +21,7 @@ public class LocalManager {
     private En En;
     private Es Es;
 
-    public LocalManager(WhitelistDMC plugin) {
+    public LocalManager(WhitelistDmc plugin) {
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.Fr = new Fr();
         this.En = new En();

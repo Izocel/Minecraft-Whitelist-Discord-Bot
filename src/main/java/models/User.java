@@ -4,7 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dao.DaoManager;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import net.dv8tion.jda.api.entities.Member;
 import services.sentry.SentryService;
 
@@ -23,7 +23,7 @@ public class User extends BaseModel {
     public User(String discordId, String discordTag) {
         this.setDiscordId(discordId);
         this.setDiscordTag(discordTag);
-        this.setLang(WhitelistDMC.LOCALES.getDefaultLang());
+        this.setLang(WhitelistDmc.LOCALES.getDefaultLang());
     }
 
     public User(JSONObject json) {
@@ -80,7 +80,7 @@ public class User extends BaseModel {
     }
 
     public void setLang(String lang) {
-        if(WhitelistDMC.LOCALES.isUserSupported(lang))
+        if(WhitelistDmc.LOCALES.isUserSupported(lang))
             this.lang = lang.toUpperCase();
     }
 

@@ -16,7 +16,7 @@ import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
 import services.sentry.SentryService;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 import models.User;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -28,7 +28,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   public static String rejectId = "linkReject";
   private ConfigManager configs;
 
-  public ConfirmLinkCmd(WhitelistDMC plugin, String cmdName) {
+  public ConfirmLinkCmd(WhitelistDmc plugin, String cmdName) {
     super(plugin, cmdName);
     configs = plugin.getConfigManager();
   }
@@ -38,7 +38,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     ITransaction tx = Sentry.startTransaction("Wdmc-Link", "comfim user account");
 
     Player player = (Player) sender;
-    LocalManager LOCAL = WhitelistDMC.LOCALES;
+    LocalManager LOCAL = WhitelistDmc.LOCALES;
 
     String userLang = LOCAL.getNextLang();
 
@@ -111,7 +111,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   }
 
   public String getDisallowMsg(String tagDiscord, String mcUUID, String userLang) {
-    LocalManager LOCAL = WhitelistDMC.LOCALES;
+    LocalManager LOCAL = WhitelistDmc.LOCALES;
     final String cmdName = ": /" + LOCAL.translateBy("CMD_REGISTER", userLang);
 
     return "\n\n§c§l" + LOCAL.translateBy("WARN_REGISTRATIONDELAY", userLang) +
@@ -141,7 +141,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   }
 
   private String confirmationEmbededs(String channel_id, String uuid, String pseudo, String lang) {
-    LocalManager LOCAL = WhitelistDMC.LOCALES;
+    LocalManager LOCAL = WhitelistDmc.LOCALES;
 
     final String title = LOCAL.translateBy("TITLE_ACCOUNT_CONFIRM", lang);
     final String description = "**" + LOCAL.translateBy("EMBD_LINK_DESC", lang) + "**";
@@ -190,7 +190,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   }
 
   private String confirmationActions(String channel_id, String lang) {
-    LocalManager LOCAL = WhitelistDMC.LOCALES;
+    LocalManager LOCAL = WhitelistDmc.LOCALES;
 
     final String WORD_YES = '"' + LOCAL.translateBy("EMBD_LINK_YESME", lang) + '"';
     final String WORD_NO = '"' + LOCAL.translateBy("EMBD_LINK_NOTME", lang) + '"';

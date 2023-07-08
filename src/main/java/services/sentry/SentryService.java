@@ -14,21 +14,21 @@ import io.sentry.SentryEvent;
 import io.sentry.SentryLevel;
 import io.sentry.protocol.SentryId;
 import io.sentry.protocol.User;
-import main.WhitelistDMC;
+import main.WhitelistDmc;
 
 public class SentryService {
   
   private Logger logger;
   private static User user;
-  private WhitelistDMC plugin;
-  private static WhitelistDMC main;
+  private WhitelistDmc plugin;
+  private static WhitelistDmc main;
   private boolean enabled = true;
   private String debugMode = "debug";
   
   HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
   private static String envType;
 
-  public SentryService(WhitelistDMC plugin) {
+  public SentryService(WhitelistDmc plugin) {
     this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
 
     this.plugin = plugin;

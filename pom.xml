@@ -9,7 +9,7 @@
     <version>2023.3-${maven.build.timestamp}</version>
     <packaging>jar</packaging>
 
-    <name>Whitelist-DMC</name>
+    <name>WhitelistDmc</name>
 
     <properties>
         <java.version>18</java.version>
