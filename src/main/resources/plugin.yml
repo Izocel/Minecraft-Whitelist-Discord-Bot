@@ -1,4 +1,4 @@
-name: WhitelistDMC
+name: WhitelistDmc
 version: '${project.version}'
 main: main.WhitelistDmc
 api-version: 1.15
