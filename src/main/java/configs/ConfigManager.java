@@ -52,6 +52,9 @@ public final class ConfigManager {
 
         LinkedHashMap<String, Object> misc = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("misc");
 
+        LinkedHashMap<String, Object> linksCommands = (LinkedHashMap<String, Object>) FROM_CONFIGS
+                .getOrDefault("linksCommands", null);
+
         FROM_CONFIGS.put("discordBotToken", discord.get("botToken"));
         FROM_CONFIGS.put("discordServerId", discord.get("serverId"));
 
@@ -88,6 +91,8 @@ public final class ConfigManager {
         FROM_CONFIGS.put("confirmLinkCmdName", misc.get("confirmLinkCmdName"));
         FROM_CONFIGS.put("minecraftInfosLink", misc.get("minecraftInfosLink"));
         FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
+        
+        FROM_CONFIGS.put("linksCommands", linksCommands);
 
         this.setHidden();
     }
@@ -123,6 +128,17 @@ public final class ConfigManager {
     public String get(String key) {
         try {
             return this.FROM_CONFIGS.get(key).toString();
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        this.logger.warning(key + " :: Error for this configs key");
+        return null;
+    }
+
+    public LinkedHashMap<String, Object> getAsMap(String key) {
+        try {
+            return (LinkedHashMap<String, Object>) this.FROM_CONFIGS.get(key);
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
