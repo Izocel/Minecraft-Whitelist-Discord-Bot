@@ -1,6 +1,6 @@
 name: WhitelistDMC
 version: '${project.version}'
-main: main.WhitelistDMC
+main: main.WhitelistDmc
 api-version: 1.15
 author: Izocel
 commands:
