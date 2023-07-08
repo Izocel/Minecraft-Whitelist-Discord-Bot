@@ -120,8 +120,10 @@ flyaway.conf
 server_test/cache/*
 server_test/config/*
 server_test/libraries/*
-server_test/*World*/
+server_test/*World*/*
 server_test/versions/*
+server_test/logs/*
+
 server_test/banned-ips.json
 server_test/banned-players.json
 server_test/bukkit.yml

@@ -45,8 +45,8 @@ public class DbPoolFactory {
         ds.setMaxPoolSize(JDBC_MAX_ACTIVE);
         ds.setTestConnectionOnCheckin(true);
         ds.setTestConnectionOnCheckout(true);
-        ds.setDescription("Pool for Wje Mc®");
-        ds.setDataSourceName("Wje-plugin");
+        ds.setDescription("Pool for Wdmc Mc®");
+        ds.setDataSourceName("Wdmc-plugin");
 
         return ds;
     }
@@ -78,8 +78,8 @@ public class DbPoolFactory {
         ds.setMaxPoolSize(JDBC_MAX_ACTIVE);
         ds.setTestConnectionOnCheckin(true);
         ds.setTestConnectionOnCheckout(true);
-        ds.setDescription("Pool for Wje Mc®");
-        ds.setDataSourceName("Wje-plugin");
+        ds.setDescription("Pool for Wdmc Mc®");
+        ds.setDataSourceName("Wdmc-plugin");
 
         return ds;
     }

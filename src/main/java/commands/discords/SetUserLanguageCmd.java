@@ -4,7 +4,7 @@ import main.WhitelistDMC;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
-public class SetUserLanguageCmd extends WjeUserOnlyCmd {
+public class SetUserLanguageCmd extends UserOnlyCmd {
 
     private final static String KEY_CMD_NAME = "CMD_SETLOCAL";
     private final static String KEY_CMD_DESC = "DESC_SETLOCAL";

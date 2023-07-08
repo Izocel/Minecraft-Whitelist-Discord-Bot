@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import services.sentry.SentryService;
 
-public class FetchUserDbCmd extends WjeUserOnlyCmd {
+public class FetchUserDbCmd extends UserOnlyCmd {
 
     private final static String KEY_CMD_NAME = "CMD_FETCHDB_USERS";
     private final static String KEY_CMD_DESC = "DESC_FETCHDB_USERS";

@@ -35,7 +35,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
   @Override
   public void execute(CommandSender sender, Command cmd, String label, String[] args) {
-    ITransaction tx = Sentry.startTransaction("Wje-Link", "comfim user account");
+    ITransaction tx = Sentry.startTransaction("Wdmc-Link", "comfim user account");
 
     Player player = (Player) sender;
     LocalManager LOCAL = WhitelistDMC.LOCALES;

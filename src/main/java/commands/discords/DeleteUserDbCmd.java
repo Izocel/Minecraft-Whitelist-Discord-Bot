@@ -20,7 +20,7 @@ import com.google.gson.JsonArray;
  * Will delete all users data, remove all account from whitelist
  * Also kick from Minecraft and Discord
  */
-public class DeleteUserDbCmd extends WjeUserOnlyCmd {
+public class DeleteUserDbCmd extends UserOnlyCmd {
 
     private final static String KEY_CMD_NAME = "CMD_REMOVEDB_USERS";
     private final static String KEY_CMD_DESC = "DESC_REMOVEDB_USERS";

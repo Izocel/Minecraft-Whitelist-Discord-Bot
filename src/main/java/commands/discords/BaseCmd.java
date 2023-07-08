@@ -62,7 +62,7 @@ public abstract class BaseCmd extends ListenerAdapter {
         this.member = event.getMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
-        this.setWjeUser();
+        this.setWdmcUser();
         this.setCommandLang();
 
         ITransaction trx = Sentry.startTransaction(this.mainTransactionName, this.mainOperationName);
@@ -103,7 +103,7 @@ public abstract class BaseCmd extends ListenerAdapter {
         return !event.isAcknowledged();
     }
 
-    protected final void setWjeUser() {
+    protected final void setWdmcUser() {
         if (member != null)
             this.user = User.getFromMember(member);
         else
