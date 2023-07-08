@@ -200,6 +200,6 @@ public class GuildManager {
     }
 
     public boolean isHelper(String memberId) {
-        return this.verifyRole(memberId, this.getDevRoleId());
+        return this.verifyRole(memberId, this.getHelperRoleId());
     }
 }
