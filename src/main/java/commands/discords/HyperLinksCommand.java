@@ -8,24 +8,24 @@ import io.sentry.SpanStatus;
 import main.WhitelistDmc;
 import net.dv8tion.jda.api.JDA;
 
-public class LinksCommand extends BaseCmd {
+public class HyperLinksCommand extends BaseCmd {
     private static String KEY_CMD_NAME = null;
     private static String KEY_CMD_DESC = null;
     private LinkedHashMap<String, Object> cmdConfigs;
     private ConfigManager configs;
 
     public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin, LinkedHashMap<String, Object> cmdConfigs) {
-        LinksCommand.KEY_CMD_NAME = cmdConfigs.get("aliasTradKey").toString();
-        LinksCommand.KEY_CMD_DESC = cmdConfigs.get("descriptionTradKey").toString();
+        HyperLinksCommand.KEY_CMD_NAME = cmdConfigs.get("aliasTradKey").toString();
+        HyperLinksCommand.KEY_CMD_DESC = cmdConfigs.get("descriptionTradKey").toString();
 
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
 
-        jda.addEventListener(new LinksCommand(plugin, cmdConfigs));
+        jda.addEventListener(new HyperLinksCommand(plugin, cmdConfigs));
         jda.upsertCommand(cmdName, cmdDesc).submit(true);
     }
 
-    public LinksCommand(WhitelistDmc plugin, LinkedHashMap<String, Object> cmdConfigs) {
+    public HyperLinksCommand(WhitelistDmc plugin, LinkedHashMap<String, Object> cmdConfigs) {
         super(plugin,
                 "LinksCommand",
                 KEY_CMD_NAME,

@@ -10,7 +10,7 @@ import org.bukkit.Bukkit;
 
 import commands.discords.DeleteUserDbCmd;
 import commands.discords.FetchUserDbCmd;
-import commands.discords.LinksCommand;
+import commands.discords.HyperLinksCommand;
 import commands.discords.LookupMcPlayerCommand;
 import commands.discords.RegisterCommand;
 import commands.discords.ServerCommand;
@@ -176,7 +176,7 @@ public class DiscordManager {
                 DeleteUserDbCmd.REGISTER_CMD(jda, plugin);
             }
 
-            // Links
+            // HyperLinks
             final LinkedHashMap<String, Object> linksMap = configs.getAsMap("linksCommands");
             linksMap.forEach((key, conf) -> {
                 final LinkedHashMap<String, Object> castedConf = (LinkedHashMap<String, Object>) conf;
@@ -186,7 +186,7 @@ public class DiscordManager {
 
                 for (int i = 0; i < langArr.length; i++) {
                     LOCAL.setNextLang(langArr[i]);
-                    LinksCommand.REGISTER_CMD(jda, plugin, castedConf);
+                    HyperLinksCommand.REGISTER_CMD(jda, plugin, castedConf);
                 }
             });
 
