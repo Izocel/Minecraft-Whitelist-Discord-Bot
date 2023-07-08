@@ -15,7 +15,7 @@ import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import services.api.PlayerDbApi;
 import services.sentry.SentryService;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import models.BedrockData;
 import models.JavaData;
 
@@ -46,7 +46,7 @@ import models.JavaData;
  */
 
 public class OnPlayerLoggin implements Listener {
-    private WhitelistJe plugin;
+    private WhitelistDMC plugin;
     private Logger logger;
 
     private String getDisallowMsg() {
@@ -77,8 +77,8 @@ public class OnPlayerLoggin implements Listener {
                 "§f\n\n§lServer Bedrock Address: §f" + bedrockIp;
     }
 
-    public OnPlayerLoggin(WhitelistJe plugin) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+    public OnPlayerLoggin(WhitelistDMC plugin) {
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }
 

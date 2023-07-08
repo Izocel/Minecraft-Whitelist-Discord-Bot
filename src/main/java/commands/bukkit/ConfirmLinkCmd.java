@@ -16,7 +16,7 @@ import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
 import services.sentry.SentryService;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import models.User;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -28,17 +28,17 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   public static String rejectId = "linkReject";
   private ConfigManager configs;
 
-  public ConfirmLinkCmd(WhitelistJe plugin, String cmdName) {
+  public ConfirmLinkCmd(WhitelistDMC plugin, String cmdName) {
     super(plugin, cmdName);
     configs = plugin.getConfigManager();
   }
 
   @Override
   public void execute(CommandSender sender, Command cmd, String label, String[] args) {
-    ITransaction tx = Sentry.startTransaction("Wje-Link", "comfim user account");
+    ITransaction tx = Sentry.startTransaction("Wdmc-Link", "comfim user account");
 
     Player player = (Player) sender;
-    LocalManager LOCAL = WhitelistJe.LOCALES;
+    LocalManager LOCAL = WhitelistDMC.LOCALES;
 
     String userLang = LOCAL.getNextLang();
 
@@ -111,7 +111,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   }
 
   public String getDisallowMsg(String tagDiscord, String mcUUID, String userLang) {
-    LocalManager LOCAL = WhitelistJe.LOCALES;
+    LocalManager LOCAL = WhitelistDMC.LOCALES;
     final String cmdName = ": /" + LOCAL.translateBy("CMD_REGISTER", userLang);
 
     return "\n\n§c§l" + LOCAL.translateBy("WARN_REGISTRATIONDELAY", userLang) +
@@ -141,7 +141,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   }
 
   private String confirmationEmbededs(String channel_id, String uuid, String pseudo, String lang) {
-    LocalManager LOCAL = WhitelistJe.LOCALES;
+    LocalManager LOCAL = WhitelistDMC.LOCALES;
 
     final String title = LOCAL.translateBy("TITLE_ACCOUNT_CONFIRM", lang);
     final String description = "**" + LOCAL.translateBy("EMBD_LINK_DESC", lang) + "**";
@@ -190,7 +190,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
   }
 
   private String confirmationActions(String channel_id, String lang) {
-    LocalManager LOCAL = WhitelistJe.LOCALES;
+    LocalManager LOCAL = WhitelistDMC.LOCALES;
 
     final String WORD_YES = '"' + LOCAL.translateBy("EMBD_LINK_YESME", lang) + '"';
     final String WORD_NO = '"' + LOCAL.translateBy("EMBD_LINK_NOTME", lang) + '"';

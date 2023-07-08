@@ -21,8 +21,8 @@ database:
     type: mysql,
     host: localhost,
     port: "3306",
-    name: whitelist_je,
-    user: whitelist_je,
+    name: whitelist_dmc,
+    user: whitelist_dmc,
     password: mysql,
     defaultTable: wje_users,
     maxConnection: "15",
@@ -38,7 +38,7 @@ minecraft:
 features: { maxHoursFor2FA: "24", showAllWorldsMeteo: "true", defaultLang: FR }
 misc:
   {
-    confirmLinkCmdName: wje-link,
+    confirmLinkCmdName: w-link,
     minecraftInfosLink: "https://www.fiverr.com/rvdprojects",
     serverContactEmail: "webdevteam@rvdprojects.com"
   }

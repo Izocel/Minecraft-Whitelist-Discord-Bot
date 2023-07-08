@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import dao.DaoManager;
 import discord.GuildManager;
 import io.sentry.SpanStatus;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import models.User;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Member;
@@ -15,14 +15,14 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import services.sentry.SentryService;
 
-public class FetchUserDbCmd extends WjeUserOnlyCmd {
+public class FetchUserDbCmd extends UserOnlyCmd {
 
     private final static String KEY_CMD_NAME = "CMD_FETCHDB_USERS";
     private final static String KEY_CMD_DESC = "DESC_FETCHDB_USERS";
     private final static String KEY_PARAM_USER = "PARAM_MEMBER";
     private final static String KEY_PARAM_USER_LABEL = "PARAM_MEMBER_LABEL";
 
-    public static void REGISTER_CMD(JDA jda, WhitelistJe plugin) {
+    public static void REGISTER_CMD(JDA jda, WhitelistDMC plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String localUserParam = LOCAL.translate(KEY_PARAM_USER);
@@ -35,7 +35,7 @@ public class FetchUserDbCmd extends WjeUserOnlyCmd {
                 .submit(true);
     }
 
-    public FetchUserDbCmd(WhitelistJe plugin) {
+    public FetchUserDbCmd(WhitelistDMC plugin) {
         super(plugin,
                 "FetchDbCmd",
                 "CMD_FETCHDB_USERS",

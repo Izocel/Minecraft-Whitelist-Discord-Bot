@@ -92,7 +92,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Su registracion en el servidor ha sido rechazada.**");
         this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
                 "⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar esta cuenta...");
-        this.DEFAULTS.put("WARN_ALREADTY_REGISTERED",
+        this.DEFAULTS.put("WARN_ALREADY_REGISTERED",
                 "⚠️ **Este apodo `%s` ya fue registrado por otro jugador**");
         this.DEFAULTS.put("WARN_NOT_ACCEPTED_YET",
                 "⚠️ **Esta cuenta `%s` no ha sido aceptada todavia por el servidor**");
@@ -112,7 +112,7 @@ public class Es extends DTraductionMaps {
                 "❌ **Su UUID `%s` no ha podido ser encontrado en los servidores...**");
         this.DEFAULTS.put("REGISTER_CMD_ERROR",
                 "❌ **Disculpe, la registracion para su apodo `%s` no se ha podido realizar bien.**");
-        this.DEFAULTS.put("CMD_LINK", "wje-link");
+        this.DEFAULTS.put("CMD_LINK", "w-link");
         this.DEFAULTS.put("CMD_SERVER", "servidor");
         this.DEFAULTS.put("CMD_REGISTER", "registrar");
         this.DEFAULTS.put("CMD_LOOKUP", "busqueda");

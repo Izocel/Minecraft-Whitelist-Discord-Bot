@@ -20,8 +20,8 @@ public class JavaDataDao extends BaseDao {
 
     public JavaDataDao(ComboPooledDataSource poolDs) {
         super(poolDs);
-        this.tablename = "`wje_java_data`";
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        this.tablename = "`wdmc_java_data`";
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
 
     public JSONArray findWithUser(Integer userId) {

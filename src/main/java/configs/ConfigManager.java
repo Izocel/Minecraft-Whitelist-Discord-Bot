@@ -16,7 +16,7 @@ public final class ConfigManager {
     private Logger logger;
 
     public ConfigManager() {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.setMaps();
     }
 

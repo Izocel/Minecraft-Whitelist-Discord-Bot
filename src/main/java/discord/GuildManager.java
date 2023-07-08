@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 import configs.ConfigManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import main.WhitelistJe;
+import main.WhitelistDMC;
 import services.sentry.SentryService;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -33,8 +33,8 @@ public class GuildManager {
     private Locale locale;
     private String lang;
 
-    public GuildManager(WhitelistJe plugin) {
-        this.logger = Logger.getLogger("WJE:" + this.getClass().getSimpleName());
+    public GuildManager(WhitelistDMC plugin) {
+        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("GuildManager");
         
@@ -52,7 +52,7 @@ public class GuildManager {
         this.lang = this.locale.getLanguage();
 
         if(this.lang.length() < 1) {
-            this.lang = WhitelistJe.LOCALES.getDefaultLang();
+            this.lang = WhitelistDMC.LOCALES.getDefaultLang();
         }
     }
 
@@ -200,6 +200,6 @@ public class GuildManager {
     }
 
     public boolean isHelper(String memberId) {
-        return this.verifyRole(memberId, this.getDevRoleId());
+        return this.verifyRole(memberId, this.getHelperRoleId());
     }
 }

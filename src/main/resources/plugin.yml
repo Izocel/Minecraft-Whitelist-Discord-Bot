@@ -1,9 +1,9 @@
-name: WhitelistJe
+name: WhitelistDMC
 version: '${project.version}'
-main: main.WhitelistJe
+main: main.WhitelistDMC
 api-version: 1.15
 author: Izocel
 commands:
-   wje-link:
+   w-link:
       description: Used to authenticate your Discord and Minecraft accounts.
-      usage: /<wje-link-command>
+      usage: /<w-link-command>

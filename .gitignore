@@ -116,3 +116,22 @@ run/
 
 *.bck
 flyaway.conf
+
+server_test/cache/*
+server_test/config/*
+server_test/libraries/*
+server_test/*World*/*
+server_test/versions/*
+server_test/logs/*
+
+server_test/banned-ips.json
+server_test/banned-players.json
+server_test/bukkit.yml
+server_test/commands.yml
+server_test/help.yml
+server_test/ops.json
+server_test/permissions.yml
+server_test/spigot.yml
+server_test/usercache.json
+server_test/version_history.json
+server_test/whitelist.json
