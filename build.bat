@@ -22,7 +22,7 @@ echo ---------------------------------------------------------------------------
 echo ----------------------------------------------------------------------------------------------------------------
 echo.
 
-set BUILDER=C:\projects\Whitelist-Je
+set BUILDER=C:\projects\Whitelist-DMC
 set CONFFILE=pom.xml
 cd %BUILDER%
 

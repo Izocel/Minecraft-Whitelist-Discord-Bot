@@ -66,6 +66,7 @@ public class OnUserConfirm extends ListenerAdapter {
             final String uuid = fields.get(1).getValue();
 
             plugin.getBukkitManager().setPlayerAsConfirmed(uuid);
+            plugin.getBukkitManager().setPlayerAsConfirmed(uuid);
 
             event.reply("✔️ Vos compte sont maintenant reliés et confirmés.").submit(true);
             event.getMessage().editMessage("All good").setActionRows(ActionRow.of(

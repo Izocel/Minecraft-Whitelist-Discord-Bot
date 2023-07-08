@@ -86,7 +86,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Votre enregistrement sur le serveur a été refusé.**");
         this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
                 "⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé...");
-        this.DEFAULTS.put("WARN_ALREADTY_REGISTERED", "⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**");
+        this.DEFAULTS.put("WARN_ALREADY_REGISTERED", "⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**");
         this.DEFAULTS.put("WARN_NOT_ACCEPTED_YET", "⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**");
         this.DEFAULTS.put("WARN_BAD_PSEUDO_FORMAT_EXPLAIN",
                 "⚠️ Votre pseudo `%s`: `%s`, devrait comporter entre `3` et `16` caractères.\nIl ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`.");

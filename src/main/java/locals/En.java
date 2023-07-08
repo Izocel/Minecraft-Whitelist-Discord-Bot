@@ -86,7 +86,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Your registration on the server was rejected.**");
         this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
                 "⚠️ You're already registered, but the delay to confirm this account is overdue...");
-        this.DEFAULTS.put("WARN_ALREADTY_REGISTERED",
+        this.DEFAULTS.put("WARN_ALREADY_REGISTERED",
                 "⚠️ **This `%s` pseudo is already registered to another player**");
         this.DEFAULTS.put("WARN_NOT_ACCEPTED_YET",
                 "⚠️ **This `%s` account was not yet accepted on the server by admins.**");

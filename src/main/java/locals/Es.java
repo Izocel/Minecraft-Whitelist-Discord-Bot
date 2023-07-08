@@ -92,7 +92,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Su registracion en el servidor ha sido rechazada.**");
         this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
                 "⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar esta cuenta...");
-        this.DEFAULTS.put("WARN_ALREADTY_REGISTERED",
+        this.DEFAULTS.put("WARN_ALREADY_REGISTERED",
                 "⚠️ **Este apodo `%s` ya fue registrado por otro jugador**");
         this.DEFAULTS.put("WARN_NOT_ACCEPTED_YET",
                 "⚠️ **Esta cuenta `%s` no ha sido aceptada todavia por el servidor**");

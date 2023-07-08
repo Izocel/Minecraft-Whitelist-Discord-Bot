@@ -2,7 +2,6 @@ package commands.discords;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -155,7 +154,7 @@ public class RegisterCommand extends BaseCmd {
                 final boolean isConfirmed = jData.isConfirmed();
 
                 if (jData.getUserId() != user.getId()) {
-                    replyJava = String.format(useTranslator("WARN_ALREADTY_REGISTERED"), "Java");
+                    replyJava = String.format(useTranslator("WARN_ALREADY_REGISTERED"), "Java");
                 }
 
                 else if (!isAllowed) {
@@ -186,7 +185,7 @@ public class RegisterCommand extends BaseCmd {
                 final boolean isConfirmed = bData.isConfirmed();
 
                 if (bData.getUserId() != user.getId()) {
-                    replyBedrock = String.format(useTranslator("WARN_ALREADTY_REGISTERED"), "Bedrock");
+                    replyBedrock = String.format(useTranslator("WARN_ALREADY_REGISTERED"), "Bedrock");
                 }
 
                 else if (!isAllowed) {
@@ -253,7 +252,7 @@ public class RegisterCommand extends BaseCmd {
             if (!channel.getId().equals(gManager.adminChannelId)
                     && !channel.getId().equals(gManager.whitelistChannelId)) {
 
-                tx.setData("state", "bad channel -> stoping event");
+                tx.setData("state", "bad channel -> stopping event");
                 tx.finish(SpanStatus.OK);
                 return;
             }
@@ -268,7 +267,7 @@ public class RegisterCommand extends BaseCmd {
                 event.reply(LOCAL.useDefault("ROLE_NOT_ALLOWED"))
                         .setEphemeral(true).submit(true);
 
-                throw new Exception("🔒 Commande répondu pas un role non authorisé. 🔒" +
+                throw new Exception("🔒 Commande répondu par un role non autorisé. 🔒" +
                         "\nUser name: <@" + member.getId() + ">" +
                         "\nChannel name:" + channel.getName() +
                         "\nMessage id: " + event.getMessage().getId());
