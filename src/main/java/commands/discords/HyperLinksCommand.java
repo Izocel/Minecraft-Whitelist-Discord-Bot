@@ -15,12 +15,12 @@ public class HyperLinksCommand extends BaseCmd {
     private static String KEY_CMD_DESC = null;
     private final LinkedHashMap<String, Object> cmdConfigs;
     private final ConfigManager configs;
-    private final String doRun;
+    private boolean doRun;
 
     public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin, LinkedHashMap<String, Object> cmdConfigs) {
-        final String doInit = cmdConfigs.getOrDefault("useDiscord", "true").toString();
-        if( doInit != "true") {
-            return;
+        final String doInitConf = cmdConfigs.getOrDefault("useDiscord", "true").toString();
+        if (doInitConf.equals("false")) {
+          return;
         }
 
         HyperLinksCommand.KEY_CMD_NAME = cmdConfigs.get("aliasTradKey").toString();
@@ -40,12 +40,17 @@ public class HyperLinksCommand extends BaseCmd {
                 "Show a dynamic link");
         this.configs = this.plugin.getConfigManager();
         this.cmdConfigs = cmdConfigs;
-        this.doRun = cmdConfigs.getOrDefault("useDiscord", "true").toString();
+
+        this.doRun = true;
+        final String doRunConf = cmdConfigs.getOrDefault("useDiscord", "true").toString();
+        if (doRunConf.equals("false")) {
+          this.doRun = false;
+        }
     }
 
     @Override
     protected final void execute() {
-        if( doRun != "true") {
+        if( doRun != true) {
             final String name = cmdConfigs.get("aliasTradKey").toString();
             this.logger.info("hyperlink: " + name + " is deactivated for discord");
             return;
@@ -62,9 +67,10 @@ public class HyperLinksCommand extends BaseCmd {
         final String textKey = cmdConfigs.get("discordTextTradKey").toString();
         final String linkKey = cmdConfigs.get("linkTradKey").toString();
 
-        boolean isPublic = true;
-        if(cmdConfigs.getOrDefault("isPublicMsg", "true") != "true") {
-            isPublic = false;
+        boolean isPublic = false;
+        final String publicConf = cmdConfigs.getOrDefault("isPublicMsg", "false").toString();
+        if (!publicConf.equals("true")) {
+          isPublic = true;
         }
 
         final Integer msgDelaySec = 120;
