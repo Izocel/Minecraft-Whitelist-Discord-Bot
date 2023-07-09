@@ -64,7 +64,7 @@ public class DiscordManager {
                 .startChild("DiscordManager.connect");
         try {
             final String token = this.configs.get("discordBotToken", null);
-            this.logger.info("JDA TOKEN: " + token.substring(0, 56) + "********");
+            this.logger.info("JDA TOKEN: " + token.substring(0, 56) + "************");
 
             jda = JDABuilder.create(token, EnumSet.allOf(GatewayIntent.class))
                     .build()

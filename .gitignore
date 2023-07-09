@@ -124,6 +124,11 @@ server_test/*World*/*
 server_test/versions/*
 server_test/logs/*
 
+server_test/plugins/Geyser-Spigot/*
+server_test/plugins/ViaBackwards/*
+server_test/plugins/ViaRewind/*
+server_test/plugins/ViaVersion/*
+
 server_test/banned-ips.json
 server_test/banned-players.json
 server_test/bukkit.yml
