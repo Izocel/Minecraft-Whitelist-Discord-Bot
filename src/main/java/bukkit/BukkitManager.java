@@ -13,7 +13,7 @@ import commands.bukkit.ConfirmLinkCmd;
 import commands.bukkit.HyperLinksCmd;
 import dao.DaoManager;
 import events.bukkit.OnPlayerJoin;
-import events.bukkit.OnPlayerLoggin;
+import events.bukkit.OnPlayerLogin;
 import events.bukkit.OnServerLoad;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
@@ -90,7 +90,7 @@ public class BukkitManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("BukkitManager.registerEvents");
         try {
-            Bukkit.getPluginManager().registerEvents(new OnPlayerLoggin(plugin), plugin);
+            Bukkit.getPluginManager().registerEvents(new OnPlayerLogin(plugin), plugin);
             Bukkit.getPluginManager().registerEvents(new OnPlayerJoin(plugin), plugin);
             Bukkit.getPluginManager().registerEvents(new OnServerLoad(plugin), plugin);
         } catch (Exception e) {
