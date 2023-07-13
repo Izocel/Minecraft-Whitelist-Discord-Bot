@@ -23,9 +23,15 @@ public class Migrator {
 
         this.plugin = plugin;
         this.logger = Logger.getLogger("WDMC:" + getClass().getSimpleName());
+
+        // final String JDBC_USER = plugin.getConfigManager().get("dbUser");
+        // final String JDBC_PASS = plugin.getConfigManager().get("dbPass");
+        // final String JDBC_URL = plugin.getConfigManager().get("dbJdbcUrl");
+
         try {
             FluentConfiguration flywayConfigs = Flyway.configure()
                 .dataSource(DaoManager.getDatasource())
+                //.dataSource(JDBC_URL, JDBC_USER, JDBC_PASS)
                 .locations("classpath:db/migration");
 
             this.flyway = new Flyway(flywayConfigs);
