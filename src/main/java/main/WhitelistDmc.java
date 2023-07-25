@@ -150,7 +150,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
                 sb.append(LOCALES.translate("CHECK_LOGS") + "\n\n");
                 sb.append(getPluginInfos(false));
 
-                guildManager.getAdminChannel().sendMessage(sb.toString()).submit(true);
+                guildManager.getBotLogChannel().sendMessage(sb.toString()).submit(true);
 
             } catch (Exception err) {
                 transaction.setThrowable(err);
