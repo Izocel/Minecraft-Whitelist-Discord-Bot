@@ -61,7 +61,7 @@ public final class ConfigManager {
         FROM_CONFIGS.put("discordAdminChanelId", discord_channels.get("adminChanelId"));
         FROM_CONFIGS.put("botLogChannelId", discord_channels.get("botLogChannelId"));
         FROM_CONFIGS.put("javaLogChannelId", discord_channels.get("javaLogChannelId"));
-        FROM_CONFIGS.put("discordWelcomeChanelId", discord_channels.get("whitelistChanelId"));
+        FROM_CONFIGS.put("discordWelcomeChanelId", discord_channels.get("welcomeChanelId"));
         FROM_CONFIGS.put("discordWhitelistChanelId", discord_channels.get("whitelistChanelId"));
 
         FROM_CONFIGS.put("discordAdminRoleId", discord_roles.get("discordAdminRoleId"));
