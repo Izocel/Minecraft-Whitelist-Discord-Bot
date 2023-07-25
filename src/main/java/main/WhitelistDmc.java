@@ -130,7 +130,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
                     this.getName(), LOCALES.translate("ISACTIVE")));
 
             sb.append(getPluginInfos(false));
-            guildManager.getAdminChannel()
+            guildManager.getBotLogChannel()
                     .sendMessage(sb.toString()).submit(true);
 
             logger.info(this.getfiglet());
@@ -172,7 +172,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
                 this.getName(), LOCALES.translate("ISINACTIVE")));
         sb.append(getPluginInfos(false));
 
-        guildManager.getAdminChannel()
+        guildManager.getBotLogChannel()
                 .sendMessage(sb.toString()).submit(true);
     }
 
