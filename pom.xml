@@ -48,7 +48,7 @@
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>9.20.1</version>
+                <version>9.21.1</version>
                 <configuration>
                     <configFiles>
                         <configFile>${flyaway.configuration}</configFile>
@@ -121,17 +121,17 @@
         <dependency>
             <groupId>io.sentry</groupId>
             <artifactId>sentry</artifactId>
-            <version>6.25.1</version>
+            <version>6.27.0</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>9.20.1</version>
+            <version>9.21.1</version>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
-            <version>9.20.1</version>
+            <version>9.21.1</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
