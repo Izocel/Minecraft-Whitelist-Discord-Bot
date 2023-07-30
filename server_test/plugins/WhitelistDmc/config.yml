@@ -36,11 +36,12 @@ minecraft:
     bedrockIp: rvdprojects.synology.me,
   }
 features: { maxHoursFor2FA: "24", showAllWorldsMeteo: "true", defaultLang: FR }
-misc:
+httpServer:
   {
-    confirmLinkCmdName: w-link,
-    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
-    serverContactEmail: webdevteam@rvdprojects.com,
+    appRoot: app,
+    appName: WDMC-Spark,
+    keyStoreFile: keystore.jks,
+    keyStorePassword: password,
   }
 linksCommands:
   linkOne:
@@ -79,3 +80,9 @@ linksCommands:
       minecraftTextTradKey: CUSTOM_LINK_LINK3_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK3_TXT_DISC,
     }
+misc:
+  {
+    confirmLinkCmdName: w-link,
+    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
+    serverContactEmail: webdevteam@rvdprojects.com,
+  }

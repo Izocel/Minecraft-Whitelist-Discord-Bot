@@ -305,7 +305,7 @@ public class Helper {
      * Supported Fields: Title, Author, Description, Color, Fields, Thumbnail,
      * Footer.
      * 
-     * @param json The JsonObject
+     * @param jsonString
      * @return The Embed
      */
     public static MessageEmbed jsonToMessageEmbed(String jsonString) {
