@@ -21,7 +21,7 @@ public class OnServerLoad implements Listener {
         sb.append("**" + LOCAL.translate("SERVER_IS_UP") + "** ");
         sb.append(this.plugin.getBukkitManager().getServerInfoString(LOCAL.getNextLang()));
         
-        this.plugin.getGuildManager().getAdminChannel()
+        this.plugin.getGuildManager().getBotLogChannel()
             .sendMessage(sb.toString()).submit(true);
     }
 

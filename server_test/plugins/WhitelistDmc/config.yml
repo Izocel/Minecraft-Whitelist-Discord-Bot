@@ -6,8 +6,8 @@ discord:
       welcomeChanelId: "925583159964352643",
       adminChanelId: "927283856053252106",
       whitelistChanelId: "927283856053252106",
-      botLogChannelId: "927283856053252106",
-      javaLogChannelId: "927283856053252106",
+      botLogChannelId: "924682022704787466",
+      javaLogChannelId: "924682022704787466",
     }
   roles:
     {

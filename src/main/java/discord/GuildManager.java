@@ -20,7 +20,7 @@ public class GuildManager {
     private Guild guild;
 
     public String adminChannelId;
-    public String botLogchannelId;
+    public String botlogChannelId;
     public String javaLogChannelId;
     public String whitelistChannelId;
     private ConfigManager configManager;
@@ -60,7 +60,7 @@ public class GuildManager {
         this.welcomeChannelId = this.configManager.get("discordWelcomeChanelId", null);
         this.adminChannelId = this.configManager.get("discordAdminChanelId", null);
         this.whitelistChannelId = this.configManager.get("discordWhitelistChanelId", null);
-        this.botLogchannelId = this.configManager.get("botLogChannelId", null);
+        this.botlogChannelId = this.configManager.get("botLogChannelId", null);
         this.javaLogChannelId = this.configManager.get("javaLogChannelId", null);
 
         this.adminRoleId = this.configManager.get("discordAdminRoleId", null);
@@ -175,8 +175,8 @@ public class GuildManager {
         return this.guild.getTextChannelById(this.whitelistChannelId);
     }
 
-    public TextChannel getbotLogChannelId() {
-        return this.guild.getTextChannelById(this.botLogchannelId);
+    public TextChannel getBotLogChannel() {
+        return this.guild.getTextChannelById(this.botlogChannelId);
     }
 
     public TextChannel getJavaLogChannel() {
