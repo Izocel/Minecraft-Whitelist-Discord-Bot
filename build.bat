@@ -39,13 +39,6 @@ cd %BUILDER%
 mkdir %PLUGIN_DIR%\app
 xcopy "%APP_BUILDER%\build" "%RES_DIR%\public\app" /h /i /c /k /e /r /y
 xcopy "%RES_DIR%\public\app" "%PLUGIN_DIR%\app" /h /i /c /k /e /r /y
-copy /y %BUILDER%\src\main\java\configs\ConfigManager.java %BUILDER%\backups\ConfigManager.bck
-copy /y %BUILDER%\build-WDMC.bat %BUILDER%\backups\build-WDMC.bck
-copy /y %BUILDER%\launch.bat %BUILDER%\backups\launch.bck
-copy /y %BUILDER%\debug_launch.bat %BUILDER%\backups\debug_launch.bck
-copy /y %BUILDER%\src\main\resources\plugin.yml %BUILDER%\backups\plugin.bck
-copy /y %BUILDER%\src\main\resources\config.yml %BUILDER%\backups\config.bck
-copy /y %BUILDER%\pom.xml %BUILDER%\backups\pom.bck
 echo.
 
 call java --version
