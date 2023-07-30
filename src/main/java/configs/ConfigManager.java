@@ -7,7 +7,7 @@ import helpers.parsers.YamlFileParser;
 import services.sentry.SentryService;
 
 public final class ConfigManager {
-    private final String pluginVersion = "2023.4";
+    private final String pluginVersion = "2023.6";
     private final String envType = "production";
 
     protected LinkedHashMap<String, Object> DEFAULTS = new LinkedHashMap<>();

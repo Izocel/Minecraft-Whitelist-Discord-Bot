@@ -88,10 +88,10 @@ public abstract class BaseCmd extends ListenerAdapter {
     }
 
     /**
-     * Checks all langugae eventName to find the current language and
+     * Checks all language eventName to find the current language and
      * prevent multiple event calls.
      * 
-     * @param SlashCommandEvent event
+     * @param event event
      * @return Boolean
      */
     protected final boolean isValidToContinue(SlashCommandEvent event) {

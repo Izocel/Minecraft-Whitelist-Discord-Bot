@@ -19,6 +19,7 @@ import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
+import mainSpark.WhitelistSpark;
 import models.BedrockData;
 import models.JavaData;
 import services.sentry.SentryService;
@@ -132,6 +133,9 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             sb.append(getPluginInfos(false));
             guildManager.getBotLogChannel()
                     .sendMessage(sb.toString()).submit(true);
+
+            final String[] sparkConfigs = {};
+            WhitelistSpark.main(sparkConfigs);
 
             logger.info(this.getfiglet());
 
