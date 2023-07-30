@@ -50,10 +50,11 @@ public final class ConfigManager {
 
         LinkedHashMap<String, Object> features = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("features");
 
-        LinkedHashMap<String, Object> misc = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("misc");
+        LinkedHashMap<String, Object> httpServer = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("httpServer");
 
-        LinkedHashMap<String, Object> linksCommands = (LinkedHashMap<String, Object>) FROM_CONFIGS
-                .getOrDefault("linksCommands", null);
+        LinkedHashMap<String, Object> linksCommands = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("linksCommands");
+
+        LinkedHashMap<String, Object> misc = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("misc");
 
         FROM_CONFIGS.put("discordBotToken", discord.get("botToken"));
         FROM_CONFIGS.put("discordServerId", discord.get("serverId"));
@@ -88,11 +89,16 @@ public final class ConfigManager {
         FROM_CONFIGS.put("showAllWorldsMeteo", features.get("showAllWorldsMeteo"));
         FROM_CONFIGS.put("defaultLang", features.get("defaultLang"));
 
+        FROM_CONFIGS.put("httpServer.appRoot", httpServer.get("appRoot"));
+        FROM_CONFIGS.put("httpServer.appName", httpServer.get("appName"));
+        FROM_CONFIGS.put("httpServer.keyStoreFile", httpServer.get("keyStoreFile"));
+        FROM_CONFIGS.put("httpServer.keyStorePassword", httpServer.get("keyStorePassword"));
+
+        FROM_CONFIGS.put("linksCommands", linksCommands);
+
         FROM_CONFIGS.put("confirmLinkCmdName", misc.get("confirmLinkCmdName"));
         FROM_CONFIGS.put("minecraftInfosLink", misc.get("minecraftInfosLink"));
         FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
-        
-        FROM_CONFIGS.put("linksCommands", linksCommands);
         this.setHidden();
     }
 

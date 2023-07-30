@@ -115,6 +115,7 @@ run/
 .env
 
 *.bck
+*.jks
 flyaway.conf
 
 server_test/cache/*
