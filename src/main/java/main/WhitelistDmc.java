@@ -134,8 +134,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             guildManager.getBotLogChannel()
                     .sendMessage(sb.toString()).submit(true);
 
-            final String[] sparkConfigs = {};
-            WhitelistSpark.main(sparkConfigs);
+            WhitelistSpark.main(this.configManager);
 
             logger.info(this.getfiglet());
 

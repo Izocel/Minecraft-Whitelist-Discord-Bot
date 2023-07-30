@@ -14,8 +14,9 @@
     <properties>
         <java.version>18</java.version>
         <mainPath>src/main/</mainPath>
+        <appPath>src/main/resources/public/app</appPath>
         <mainResourcePath>src/main/resources</mainResourcePath>
-        <javadocPath>src/main/resources/javadocs</javadocPath>
+        <javadocPath>src/main/resources/public/javadocs</javadocPath>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <flyaway.configuration>flyaway.conf</flyaway.configuration>

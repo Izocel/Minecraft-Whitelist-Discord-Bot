@@ -124,7 +124,7 @@ server_test/*World*/*
 server_test/versions/*
 server_test/logs/*
 
-src/main/resources/javadocs/*
+src/main/resources/public/javadocs/*
 server_test/plugins/Geyser-Spigot/*
 server_test/plugins/ViaBackwards/*
 server_test/plugins/ViaRewind/*
