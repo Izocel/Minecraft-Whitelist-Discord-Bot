@@ -91,6 +91,7 @@ public final class ConfigManager {
 
         FROM_CONFIGS.put("api.appRoot", api.get("appRoot"));
         FROM_CONFIGS.put("api.apiKey", api.get("apiKey"));
+        FROM_CONFIGS.put("api.localPort", api.get("localPort"));
         FROM_CONFIGS.put("api.keyStoreFile", api.get("keyStoreFile"));
         FROM_CONFIGS.put("api.keyStorePassword", api.get("keyStorePassword"));
 
