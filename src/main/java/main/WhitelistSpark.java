@@ -1,4 +1,4 @@
-package mainSpark;
+package main;
 
 import static spark.Spark.get;
 import static spark.Spark.secure;
@@ -15,6 +15,10 @@ public class WhitelistSpark {
     static Logger logger = Logger.getLogger("WDMC-Spark:" + WhitelistSpark.class.getSimpleName());
 
     public static void main(ConfigManager configs) {
+        final String apiKey = configs.get("api.apiKey");
+        if(apiKey != null) {
+            logger.warning("Could not find your api key.\nSkipping initialization...");
+        }
         if (setSSL(configs)) {
             setPaths(configs);
         }
@@ -22,8 +26,8 @@ public class WhitelistSpark {
 
     private static boolean setSSL(ConfigManager configs) {
         try {
-            final String configPass = configs.get("httpServer.keyStorePassword", "");
-            final String configFile = configs.get("httpServer.keyStoreFile", null);
+            final String configPass = configs.get("api.keyStorePassword", "");
+            final String configFile = configs.get("api.keyStoreFile", null);
             final String keyStorePath = FileHelper.writeResourceToPluginDir(configFile, false);
             final File keyStoreFile = new File(keyStorePath);
 
@@ -44,13 +48,13 @@ public class WhitelistSpark {
     }
 
     public static void setPaths(ConfigManager configs) {
-        final String appName = configs.get("httpServer.appName", "WDMC-Spark");
+        final String discordId = configs.get("discordServerId", "????");
         final String appRootPath = FileHelper.PLUGIN_DIR.toString()
-                + FileHelper.fSep + configs.get("httpServer.appRoot", "app");
+                + FileHelper.fSep + configs.get("api.appRoot", "www");
         try {
             staticFiles.externalLocation(appRootPath);
 
-            get("/ping", (req, res) -> "Hello World from: " + appName);
+            get("/ping", (req, res) -> "Discord server id: " + discordId);
         } catch (Exception e) {
             logger.warning(e.getMessage());
         }
