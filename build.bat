@@ -26,19 +26,14 @@ set CONFFILE=pom.xml
 set BUILDER=C:\projects\Whitelist-DMC
 set PLUGIN_DIR=%BUILDER%\server_test\plugins\WhitelistDmc
 set RES_DIR=%BUILDER%\src\main\resources
-set APP_BUILDER=%BUILDER%\app
-
-
-cd %APP_BUILDER%
-call npm i 
-call npm run build
+set WWW_ROOT=%PLUGIN_DIR%\www
 
 @echo off
 
 cd %BUILDER%
-mkdir %PLUGIN_DIR%\app
-xcopy "%APP_BUILDER%\build" "%RES_DIR%\public\app" /h /i /c /k /e /r /y
-xcopy "%RES_DIR%\public\app" "%PLUGIN_DIR%\app" /h /i /c /k /e /r /y
+rmdir /s /q "%WWW_ROOT%"
+mkdir "%WWW_ROOT%"
+xcopy "%RES_DIR%\www" "%WWW_ROOT%" /h /i /c /k /e /r /y
 echo.
 
 call java --version

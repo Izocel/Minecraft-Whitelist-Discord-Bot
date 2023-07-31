@@ -50,7 +50,7 @@ public final class ConfigManager {
 
         LinkedHashMap<String, Object> features = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("features");
 
-        LinkedHashMap<String, Object> httpServer = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("httpServer");
+        LinkedHashMap<String, Object> api = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("api");
 
         LinkedHashMap<String, Object> linksCommands = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("linksCommands");
 
@@ -89,10 +89,11 @@ public final class ConfigManager {
         FROM_CONFIGS.put("showAllWorldsMeteo", features.get("showAllWorldsMeteo"));
         FROM_CONFIGS.put("defaultLang", features.get("defaultLang"));
 
-        FROM_CONFIGS.put("httpServer.appRoot", httpServer.get("appRoot"));
-        FROM_CONFIGS.put("httpServer.appName", httpServer.get("appName"));
-        FROM_CONFIGS.put("httpServer.keyStoreFile", httpServer.get("keyStoreFile"));
-        FROM_CONFIGS.put("httpServer.keyStorePassword", httpServer.get("keyStorePassword"));
+        FROM_CONFIGS.put("api.appRoot", api.get("appRoot"));
+        FROM_CONFIGS.put("api.apiKey", api.get("apiKey"));
+        FROM_CONFIGS.put("api.localPort", api.get("localPort"));
+        FROM_CONFIGS.put("api.keyStoreFile", api.get("keyStoreFile"));
+        FROM_CONFIGS.put("api.keyStorePassword", api.get("keyStorePassword"));
 
         FROM_CONFIGS.put("linksCommands", linksCommands);
 

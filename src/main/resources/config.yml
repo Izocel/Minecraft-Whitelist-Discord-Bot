@@ -36,12 +36,13 @@ minecraft:
     bedrockIp: rvdprojects.synology.me,
   }
 features: { maxHoursFor2FA: "24", showAllWorldsMeteo: "true", defaultLang: FR }
-httpServer:
+api:
   {
-    appRoot: "app",
-    appName: "WDMC-Spark",
+    appRoot: "www",
+    localPort: 8084,
+    apiKey: "276931890735218689",
     keyStoreFile: "keystore.jks",
-    keyStorePassword: "password"
+    keyStorePassword: "password",
   }
 linksCommands:
   linkOne:

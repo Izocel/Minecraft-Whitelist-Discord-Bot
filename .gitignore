@@ -125,7 +125,9 @@ server_test/*World*/*
 server_test/versions/*
 server_test/logs/*
 
-src/main/resources/public/javadocs/*
+src/main/resources/www/*
+server_test/plugins/WhitelistDmc/www/*
+
 server_test/plugins/Geyser-Spigot/*
 server_test/plugins/ViaBackwards/*
 server_test/plugins/ViaRewind/*
@@ -143,4 +145,3 @@ server_test/usercache.json
 server_test/version_history.json
 server_test/whitelist.json
 server_test/.console_history
-

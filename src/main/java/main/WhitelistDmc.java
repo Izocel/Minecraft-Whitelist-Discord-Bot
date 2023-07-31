@@ -19,7 +19,6 @@ import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
-import mainSpark.WhitelistSpark;
 import models.BedrockData;
 import models.JavaData;
 import services.sentry.SentryService;
