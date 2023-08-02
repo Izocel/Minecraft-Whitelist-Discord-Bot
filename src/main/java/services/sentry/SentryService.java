@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import services.sentry.SentryService;
+import io.sentry.Hint;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SentryEvent;
@@ -145,16 +146,18 @@ public class SentryService {
         """;
   }
 
-  public static @NotNull SentryId captureEx(Throwable error) {
-    Exception err = new Exception(error.getMessage());
-    Logger.getLogger("WDMC: SentryService").warning("WARNING: ");
-    err.printStackTrace();
+  public static SentryId captureEx(Throwable error) {
+    Logger.getLogger("WDMC-Sentry").warning("WARNING:");
+    error.fillInStackTrace();
+    error.printStackTrace();
+    
+    if(!envType.equals("production")) {
+      return null;
+    }
 
-    Exception ex = new Exception(error.getMessage() + userToString());
-    return envType.equals("production")
-      ? Sentry.captureException(ex)
-      : null;
-
+    Hint hint = new Hint();
+    hint.set("user", userToString());
+    return Sentry.captureException(error, hint);
   }
 
   public @NotNull SentryId captureEvent(SentryEvent event) {

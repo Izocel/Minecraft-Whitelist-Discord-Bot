@@ -60,6 +60,22 @@ public class Helper {
         return string.matches("^[0-9]+$");
     }
 
+    public static Integer asInteger(String string) {
+       try {
+        return Integer.parseInt(string);
+       } catch (Exception e) {
+        return null;
+       }
+    }
+
+    public static Integer asInteger(String string, Integer defValue) {
+       try {
+        return Integer.parseInt(string);
+       } catch (Exception e) {
+        return defValue;
+       }
+    }
+
     public static boolean isAlphanumeric(String string) {
         if (string == null) {
             return false;
@@ -150,6 +166,10 @@ public class Helper {
 
     public static Timestamp getTimestamp() {
         return new Timestamp(System.currentTimeMillis());
+    }
+
+    public static Date getSystemDate() {
+        return Date.from(getTimestamp().toInstant());
     }
 
     public static Timestamp convertStringToTimestamp(String strDate) {
