@@ -60,17 +60,17 @@ public class PlayerDbApi extends Api {
 
             if (dataJ != null
                     && dataJ.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Java",
+                dataObj.put("Java",
                         dataJ.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
             if (dataX != null
                     && dataX.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Xbox",
+                dataObj.put("Xbox",
                         dataX.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
             if (dataS != null
                     && dataS.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Steam",
+                dataObj.put("Steam",
                         dataS.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
 
@@ -105,7 +105,7 @@ public class PlayerDbApi extends Api {
             e.printStackTrace();
             respoObj.clear();
             respoObj.put("code", "500");
-            respoObj.put("tested-uuids", new String[]{uuid, decimal});
+            respoObj.put("tested-uuids", new String[] { uuid, decimal });
             respoObj.put("message", "internal error");
             response.put(0, respoObj);
 
@@ -144,12 +144,12 @@ public class PlayerDbApi extends Api {
 
             if (dataJ != null
                     && dataJ.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Java",
+                dataObj.put("Java",
                         dataJ.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
             if (dataX != null
                     && dataX.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Xbox",
+                dataObj.put("Xbox",
                         dataX.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
 

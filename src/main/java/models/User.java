@@ -90,14 +90,14 @@ public class User extends BaseModel {
     public JSONObject toJson() {
         JSONObject jsonObj = new JSONObject();
         try {
-            jsonObj.append("id", this.id);
-            jsonObj.append("lang", this.lang);
-            jsonObj.append("discord_id", this.discordId);
-            jsonObj.append("discord_tag", this.discordTag);
-            jsonObj.append("created_at", this.createdAt);
-            jsonObj.append("updated_at", this.updatedAt);
-            jsonObj.append("javaData", this.javaData);
-            jsonObj.append("bedData", this.bedData);
+            jsonObj.put("id", this.id);
+            jsonObj.put("lang", this.lang);
+            jsonObj.put("discord_id", this.discordId);
+            jsonObj.put("discord_tag", this.discordTag);
+            jsonObj.put("created_at", this.createdAt);
+            jsonObj.put("updated_at", this.updatedAt);
+            jsonObj.put("javaData", this.javaData);
+            jsonObj.put("bedData", this.bedData);
 
         } catch (Exception e) {
             SentryService.captureEx(e);

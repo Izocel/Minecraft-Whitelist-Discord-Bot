@@ -1,5 +1,6 @@
 package commands.discords;
 
+import dao.UsersDao;
 import main.WhitelistDmc;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -20,17 +21,16 @@ public class SetUserLanguageCmd extends UserOnlyCmd {
         // Traduction
         jda.addEventListener(new SetUserLanguageCmd(plugin));
         jda.upsertCommand(cmdName, cmdDesc)
-        .addOption(OptionType.STRING, localLangParam, localLangLabel, false)
-            .submit(true);
+                .addOption(OptionType.STRING, localLangParam, localLangLabel, false)
+                .submit(true);
     }
 
     public SetUserLanguageCmd(WhitelistDmc plugin) {
         super(plugin,
-            "SetUserLanguageCmd",
-            "CMD_SETLOCAL",
-            "SetUserLanguage",
-            "Change local"
-        );
+                "SetUserLanguageCmd",
+                "CMD_SETLOCAL",
+                "SetUserLanguage",
+                "Change local");
     }
 
     @Override
@@ -42,12 +42,12 @@ public class SetUserLanguageCmd extends UserOnlyCmd {
         sb.append(useTranslator("LANG_CURRENT") + ": ");
         sb.append("`" + user.getLang() + "`");
 
-        if(lang == null || oldLang.equals(lang.toUpperCase())) {
+        if (lang == null || oldLang.equals(lang.toUpperCase())) {
             this.submitReplyEphemeral(sb.toString());
             return;
         }
 
-        if(lang != null) {
+        if (lang != null) {
             user.setLang(lang);
             user.saveUser();
         }
@@ -55,8 +55,7 @@ public class SetUserLanguageCmd extends UserOnlyCmd {
         sb.delete(0, sb.length());
         sb.append(translateBy("LANG_CHANGED", user.getLang()) + ": ");
         sb.append("`" + oldLang + "` --> `" + user.getLang() + "`");
-        
+
         this.submitReplyEphemeral(sb.toString());
     }
-
 }
