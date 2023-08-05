@@ -17,8 +17,9 @@ public class BedrockData extends BaseModel {
     private String msgId;
     private String createdAt;
     private String updatedAt;
+    private String avatarUrl;
 
-	public BedrockData() {
+    public BedrockData() {
         this.allowed = false;
         this.confirmed = false;
         this.createdAt = Helper.getTimestamp().toString();
@@ -34,62 +35,61 @@ public class BedrockData extends BaseModel {
         this.msgId = json.getString("msg_id");
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
+        this.avatarUrl = json.optString("avatar_url");
 
         final Object isConfirmed = json.opt("confirmed");
         final Object isAllowed = json.opt("allowed");
 
-        this.confirmed = isConfirmed != null ?
-            isConfirmed.toString().equals("1")
-            || (int)isConfirmed == 1 : false;
+        this.confirmed = isConfirmed != null ? isConfirmed.toString().equals("1")
+                || (int) isConfirmed == 1 : false;
 
-        this.allowed = isAllowed != null ?
-            isAllowed.toString().equals("1")
-            || (int)isAllowed == 1 : false;
+        this.allowed = isAllowed != null ? isAllowed.toString().equals("1")
+                || (int) isAllowed == 1 : false;
     }
 
     public boolean setAsAllowed(String msgId, boolean allowed, String moderatorId) {
 
         this.msgId = msgId;
 
-        if(allowed == false && moderatorId.length() > 0) {
+        if (allowed == false && moderatorId.length() > 0) {
             this.confirmed = false;
             this.allowed = false;
             this.acceptedBy = null;
             this.revokedBy = moderatorId;
             return this.allowed;
         }
-        
+
         this.allowed = msgId.length() > 0
                 && this.pseudo.length() > 0
                 && this.uuid.length() > 0
                 && moderatorId.length() > 0;
-        
+
         this.acceptedBy = moderatorId;
         return this.allowed;
     }
 
     public boolean setAsConfirmed(boolean confirmed) {
 
-        if(confirmed == false) {
+        if (confirmed == false) {
             this.confirmed = false;
             return this.confirmed;
         }
 
         this.confirmed = this.allowed
-            && this.acceptedBy.length() > 0
-            && this.uuid.length() == 36;
+                && this.acceptedBy.length() > 0
+                && this.uuid.length() == 36;
 
         return this.confirmed;
     }
 
     @Override
     public Integer getId() {
-		return this.id;
-	}
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getUserId() {
         return this.userId;
@@ -100,77 +100,84 @@ public class BedrockData extends BaseModel {
         return userId;
     }
 
-	public String getPseudo() {
-		return this.pseudo;
-	}
+    public String getPseudo() {
+        return this.pseudo;
+    }
 
-	public void setMcName(String pseudo) {
-		this.pseudo = pseudo;
-	}
+    public void setMcName(String pseudo) {
+        this.pseudo = pseudo;
+    }
 
-	public String getAcceptedBy() {
-		return this.acceptedBy;
-	}
+    public String getAcceptedBy() {
+        return this.acceptedBy;
+    }
 
-	public void setAcceptedBy(String acceptedBy) {
-		this.acceptedBy = acceptedBy;
-	}
+    public void setAcceptedBy(String acceptedBy) {
+        this.acceptedBy = acceptedBy;
+    }
 
-	public String getRevokedBy() {
-		return this.revokedBy;
-	}
+    public String getRevokedBy() {
+        return this.revokedBy;
+    }
 
-	public void setRevokedBy(String revokedBy) {
-		this.revokedBy = revokedBy;
-	}
+    public void setRevokedBy(String revokedBy) {
+        this.revokedBy = revokedBy;
+    }
 
-	public boolean isAllowed() {
-		return this.allowed;
-	}
+    public boolean isAllowed() {
+        return this.allowed;
+    }
 
-	public boolean isConfirmed() {
-		return this.confirmed;
-	}
+    public boolean isConfirmed() {
+        return this.confirmed;
+    }
 
-	public String getUUID() {
-		return this.uuid;
-	}
+    public String getUUID() {
+        return this.uuid;
+    }
 
-	public void setUUID(String uuid) {
-		this.uuid = uuid;
-	}
+    public void setUUID(String uuid) {
+        this.uuid = uuid;
+    }
 
-	public String getMsgId() {
-		return this.msgId;
-	}
+    public String getMsgId() {
+        return this.msgId;
+    }
 
-	public void setMsgId(String msgId) {
-		this.msgId = msgId;
-	}
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
+    }
 
-	public String getCreatedAt() {
-		return this.createdAt;
-	}
+    public String getCreatedAt() {
+        return this.createdAt;
+    }
 
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-	public String getUpdatedAt() {
-		return this.updatedAt;
-	}
+    public String getUpdatedAt() {
+        return this.updatedAt;
+    }
 
-	public void setUpdatedAt(String updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public String getAvatarUrl() {
+        return this.avatarUrl;
+    }
+
+    public void setAvatarUrl(String url) {
+        this.avatarUrl = url;
+    }
 
     public void executeOrder66(String moderatorId) {
-        if(moderatorId == null) {
+        if (moderatorId == null) {
             moderatorId = "#666-TheChancelor";
         }
         this.setAsAllowed("order-66", false, moderatorId);
     }
-
 
     @Override
     public JSONObject toJson() {
@@ -187,7 +194,7 @@ public class BedrockData extends BaseModel {
             jsonObj.put("msg_id", this.msgId);
             jsonObj.put("created_at", this.createdAt);
             jsonObj.put("updated_at", this.updatedAt);
-
+            jsonObj.put("avatar_url", this.avatarUrl);
 
         } catch (Exception e) {
             SentryService.captureEx(e);
@@ -211,6 +218,7 @@ public class BedrockData extends BaseModel {
             copied.msgId = userObj.msgId;
             copied.createdAt = userObj.createdAt;
             copied.updatedAt = userObj.updatedAt;
+            copied.avatarUrl = userObj.avatarUrl;
 
         } catch (Exception e) {
             SentryService.captureEx(e);
