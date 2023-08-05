@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Collection;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ public class User extends BaseModel {
 
     private JSONArray javaData = new JSONArray();
     private JSONArray bedData = new JSONArray();
+    private String avatarUrl;
 
     public User() {
     }
@@ -32,6 +35,7 @@ public class User extends BaseModel {
         this.id = json.getInt("id");
         this.discordId = json.getString("discord_id");
         this.discordTag = json.getString("discord_tag");
+        this.avatarUrl = json.getString("avatar_url");
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
         this.lang = json.getString("lang");
@@ -53,8 +57,16 @@ public class User extends BaseModel {
         this.discordId = discordId;
     }
 
+    public void setAvatarUrl(String url) {
+        this.avatarUrl = url;
+    }
+
     public String getDiscordTag() {
         return this.discordTag;
+    }
+
+    public String getAvatarUrl() {
+        return this.avatarUrl;
     }
 
     public void setDiscordTag(String discordTag) {
@@ -94,6 +106,7 @@ public class User extends BaseModel {
             jsonObj.put("lang", this.lang);
             jsonObj.put("discord_id", this.discordId);
             jsonObj.put("discord_tag", this.discordTag);
+            jsonObj.put("avatar_url", this.avatarUrl);
             jsonObj.put("created_at", this.createdAt);
             jsonObj.put("updated_at", this.updatedAt);
             jsonObj.put("javaData", this.javaData);
@@ -114,6 +127,7 @@ public class User extends BaseModel {
             copied.id = userObj.id;
             copied.discordId = userObj.discordId;
             copied.discordTag = userObj.discordTag;
+            copied.avatarUrl = userObj.avatarUrl;
             copied.lang = userObj.lang;
             copied.createdAt = userObj.createdAt;
             copied.updatedAt = userObj.updatedAt;
@@ -147,6 +161,7 @@ public class User extends BaseModel {
         final net.dv8tion.jda.api.entities.User userDc = member.getUser();
         final String discordId = userDc.getId();
         final String discordTag = userDc.getAsTag();
+        final String avatarUrl = userDc.getAvatarUrl();
 
         User user = DaoManager.getUsersDao().findByDiscordId(discordId);
 
@@ -155,6 +170,7 @@ public class User extends BaseModel {
         }
 
         user.setDiscordTag(discordTag);
+        user.setAvatarUrl(avatarUrl);
         final Integer userId = user.saveUser();
 
         if (userId < 1) {
