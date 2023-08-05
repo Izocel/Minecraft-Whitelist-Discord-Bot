@@ -89,7 +89,7 @@ public class BedrockDataDao extends BaseDao {
                 id = -1;
 
                 String sql = "INSERT INTO " + this.tablename + " (user_id, pseudo, uuid, accepted_by, " +
-                        "revoked_by, msg_id, confirmed, allowed, created_at, updated_at) " +
+                        "revoked_by, msg_id, confirmed, allowed, created_at, updated_at, avatar_url) " +
                         "VALUES (?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ?);";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
