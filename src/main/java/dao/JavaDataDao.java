@@ -127,7 +127,7 @@ public class JavaDataDao extends BaseDao {
                         "confirmed = ?," +
                         "allowed = ? ," +
                         "updated_at = CURRENT_TIMESTAMP " +
-                        "avatar_url = ? ," +
+                        "avatar_url = ? " +
                         "WHERE id = ?;";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
