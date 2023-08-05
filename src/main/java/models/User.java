@@ -35,7 +35,7 @@ public class User extends BaseModel {
         this.id = json.getInt("id");
         this.discordId = json.getString("discord_id");
         this.discordTag = json.getString("discord_tag");
-        this.avatarUrl = json.getString("avatar_url");
+        this.avatarUrl = json.optString("avatar_url");
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
         this.lang = json.getString("lang");
