@@ -142,10 +142,13 @@ public class OnPlayerLogin implements Listener {
 
             if (javaData != null) {
                 javaData.setMcName(loginPlayer.getName());
+                javaData.setAvatarUrl("https://mc-heads.net/head/" + loginPlayer.getName());
                 javaData.save(DaoManager.getJavaDataDao());
             }
 
             else if (bedData != null) {
+                javaData.setAvatarUrl("https://api.tydiumcraft.net/v1/players/skin?uuid="
+                        + loginPlayer.getUniqueId().toString() + "&size=72&type=head/");
                 bedData.setMcName(PlayerDbApi.getXboxPseudo(loginPlayer.getUniqueId().toString()));
                 bedData.save(DaoManager.getBedrockDataDao());
             }
