@@ -91,6 +91,8 @@ public class OnPlayerLogin implements Listener {
         try {
             Server bukServer = plugin.getBukkitManager().getServer();
 
+            final Player loginPlayer = event.getPlayer();
+            final String uuid = loginPlayer.getUniqueId().toString();
             final boolean usingWhiteList = bukServer.hasWhitelist();
             final boolean forceWhitelist = bukServer.isWhitelistEnforced();
 
@@ -98,6 +100,20 @@ public class OnPlayerLogin implements Listener {
                 this.logger.warning("Server is not using a whitelist.. Adding whitelist...");
                 Bukkit.getServer().setWhitelist(true);
             }
+
+            try {
+                if (loginPlayer.isBanned()) {
+                    this.logger.info("player is banned, falling back to default handling");
+                    loginPlayer.setWhitelisted(false);
+                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
+                    plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
+                    return;
+                }
+            } catch (Exception e) {
+                this.logger.warning("Error while checking if the player was banned:");
+                this.logger.warning(e.getMessage());
+            }
+
             if (!forceWhitelist) {
                 this.logger.warning("Server is not enforcing a whitelist...");
                 tx.setData("state", "no validation in place");
@@ -105,40 +121,9 @@ public class OnPlayerLogin implements Listener {
                 return;
             }
 
-            final Player loginPlayer = event.getPlayer();
-            final String uuid = loginPlayer.getUniqueId().toString();
-
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
-
             final boolean allowed = plugin.playerIsAllowed(loginPlayer.getUniqueId()) > 0;
-
-            if (bedData == null && javaData == null) {
-                this.logger.info("login player is not registered");
-
-                try {
-                    if (loginPlayer.isBanned()) {
-                        this.logger.info("login player is banned");
-                        loginPlayer.setWhitelisted(false);
-                        event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
-                    }
-                } catch (Exception e) {
-                    this.logger.warning("Error while checking if the player was banned:");
-                    this.logger.warning(e.getMessage());
-                }
-
-                if (!loginPlayer.isWhitelisted()) {
-                    this.logger.info("login player is not whitelisted");
-                    event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
-                }
-
-                else {
-                    this.logger.info("not registered player fallback to default event");
-                    tx.setData("state", "not registered player fallback to default event");
-                    tx.finish(SpanStatus.OK);
-                    return;
-                }
-            }
 
             if (javaData != null) {
                 javaData.setMcName(loginPlayer.getName());
@@ -151,20 +136,6 @@ public class OnPlayerLogin implements Listener {
                         + loginPlayer.getUniqueId().toString() + "&size=72&type=head/");
                 bedData.setMcName(PlayerDbApi.getXboxPseudo(loginPlayer.getUniqueId().toString()));
                 bedData.save(DaoManager.getBedrockDataDao());
-            }
-
-            // For a registered players
-            this.logger.info("login player is registered");
-            try {
-                if (loginPlayer.isBanned()) {
-                    this.logger.info("player is banned");
-                    loginPlayer.setWhitelisted(false);
-                    event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
-                    plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
-                }
-            } catch (Exception e) {
-                this.logger.warning("Error while checking if the player was banned:");
-                this.logger.warning(e.getMessage());
             }
 
             if (allowed) {
