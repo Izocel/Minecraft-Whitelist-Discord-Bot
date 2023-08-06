@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -61,19 +63,19 @@ public class Helper {
     }
 
     public static Integer asInteger(String string) {
-       try {
-        return Integer.parseInt(string);
-       } catch (Exception e) {
-        return null;
-       }
+        try {
+            return Integer.parseInt(string);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static Integer asInteger(String string, Integer defValue) {
-       try {
-        return Integer.parseInt(string);
-       } catch (Exception e) {
-        return defValue;
-       }
+        try {
+            return Integer.parseInt(string);
+        } catch (Exception e) {
+            return defValue;
+        }
     }
 
     public static boolean isAlphanumeric(String string) {
@@ -436,5 +438,55 @@ public class Helper {
             SentryService.captureEx(e);
             return null;
         }
+    }
+
+    public static JSONObject jsonGet(String key, JSONObject json) {
+        final String[] keys = key.split("\\.");
+        if (keys.length < 1) {
+            return json.getJSONObject(key);
+        }
+
+        for (int i = 0; i < keys.length; i++) {
+            json = json.getJSONObject(keys[i]);
+            if (json == null) {
+                return null;
+            }
+        }
+
+        return json;
+    }
+
+    public static String jsonGetString(String key, JSONObject json) {
+        final String[] keys = key.split("\\.");
+        if (keys.length < 1) {
+            return json.get(key).toString();
+        }
+
+        Object curJson = json;
+        for (int i = 0; i < keys.length; i++) {
+            curJson = json.get(keys[i]);
+            if (curJson == null) {
+                return null;
+            }
+        }
+
+        return curJson.toString();
+    }
+
+    public static JSONObject removeValue(JSONObject jsonObject, String[] keys) {
+        String currentKey = keys[0];
+
+        if (keys.length == 1 && jsonObject.has(currentKey)) {
+            jsonObject.remove(currentKey);
+            return jsonObject;
+        } else if (!jsonObject.has(currentKey)) {
+            return null;
+        }
+
+        JSONObject nestedJsonObjectVal = jsonObject.getJSONObject(currentKey);
+        int nextKeyIdx = 1;
+        String[] remainingKeys = Arrays.copyOfRange(keys, nextKeyIdx, keys.length);
+        JSONObject updatedNestedValue = removeValue(nestedJsonObjectVal, remainingKeys);
+        return jsonObject.put(currentKey, updatedNestedValue);
     }
 }
