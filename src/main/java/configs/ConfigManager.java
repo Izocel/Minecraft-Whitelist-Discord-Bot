@@ -3,6 +3,9 @@ package configs;
 import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
+import org.json.JSONObject;
+
+import helpers.Helper;
 import helpers.parsers.YamlFileParser;
 import services.sentry.SentryService;
 
@@ -10,8 +13,23 @@ public final class ConfigManager {
     private final String pluginVersion = "2023.6";
     private final String envType = "production";
 
+    private final String[] SENSIBLE_KEYS = {
+            "hidden",
+            "database.password",
+            "database.user",
+            "database.host",
+            "database.port",
+            "discord.botToken",
+            "api.keyStorePassword",
+            "api.keyStoreFile",
+            "api.apiKey",
+    };
+
+    private final String[] PRIVATE_KEYS = {};
+
     protected LinkedHashMap<String, Object> DEFAULTS = new LinkedHashMap<>();
     protected LinkedHashMap<String, Object> FROM_CONFIGS = new LinkedHashMap<>();
+    protected LinkedHashMap<String, Object> FROM_MAPS = new LinkedHashMap<>();
     boolean wasAltered = false;
     private Logger logger;
 
@@ -39,22 +57,31 @@ public final class ConfigManager {
         }
 
         LinkedHashMap<String, Object> discord = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("discord");
+        FROM_MAPS.put("discord", discord);
 
         LinkedHashMap<String, Object> discord_channels = (LinkedHashMap<String, Object>) discord.get("channels");
+        FROM_MAPS.put("discord_channels", discord_channels);
 
         LinkedHashMap<String, Object> discord_roles = (LinkedHashMap<String, Object>) discord.get("roles");
+        FROM_MAPS.put("discord_roles", discord_roles);
 
         LinkedHashMap<String, Object> database = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("database");
+        FROM_MAPS.put("database", database);
 
         LinkedHashMap<String, Object> minecraft = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("minecraft");
+        FROM_MAPS.put("minecraft", minecraft);
 
         LinkedHashMap<String, Object> features = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("features");
+        FROM_MAPS.put("features", features);
 
         LinkedHashMap<String, Object> api = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("api");
+        FROM_MAPS.put("api", api);
 
         LinkedHashMap<String, Object> linksCommands = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("linksCommands");
+        FROM_MAPS.put("linksCommands", linksCommands);
 
         LinkedHashMap<String, Object> misc = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("misc");
+        FROM_MAPS.put("misc", misc);
 
         FROM_CONFIGS.put("discordBotToken", discord.get("botToken"));
         FROM_CONFIGS.put("discordServerId", discord.get("serverId"));
@@ -111,6 +138,14 @@ public final class ConfigManager {
                 + get("dbHost") + ":"
                 + get("dbPort") + "/"
                 + get("dbName"));
+
+        final LinkedHashMap<String, Object> hidden = new LinkedHashMap<>() {
+        };
+        hidden.put("envType", this.envType);
+        hidden.put("pluginVersion", this.pluginVersion);
+        hidden.put("dbJdbcUrl", FROM_CONFIGS.get("dbJdbcUrl"));
+
+        FROM_MAPS.put("hidden", hidden);
     }
 
     public String get(String key, String defaultValue) {
@@ -142,6 +177,35 @@ public final class ConfigManager {
         return null;
     }
 
+    public Object getHasObject(String key, Object defaultValue) {
+        try {
+            var result = this.FROM_CONFIGS.get(key);
+            if (result != null) {
+                return result;
+            }
+
+            this.logger.info(key + " :: Was inexistent from configs falling back to default");
+            return defaultValue;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        this.logger.warning(key + " :: Error for this configs key");
+        return null;
+    }
+
+    public Object getHasObject(String key) {
+        try {
+            return this.FROM_CONFIGS.get(key);
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        this.logger.warning(key + " :: Error for this configs key");
+        return null;
+    }
+
     public LinkedHashMap<String, Object> getAsMap(String key) {
         try {
             return (LinkedHashMap<String, Object>) this.FROM_CONFIGS.get(key);
@@ -153,4 +217,36 @@ public final class ConfigManager {
         return null;
     }
 
+    public JSONObject toJsonPrivate() {
+        try {
+            return new JSONObject(FROM_MAPS);
+        } catch (Exception e) {
+            this.logger.warning("Could not convert private configs maps to json.");
+            SentryService.captureEx(e);
+        }
+
+        return null;
+    }
+
+    public JSONObject toJsonPublic() {
+        try {
+            JSONObject json = toJsonPrivate();
+
+            for (String key : SENSIBLE_KEYS) {
+                final String[] keys = key.split("\\.");
+                json = Helper.removeValue(json, keys);
+
+                if (json == null) {
+                    return null;
+                }
+            }
+
+            return json;
+        } catch (Exception e) {
+            this.logger.warning("Could not convert public configs maps to json:");
+            SentryService.captureEx(e);
+        }
+
+        return null;
+    }
 }

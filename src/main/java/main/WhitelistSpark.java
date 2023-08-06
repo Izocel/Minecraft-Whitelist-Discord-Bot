@@ -121,40 +121,7 @@ public class WhitelistSpark {
                 before("/*", (req, res) -> logger.info("Received an api call [server]:"));
 
                 get("/", (req, res) -> {
-                    res.type("text/html");
-                    final StringBuilder sb = new StringBuilder();
-                    
-                    sb.append("<bold> discordServerId: </bold> <small>" + configs.get("discordServerId") + "</small></br>");
-                    sb.append("<bold> discordAdminChanelId: </bold> <small>" + configs.get("discordAdminChanelId") + "</small></br>");
-                    sb.append("<bold> botLogChannelId: </bold> <small>" + configs.get("botLogChannelId") + "</small></br>");
-                    sb.append("<bold> javaLogChannelId: </bold> <small>" + configs.get("javaLogChannelId") + "</small></br>");
-                    sb.append("<bold> discordWelcomeChanelId: </bold> <small>" + configs.get("discordWelcomeChanelId") + "</small></br>");
-                    sb.append("<bold> discordWhitelistChanelId: </bold> <small>" + configs.get("discordWhitelistChanelId") + "</small></br>");
-                    sb.append("<bold> discordAdminRoleId: </bold> <small>" + configs.get("discordAdminRoleId") + "</small></br>");
-                    sb.append("<bold> discordModeratorRoleId: </bold> <small>" + configs.get("discordModeratorRoleId") + "</small></br>");
-                    sb.append("<bold> discordDevRoleId: </bold> <small>" + configs.get("discordDevRoleId") + "</small></br>");
-                    sb.append("<bold> discordHelperRoleId: </bold> <small>" + configs.get("discordHelperRoleId") + "</small></br>");
-                    sb.append("<bold> dbType: </bold> <small>" + configs.get("dbType") + "</small></br>");
-                    sb.append("<bold> dbHost: </bold> <small>" + configs.get("dbHost") + "</small></br>");
-                    sb.append("<bold> dbPort: </bold> <small>" + configs.get("dbPort") + "</small></br>");
-                    sb.append("<bold> dbName: </bold> <small>" + configs.get("dbName") + "</small></br>");
-                    sb.append("<bold> dbMaxConnection: </bold> <small>" + configs.get("dbMaxConnection") + "</small></br>");
-                    sb.append("<bold> dbMaxConnectionIDLE: </bold> <small>" + configs.get("dbMaxConnectionIDLE") + "</small></br>");
-                    sb.append("<bold> portJava: </bold> <small>" + configs.get("portJava") + "</small></br>");
-                    sb.append("<bold> portBedrock: </bold> <small>" + configs.get("portBedrock") + "</small></br>");
-                    sb.append("<bold> javaIp: </bold> <small>" + configs.get("javaIp") + "</small></br>");
-                    sb.append("<bold> bedrockIp: </bold> <small>" + configs.get("bedrockIp") + "</small></br>");
-                    sb.append("<bold> hoursToConfirmMcAccount: </bold> <small>" + configs.get("hoursToConfirmMcAccount") + "</small></br>");
-                    sb.append("<bold> showAllWorldsMeteo: </bold> <small>" + configs.get("showAllWorldsMeteo") + "</small></br>");
-                    sb.append("<bold> defaultLang: </bold> <small>" + configs.get("defaultLang") + "</small></br>");
-                    sb.append("<bold> api.appRoot: </bold> <small>" + configs.get("api.appRoot") + "</small></br>");
-                    sb.append("<bold> api.apiKey: </bold> <small>" + configs.get("api.apiKey") + "</small></br>");
-                    sb.append("<bold> api.localPort: </bold> <small>" + configs.get("api.localPort") + "</small></br>");
-                    sb.append("<bold> confirmLinkCmdName: </bold> <small>" + configs.get("confirmLinkCmdName") + "</small></br>");
-                    sb.append("<bold> minecraftInfosLink: </bold> <small>" + configs.get("minecraftInfosLink") + "</small></br>");
-                    sb.append("<bold> serverContactEmail: </bold> <small>" + configs.get("serverContactEmail") + "</small></br>");
-
-                    res.body(sb.toString());
+                    res.body(configs.toJsonPublic().toString());
                     return res.body();
                 });
             });
