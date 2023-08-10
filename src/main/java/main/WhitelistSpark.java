@@ -67,9 +67,8 @@ public class WhitelistSpark {
         return true;
     }
 
-    private static void enableCORS(final String origin, final String methods, final String headers) {
+    private static void enableCORS(final String methods, final String headers) {
 
-        // TODO: for each from configs
         options("*/*", (request, response) -> {
 
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -85,11 +84,12 @@ public class WhitelistSpark {
             return "OK";
         });
 
-        // TODO: for each from configs
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", origin);
+            response.header("Vary", "Origin");
+            response.header("Server", "NONE");
             response.header("Access-Control-Allow-Headers", headers);
             response.header("Access-Control-Request-Method", methods);
+            response.header("Access-Control-Allow-Origin", "https://wdmccentral.rvdprojects.com");
         });
     }
 
@@ -105,7 +105,7 @@ public class WhitelistSpark {
             logger.warning(e.getMessage());
         }
 
-        enableCORS("*", "*", "*");
+        enableCORS("*", "*");
         setApiPaths();
     }
 
