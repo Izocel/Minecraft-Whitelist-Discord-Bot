@@ -118,18 +118,18 @@ public class WhitelistSpark {
             });
 
             path("/server", () -> {
-                before("/*", (req, res) -> logger.info("Received an api call [server]:"));
+                before("*", (req, res) -> logger.info("Received an api call [server]:"));
 
-                get("/", (req, res) -> {
+                get("", (req, res) -> {
                     res.body(configs.toJsonPublic().toString());
                     return res.body();
                 });
             });
 
             path("/members", () -> {
-                before("/*", (req, res) -> logger.info("Received a api call [users]:"));
+                before("*", (req, res) -> logger.info("Received a api call [users]:"));
 
-                get("/", (req, res) -> {
+                get("", (req, res) -> {
                     final JSONArray usersData = DaoManager.getUsersDao().findAll();
                     final JSONArray data = new JSONArray();
 
@@ -161,11 +161,11 @@ public class WhitelistSpark {
             });
 
             path("/players", () -> {
-                before("/*", (req, res) -> logger.info("Received a api call [players]:"));
+                before("*", (req, res) -> logger.info("Received a api call [players]:"));
             });
 
             path("/mclookup", () -> {
-                before("/*", (req, res) -> logger.info("Received a api call [mclookup]:"));
+                before("*", (req, res) -> logger.info("Received a api call [mclookup]:"));
                 get("/:identity", (req, res) -> {
                     JSONArray data = new JSONArray();
                     JSONObject query = new JSONObject();
