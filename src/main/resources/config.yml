@@ -16,6 +16,11 @@ discord:
       devRoleId: "1021054460438523976",
       helperRoleId: "1021054460438523976",
     }
+  registrarMemberIds:
+    {
+      0: "258071819108614144",
+      1: "272924120142970892",
+    }
 database:
   {
     type: mysql,

@@ -1,8 +1,17 @@
 package discord;
 
+import java.sql.Array;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Logger;
+
+import org.jooq.JSON;
+import org.jooq.tools.json.JSONArray;
+import org.jooq.tools.json.JSONObject;
 
 import configs.ConfigManager;
 import io.sentry.ISpan;
@@ -37,7 +46,7 @@ public class GuildManager {
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("GuildManager");
-        
+
         this.configManager = plugin.getConfigManager();
         this.guild = plugin.getDiscordManager().getGuild();
         this.setupLanguage();
@@ -51,7 +60,7 @@ public class GuildManager {
         this.locale = this.guild.getLocale();
         this.lang = this.locale.getLanguage();
 
-        if(this.lang.length() < 1) {
+        if (this.lang.length() < 1) {
             this.lang = WhitelistDmc.LOCALES.getDefaultLang();
         }
     }
@@ -181,6 +190,32 @@ public class GuildManager {
 
     public TextChannel getJavaLogChannel() {
         return this.guild.getTextChannelById(this.javaLogChannelId);
+    }
+
+    public LinkedHashMap<String, Object> getNotifiableMembersMap() {
+        return this.configManager.getAsMap("discord.registrarMemberIds");
+    }
+
+    public LinkedList<Member> getNotifiableMembers() {
+		final LinkedList<Member> memberList = new LinkedList<>();
+
+        try {
+            final LinkedHashMap<String, Object> ids = this.getNotifiableMembersMap();
+            this.logger.info(ids.toString());
+            
+            for (int i = 0; i < ids.size(); i++) {
+                final Object id = ids.get(i);
+                final Member member = this.getGuild().getMemberById(id.toString());
+                if (member != null) {
+                    memberList.push(member);
+                }
+            }
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return memberList;
     }
 
     public boolean isOwner(String memberId) {

@@ -20,6 +20,7 @@ public final class ConfigManager {
             "database.host",
             "database.port",
             "discord.botToken",
+            "discord.registrarMemberIds",
             "api.keyStorePassword",
             "api.keyStoreFile",
             "api.apiKey",
@@ -96,6 +97,8 @@ public final class ConfigManager {
         FROM_CONFIGS.put("discordModeratorRoleId", discord_roles.get("moderatorRoleId"));
         FROM_CONFIGS.put("discordDevRoleId", discord_roles.get("devRoleId"));
         FROM_CONFIGS.put("discordHelperRoleId", discord_roles.get("helperRoleId"));
+        
+        FROM_CONFIGS.put("discord.registrarMemberIds", discord.get("registrarMemberIds"));
 
         FROM_CONFIGS.put("dbType", database.get("type"));
         FROM_CONFIGS.put("dbHost", database.get("host"));
