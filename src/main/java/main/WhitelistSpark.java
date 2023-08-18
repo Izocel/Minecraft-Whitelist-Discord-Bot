@@ -67,9 +67,8 @@ public class WhitelistSpark {
         return true;
     }
 
-    private static void enableCORS(final String origin, final String methods, final String headers) {
+    private static void enableCORS(final String methods, final String headers) {
 
-        // TODO: for each from configs
         options("*/*", (request, response) -> {
 
             String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
@@ -85,11 +84,12 @@ public class WhitelistSpark {
             return "OK";
         });
 
-        // TODO: for each from configs
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", origin);
+            response.header("Vary", "Origin");
+            response.header("Server", "NONE");
             response.header("Access-Control-Allow-Headers", headers);
             response.header("Access-Control-Request-Method", methods);
+            response.header("Access-Control-Allow-Origin", "https://wdmccentral.rvdprojects.com");
         });
     }
 
@@ -105,7 +105,7 @@ public class WhitelistSpark {
             logger.warning(e.getMessage());
         }
 
-        enableCORS("*", "*", "*");
+        enableCORS("*", "*");
         setApiPaths();
     }
 
@@ -118,18 +118,18 @@ public class WhitelistSpark {
             });
 
             path("/server", () -> {
-                before("/*", (req, res) -> logger.info("Received an api call [server]:"));
+                before("*", (req, res) -> logger.info("Received an api call [server]:"));
 
-                get("/", (req, res) -> {
+                get("", (req, res) -> {
                     res.body(configs.toJsonPublic().toString());
                     return res.body();
                 });
             });
 
             path("/members", () -> {
-                before("/*", (req, res) -> logger.info("Received a api call [users]:"));
+                before("*", (req, res) -> logger.info("Received a api call [users]:"));
 
-                get("/", (req, res) -> {
+                get("", (req, res) -> {
                     final JSONArray usersData = DaoManager.getUsersDao().findAll();
                     final JSONArray data = new JSONArray();
 
@@ -161,11 +161,11 @@ public class WhitelistSpark {
             });
 
             path("/players", () -> {
-                before("/*", (req, res) -> logger.info("Received a api call [players]:"));
+                before("*", (req, res) -> logger.info("Received a api call [players]:"));
             });
 
             path("/mclookup", () -> {
-                before("/*", (req, res) -> logger.info("Received a api call [mclookup]:"));
+                before("*", (req, res) -> logger.info("Received a api call [mclookup]:"));
                 get("/:identity", (req, res) -> {
                     JSONArray data = new JSONArray();
                     JSONObject query = new JSONObject();

@@ -3,3 +3,4 @@ flyway.defaultSchema=whitelist_dmc
 flyway.user=whitelist_dmc
 flyway.password=mysql
 flyway.cleanDisabled=false
+flyway.validateMigrationNaming=true
