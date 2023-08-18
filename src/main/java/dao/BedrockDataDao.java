@@ -47,7 +47,6 @@ public class BedrockDataDao extends BaseDao {
             return null;
         }
 
-
         return results;
     }
 
@@ -58,6 +57,7 @@ public class BedrockDataDao extends BaseDao {
         final String pseudo = sqlProps.optString("pseudo");
         final String uuid = sqlProps.optString("uuid");
         final String msgId = sqlProps.optString("msg_id");
+        final String avatarUrl = sqlProps.optString("avatar_url", null);
 
         final Object isConfirmed = sqlProps.opt("confirmed");
         final Object isAllowed = sqlProps.opt("allowed");
@@ -89,8 +89,8 @@ public class BedrockDataDao extends BaseDao {
                 id = -1;
 
                 String sql = "INSERT INTO " + this.tablename + " (user_id, pseudo, uuid, accepted_by, " +
-                        "revoked_by, msg_id, confirmed, allowed, created_at, updated_at) " +
-                        "VALUES (?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);";
+                        "revoked_by, msg_id, confirmed, allowed, avatar_url, created_at, updated_at) " +
+                        "VALUES (?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
                 pstmt.setInt(1, userId);
@@ -101,6 +101,7 @@ public class BedrockDataDao extends BaseDao {
                 pstmt.setString(6, msgId);
                 pstmt.setInt(7, confirmed);
                 pstmt.setInt(8, allowed);
+                pstmt.setObject(9, avatarUrl);
                 status = pstmt.executeUpdate();
                 ResultSet generatedKeys = pstmt.getGeneratedKeys();
 
@@ -115,7 +116,6 @@ public class BedrockDataDao extends BaseDao {
 
             // Update User
             else {
-
                 String sql = "UPDATE " + this.tablename + " SET " +
                         "user_id = ?," +
                         "pseudo = ?," +
@@ -124,7 +124,8 @@ public class BedrockDataDao extends BaseDao {
                         "revoked_by = ?," +
                         "msg_id = ?," +
                         "confirmed = ?," +
-                        "allowed = ? ," +
+                        "allowed = ?," +
+                        "avatar_url = ?," +
                         "updated_at = CURRENT_TIMESTAMP " +
                         "WHERE id = ?;";
 
@@ -137,12 +138,12 @@ public class BedrockDataDao extends BaseDao {
                 pstmt.setString(6, msgId);
                 pstmt.setInt(7, confirmed);
                 pstmt.setInt(8, allowed);
-                pstmt.setObject(9, id);
+                pstmt.setObject(9, avatarUrl);
+                pstmt.setObject(10, id);
                 status = pstmt.executeUpdate();
                 id = pstmt.getUpdateCount() > 0 ? id : -1;
                 pstmt.close();
                 this.closeConnection();
-
             }
 
         } catch (Exception e) {

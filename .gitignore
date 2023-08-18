@@ -115,6 +115,7 @@ run/
 .env
 
 *.bck
+*.jks
 flyaway.conf
 
 server_test/cache/*
@@ -123,6 +124,9 @@ server_test/libraries/*
 server_test/*World*/*
 server_test/versions/*
 server_test/logs/*
+
+src/main/resources/www/*
+server_test/plugins/WhitelistDmc/www/*
 
 server_test/plugins/Geyser-Spigot/*
 server_test/plugins/ViaBackwards/*

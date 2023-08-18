@@ -31,7 +31,7 @@ public class PlayerDbApi extends Api {
 
             if (!Helper.isMCUUID(uuid)) {
                 respoObj.put("code", "404");
-                respoObj.put("tested-uuid", uuid);
+                respoObj.put("tested-uuids", uuid);
                 respoObj.put("message",
                         "bad uuid format \n\tUse -> \n\t\t0c003c29-8675-4856-914b-9641e4b6bac3 \n\t\t 76561198963898147");
                 response.put(0, respoObj);
@@ -42,44 +42,47 @@ public class PlayerDbApi extends Api {
             }
 
             JSONArray dataX = null;
+            JSONArray dataS = null;
             try {
                 decimal = String.valueOf(Helper.hexToDecimal(uuid));
                 dataX = Fetcher.toJson(
                         Fetcher.fetch("GET", xboxEndpoint + decimal, null, null));
+
+                dataS = Fetcher.toJson(
+                        Fetcher.fetch("GET", steamEndpoint + decimal, null, null));
+
             } catch (Exception e) {
-                decimal = "(none) not valid for endpoint";
+                decimal = "(none) *Invalid";
             }
 
             JSONArray dataJ = Fetcher.toJson(
                     Fetcher.fetch("GET", minecraftEndpoint + uuid, null, null));
-            JSONArray dataS = Fetcher.toJson(
-                    Fetcher.fetch("GET", steamEndpoint + decimal, null, null));
 
             if (dataJ != null
                     && dataJ.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Java",
+                dataObj.put("Java",
                         dataJ.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
-            if (dataX != null && decimal != null
+            if (dataX != null
                     && dataX.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Xbox",
+                dataObj.put("Xbox",
                         dataX.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
-            if (dataS != null && decimal != null
+            if (dataS != null
                     && dataS.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Steam",
+                dataObj.put("Steam",
                         dataS.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
 
             if (dataJ == null && dataX == null && dataS == null) {
                 respoObj.clear();
                 respoObj.put("code", "404");
-                respoObj.put("tested-uuid", uuid + " and xbox: " + decimal);
+                respoObj.put("tested-uuids", uuid + " and xbox: " + decimal);
                 respoObj.put("message", "No users where found with this uuid");
                 response.put(0, respoObj);
             } else {
                 respoObj.put("code", "200");
-                respoObj.put("tested-uuid", uuid + " and xbox: " + decimal);
+                respoObj.put("tested-uuids", uuid + " and xbox: " + decimal);
                 respoObj.put("message", "success");
                 response.put(0, respoObj);
 
@@ -102,7 +105,7 @@ public class PlayerDbApi extends Api {
             e.printStackTrace();
             respoObj.clear();
             respoObj.put("code", "500");
-            respoObj.put("tested-uuid", uuid + " and xbox: " + decimal);
+            respoObj.put("tested-uuids", new String[] { uuid, decimal });
             respoObj.put("message", "internal error");
             response.put(0, respoObj);
 
@@ -141,12 +144,12 @@ public class PlayerDbApi extends Api {
 
             if (dataJ != null
                     && dataJ.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Java",
+                dataObj.put("Java",
                         dataJ.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
             if (dataX != null
                     && dataX.getJSONObject(0).getString("code").contains("player.found")) {
-                dataObj.append("Xbox",
+                dataObj.put("Xbox",
                         dataX.getJSONObject(0).getJSONObject("data").getJSONObject("player"));
             }
 

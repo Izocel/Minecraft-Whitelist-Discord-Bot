@@ -135,6 +135,8 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
             logger.info(this.getfiglet());
 
+            WhitelistSpark.main(this, this.configManager);
+
         } catch (Exception e) {
             try {
                 transaction.setThrowable(e);

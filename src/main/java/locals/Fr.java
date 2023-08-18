@@ -16,8 +16,8 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("ISACTIVE", "est actif");
         this.DEFAULTS.put("ISINACTIVE", "est inactif");
         this.DEFAULTS.put("DOREGISTER", "Enregistrer vous sur le serveur Discord®");
-        this.DEFAULTS.put("MINECRAFT_CONFIRMATIONONITSWAY",
-                "Vérifiez vos messages Discord® pour confirmer votre inscription...");
+        this.DEFAULTS.put("MINECRAFT_ALREADYCONFIRMED", "Votre compte est déjà confirmé...");
+        this.DEFAULTS.put("MINECRAFT_CONFIRMATIONONITSWAY","Vérifiez vos messages Discord® pour confirmer votre inscription...");
         this.DEFAULTS.put("ACCOUNTSINFOS", "Informations de comptes");
         this.DEFAULTS.put("INFORMATION", "Informations");
         this.DEFAULTS.put("SERVER", "Serveur");

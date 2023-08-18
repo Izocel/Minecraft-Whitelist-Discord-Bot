@@ -138,7 +138,6 @@ GUILDONLY_CMD: ❌ Cette commande est disponible seulement dans les cannaux text
 USERONLY_CMD: ❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®.
 ROLE_NOT_ALLOWED: 🔒 Dommage vous n'avez pas les roles nécéssaires... 🔒
 SERVER_IS_UP: Le serveur est up and running boyyssss!
-
 CUSTOM_LINK_LINK1_ALIAS: linkonefr
 CUSTOM_LINK_LINK1_DESC: desc LINK1 fr
 CUSTOM_LINK_LINK1_LINK: https://link1-fr.ca
@@ -154,3 +153,4 @@ CUSTOM_LINK_LINK3_DESC: desc LINK3 fr
 CUSTOM_LINK_LINK3_LINK: https://link3-fr.ca
 CUSTOM_LINK_LINK3_TXT_MC: la valeur du text sur minecraft link3-fr
 CUSTOM_LINK_LINK3_TXT_DISC: la valeur du text sur discord link3-fr
+MINECRAFT_ALREADYCONFIRMED: Votre compte est déjà confirmé...

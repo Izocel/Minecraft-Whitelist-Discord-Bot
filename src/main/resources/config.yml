@@ -16,6 +16,11 @@ discord:
       devRoleId: "1021054460438523976",
       helperRoleId: "1021054460438523976",
     }
+  registrarMemberIds:
+    {
+      0: "258071819108614144",
+      1: "272924120142970892",
+    }
 database:
   {
     type: mysql,
@@ -36,11 +41,13 @@ minecraft:
     bedrockIp: rvdprojects.synology.me,
   }
 features: { maxHoursFor2FA: "24", showAllWorldsMeteo: "true", defaultLang: FR }
-misc:
+api:
   {
-    confirmLinkCmdName: w-link,
-    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
-    serverContactEmail: webdevteam@rvdprojects.com,
+    appRoot: "www",
+    localPort: 8084,
+    apiKey: "276931890735218689",
+    keyStoreFile: "keystore.jks",
+    keyStorePassword: "password",
   }
 linksCommands:
   linkOne:
@@ -79,3 +86,9 @@ linksCommands:
       minecraftTextTradKey: CUSTOM_LINK_LINK3_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK3_TXT_DISC,
     }
+misc:
+  {
+    confirmLinkCmdName: w-link,
+    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
+    serverContactEmail: webdevteam@rvdprojects.com,
+  }

@@ -26,7 +26,7 @@ public class UsersDao extends BaseDao {
         this.tablename3 = "wdmc_bedrock_data";
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
-    
+
     public User findUser(Integer id) {
         JSONObject res = this.find(id);
         return res == null ? null : new User(res);
@@ -37,6 +37,7 @@ public class UsersDao extends BaseDao {
         int id = sqlProps.optInt("id");
         final String discordId = sqlProps.optString("discord_id");
         final String discordTag = sqlProps.optString("discord_tag");
+        final String avatarUrl = sqlProps.optString("avatar_url");
         final String lang = sqlProps.optString("lang");
 
         try {
@@ -45,13 +46,14 @@ public class UsersDao extends BaseDao {
             // New user
             if (id < 1) {
 
-                String sql = "INSERT INTO " + this.tablename + " (discord_id, discord_tag, lang) " +
-                    "VALUES (?,?,?);";
+                String sql = "INSERT INTO " + this.tablename + " (discord_id, discord_tag, avatar_url, lang) " +
+                        "VALUES (?,?,?,?);";
 
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
                 pstmt.setString(1, discordId);
                 pstmt.setString(2, discordTag);
-                pstmt.setObject(3, lang.length() > 0 ? lang : null);
+                pstmt.setString(3, avatarUrl.length() > 0 ? avatarUrl : null);
+                pstmt.setObject(4, lang.length() > 0 ? lang : null);
                 status = pstmt.executeUpdate();
                 ResultSet generatedKeys = pstmt.getGeneratedKeys();
 
@@ -65,10 +67,11 @@ public class UsersDao extends BaseDao {
             }
 
             // Update User
-            else if(this.findUser(id) != null){
+            else if (this.findUser(id) != null) {
                 String sql = "UPDATE " + this.tablename + " SET " +
                         "discord_id = ?," +
                         "discord_tag = ?," +
+                        "avatar_url = ?," +
                         "lang = ?," +
                         "updated_at = CURRENT_TIMESTAMP " +
                         "WHERE id = ?;";
@@ -76,13 +79,13 @@ public class UsersDao extends BaseDao {
                 final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
                 pstmt.setString(1, discordId);
                 pstmt.setString(2, discordTag);
-                pstmt.setObject(3, lang.length() > 0 ? lang : null);
-                pstmt.setInt(4, id);
+                pstmt.setString(3, avatarUrl.length() > 0 ? avatarUrl : null);
+                pstmt.setObject(4, lang.length() > 0 ? lang : null);
+                pstmt.setInt(5, id);
                 status = pstmt.executeUpdate();
                 id = pstmt.getUpdateCount() > 0 ? id : -1;
                 pstmt.close();
                 this.closeConnection();
-
             }
 
         } catch (Exception e) {

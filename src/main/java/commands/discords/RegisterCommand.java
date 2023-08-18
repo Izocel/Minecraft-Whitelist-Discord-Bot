@@ -2,6 +2,7 @@ package commands.discords;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -23,6 +24,7 @@ import models.JavaData;
 import models.User;
 
 import java.awt.*;
+import java.util.LinkedList;
 
 public class RegisterCommand extends BaseCmd {
 
@@ -223,8 +225,21 @@ public class RegisterCommand extends BaseCmd {
                     + "\n" + useTranslator("INFO_PLZ_AWAIT");
         }
 
-        event.reply(replyJava + "\n\n" + replyBedrock).setEphemeral(true).submit(true);
-        tx.setData("state", "Registration request sent succesfully.");
+        final String replyMsg = replyJava + "\n\n" + replyBedrock;
+        final String registrarMsg = "🔔🔔 **" + member.getEffectiveName() + " is awaiting for registration:** 🔔🔔" +
+                "\n\t`Discord-Server`: " + guild.getName() +
+                "\n\t`Java`: " + pseudoJava +
+                "\n\t`Bedrock`: " + pseudoBedrock;
+
+        LinkedList<Member> registrars = plugin.getGuildManager().getNotifiableMembers();
+        for (Member member : registrars) {
+            this.plugin.getDiscordManager().jda.openPrivateChannelById(member.getUser().getId()).queue(channel -> {
+                channel.sendMessage(registrarMsg).submit(true).isDone();
+            });
+        }
+
+        event.reply(replyMsg).setEphemeral(true).submit(true);
+        tx.setData("state", "Registration request sent successfully.");
         tx.finish(SpanStatus.OK);
     }
 

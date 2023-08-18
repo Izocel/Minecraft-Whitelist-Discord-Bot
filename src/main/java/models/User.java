@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Collection;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,8 +20,11 @@ public class User extends BaseModel {
 
     private JSONArray javaData = new JSONArray();
     private JSONArray bedData = new JSONArray();
+    private String avatarUrl;
 
-    public User() {}
+    public User() {
+    }
+
     public User(String discordId, String discordTag) {
         this.setDiscordId(discordId);
         this.setDiscordTag(discordTag);
@@ -30,6 +35,7 @@ public class User extends BaseModel {
         this.id = json.getInt("id");
         this.discordId = json.getString("discord_id");
         this.discordTag = json.getString("discord_tag");
+        this.avatarUrl = json.optString("avatar_url");
         this.createdAt = json.optString("created_at");
         this.updatedAt = json.optString("updated_at");
         this.lang = json.getString("lang");
@@ -51,8 +57,16 @@ public class User extends BaseModel {
         this.discordId = discordId;
     }
 
+    public void setAvatarUrl(String url) {
+        this.avatarUrl = url;
+    }
+
     public String getDiscordTag() {
         return this.discordTag;
+    }
+
+    public String getAvatarUrl() {
+        return this.avatarUrl;
     }
 
     public void setDiscordTag(String discordTag) {
@@ -80,7 +94,7 @@ public class User extends BaseModel {
     }
 
     public void setLang(String lang) {
-        if(WhitelistDmc.LOCALES.isUserSupported(lang))
+        if (WhitelistDmc.LOCALES.isUserSupported(lang))
             this.lang = lang.toUpperCase();
     }
 
@@ -92,10 +106,11 @@ public class User extends BaseModel {
             jsonObj.put("lang", this.lang);
             jsonObj.put("discord_id", this.discordId);
             jsonObj.put("discord_tag", this.discordTag);
+            jsonObj.put("avatar_url", this.avatarUrl);
             jsonObj.put("created_at", this.createdAt);
             jsonObj.put("updated_at", this.updatedAt);
-            jsonObj.putOnce("javaData", this.javaData);
-            jsonObj.putOnce("bedData", this.bedData);
+            jsonObj.put("javaData", this.javaData);
+            jsonObj.put("bedData", this.bedData);
 
         } catch (Exception e) {
             SentryService.captureEx(e);
@@ -112,6 +127,7 @@ public class User extends BaseModel {
             copied.id = userObj.id;
             copied.discordId = userObj.discordId;
             copied.discordTag = userObj.discordTag;
+            copied.avatarUrl = userObj.avatarUrl;
             copied.lang = userObj.lang;
             copied.createdAt = userObj.createdAt;
             copied.updatedAt = userObj.updatedAt;
@@ -145,26 +161,36 @@ public class User extends BaseModel {
         final net.dv8tion.jda.api.entities.User userDc = member.getUser();
         final String discordId = userDc.getId();
         final String discordTag = userDc.getAsTag();
+        final String avatarUrl = userDc.getAvatarUrl();
 
         User user = DaoManager.getUsersDao().findByDiscordId(discordId);
 
         if (user == null || user.getId() < 1) {
             user = new User(discordId, discordTag);
         }
-        
+
         user.setDiscordTag(discordTag);
+        user.setAvatarUrl(avatarUrl);
         final Integer userId = user.saveUser();
 
-        if(userId < 1) {
+        if (userId < 1) {
             return null;
         }
 
         return getFromMember(member);
     }
 
+    public JSONArray getJavaData() {
+        return this.javaData;
+    }
+
+    public JSONArray getBedrockData() {
+        return this.bedData;
+    }
+
     public JavaData getJavaData(String uuid) {
         for (int i = 0; i < javaData.length(); i++) {
-            if(javaData.getJSONObject(i).optString("uuid").equals(uuid))
+            if (javaData.getJSONObject(i).optString("uuid").equals(uuid))
                 return new JavaData(javaData.getJSONObject(i));
         }
         return null;
@@ -172,7 +198,7 @@ public class User extends BaseModel {
 
     public BedrockData getBedrockData(String uuid) {
         for (int i = 0; i < javaData.length(); i++) {
-            if(bedData.getJSONObject(i).optString("uuid").equals(uuid))
+            if (bedData.getJSONObject(i).optString("uuid").equals(uuid))
                 return new BedrockData(bedData.getJSONObject(i));
         }
         return null;
@@ -197,17 +223,17 @@ public class User extends BaseModel {
     public boolean isAllowed(String type, String uuid) {
         type = type != null ? type.toLowerCase() : "all";
 
-        if(uuid == null) {
+        if (uuid == null) {
             return false;
         }
 
         switch (type) {
             case "java":
                 return isAllowedJava(uuid);
-            
+
             case "bedrock":
                 return isAllowedBedrock(uuid);
-        
+
             default:
                 return false;
         }
