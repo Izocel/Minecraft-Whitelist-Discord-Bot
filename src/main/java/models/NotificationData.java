@@ -22,15 +22,14 @@ public class NotificationData extends Object {
     // "https://rvdprojects.synology.me:3000/#/dashboard" }]
     public JSONArray actions = new JSONArray();
 
-    public NotificationData(String title, String message, String topic) {
+    public NotificationData(String title, String message) {
         this.title = title;
-        this.topic = topic;
         this.message = message;
     }
 
     public Object addViewAction(String actionLabel, String actionUrl) {
         final JSONObject action = new JSONObject();
-        action.put("action", action);
+        action.put("action", "view");
         action.put("label", actionLabel);
         action.put("url", actionUrl);
 
@@ -53,8 +52,8 @@ public class NotificationData extends Object {
             jsonObj.put("delay", this.delay);
             jsonObj.put("icon", this.icon);
 
-            // jsonObj.put("actions", this.actions);
-            // jsonObj.put("tags", this.tags);
+            jsonObj.put("tags", this.tags);
+            jsonObj.put("actions", this.actions);
         } catch (Exception e) {
             SentryService.captureEx(e);
         }

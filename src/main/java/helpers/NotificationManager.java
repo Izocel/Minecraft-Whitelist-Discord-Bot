@@ -5,54 +5,97 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import org.jooq.tools.json.JSONObject;
+
 import configs.ConfigManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import main.WhitelistDmc;
 import models.NotificationData;
+import services.sentry.SentryService;
 
 public class NotificationManager {
-    private final ConfigManager configs;
-    private final WhitelistDmc plugin;
-    private final Logger logger;
-    private final String url;
-    private final String emailGroup;
-    public final LinkedHashMap<String, Object> topics;
-    public String registrationTopic = "WDMC-Registration";
-    private Map<String, String> headers;
+    private static ConfigManager configs;
+    private static WhitelistDmc plugin;
+    private static Logger logger;
+    private static String url;
+    private static String emailGroup;
+    public static LinkedHashMap<String, Object> topics;
+    public static String registrationTopic = "WDMC-Registration";
+    private static Map<String, String> headers;
 
     public NotificationManager(WhitelistDmc plugin) {
-        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
+        NotificationManager.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("NotificationManager");
 
-        this.plugin = plugin;
-        this.configs = plugin.getConfigManager();
+        NotificationManager.plugin = plugin;
+        NotificationManager.configs = plugin.getConfigManager();
 
-        final String API_TOKEN = this.configs.get("notificationsApi.token");
-        this.url = this.configs.get("notificationsApi.ntfyUrl");
-        this.emailGroup = this.configs.get("notificationsApi.emailGroup");
-        this.topics = this.configs.getAsMap("notificationsApi.topics");
+        final String API_TOKEN = NotificationManager.configs.get("notificationsApi.token");
+        NotificationManager.url = NotificationManager.configs.get("notificationsApi.ntfyUrl");
+        NotificationManager.emailGroup = NotificationManager.configs.get("notificationsApi.emailGroup");
+        NotificationManager.topics = NotificationManager.configs.getAsMap("notificationsApi.topics");
 
-        this.headers = new LinkedHashMap<>();
-        this.headers.put("Authorization", "Bearer " + API_TOKEN);
+        NotificationManager.headers = new LinkedHashMap<>();
+        NotificationManager.headers.put("Authorization", "Bearer " + API_TOKEN);
 
-        final String registrationTopic = this.topics.get("registration").toString();
+        final String registrationTopic = NotificationManager.topics.get("registration").toString();
         if (registrationTopic != null) {
-            this.registrationTopic = registrationTopic;
+            NotificationManager.registrationTopic = registrationTopic;
         }
 
         process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
-    public final String postFullNotification(NotificationData data) {
-        data.url = this.url;
-        data.email = this.emailGroup;
-        final String jsonData = data.toJson().toString();
+    public static final JSONObject postRegistrationNotification(NotificationData data, Boolean putEmail) {
+        var resp = new JSONObject();
+        resp.put("status", 500);
+        resp.put("data", null);
 
-        return BypassedFetcher.fetch(Fetcher.POST, this.url, Optional.ofNullable(jsonData),
-                Optional.ofNullable(this.headers));
+        try {
+            data.url = NotificationManager.url;
+            data.email = NotificationManager.emailGroup;
+            data.topic = NotificationManager.registrationTopic;
+
+            if (putEmail == false) {
+                data.email = null;
+            }
+
+            final String jsonData = data.toJson().toString();
+            final String respData = BypassedFetcher.fetch(
+                    Fetcher.POST, NotificationManager.url,
+                    Optional.ofNullable(jsonData),
+                    Optional.ofNullable(NotificationManager.headers));
+
+            final var outData = Fetcher.toJson(respData).getJSONObject(0);
+            final String errorMsg = outData.optString("error");
+            final Integer errorCode = outData.optInt("http");
+            final Integer time = outData.optInt("time");
+
+            if (!errorMsg.isEmpty()) {
+                logger.warning("Notification delivery error: " + errorMsg);
+                resp.put("error", errorMsg);
+                resp.put("status", errorCode != null ? errorCode : "500");
+                return resp;
+            }
+
+            if (time.toString().isEmpty()) {
+                logger.warning("Notification response error: response was invalid (time not found).");
+                resp.put("error", "Notification request response was invalid (time not found).");
+                resp.put("status", "204");
+                return resp;
+            }
+
+            resp.put("data", outData);
+            resp.put("status", 200);
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+
+        return resp;
     }
 
 }

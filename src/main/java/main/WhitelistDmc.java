@@ -203,10 +203,6 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         return this.bukkitManager;
     }
 
-    public final NotificationManager getNotificationManager() {
-        return this.notificationManager;
-    }
-
     public final SentryService getSentryService() {
         return this.sentryService;
     }
