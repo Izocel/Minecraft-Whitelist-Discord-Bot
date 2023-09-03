@@ -201,7 +201,6 @@ public class GuildManager {
 
         try {
             final LinkedHashMap<String, Object> ids = this.getNotifiableMembersMap();
-            this.logger.info(ids.toString());
             
             for (int i = 0; i < ids.size(); i++) {
                 final Object id = ids.get(i);
