@@ -8,8 +8,10 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import services.sentry.SentryService;
 
@@ -47,8 +49,19 @@ public class Fetcher {
                     .thenApply(HttpResponse::body).join();
 
         } catch (Exception e) {
+            Logger logger = Logger.getLogger("WDMC:" + BypassedFetcher.class.getSimpleName());
+            if (responseContent == null) {
+                var resp = new JSONObject();
+                resp.put("error", "Server did not respond...");
+                resp.put("http", 404);
+
+                logger.warning("Server did not respond...");
+                responseContent = resp.toString();
+            }
+
             SentryService.captureEx(e);
         }
+
         return responseContent;
     }
 
@@ -76,7 +89,7 @@ public class Fetcher {
 
     public static final JSONArray toJson(String responseContent) {
         try {
-            if (!responseContent.startsWith("[")) {
+            if (responseContent != null && !responseContent.startsWith("[")) {
                 responseContent = "[" + responseContent + "]";
             }
             return new JSONArray(responseContent);
