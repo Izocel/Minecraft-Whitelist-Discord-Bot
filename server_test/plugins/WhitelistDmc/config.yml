@@ -16,11 +16,7 @@ discord:
       devRoleId: "1021054460438523976",
       helperRoleId: "1021054460438523976",
     }
-  registrarMemberIds:
-    {
-      0: "258071819108614144",
-      1: "272924120142970892",
-    }
+  registrarMemberIds: { 0: "258071819108614144", 1: "272924120142970892" }
 database:
   {
     type: mysql,
@@ -47,7 +43,14 @@ api:
     localPort: 8084,
     apiKey: "276931890735218689",
     keyStoreFile: "keystore.jks",
-    keyStorePassword: "password"
+    keyStorePassword: "password",
+  }
+notificationsApi:
+  {
+    ntfyUrl: "https://rvdprojects.synology.me:8890",
+    token: "tk_q9xj4ixun19rebzfudceg7nk63ptf",
+    topics: { registration: "Test-WDMC" },
+    emailGroup: "webdevteam@rvdprojects.com",
   }
 linksCommands:
   linkOne:
@@ -91,4 +94,5 @@ misc:
     confirmLinkCmdName: w-link,
     minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
     serverContactEmail: webdevteam@rvdprojects.com,
+    adminPanelUrl: "https://rvdprojects.synology.me:3000",
   }
