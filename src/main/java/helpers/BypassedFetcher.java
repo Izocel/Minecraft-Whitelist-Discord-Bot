@@ -6,14 +6,18 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.security.SecureRandom;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 
 import org.json.JSONArray;
 
 import services.sentry.SentryService;
 
-public class Fetcher {
+public class BypassedFetcher {
     static final String POST = "POST";
     static final String GET = "GET";
     static final String PUT = "PUT";
@@ -22,9 +26,13 @@ public class Fetcher {
     public static String fetch(String method, String url, Optional<String> data,
             Optional<Map<String, String>> additionalHeaders) {
         String responseContent = null;
+
         try {
+            SSLContext sslContext = SSLContext.getInstance("SSL"); // OR TLS
+            sslContext.init(null, new TrustManager[] { new helpers.TrustManager() }, new SecureRandom());
+            HttpClient client = HttpClient.newBuilder().sslContext(sslContext).build();
+
             method = useTypeSwitch(method);
-            HttpClient client = HttpClient.newHttpClient();
             Builder builder = HttpRequest.newBuilder();
             HttpRequest request = null;
 

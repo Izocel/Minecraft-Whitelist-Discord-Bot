@@ -14,6 +14,7 @@ import dao.DaoManager;
 import db.Migrator;
 import discord.DiscordManager;
 import discord.GuildManager;
+import helpers.NotificationManager;
 import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
@@ -31,6 +32,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
     private ConfigManager configManager;
     private DiscordManager discordManager;
     private DaoManager daoManager;
+    private NotificationManager notificationManager;
 
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
@@ -122,6 +124,9 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             bukkitManager = new BukkitManager(this);
             logger.info("LOADED: BukkitManager");
 
+            notificationManager = new NotificationManager(this);
+            logger.info("LOADED: NotificationManager");
+
             updateAllPlayers();
             logger.info("UPDATED PLAYERS CACHE");
 
@@ -196,6 +201,10 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
     public final BukkitManager getBukkitManager() {
         return this.bukkitManager;
+    }
+
+    public final NotificationManager getNotificationManager() {
+        return this.notificationManager;
     }
 
     public final SentryService getSentryService() {
