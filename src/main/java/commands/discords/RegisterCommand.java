@@ -13,6 +13,7 @@ import services.api.PlayerDbApi;
 import dao.DaoManager;
 import discord.GuildManager;
 import helpers.Helper;
+import helpers.NotificationManager;
 import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
@@ -21,6 +22,7 @@ import services.sentry.SentryService;
 import main.WhitelistDmc;
 import models.BedrockData;
 import models.JavaData;
+import models.NotificationData;
 import models.User;
 
 import java.awt.*;
@@ -226,17 +228,23 @@ public class RegisterCommand extends BaseCmd {
         }
 
         final String replyMsg = replyJava + "\n\n" + replyBedrock;
-        final String registrarMsg = "🔔🔔 **" + member.getEffectiveName() + " is awaiting for registration:** 🔔🔔" +
-                "\n\t`Discord-Server`: " + guild.getName() +
-                "\n\t`Java`: " + pseudoJava +
-                "\n\t`Bedrock`: " + pseudoBedrock;
+        final String registrarTitle = "🤖 " + member.getEffectiveName() + " is awaiting for registration.";
+        final String registrarMsg = "\n\t`Discord-UserId`: " + member.getId() +
+                "\n\t`Pseudo-Java`: " + pseudoJava +
+                "\n\t`Pseudo-Bedrock`: " + pseudoBedrock +
+                "\n\t`Discord-Server`: " + guild.getName();
 
         LinkedList<Member> registrars = plugin.getGuildManager().getNotifiableMembers();
         for (Member member : registrars) {
             this.plugin.getDiscordManager().jda.openPrivateChannelById(member.getUser().getId()).queue(channel -> {
-                channel.sendMessage(registrarMsg).submit(true).isDone();
+                channel.sendMessage("**" + registrarTitle + "**" + registrarMsg).submit(true).isDone();
             });
         }
+
+        final NotificationData notification = new NotificationData(registrarTitle, registrarMsg);
+        notification.addViewAction("Admin panel", "https://rvdprojects.synology.me:3000/#/dashboard");
+        notification.markdown = true;
+        NotificationManager.postRegistrationNotification(notification, true);
 
         event.reply(replyMsg).setEphemeral(true).submit(true);
         tx.setData("state", "Registration request sent successfully.");
