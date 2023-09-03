@@ -5,9 +5,9 @@ import java.util.logging.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
-import org.json.JSONArray;
+import org.jooq.tools.json.JSONObject;
 
-import helpers.Fetcher;
+import helpers.NotificationManager;
 import locals.LocalManager;
 import main.WhitelistDmc;
 import models.NotificationData;
@@ -35,16 +35,12 @@ public class OnServerLoad implements Listener {
             this.plugin.getGuildManager().getBotLogChannel()
                     .sendMessage(sb.toString()).submit(true);
 
-            final var nf = plugin.getNotificationManager();
-            final var notification = new NotificationData(title, msg, nf.registrationTopic);
+            final var notification = new NotificationData(title, msg);
             notification.addViewAction("Admin panel", "https://rvdprojects.synology.me:3000/#/dashboard");
-            notification.icon = "https://rvdprojects.synology.me:3000/favicon.ico";
             notification.markdown = true;
-            notification.tags.add("bot");
+            notification.tags.add("robot");
 
-            final String resp = nf.postFullNotification(notification);
-            final JSONArray json = Fetcher.toJson(resp);
-            this.logger.warning(json.toString());
+            final JSONObject resp = NotificationManager.postRegistrationNotification(notification, false);
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
