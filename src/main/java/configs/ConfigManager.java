@@ -24,6 +24,7 @@ public final class ConfigManager {
             "api.keyStorePassword",
             "api.keyStoreFile",
             "api.apiKey",
+            "notificationsApi.token"
     };
 
     private final String[] PRIVATE_KEYS = {};
@@ -78,6 +79,9 @@ public final class ConfigManager {
         LinkedHashMap<String, Object> api = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("api");
         FROM_MAPS.put("api", api);
 
+        LinkedHashMap<String, Object> notificationsApi = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("notificationsApi");
+        FROM_MAPS.put("notificationsApi", api);
+
         LinkedHashMap<String, Object> linksCommands = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("linksCommands");
         FROM_MAPS.put("linksCommands", linksCommands);
 
@@ -97,7 +101,7 @@ public final class ConfigManager {
         FROM_CONFIGS.put("discordModeratorRoleId", discord_roles.get("moderatorRoleId"));
         FROM_CONFIGS.put("discordDevRoleId", discord_roles.get("devRoleId"));
         FROM_CONFIGS.put("discordHelperRoleId", discord_roles.get("helperRoleId"));
-        
+
         FROM_CONFIGS.put("discord.registrarMemberIds", discord.get("registrarMemberIds"));
 
         FROM_CONFIGS.put("dbType", database.get("type"));
@@ -125,11 +129,17 @@ public final class ConfigManager {
         FROM_CONFIGS.put("api.keyStoreFile", api.get("keyStoreFile"));
         FROM_CONFIGS.put("api.keyStorePassword", api.get("keyStorePassword"));
 
+        FROM_CONFIGS.put("notificationsApi.ntfyUrl", notificationsApi.get("ntfyUrl"));
+        FROM_CONFIGS.put("notificationsApi.token", notificationsApi.get("token"));
+        FROM_CONFIGS.put("notificationsApi.topics", notificationsApi.get("topics"));
+        FROM_CONFIGS.put("notificationsApi.emailGroup", notificationsApi.get("emailGroup"));
+
         FROM_CONFIGS.put("linksCommands", linksCommands);
 
         FROM_CONFIGS.put("confirmLinkCmdName", misc.get("confirmLinkCmdName"));
         FROM_CONFIGS.put("minecraftInfosLink", misc.get("minecraftInfosLink"));
         FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
+        FROM_CONFIGS.put("adminPanelUrl", misc.get("adminPanelUrl"));
         this.setHidden();
     }
 
