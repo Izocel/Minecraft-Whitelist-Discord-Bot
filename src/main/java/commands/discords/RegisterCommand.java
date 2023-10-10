@@ -242,9 +242,10 @@ public class RegisterCommand extends BaseCmd {
         }
 
         final NotificationData notification = new NotificationData(registrarTitle, registrarMsg);
+        notification.topic = NotificationManager.registrationTopic;
         notification.addViewAction("Admin panel", "https://rvdprojects.synology.me:3000/#/dashboard");
         notification.markdown = true;
-        NotificationManager.postRegistrationNotification(notification, true);
+        NotificationManager.postNotification(notification, true);
 
         event.reply(replyMsg).setEphemeral(true).submit(true);
         tx.setData("state", "Registration request sent successfully.");
