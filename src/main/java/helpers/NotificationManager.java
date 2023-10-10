@@ -22,6 +22,8 @@ public class NotificationManager {
     private static String emailGroup;
     public static LinkedHashMap<String, Object> topics;
     public static String registrationTopic = "WDMC-Registration";
+    public static String guildJoinTopic = "WDMC-GuildJoin";
+    public static String miscTopic = "WDMC-Misc";
     private static Map<String, String> headers;
 
     public NotificationManager(WhitelistDmc plugin) {
@@ -45,11 +47,21 @@ public class NotificationManager {
             NotificationManager.registrationTopic = registrationTopic;
         }
 
+        final String guildJoinTopic = NotificationManager.topics.get("guildJoin").toString();
+        if (guildJoinTopic != null) {
+            NotificationManager.guildJoinTopic = guildJoinTopic;
+        }
+
+        final String miscTopic = NotificationManager.topics.get("misc").toString();
+        if (miscTopic != null) {
+            NotificationManager.miscTopic = miscTopic;
+        }
+
         process.setStatus(SpanStatus.OK);
         process.finish();
     }
 
-    public static final JSONObject postRegistrationNotification(NotificationData data, Boolean putEmail) {
+    public static final JSONObject postNotification(NotificationData data, Boolean putEmail) {
         var resp = new JSONObject();
         resp.put("status", 500);
         resp.put("data", null);
@@ -57,7 +69,10 @@ public class NotificationManager {
         try {
             data.url = NotificationManager.url;
             data.email = NotificationManager.emailGroup;
-            data.topic = NotificationManager.registrationTopic;
+            
+            if (data.topic == null) {
+               data.topic = NotificationManager.miscTopic;
+            }
 
             if (putEmail == false) {
                 data.email = null;

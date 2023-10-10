@@ -36,11 +36,12 @@ public class OnServerLoad implements Listener {
                     .sendMessage(sb.toString()).submit(true);
 
             final var notification = new NotificationData(title, msg);
+            notification.topic = NotificationManager.miscTopic;
             notification.addViewAction("Admin panel", "https://rvdprojects.synology.me:3000/#/dashboard");
             notification.markdown = true;
             notification.tags.add("robot");
 
-            final JSONObject resp = NotificationManager.postRegistrationNotification(notification, false);
+            NotificationManager.postNotification(notification, false);
         } catch (Exception e) {
             SentryService.captureEx(e);
         }

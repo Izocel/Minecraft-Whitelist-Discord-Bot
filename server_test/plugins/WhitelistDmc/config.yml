@@ -48,8 +48,8 @@ api:
 notificationsApi:
   {
     ntfyUrl: "https://rvdprojects.synology.me:8890",
-    token: "tk_q9xj4ixun19rebzfudceg7nk63ptf",
-    topics: { registration: "Test-WDMC" },
+    token: "tk_p2owjo30qbdtuoyx4x39wjojty3kc",
+    topics: { registration: "WDMC-Registration", guildJoin: "WDMC-GuildJoin", misc: "WDMC-Misc" },
     emailGroup: "webdevteam@rvdprojects.com",
   }
 linksCommands:
