@@ -1,7 +1,10 @@
 package models;
 
-import java.util.Collection;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -197,45 +200,36 @@ public class User extends BaseModel {
     }
 
     public BedrockData getBedrockData(String uuid) {
-        for (int i = 0; i < javaData.length(); i++) {
+        for (int i = 0; i < bedData.length(); i++) {
             if (bedData.getJSONObject(i).optString("uuid").equals(uuid))
                 return new BedrockData(bedData.getJSONObject(i));
         }
         return null;
     }
 
-    public boolean isAllowedJava(String uuid) {
-        return this.getJavaData(uuid).isAllowed();
+    public boolean isAllowed(String uuid) {
+        return this.getJavaData(uuid).isAllowed() ||
+                this.getBedrockData(uuid).isAllowed();
     }
 
-    public boolean isAllowedBedrock(String uuid) {
-        return this.getBedrockData(uuid).isAllowed();
+    public boolean isConfirmed(String uuid) {
+        return this.getJavaData(uuid).isConfirmed() ||
+                this.getBedrockData(uuid).isConfirmed();
     }
 
-    public boolean isConfirmedJava(String uuid) {
-        return this.getJavaData(uuid).isConfirmed();
+    public boolean hasPlayer(String uuid) {
+        return this.getJavaData(uuid) != null || this.getBedrockData(uuid) != null;
     }
 
-    public boolean isConfirmedBedrock(String uuid) {
-        return this.getBedrockData(uuid).isConfirmed();
+    public Player getOnlinePlayer(String uuid) {
+        if (!this.hasPlayer(uuid))
+            return null;
+        return Bukkit.getPlayer(UUID.fromString(uuid));
     }
 
-    public boolean isAllowed(String type, String uuid) {
-        type = type != null ? type.toLowerCase() : "all";
-
-        if (uuid == null) {
-            return false;
-        }
-
-        switch (type) {
-            case "java":
-                return isAllowedJava(uuid);
-
-            case "bedrock":
-                return isAllowedBedrock(uuid);
-
-            default:
-                return false;
-        }
+    public OfflinePlayer getOfflinePlayer(String uuid) {
+        if (!this.hasPlayer(uuid))
+            return null;
+        return Bukkit.getOfflinePlayer(UUID.fromString(uuid));
     }
 }
