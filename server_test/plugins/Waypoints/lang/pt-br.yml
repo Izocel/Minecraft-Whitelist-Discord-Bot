@@ -1,0 +1,421 @@
+# These translations have been provided by gaugt980131gg2
+
+prefix: "<aqua><bold>Waypoints <yellow><bold>><reset> "
+scriptPrefix: "<aqua><bold>Waypoints<green>Script <yellow><bold>><reset> "
+
+worlds:
+  world: "Overworld"
+  world_nether: "Nether"
+  world_the_end: "The End"
+
+command:
+  notAPlayer: "<red>Você deve ser um player para usar esse comando."
+
+  script:
+    help:
+      header: "<gray><underlined>Ajuda"
+      deselectWaypoint: "<gray> - <yellow>/<label> deselectWaypoint <Player-Name> <gray><bold>|<reset><gray> Remover seleção de waypoint de um player"
+      selectWaypoint: "<gray> - <yellow>/<label> selectWaypoint <Player-Name> <Waypoint-UUID> <gray><bold>|<reset><gray> Setar seleção de waypoint de um player"
+
+    selectWaypoint:
+      # uuid: ID of the waypoint that could not be found
+      waypointNotFound: "<red>Waypoint com UUID <yellow><uuid><red> não encontrada."
+
+  help:
+    header: "<gray><underlined>Ajuda"
+    gui: "<gray> - <yellow>/<label> <gray><bold>|<reset><gray> Abrir a interface de waypoints"
+    help: "<gray> - <yellow>/<label> help <gray><bold>|<reset><gray> Mostrar ajuda"
+    set:
+      private: "<gray> - <yellow>/<label> set <Name> <gray><bold>|<reset><gray> Criar nova waypoint"
+      public: "<gray> - <yellow>/<label> setPublic <Name> <gray><bold>|<reset><gray> Criar nova waypoint pública"
+      permission: "<gray> - <yellow>/<label> setPermission <Permission> <Name> <gray><bold>|<reset><gray> Criar nova waypoint usando permissões"
+    other: "<gray> - <yellow>/<label> other <Name|UUID> <gray><bold>|<reset><gray> Ver waypoints de outro player"
+    statistics: "<gray> - <yellow>/<label> statistics <gray><bold>|<reset><gray> Ver estatísticas do banco de dados"
+
+  other:
+    playerNoWaypoints: "<red>Esse player não tem waypoints."
+
+  statistics:
+    # db_file_size: Size of the database in SI Units
+    # total_waypoints: Total amount of waypoints
+    # private_waypoints: Amount of private waypoints
+    # death_waypoints: Amount of death waypoints
+    # public_waypoints: Amount of public waypoints
+    # permission_waypoints: Amount of permission waypoints
+    # total_folders: Total amount of folders
+    # private_folders: Amount of private folders
+    # public_folders: Amount of public folders
+    # permission_folders: Amount of permission folders
+    message: |
+      <gray>Database-Statistics
+      <gray>Filesize: <yellow><db_file_size>
+
+      <gray>Total waypoints: <yellow><total_waypoints>
+      <gray>Private waypoints: <yellow><private_waypoints>
+      <gray>Death waypoints: <yellow><death_waypoints>
+      <gray>Public waypoints: <yellow><public_waypoints>
+      <gray>Permission waypoints: <yellow><permission_waypoints>
+
+      <gray>Total folders: <yellow><total_folders>
+      <gray>Private folders: <yellow><private_folders>
+      <gray>Public folders: <yellow><public_folders>
+      <gray>Permission folders: <yellow><permission_folders>
+
+text:
+  duration:
+    second: "segundo"
+    seconds: "segundos"
+
+    minute: "minuto"
+    minutes: "minutos"
+
+    hour: "hora"
+    hours: "horas"
+
+    day: "dia"
+    days: "dias"
+
+  worldNotFound: "?"
+
+  distance:
+    otherWorld: "?"
+
+  sortOptions:
+    type_ascending: "Tipo"
+    type_descending: "Tipo (Descendente)"
+    name_ascending: "Nome"
+    name_descending: "Nome (Descendente)"
+    created_ascending: "Data de criação"
+    created_descending: "Data de criação (Descendente)"
+
+  beaconColors:
+    clear: "<gray>Sem cor"
+    light_gray: "<gray>Cinza claro"
+    gray: "<gray>Cinza"
+    pink: "<gray>Rosa"
+    lime: "<gray>Lima"
+    yellow: "<gray>Amarelo"
+    light_blue: "<gray>Azul claro"
+    magenta: "<gray>Magenta"
+    orange: "<gray>Laranja"
+    white: "<gray>Branco"
+    black: "<gray>Preto"
+    red: "<gray>Vermelho"
+    green: "<gray>Verde"
+    brown: "<gray>Marrom"
+    blue: "<gray>Azul"
+    cyan: "<gray>Ciano"
+    purple: "<gray>Roxo"
+
+message:
+  waypoint:
+    create:
+      coordinates:
+        invalidFormat: |
+          <red>Formato para coordenadas:
+          <green>102/35/-238
+    limitReached:
+      private: "<red>Você alcançou o limite de waypoints."
+    nameDuplicate:
+      private: "<red>Nomes duplicados não são permitidos."
+      public: "<red>Nomes duplicados não são permitidos."
+      permission: "<red>Nomes duplicados não são permitidos."
+    setSuccess:
+      private: "<gray>Waypoint criada com sucesso."
+      public: "<gray>Waypoint criada com sucesso."
+      permission: "<gray>Waypoint criada com sucesso."
+    # name: Name of the waypoint
+    getUuid: "<gray>Clique nessa mensagem para copiar a UUID da waypoint <yellow><name><gray>."
+    newIconInvalid: "<red>Esse item não pode ser um ícone."
+
+  folder:
+    limitReached:
+      private: "<red>Limite de pastas alcançado."
+    nameDuplicate:
+      private: "<red>Pastas com nomes duplicados não são permitidas."
+      public: "<red>Pastas com nomes duplicados não são permitidas."
+      permission: "<red>Pastas com nomes duplicados não são permitidas."
+    createSuccess:
+      private: "<gray>Pasta criada com sucesso."
+      public: "<gray>Pasta criada com sucesso."
+      permission: "<gray>Pasta criada com sucesso."
+    newIconInvalid: "<red>Esse item não pode ser um ícone."
+
+  teleport:
+    # remaining_cooldown: Time left until player can teleport again
+    onCooldown: "<red>Você não pode teleportar por <yellow><remaining_cooldown><red>."
+    notEnough:
+      # current_level: Level of the player
+      # required_level: Level required for teleportation
+      xp: |
+        <red>Você não tem level suficiente para teleportar.
+        <red>Level necessário: <yellow><required_level>
+      # current_balance: Vault balance of the player
+      # required_balance: Vault balance required for teleportation
+      balance: |
+        <red>Você não tem money suficiente para teleportar.
+        <red>Required balance: <green><required_balance>
+    standStill:
+      # duration: Amount of time the player needs to stand still
+      notice: "<gray>Você precisa ficar parado por <yellow><duration><gray>."
+      moved: "<red>Você se moveu e o teleporte foi cancelado."
+
+pointers:
+  actionBar:
+    # current: Translated name of the world the player is in
+    # correct: Translated name of the world the waypoint is in
+    wrongWorld: "<red>Você está no mundo <green><current><red>, mas a waypoint está em <green><correct>"
+    # distance: Distance to the waypoint in blocks
+    # height_difference: Height difference between player and waypoint. Positive when to high, negative when to low
+    distance: "<gray>Você está a <yellow><distance::'.0'><gray> blocos de distância"
+
+  hologram:
+    # Set the text of the floating hologram here.
+    # name: Name of the waypoint
+    # createdAt: Date at which the waypoint was created
+    # world: World where the waypoint is located at
+    # x, y, z: Coordinates of the waypoint
+    # block_x, block_y, block_z: Coordinates of the block nearest to the waypoint
+    private: "<dark_purple><name> (<distance:'.0'>m)"
+    death: "<red>Morte <created_at:'dd.MM.uuuu kk:mm'> (<distance:'.0'>m)"
+    public: "<aqua><name> (<distance:'.0'>m)"
+    permission: "<light_purple><name> (<distance:'.0'>m)"
+    playerTracking: "<blue><name> <reset><blue>(<distance:'.0'>m)"
+
+integrations:
+  dynmap:
+    markerSet:
+      label: "Waypoints públicas"
+
+inventory:
+  title:
+    self: "<dark_gray>Suas waypoints"
+    # name: Name of the other player
+    other: "<dark_gray>Waypoints do <blue><name>"
+
+  general:
+    previous:
+      displayName: "<yellow>Página anterior"
+      description: ""
+    next:
+      displayName: "<yellow>Página seguinte"
+      description: ""
+    back:
+      displayName: "<yellow>Voltar"
+      description: ""
+
+  background:
+    private:
+      displayName: "<black>-"
+      description: ""
+    death:
+      displayName: "<black>-"
+      description: ""
+    public:
+      displayName: "<black>-"
+      description: ""
+    permission:
+      displayName: "<black>-"
+      description: ""
+
+  overview:
+    cycleSort:
+      displayName: "<yellow>Ordenar por"
+      description: ""
+      activeColor: "<gold>"
+      inactiveColor: "<gray>"
+
+    deselect:
+      description: "<gray>A direção não está mais sendo mostrada a você"
+    setWaypoint:
+      displayName: "<yellow>Criar nova waypoint"
+      description: |
+        <gray>A waypoint será criada na pasta atual
+        
+        <gray>Usando <yellow>shift-click<gray>, você cria uma waypoint
+        <gray>com coordenadas desse jeito:
+        <green>102 35 -238
+    createFolder:
+      displayName: "<yellow>Criar nova pasta"
+      description: ""
+
+  settings:
+    toggleGlobals:
+      visible:
+        displayName: "<yellow>Waypoints globais estão visíveis"
+        description: "<gray>Clique para esconder elas"
+      hidden:
+        displayName: "<yellow>Waypoints globais estão escondidas"
+        description: "<gray>Clique para mostrar elas"
+
+  # amount: Amount of waypoints in this global folder visible for the player
+  listing:
+    public:
+      displayName: "<aqua>Waypoints públicas"
+      description: "<gray>Quantidade: <gold><amount>"
+    permission:
+      displayName: "<light_purple>Waypoints restritas"
+      description: "<gray>Disponíveis para você: <gold><amount>"
+
+  waypoint:
+    # name: Name of the waypoint
+    # createdAt: Date at which the waypoint was created
+    # world: World where the waypoint is located at
+    # x, y, z: Coordinates of the waypoint
+    # block_x, block_y, block_z: Coordinates of the block nearest to the waypoint
+    # distance: Distance in blocks to the player
+    icon:
+      description: &waypointDescription |
+        <gray>Mundo: <gold><world>
+        <gray>X: <gold><block_x>
+        <gray>Y: <gold><block_y>
+        <gray>Z: <gold><block_z>
+        <gray>Distância: <gold><distance:'.0'>
+
+        <gray>Criado em: <gold><created_at:'dd.MM.uuuu kk:mm'>
+
+      private:
+        displayName: "<dark_purple><name>"
+        description: *waypointDescription
+      death:
+        displayName: "<red>Morte <created_at:'dd.MM.uuuu kk:mm'>"
+        description: |
+          <gray>Mundo: <gold><world>
+          <gray>X: <gold><block_x>
+          <gray>Y: <gold><block_y>
+          <gray>Z: <gold><block_z>
+          <gray>Distância: <gold><distance:'.0'>
+      public:
+        displayName: "<aqua><name>"
+        description: *waypointDescription
+      permission:
+        displayName: "<light_purple><name>"
+        description: *waypointDescription
+
+    select:
+      displayName: "<yellow>Selecionar waypoint"
+      description: "<gray>Clique para definir sua waypoint ativa"
+    deselect:
+      displayName: "<yellow>Deselecionar waypoint"
+    delete:
+      displayName: "<dark_red>Deletar waypoint"
+      description: ""
+      question:
+        displayName: "<gray>Quer mesmo deletar <yellow><name><gray>?"
+        description: ""
+      confirm:
+        displayName: "<red>Sim, deletar <yellow><name><red>!"
+        description: ""
+      cancel:
+        displayName: "<green>Não, não delete <yellow><name><green>."
+        description: ""
+    rename:
+      displayName: "<yellow>Renomear waypoint"
+      description: ""
+    moveToFolder:
+      displayName: "<yellow>Mover waypoint para uma pasta"
+      description: |
+        <gray>Coloque a waypoint em uma pasta,
+        <gray>ou remove da pasta atual
+    teleport:
+      displayName: "<yellow>Teleportar para waypoint"
+      description: ""
+      # levels: The amount of levels required for teleportation
+      xpLevel: "<gray>Você precisa de <yellow><levels><gray> levels para teleportar."
+      # balance: The amount of balance required for teleportation
+      balance: "<gray>Você precisa de <yellow><balance><gray> money para teleportar."
+    selectBeaconColor:
+      displayName: "<yellow>Mudar cor do beam"
+      description: ""
+    getUuid:
+      displayName: "<yellow>Copiar UUID da waypoint"
+      description: "<gray>Envia uma mensagem clicável para copiar a UUID"
+    editPermission:
+      displayName: "<yellow>Mudar permissão requerida"
+      description: "<gray>Permissão atual é <yellow><permission>"
+    make:
+      public:
+        displayName: "<yellow>Tornar waypoint pública"
+        description: ""
+        question:
+          displayName: "<gray>Quer mesmo tornar <yellow><name><gray> pública?"
+          description: ""
+        confirm:
+          displayName: "<red>Sim, torne <yellow><name><red> pública!"
+          description: ""
+        cancel:
+          displayName: "<green>Não, não torne <yellow><name><green> pública."
+          description: ""
+      permission:
+        displayName: "<yellow>Tornar waypoint de permissão"
+        description: ""
+        question:
+          displayName: "<gray>Quer mesmo tornar<yellow><name><gray> waypoint de permissão?"
+          description: ""
+        confirm:
+          displayName: "<red>Sim, torne <yellow><name><red> uma waypoint de permissão!"
+          description: ""
+        cancel:
+          displayName: "<green>Não, não torne <yellow><name><green> uma waypoint de permissão."
+          description: ""
+
+
+    create:
+      enterName: "Digite o nome aqui"
+      enterCoordinates: "Digite coordenadas aqui"
+      enterPermission: "Digite a permissão aqui"
+
+  folder:
+    # name: Name of the folder
+    # created_at: Date at which the folder was created
+    # amount: Amount of waypoints visible to the player
+    icon:
+      private:
+        displayName: "<dark_purple><name>"
+        description: "<gray>Waypoints nessa pasta: <gold><amount>"
+      death:
+        displayName: "<red>Deaths"
+        description: "<gray>Waypoints nessa pasta: <gold><amount>"
+      public:
+        displayName: "<aqua><name>"
+        description: "<gray>Waypoints nessa pasta: <gold><amount>"
+      permission:
+        displayName: "<light_purple><name>"
+        description: "<gray>Waypoints nessa pasta: <gold><amount>"
+
+    delete:
+      displayName: "<dark_red>Deletar pasta"
+      description: ""
+      question:
+        displayName: "<gray>Quer mesmo deletar a pasta <yellow><name><gray>?"
+        description: ""
+      confirm:
+        displayName: "<red>Sim, delete a pasta <yellow><name><red>!"
+        description: ""
+      cancel:
+        displayName: "<green>Não, não delete a pasta <yellow><name><green>."
+        description: ""
+    rename:
+      displayName: "<yellow>Renomear pasta"
+      description: ""
+
+    create:
+      enterName: "Digite o nome aqui"
+
+  selectFolder:
+    noFolder:
+      displayName: "<yellow>Nenhuma pasta"
+      description: "<gray>Mover essa waypoint para o menu principal"
+
+  selectBeaconColor:
+    moveLeft:
+      displayName: "<yellow>Mover para esquerda"
+      description: ""
+    moveRight:
+      displayName: "<yellow>Mover para direita"
+      description: ""
+
+  confirm:
+    background:
+      displayName: "<black>-"
+      description: ""

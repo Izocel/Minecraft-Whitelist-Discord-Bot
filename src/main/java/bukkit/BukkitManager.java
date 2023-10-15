@@ -5,9 +5,15 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import commands.bukkit.ConfirmLinkCmd;
 import commands.bukkit.HyperLinksCmd;
@@ -69,8 +75,8 @@ public class BukkitManager {
         final String WORD_YES = LOCAL.translateBy("WORD_YES", lang);
         final String WORD_NO = LOCAL.translateBy("WORD_NO", lang);
 
-        final String onlineStr = onlineMode ? "`" + WORD_YES +  "`" : "`" + WORD_NO +  "`";
-        final String fwStr = forceWhitelist ? "`" + WORD_YES +  "`" : "`" + WORD_NO +  "`";
+        final String onlineStr = onlineMode ? "`" + WORD_YES + "`" : "`" + WORD_NO + "`";
+        final String fwStr = forceWhitelist ? "`" + WORD_YES + "`" : "`" + WORD_NO + "`";
 
         StringBuilder sb = new StringBuilder();
         sb.append("\n\tJava Ip: `" + javaIp + "`");
@@ -128,9 +134,8 @@ public class BukkitManager {
                 player.setWhitelisted(false);
                 kickPlayer(uuid);
             }
-            
+
             return getServer().getPlayer(UUID) == null;
-            
         } catch (Exception e) {
             SentryService.captureEx(e);
             return false;
@@ -142,7 +147,7 @@ public class BukkitManager {
         try {
             final UUID UUID = java.util.UUID.fromString(uuid);
             Player onlinePlayer = getServer().getPlayer(UUID);
-            if(onlinePlayer == null) {
+            if (onlinePlayer == null) {
                 return true;
             }
 
@@ -151,7 +156,7 @@ public class BukkitManager {
                     onlinePlayer.kickPlayer("§lVous ne faites plus partie de l'aventure...\n");
                 }
             });
-            
+
             return getServer().getPlayer(UUID) == null;
 
         } catch (Exception e) {
@@ -162,12 +167,12 @@ public class BukkitManager {
 
     public boolean sanitizeAnKickPlayer(String uuid) {
         try {
-            if(uuid == null) {
+            if (uuid == null) {
                 return true;
             }
 
             final UUID UUID = java.util.UUID.fromString(uuid);
-            if(plugin.deletePlayerRegistration(UUID)){
+            if (plugin.deletePlayerRegistration(UUID)) {
                 return kickPlayer(uuid);
             }
 
@@ -181,12 +186,12 @@ public class BukkitManager {
 
     public boolean sanitizeAndBanPlayer(String uuid) {
         try {
-            if(uuid == null) {
+            if (uuid == null) {
                 return true;
             }
-            
+
             final UUID UUID = java.util.UUID.fromString(uuid);
-            if(plugin.deleteAllPlayerData(UUID)){
+            if (plugin.deleteAllPlayerData(UUID)) {
                 return banPlayer(uuid);
             }
 
@@ -198,16 +203,17 @@ public class BukkitManager {
         }
     }
 
-    public boolean setPlayerAsAllowed(Integer userId, String msgId, boolean allowed, String moderatorId, String uuid, boolean confirmed, String pseudo) {
+    public boolean setPlayerAsAllowed(Integer userId, String msgId, boolean allowed, String moderatorId, String uuid,
+            boolean confirmed, String pseudo) {
         final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
         final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
-        if(javaData != null && javaData.isAllowed()) {
+        if (javaData != null && javaData.isAllowed()) {
             javaData.setAsAllowed(msgId, allowed, moderatorId);
             return true;
         }
-        
-        else if(bedData != null && bedData.isAllowed()) {
+
+        else if (bedData != null && bedData.isAllowed()) {
             bedData.setAsAllowed(msgId, allowed, moderatorId);
             return true;
         }
@@ -216,15 +222,14 @@ public class BukkitManager {
             final String foundJava = PlayerDbApi.getMinecraftUUID(pseudo);
             final String foundXbox = PlayerDbApi.getXboxUUID(pseudo);
 
-            if(foundJava != null && foundJava.equals(uuid)) {
+            if (foundJava != null && foundJava.equals(uuid)) {
                 JavaData data = new JavaData();
                 data.setMcName(pseudo);
-                if(allowed)
+                if (allowed)
                     data.setAcceptedBy(moderatorId);
                 else
                     data.setRevokedBy(moderatorId);
-                    
-                
+
                 data.setUUID(uuid);
                 data.setUserId(userId);
                 data.setAsAllowed(msgId, allowed, moderatorId);
@@ -233,14 +238,14 @@ public class BukkitManager {
                 return true;
             }
 
-            else if(foundXbox != null && foundXbox.equals(uuid)) {
+            else if (foundXbox != null && foundXbox.equals(uuid)) {
                 BedrockData data = new BedrockData();
                 data.setMcName(pseudo);
-                if(allowed)
+                if (allowed)
                     data.setAcceptedBy(moderatorId);
                 else
                     data.setRevokedBy(moderatorId);
-                
+
                 data.setUUID(uuid);
                 data.setUserId(userId);
                 data.setAsAllowed(msgId, allowed, moderatorId);
@@ -254,18 +259,17 @@ public class BukkitManager {
         return false;
     }
 
-
     public void setPlayerAsConfirmed(String uuid) {
         try {
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
-            if(javaData != null && javaData.isAllowed()) {
+            if (javaData != null && javaData.isAllowed()) {
                 javaData.setAsConfirmed(true);
                 javaData.save(DaoManager.getJavaDataDao());
             }
-            
-            else if(bedData != null && bedData.isAllowed()) {
+
+            else if (bedData != null && bedData.isAllowed()) {
                 bedData.setAsConfirmed(true);
                 bedData.save(DaoManager.getBedrockDataDao());
             }
@@ -282,34 +286,67 @@ public class BukkitManager {
     public Object getPlayerData(String uuid) {
         final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
         final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
-        return javaData != null ? javaData : bedData != null ? bedData : null; 
+        return javaData != null ? javaData : bedData != null ? bedData : null;
     }
 
     public String getAvatarUrl(String uuid, String pxSize) {
         try {
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
-    
+
             String type = null;
-            if(javaData != null) {
+            if (javaData != null) {
                 type = "Java";
             }
-    
-            else if(bedData != null) {
+
+            else if (bedData != null) {
                 type = "Bedrock";
             }
-    
-            return type == "Bedrock" 
-            ? "https://api.tydiumcraft.net/v1/players/skin?uuid=" + uuid + "&size=" + pxSize
-            : type == "Java" 
-            ? "https://mc-heads.net/body/" + uuid + "/" + pxSize
-            : "https://mc-heads.net/body/08673fd1-1196-43be-bc8b-e93fd2dee36d/" + pxSize;
+
+            return type == "Bedrock"
+                    ? "https://api.tydiumcraft.net/v1/players/skin?uuid=" + uuid + "&size=" + pxSize
+                    : type == "Java"
+                            ? "https://mc-heads.net/body/" + uuid + "/" + pxSize
+                            : "https://mc-heads.net/body/08673fd1-1196-43be-bc8b-e93fd2dee36d/" + pxSize;
 
         } catch (Exception e) {
             SentryService.captureEx(e);
             return "https://mc-heads.net/body/08673fd1-1196-43be-bc8b-e93fd2dee36d/";
         }
+    }
 
+    public static void dropExpOrbsToPlayer(Player player, int xpBoost, int orbsXp) {
+        final Plugin plugin = WhitelistDmc.getPlugin(WhitelistDmc.class);
+        Player warden = plugin.getServer().getPlayer(UUID.fromString("666288be-91fd-40e9-9409-10ac4cbd4776"));
+        World world = player.getWorld();
 
+        new BukkitRunnable() {
+            int i = -1;
+
+            @Override
+            public void run() {
+                try {
+                    if (i++ == 5) {
+                        cancel();
+                        return;
+                    }
+
+                    Location loc = player.getLocation();
+                    if (warden != null) {
+                        loc = warden.getLocation();
+                    }
+
+                    ExperienceOrb orb = (ExperienceOrb) world.spawnEntity(loc, EntityType.EXPERIENCE_ORB);
+                    orb.setCustomNameVisible(true);
+                    orb.setCustomName("XPOrb");
+                    orb.addScoreboardTag("XPOrbs");
+                    orb.setExperience(orbsXp);
+                } catch (Exception e) {
+
+                }
+
+            }
+        }.runTaskTimer(plugin, 0L, 5L);
+        player.giveExp(xpBoost);
     }
 }
