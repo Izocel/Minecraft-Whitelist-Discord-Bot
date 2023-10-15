@@ -4,10 +4,11 @@ import java.net.http.WebSocket.Listener;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import org.bukkit.Location;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import discord.DiscordManager;
 import discord.GuildManager;
 import helpers.EconomyManager;
 import helpers.NotificationManager;
+import helpers.StatsManager;
 import io.sentry.ISpan;
 import io.sentry.ITransaction;
 import io.sentry.Sentry;
@@ -27,8 +29,6 @@ import io.sentry.SpanStatus;
 import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 import services.sentry.SentryService;
 
 public final class WhitelistDmc extends JavaPlugin implements Listener {
@@ -40,6 +40,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
     private DiscordManager discordManager;
     private DaoManager daoManager;
     private NotificationManager notificationManager;
+    private StatsManager statsManager;
     private EconomyManager economyManager;
 
     private JSONArray players = new JSONArray();
@@ -135,6 +136,9 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             notificationManager = new NotificationManager(this);
             logger.info("LOADED: NotificationManager");
 
+            statsManager = new StatsManager(this);
+            logger.info("LOADED: StatsManager");
+
             economyManager = new EconomyManager(this);
             logger.info("LOADED: EconomyManager *vaultApi");
 
@@ -216,6 +220,10 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
     public final SentryService getSentryService() {
         return this.sentryService;
+    }
+
+    public final StatsManager getStatsManager() {
+        return this.statsManager;
     }
 
     public final EconomyManager getEconomyManager() {
@@ -418,7 +426,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         }
 
     }
-    
+
     // You can test some features here in 'dev' mode only.
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
@@ -426,25 +434,20 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             return false;
         }
 
-        final Player player = (Player) sender;
-        final String cmdName = command.getLabel().toString();
+        try {
+            final Player player = (Player) sender;
+            final Server server = sender.getServer();
+            final String cmdName = command.getLabel().toString();
+            
 
-        if (cmdName.equals("test-econ")) {
-            sender.sendMessage("You have:" + economyManager.getPlayerBalance(player));
+            logger.warning("---- Job was not found ----");
+            return false;
 
-            // Deposit
-            economyManager.depositPlayer(player, 10.00);
-            sender.sendMessage("We've deposited you:" + 10.00);
-            sender.sendMessage("You now have:" + economyManager.getPlayerBalance(player));
-
-            // withdraw
-            economyManager.withdrawPlayer(player, 10.00);
-            sender.sendMessage("We've withdraw you: -" + 10.00);
-            sender.sendMessage("You now have:" + economyManager.getPlayerBalance(player));
+        } catch (Exception e) {
+            logger.warning("Job error !!!");
+            SentryService.captureEx(e);
+            return false;
         }
-
-        logger.info("Jon done!");
-        return true;
     }
 
     public boolean isProduction() {

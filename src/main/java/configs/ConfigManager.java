@@ -78,11 +78,15 @@ public final class ConfigManager {
         LinkedHashMap<String, Object> api = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("api");
         FROM_MAPS.put("api", api);
 
-        LinkedHashMap<String, Object> notificationsApi = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("notificationsApi");
+        LinkedHashMap<String, Object> notificationsApi = (LinkedHashMap<String, Object>) FROM_CONFIGS
+                .get("notificationsApi");
         FROM_MAPS.put("notificationsApi", api);
 
         LinkedHashMap<String, Object> linksCommands = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("linksCommands");
         FROM_MAPS.put("linksCommands", linksCommands);
+
+        LinkedHashMap<String, Object> quests = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("quests");
+        FROM_MAPS.put("quests", quests);
 
         LinkedHashMap<String, Object> misc = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("misc");
         FROM_MAPS.put("misc", misc);
@@ -134,13 +138,14 @@ public final class ConfigManager {
         FROM_CONFIGS.put("notificationsApi.emailGroup", notificationsApi.get("emailGroup"));
 
         FROM_CONFIGS.put("linksCommands", linksCommands);
+        FROM_CONFIGS.put("quests", quests);
 
         FROM_CONFIGS.put("confirmLinkCmdName", misc.get("confirmLinkCmdName"));
         FROM_CONFIGS.put("minecraftInfosLink", misc.get("minecraftInfosLink"));
         FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
         FROM_CONFIGS.put("adminPanelUrl", misc.get("adminPanelUrl"));
         FROM_CONFIGS.put("envType", misc.get("envType"));
-        
+
         this.setHidden();
     }
 
