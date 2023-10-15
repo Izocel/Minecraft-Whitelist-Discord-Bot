@@ -5,15 +5,9 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
-import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import commands.bukkit.ConfirmLinkCmd;
 import commands.bukkit.HyperLinksCmd;
@@ -313,40 +307,5 @@ public class BukkitManager {
             SentryService.captureEx(e);
             return "https://mc-heads.net/body/08673fd1-1196-43be-bc8b-e93fd2dee36d/";
         }
-    }
-
-    public static void dropExpOrbsToPlayer(Player player, int xpBoost, int orbsXp) {
-        final Plugin plugin = WhitelistDmc.getPlugin(WhitelistDmc.class);
-        Player warden = plugin.getServer().getPlayer(UUID.fromString("666288be-91fd-40e9-9409-10ac4cbd4776"));
-        World world = player.getWorld();
-
-        new BukkitRunnable() {
-            int i = -1;
-
-            @Override
-            public void run() {
-                try {
-                    if (i++ == 5) {
-                        cancel();
-                        return;
-                    }
-
-                    Location loc = player.getLocation();
-                    if (warden != null) {
-                        loc = warden.getLocation();
-                    }
-
-                    ExperienceOrb orb = (ExperienceOrb) world.spawnEntity(loc, EntityType.EXPERIENCE_ORB);
-                    orb.setCustomNameVisible(true);
-                    orb.setCustomName("XPOrb");
-                    orb.addScoreboardTag("XPOrbs");
-                    orb.setExperience(orbsXp);
-                } catch (Exception e) {
-
-                }
-
-            }
-        }.runTaskTimer(plugin, 0L, 5L);
-        player.giveExp(xpBoost);
     }
 }
