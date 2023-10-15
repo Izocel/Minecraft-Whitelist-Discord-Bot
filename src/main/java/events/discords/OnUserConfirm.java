@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import bukkit.BukkitManager;
 import commands.bukkit.ConfirmLinkCmd;
+import helpers.EconomyManager;
+import helpers.StatsManager;
 import main.WhitelistDmc;
 import models.User;
 import net.dv8tion.jda.api.entities.Member;
@@ -70,7 +72,18 @@ public class OnUserConfirm extends ListenerAdapter {
             return;
         }
 
-        BukkitManager.dropExpOrbsToPlayer(player, 6, 2);
+        Location orbsLocation = player.getLocation();
+        Player registrarNpc = plugin.getServer()
+            .getPlayer(UUID.fromString("666288be-91fd-40e9-9409-10ac4cbd4776"));
+        
+        if(registrarNpc != null) {
+            logger.info(("Found the quest NPC! using its location for the XPOrbs drop..."));
+            orbsLocation = registrarNpc.getLocation();
+        }
+
+        StatsManager.giveXp(player, 8);
+        StatsManager.dropExpOrbs(orbsLocation, 8, 2);
+        EconomyManager.depositPlayer(player, 4.20);
     }
 
     private void handleAccepted(ButtonClickEvent event) {
