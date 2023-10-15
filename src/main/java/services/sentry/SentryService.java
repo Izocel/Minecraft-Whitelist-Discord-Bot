@@ -18,31 +18,30 @@ import io.sentry.protocol.User;
 import main.WhitelistDmc;
 
 public class SentryService {
-  
+
   private Logger logger;
   private static User user;
   private WhitelistDmc plugin;
   private static WhitelistDmc main;
   private boolean enabled = true;
   private String debugMode = "debug";
-  
-  HashMap<Integer, ITransaction>  pendingTransactions = new HashMap<Integer, ITransaction>();
   private static String envType;
+
+  HashMap<Integer, ITransaction> pendingTransactions = new HashMap<Integer, ITransaction>();
 
   public SentryService(WhitelistDmc plugin) {
     this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
 
     this.plugin = plugin;
     SentryService.main = this.plugin;
-    
+
     final User user = new User();
     final String username = "?discordOwnerId?";
     final String id = this.plugin.getConfigManager().get("discordServerId", "?discordServerId?");
     final String email = this.plugin.getConfigManager().get("serverContactEmail", "?serverContactEmail?");
     final String ipAddress = this.plugin.getConfigManager().get("javaIp", "?javaIp?");
-    SentryService.envType = this.plugin.getConfigManager().get("envType", "?envType?");
+    SentryService.envType = this.plugin.getConfigManager().get("envType", "production");
     final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
-    
 
     user.setId(id);
     user.setEmail(email);
@@ -65,26 +64,26 @@ public class SentryService {
 
   @Override
   protected void finalize() throws Throwable {
-      finalyzeAllTransaction();
+    finalyzeAllTransaction();
   }
 
   private void finalyzeAllTransaction() {
     try {
-      if(pendingTransactions != null &&  getTxSize() > 0)
-      pendingTransactions.forEach((key,tx) -> {
-        try {
-          tx.setData("finalStatus", "with destruction");
-          tx.finish();
-        } catch (Exception e) {
-          captureEx(e);
-        }
-      });
+      if (pendingTransactions != null && getTxSize() > 0)
+        pendingTransactions.forEach((key, tx) -> {
+          try {
+            tx.setData("finalStatus", "with destruction");
+            tx.finish();
+          } catch (Exception e) {
+            captureEx(e);
+          }
+        });
     } catch (Exception e) {
       captureEx(e);
     }
 
   }
-  
+
   public ITransaction createTx(String name, String operation) {
     final Integer size = getTxSize();
     ITransaction tx = Sentry.startTransaction(name, operation);
@@ -94,19 +93,18 @@ public class SentryService {
     tx.setData("operation", operation);
 
     pendingTransactions.put(
-      size, tx
-    );
+        size, tx);
 
     return pendingTransactions.get(size);
   }
 
   public ITransaction findWithuniqueName(String txName) {
-    if(pendingTransactions == null || getTxSize() < 1) {
+    if (pendingTransactions == null || getTxSize() < 1) {
       return null;
     }
 
     for (int i = 0; i < getTxSize(); i++) {
-      if(getTransactions().get(i).getData("name").equals(txName)) {
+      if (getTransactions().get(i).getData("name").equals(txName)) {
         return getTransactions().get(i);
       }
     }
@@ -125,12 +123,12 @@ public class SentryService {
     return pendingTransactions.get(keyPos);
   }
 
-  public Integer getTxSize() {    
+  public Integer getTxSize() {
     return pendingTransactions != null ? pendingTransactions.size() : null;
   }
 
   public HashMap<Integer, ITransaction> getTransactions() {
-    if(this.pendingTransactions == null) {
+    if (this.pendingTransactions == null) {
       this.pendingTransactions = new HashMap<Integer, ITransaction>();
     }
     return this.pendingTransactions;
@@ -138,7 +136,7 @@ public class SentryService {
 
   private static String userToString() {
     return """
-        \n User: 
+        \n User:
         \t Id: """ + user.getId() + """
         \n\t Username: """ + user.getUsername() + """
         \n\t IpAdress: """ + user.getIpAddress() + """
@@ -150,8 +148,8 @@ public class SentryService {
     Logger.getLogger("WDMC-Sentry").warning("WARNING:");
     error.fillInStackTrace();
     error.printStackTrace();
-    
-    if(!envType.equals("production")) {
+
+    if (!envType.equals("production")) {
       return null;
     }
 
@@ -162,8 +160,8 @@ public class SentryService {
 
   public @NotNull SentryId captureEvent(SentryEvent event) {
     return envType.equals("production")
-      ? Sentry.captureEvent(event)
-      : null;
+        ? Sentry.captureEvent(event)
+        : null;
   }
 
   public void changeUser(@Nullable User user) {
