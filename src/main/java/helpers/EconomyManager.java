@@ -39,18 +39,20 @@ public class EconomyManager {
     }
 
     public static EconomyResponse depositPlayer(Player player, double amount) {
-        logger.info(String.format("Vault --> Depositing: %1$d | Player: %2$s", amount, player.getName()));
+        logger.info(
+                String.format("Vault Player Currency --> Depositing: %1$s | Player: %2$s", amount, player.getName()));
         return vaultEconomy.depositPlayer(player, amount);
     }
 
     public static EconomyResponse withdrawPlayer(Player player, double amount) {
-        logger.info(String.format("Vault --> Withdrawing: %1$d | Player: %2$s", amount, player.getName()));
+        logger.info(
+                String.format("Vault Player Currency --> Withdrawing: %1$s | Player: %2$s", amount, player.getName()));
         return vaultEconomy.withdrawPlayer(player, amount);
     }
 
     public static double getPlayerBalance(Player player) {
         final double balance = vaultEconomy.getBalance(player);
-        logger.info(String.format("Vault --> Player: %2$s | Balance: %1$d", balance, player.getName()));
+        logger.info(String.format("Vault Player Currency --> Player: %1$s | Balance: %2$s", player.getName(), balance));
         return balance;
     }
 

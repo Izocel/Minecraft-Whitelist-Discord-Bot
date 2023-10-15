@@ -169,7 +169,6 @@ public class DiscordManager {
                 // User db fetch
                 FetchUserDbCmd.REGISTER_CMD(jda, plugin);
             }
-
             for (int i = 0; i < langArr.length; i++) {
                 LOCAL.setNextLang(langArr[i]);
                 // User db remove
@@ -178,12 +177,12 @@ public class DiscordManager {
 
             // HyperLinks
             LinkedHashMap<String, Object> linksMap = configs.getAsMap("linksCommands");
-            if(linksMap == null) {
+            if (linksMap == null) {
                 linksMap = new LinkedHashMap<>();
             }
             linksMap.forEach((key, conf) -> {
                 final LinkedHashMap<String, Object> castedConf = (LinkedHashMap<String, Object>) conf;
-                if(castedConf == null || castedConf.isEmpty()) {
+                if (castedConf == null || castedConf.isEmpty()) {
                     return;
                 }
 

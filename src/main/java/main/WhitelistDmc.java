@@ -438,29 +438,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             final Player player = (Player) sender;
             final Server server = sender.getServer();
             final String cmdName = command.getLabel().toString();
-
-            if (cmdName.equals("testcmd")) {
-                if (player == null) {
-                    return false;
-                }
-
-                Location orbsLocation = player.getLocation();
-                Player registrarNpc = server.getPlayer(UUID.fromString("666288be-91fd-40e9-9409-10ac4cbd4776"));
-
-                if (registrarNpc != null) {
-                    logger.info(("Found the quest NPC! using its location for the XPOrbs drop..."));
-                    orbsLocation = registrarNpc.getLocation();
-                } else {
-                    logger.warning(("Did not found the quest NPC! using player location for the XPOrbs drop..."));
-                }
-
-                StatsManager.giveXp(player, 8);
-                StatsManager.dropExpOrbs(orbsLocation, 8, 2);
-                EconomyManager.depositPlayer(player, 4.20);
-
-                logger.info("---- Job done success ----");
-                return true;
-            }
+            
 
             logger.warning("---- Job was not found ----");
             return false;

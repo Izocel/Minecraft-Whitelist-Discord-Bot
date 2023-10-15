@@ -35,9 +35,15 @@ public class StatsManager {
 
     public static void giveXp(Player player, int amount) {
         player.giveExp(amount);
+        logger.info(String.format("XP was given: %1$s | Player: %2$s", amount, player.getName()));
+
     }
 
     public static boolean dropExpOrbs(Location loc, int orbsCount, int orbsXp) {
+        if (orbsCount <= 0 || orbsXp <= 0) {
+            return true;
+        }
+
         try {
             final BukkitTask task = new BukkitRunnable() {
                 int i = -1;
@@ -45,7 +51,7 @@ public class StatsManager {
                 @Override
                 public void run() {
                     try {
-                        if (i++ < orbsCount) {
+                        if (i++ >= orbsCount) {
                             cancel();
                             return;
                         }

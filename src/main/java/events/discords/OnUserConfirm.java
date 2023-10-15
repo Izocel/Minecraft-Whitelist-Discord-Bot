@@ -1,5 +1,6 @@
 package events.discords;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -65,25 +66,64 @@ public class OnUserConfirm extends ListenerAdapter {
         }
     }
 
-    private void handleQuestSuccess(ButtonClickEvent event, Member member, String playerUuid) {
-        final User user = User.getFromMember(member);
-        final Player player = user.getOnlinePlayer(playerUuid);
-        if (player == null) {
-            return;
-        }
+    private boolean handleQuestSuccess(ButtonClickEvent event, Member member, String playerUuid) {
+        try {
+            final User user = User.getFromMember(member);
+            final Player player = user.getOnlinePlayer(playerUuid);
 
-        Location orbsLocation = player.getLocation();
-        Player registrarNpc = plugin.getServer()
-            .getPlayer(UUID.fromString("666288be-91fd-40e9-9409-10ac4cbd4776"));
-        
-        if(registrarNpc != null) {
-            logger.info(("Found the quest NPC! using its location for the XPOrbs drop..."));
-            orbsLocation = registrarNpc.getLocation();
-        }
+            LinkedHashMap<String, Object> questMap = plugin.getConfigManager().getAsMap("quests");
+            LinkedHashMap<String, Object> quest = (LinkedHashMap<String, Object>) questMap.get("registration");
 
-        StatsManager.giveXp(player, 8);
-        StatsManager.dropExpOrbs(orbsLocation, 8, 2);
-        EconomyManager.depositPlayer(player, 4.20);
+            if (quest.size() < 1) {
+                logger.warning("Could not find the quest config for this event. No exp or currency will be donated...");
+                return false;
+            }
+
+            if (player == null) {
+                logger.warning("Error at registration quest completion. No exp or currency will be donated...");
+                return false;
+            }
+
+            final UUID npcUUID = UUID.fromString(quest.getOrDefault("npc", "xxx").toString());
+            final int orbsCount = (int) quest.getOrDefault("xpOrbsCount", 0) > 0
+                    ? (int) quest.getOrDefault("xpOrbsCount", 0)
+                    : 0;
+            final int orbsValue = (int) quest.getOrDefault("xpOrbsValue", 0) > 0
+                    ? (int) quest.getOrDefault("xpOrbsValue", 0)
+                    : 0;
+            final int questXp = (int) quest.getOrDefault("baseXp", 0) > 0 ? (int) quest.getOrDefault("baseXp", 0) : 0;
+            final double vaultDeposit = (double) quest.getOrDefault("vaultDeposit", 0) > 0
+                    ? (double) quest.getOrDefault("vaultDeposit", 0)
+                    : 0;
+
+            Location orbsLocation = player.getLocation();
+            Player registrarNpc = plugin.getServer().getPlayer(npcUUID);
+
+            if (registrarNpc != null) {
+                logger.info(("Found the quest NPC! using its location for the XPOrbs drop..."));
+                orbsLocation = registrarNpc.getLocation();
+            } else {
+                logger.warning("The quest NPC was not found! Using its players for the XPOrbs drop...");
+            }
+
+            StatsManager.giveXp(player, questXp);
+            StatsManager.dropExpOrbs(orbsLocation, orbsCount, orbsValue);
+            EconomyManager.depositPlayer(player, vaultDeposit);
+
+            player.sendMessage("Hurray! Your registration quest is completed.");
+            player.sendMessage("--> Here's your rewards (if any):");
+            player.sendMessage(String.format("Currency: %s$", String.valueOf(vaultDeposit)));
+            player.sendMessage(String.format("Direct-Xp: %s", String.valueOf(questXp)));
+            player.sendMessage(
+                    String.format("Orbs: %1$s x %2$sxp ", String.valueOf(orbsCount), String.valueOf(orbsValue)));
+
+            return true;
+
+        } catch (Exception e) {
+            logger.warning("Error at registration quest completion. No exp or currency will be donated...");
+            SentryService.captureEx(e);
+            return false;
+        }
     }
 
     private void handleAccepted(ButtonClickEvent event) {
