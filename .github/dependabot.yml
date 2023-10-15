@@ -6,6 +6,7 @@ updates:
     interval: daily
     time: '04:00'
   open-pull-requests-limit: 10
+  target-branch: "latest-dev"
   ignore:
     # ignore Maven APIs/SPIs
     - dependency-name: org.apache.maven:*
@@ -28,5 +29,6 @@ updates:
         - ">=3.2.0"
 - package-ecosystem: "github-actions"
   directory: "/"
+  target-branch: "latest-dev"
   schedule:
     interval: "daily"

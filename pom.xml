@@ -6,7 +6,7 @@
 
     <groupId>com.rvdprojects.whitelistdmc</groupId>
     <artifactId>WhitelistDmc</artifactId>
-    <version>2023.6.${maven.build.timestamp}</version>
+    <version>2023.7.${maven.build.timestamp}</version>
     <packaging>jar</packaging>
 
     <name>WhitelistDmc</name>
@@ -86,6 +86,10 @@
             <id>dv8tion</id>
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -170,6 +174,12 @@
             <groupId>com.sparkjava</groupId>
             <artifactId>spark-template-velocity</artifactId>
             <version>2.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
