@@ -133,6 +133,8 @@ server_test/plugins/ViaBackwards/*
 server_test/plugins/ViaRewind/*
 server_test/plugins/ViaVersion/*
 server_test/plugins/spark/*
+server_test/plugins/Essentials/*
+server_test/plugins/Waypoints/*
 
 server_test/banned-ips.json
 server_test/banned-players.json
@@ -145,3 +147,5 @@ server_test/usercache.json
 server_test/version_history.json
 server_test/whitelist.json
 server_test/.console_history
+server_test/server.properties
+

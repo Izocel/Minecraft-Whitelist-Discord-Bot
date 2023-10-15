@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jooq.tools.json.JSONObject;
 
 import helpers.NotificationManager;
@@ -42,9 +43,30 @@ public class OnServerLoad implements Listener {
             notification.tags.add("robot");
 
             NotificationManager.postNotification(notification, false);
+
+            if(!plugin.isProduction()) {
+                alwaysDayServer();
+            }
+            
         } catch (Exception e) {
             SentryService.captureEx(e);
         }
+    }
+
+    private void alwaysDayServer() {
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                try {
+                    plugin.getServer().getWorlds().get(0).setTime(0L);
+                    plugin.getServer().getWorlds().get(0).setStorm(false);
+                    plugin.getServer().getWorlds().get(0).setThundering(false);
+                } catch (Exception e) {
+
+                }
+            }
+        }.runTaskTimer(plugin, 0L, 10000L);
     }
 
 }

@@ -10,3 +10,6 @@ commands:
    w-hyperlinks:
       description: Used to send dynamic hyperlinks.
       usage: /<w-hyperlinks-command>
+   test-econ:
+      description: Used to test vault economy.
+      usage: /test-econ

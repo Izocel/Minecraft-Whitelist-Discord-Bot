@@ -10,8 +10,7 @@ import helpers.parsers.YamlFileParser;
 import services.sentry.SentryService;
 
 public final class ConfigManager {
-    private final String pluginVersion = "2023.6";
-    private final String envType = "production";
+    private final String pluginVersion = "2023.7";
 
     private final String[] SENSIBLE_KEYS = {
             "hidden",
@@ -140,11 +139,12 @@ public final class ConfigManager {
         FROM_CONFIGS.put("minecraftInfosLink", misc.get("minecraftInfosLink"));
         FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
         FROM_CONFIGS.put("adminPanelUrl", misc.get("adminPanelUrl"));
+        FROM_CONFIGS.put("envType", misc.get("envType"));
+        
         this.setHidden();
     }
 
     private void setHidden() {
-        FROM_CONFIGS.put("envType", this.envType);
         FROM_CONFIGS.put("pluginVersion", this.pluginVersion);
         FROM_CONFIGS.put("dbJdbcUrl", "jdbc:"
                 + get("dbType") + "://"
@@ -154,7 +154,6 @@ public final class ConfigManager {
 
         final LinkedHashMap<String, Object> hidden = new LinkedHashMap<>() {
         };
-        hidden.put("envType", this.envType);
         hidden.put("pluginVersion", this.pluginVersion);
         hidden.put("dbJdbcUrl", FROM_CONFIGS.get("dbJdbcUrl"));
 
@@ -261,5 +260,9 @@ public final class ConfigManager {
         }
 
         return null;
+    }
+
+    public boolean isProduction() {
+        return !this.get("envType").equals("devU2");
     }
 }

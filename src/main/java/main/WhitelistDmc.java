@@ -4,6 +4,9 @@ import java.net.http.WebSocket.Listener;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
@@ -25,6 +28,7 @@ import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
 import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import services.sentry.SentryService;
 
 public final class WhitelistDmc extends JavaPlugin implements Listener {
@@ -116,8 +120,8 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             daoManager = new DaoManager(this);
             logger.info("LOADED: DaoManager");
 
-            migrator = new Migrator(this);
-            logger.info("LOADED: Migrator");
+            // migrator = new Migrator(this);
+            // logger.info("LOADED: Migrator");
 
             discordManager = new DiscordManager(this);
             logger.info("LOADED: DiscordManager");
@@ -413,5 +417,37 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             return false;
         }
 
+    }
+    
+    // You can test some features here in 'dev' mode only.
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+        if (isProduction()) {
+            return false;
+        }
+
+        final Player player = (Player) sender;
+        final String cmdName = command.getLabel().toString();
+
+        if (cmdName.equals("test-econ")) {
+            sender.sendMessage("You have:" + economyManager.getPlayerBalance(player));
+
+            // Deposit
+            economyManager.depositPlayer(player, 10.00);
+            sender.sendMessage("We've deposited you:" + 10.00);
+            sender.sendMessage("You now have:" + economyManager.getPlayerBalance(player));
+
+            // withdraw
+            economyManager.withdrawPlayer(player, 10.00);
+            sender.sendMessage("We've withdraw you: -" + 10.00);
+            sender.sendMessage("You now have:" + economyManager.getPlayerBalance(player));
+        }
+
+        logger.info("Jon done!");
+        return true;
+    }
+
+    public boolean isProduction() {
+        return configManager.isProduction();
     }
 }
