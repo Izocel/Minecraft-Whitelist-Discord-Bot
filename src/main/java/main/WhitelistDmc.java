@@ -4,6 +4,7 @@ import java.net.http.WebSocket.Listener;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,6 +15,7 @@ import dao.DaoManager;
 import db.Migrator;
 import discord.DiscordManager;
 import discord.GuildManager;
+import helpers.EconomyManager;
 import helpers.NotificationManager;
 import io.sentry.ISpan;
 import io.sentry.ITransaction;
@@ -22,6 +24,7 @@ import io.sentry.SpanStatus;
 import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
+import net.milkbowl.vault.economy.Economy;
 import services.sentry.SentryService;
 
 public final class WhitelistDmc extends JavaPlugin implements Listener {
@@ -33,6 +36,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
     private DiscordManager discordManager;
     private DaoManager daoManager;
     private NotificationManager notificationManager;
+    private EconomyManager economyManager;
 
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
@@ -112,8 +116,8 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             daoManager = new DaoManager(this);
             logger.info("LOADED: DaoManager");
 
-            // migrator = new Migrator(this);
-            // logger.info("LOADED: Migrator");
+            migrator = new Migrator(this);
+            logger.info("LOADED: Migrator");
 
             discordManager = new DiscordManager(this);
             logger.info("LOADED: DiscordManager");
@@ -126,6 +130,9 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
             notificationManager = new NotificationManager(this);
             logger.info("LOADED: NotificationManager");
+
+            economyManager = new EconomyManager(this);
+            logger.info("LOADED: EconomyManager *vaultApi");
 
             updateAllPlayers();
             logger.info("UPDATED PLAYERS CACHE");
@@ -205,6 +212,10 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
     public final SentryService getSentryService() {
         return this.sentryService;
+    }
+
+    public final EconomyManager getEconomyManager() {
+        return this.economyManager;
     }
 
     public final JSONArray updateAllPlayers() {
