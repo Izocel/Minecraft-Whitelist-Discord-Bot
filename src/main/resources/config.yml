@@ -94,5 +94,6 @@ misc:
     confirmLinkCmdName: w-link,
     minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
     serverContactEmail: webdevteam@rvdprojects.com,
-    adminPanelUrl: "https://rvdprojects.synology.me:3000"
+    adminPanelUrl: "https://rvdprojects.synology.me:3000",
+    envType: "production"
   }
