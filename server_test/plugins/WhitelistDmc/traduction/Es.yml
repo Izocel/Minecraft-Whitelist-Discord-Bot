@@ -11,8 +11,8 @@ IS_ACTIVE: está activo
 IS_INACTIVE: está inactivo
 DO_REGISTER: regístrate en el servidor Discord®
 MINECRAFT_ALREADY_CONFIRMED: Esta cuenta ya está confirmada
-MINECRAFT_CONFIRMATION_ON_ITS_WAY: Revisa tus mensajes de Discord® para confirmar tu
-  suscripción...
+MINECRAFT_CONFIRMATION_ON_ITS_WAY: Revisa tus mensajes de Discord® para confirmar
+  tu suscripción...
 ACCOUNTS_INFOS: Información de cuentas
 INFORMATION: Informacións
 SERVER: Servidor
@@ -152,8 +152,3 @@ CUSTOM_LINK_LINK3_DESC: desc LINK3 es
 CUSTOM_LINK_LINK3_LINK: https://link3-es.ca
 CUSTOM_LINK_LINK3_TXT_MC: la valeur du text sur minecraft link3-es
 CUSTOM_LINK_LINK3_TXT_DISC: la valeur du text sur discord link3-es
-CONTACT_ADMIN: Contactar con un administrador...
-CMD_REMOVE_DB_USERS: retirar
-DESC_REMOVE_DB_USERS: Eliminar todos los datos de un miembro y expulsarlo de Discord®.
-INFO_ACCESS_REQUESTED: '**Su demanda de acceso `%s` para `%s` ha sido enviada a los
-  moderadores.**'

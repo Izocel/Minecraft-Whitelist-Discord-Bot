@@ -8,8 +8,8 @@ NIGHT: Night
 NAME: name
 VERSION: Version
 IS_ACTIVE: is active
-ISINACTIVE: is inactive
-DOREGISTER: Register on the Discord® server
+IS_INACTIVE: is inactive
+DO_REGISTER: Register on the Discord® server
 MINECRAFT_ALREADY_CONFIRMED: This account is already confirmed...
 MINECRAFT_CONFIRMATION_ON_ITS_WAY: Check your Discord® messages to confirm your registration...
 ACCOUNTS_INFOS: Accounts information
@@ -70,7 +70,7 @@ INFO_MUST_CONFIRM_ACCOUNT: |
   **A confirmation for your `%s` account is needed.**
 INFO_TIME_TO_CONFIRM_SINCE: |
   To confirm your account, you had `%sh` since the approbation, and connect to the Mincecraft® server
-INFO_ACCES_REQUESTED: '**Your `%s` access request for `%s` was sent to moderators.**'
+INFO_ACCESS_REQUESTED: '**Your `%s` access request for `%s` was sent to moderators.**'
 INFO_PLZ_AWAIT: '**Thank you for waiting until the approval by one of them.**'
 INFO_REGISTER_REQUEST: A `%s` player want to register on your `Minecraft®` server
 INFO_ACCEPTED_BY: '✔️ Accepted by: %s'
@@ -111,7 +111,7 @@ CMD_REGISTER: register
 CMD_LOOKUP: search
 CMD_SETLOCAL: language
 CMD_FETCHDB_USERS: members
-CMD_REMOVEDB_USERS: remove
+CMD_REMOVE_DB_USERS: remove
 PARAM_PJAVA: java-pseudo
 PARAM_PBEDR: bedrock-pseudo
 PARAM_REGISTR_LABELJ: Your Java pseudo
@@ -130,7 +130,7 @@ DESC_SETLOCAL: |-
   Change the display language.
    FR: francais, EN: english, ES: española.
 DESC_FETCHDB_USERS: Get info on a member.
-DESC_REMOVEDB_USERS: Delete all of a member's data and kick them from Discord®.
+DESC_REMOVE_DB_USERS: Delete all of a member's data and kick them from Discord®.
 TEXTONLY_CMD: ❌ This command is available only through textual channels.
 GUILDONLY_CMD: ❌ This command is available only through textual guild channels using
   this.
@@ -152,7 +152,3 @@ CUSTOM_LINK_LINK3_DESC: desc LINK3 EN
 CUSTOM_LINK_LINK3_LINK: https://link3-en.ca
 CUSTOM_LINK_LINK3_TXT_MC: la valeur du text sur minecraft link3-en
 CUSTOM_LINK_LINK3_TXT_DISC: la valeur du text sur discord link3-en
-CONTACT_ADMIN: Contact an administrator...
-CMD_REMOVE_DB_USERS: remove
-DESC_REMOVE_DB_USERS: Delete all of a member's data and kick them from Discord®.
-INFO_ACCESS_REQUESTED: '**Your `%s` access request for `%s` was sent to moderators.**'

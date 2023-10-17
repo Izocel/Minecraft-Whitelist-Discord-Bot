@@ -10,6 +10,7 @@ VERSION: Version
 IS_ACTIVE: est actif
 IS_INACTIVE: est inactif
 DO_REGISTER: Enregistrer vous sur le serveur Discord®
+MINECRAFT_ALREADY_CONFIRMED: Votre compte est déjà confirmé...
 MINECRAFT_CONFIRMATION_ON_ITS_WAY: Vérifiez vos messages Discord® pour confirmer votre
   inscription...
 ACCOUNTS_INFOS: Informations de comptes
@@ -153,8 +154,3 @@ CUSTOM_LINK_LINK3_DESC: desc LINK3 fr
 CUSTOM_LINK_LINK3_LINK: https://link3-fr.ca
 CUSTOM_LINK_LINK3_TXT_MC: la valeur du text sur minecraft link3-fr
 CUSTOM_LINK_LINK3_TXT_DISC: la valeur du text sur discord link3-fr
-MINECRAFT_ALREADY_CONFIRMED: Votre compte est déjà confirmé...
-CONTACT_ADMIN: Contactez un admin...
-CMD_REMOVE_DB_USERS: retirer
-DESC_REMOVE_DB_USERS: Supprimer toutes les données d'un membre et expulsez-le de Discord®.
-INFO_ACCESS_REQUESTED: '**Votre demande d''accès `%s` pour `%s` a été envoyé aux modérateurs.**'
