@@ -7,13 +7,13 @@ DAY: Día
 NIGHT: Noche
 NAME: nombre
 VERSION: Versión
-ISACTIVE: está activo
-ISINACTIVE: está inactivo
-DOREGISTER: regístrate en el servidor Discord®
-MINECRAFT_ALREADYCONFIRMED: Esta cuenta ya está confirmada
-MINECRAFT_CONFIRMATIONONITSWAY: Revisa tus mensajes de Discord® para confirmar tu
-  suscripción...
-ACCOUNTSINFOS: Información de cuentas
+IS_ACTIVE: está activo
+IS_INACTIVE: está inactivo
+DO_REGISTER: regístrate en el servidor Discord®
+MINECRAFT_ALREADY_CONFIRMED: Esta cuenta ya está confirmada
+MINECRAFT_CONFIRMATION_ON_ITS_WAY: Revisa tus mensajes de Discord® para confirmar
+  tu suscripción...
+ACCOUNTS_INFOS: Información de cuentas
 INFORMATION: Informacións
 SERVER: Servidor
 WORLDS: Mundos
@@ -21,7 +21,7 @@ DEVS: Desarrolladores
 PORT: Port
 ONLINE_MODE: Modo en línea
 WHITELISTED: ListaBlanca
-DEFAULT_GAMEMOD: Modo de juego
+DEFAULT_GAME_MODE: Modo de juego
 DESCRIPTION: Descripción
 CONNECTED_USER: Usuario conectado
 CONNECTED_USERS: Usuarios conectados
@@ -71,7 +71,7 @@ INFO_MUST_CONFIRM_ACCOUNT: |
   **Una confirmación de su cuenta `%s` es necesaria.**
 INFO_TIME_TO_CONFIRM_SINCE: |
   Para confirmar su cuenta usted tiene `%sh` de la aprobacion para conectarse al servidor Mincecraft®
-INFO_ACCES_REQUESTED: '**Su demanda de acceso `%s` para `%s` ha sido enviada a los
+INFO_ACCESS_REQUESTED: '**Su demanda de acceso `%s` para `%s` ha sido enviada a los
   moderadores.**'
 INFO_PLZ_AWAIT: '**Merci de patienter jusqu''à une prise de décision de leur part.**'
 INFO_REGISTER_REQUEST: Un jugador `%s` quiere registrarse en su servidor `Minecraft®`
@@ -94,7 +94,7 @@ WARN_BAD_PSEUDO_FORMAT_EXPLAIN: |-
   ⚠️ Su apodo `%s`: `%s`, debe contener entre `3` y `16` caracteres.
    No debe contener caracteres especiales aparte de las barras abajo `_` o líneas horizontales `-`.
 ERROR: ❌ ERROR
-CONTACT_ADMNIN: Contactar con un administrador...
+CONTACT_ADMIN: Contactar con un administrador...
 CHECK_LOGS: '**Mira los archivos de `log`!!!!**'
 NOTREGISTERED: No se pudo encontrar su registro...
 CMD_ERROR: ❌ Lo sentimos... ¡Ocurrió un error durante esta solicitud!
@@ -111,7 +111,7 @@ CMD_REGISTER: registrar
 CMD_LOOKUP: busqueda
 CMD_SETLOCAL: idioma
 CMD_FETCHDB_USERS: miembros
-CMD_REMOVEDB_USERS: retirar
+CMD_REMOVE_DB_USERS: retirar
 PARAM_PJAVA: java
 PARAM_PBEDR: bedrock
 PARAM_REGISTR_LABELJ: Su pseudo Java
@@ -130,14 +130,13 @@ DESC_SETLOCAL: |-
   Cambiar el idioma de visualización.
    FR: Francés, EN: Inglés, ES: Español.
 DESC_FETCHDB_USERS: Récuperer les infos sur un membre.
-DESC_REMOVEDB_USERS: Eliminar todos los datos de un miembro y expulsarlo de Discord®.
+DESC_REMOVE_DB_USERS: Eliminar todos los datos de un miembro y expulsarlo de Discord®.
 TEXTONLY_CMD: ❌ Esta orden solo está disponible en los canales de texto.
 GUILDONLY_CMD: ❌ Esta orden solo está disponible en los canales de texto de los gremios
   que usan este plugin.
-USERONLY_CMD: ❌ Esta orden está reservada para usuarios registrados por Discord®.
+USER_ONLY_CMD: ❌ Esta orden está reservada para usuarios registrados por Discord®.
 ROLE_NOT_ALLOWED: 🔒 Lastima que no tiene los rollos necesarios... 🔒
 SERVER_IS_UP: El servidor sirve!
-
 CUSTOM_LINK_LINK1_ALIAS: linkonees
 CUSTOM_LINK_LINK1_DESC: desc LINK1 es
 CUSTOM_LINK_LINK1_LINK: https://link1-es.ca
@@ -153,4 +152,3 @@ CUSTOM_LINK_LINK3_DESC: desc LINK3 es
 CUSTOM_LINK_LINK3_LINK: https://link3-es.ca
 CUSTOM_LINK_LINK3_TXT_MC: la valeur du text sur minecraft link3-es
 CUSTOM_LINK_LINK3_TXT_DISC: la valeur du text sur discord link3-es
-

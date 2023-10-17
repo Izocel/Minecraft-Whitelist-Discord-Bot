@@ -21,6 +21,7 @@
     "java.implementationsCodeLens.enabled": false,
     "java.compile.nullAnalysis.mode": "disabled",
     "cSpell.words": [
-        "Bukkit"
+        "Bukkit",
+        "wdmc"
     ]
 }

@@ -12,13 +12,13 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("NIGHT", "Noche");
         this.DEFAULTS.put("NAME", "nombre");
         this.DEFAULTS.put("VERSION", "Versión");
-        this.DEFAULTS.put("ISACTIVE", "está activo");
-        this.DEFAULTS.put("ISINACTIVE", "está inactivo");
-        this.DEFAULTS.put("DOREGISTER", "regístrate en el servidor Discord®");
-        this.DEFAULTS.put("MINECRAFT_ALREADYCONFIRMED", "Esta cuenta ya está confirmada");
-        this.DEFAULTS.put("MINECRAFT_CONFIRMATIONONITSWAY",
+        this.DEFAULTS.put("IS_ACTIVE", "está activo");
+        this.DEFAULTS.put("IS_INACTIVE", "está inactivo");
+        this.DEFAULTS.put("DO_REGISTER", "regístrate en el servidor Discord®");
+        this.DEFAULTS.put("MINECRAFT_ALREADY_CONFIRMED", "Esta cuenta ya está confirmada");
+        this.DEFAULTS.put("MINECRAFT_CONFIRMATION_ON_ITS_WAY",
                 "Revisa tus mensajes de Discord® para confirmar tu suscripción...");
-        this.DEFAULTS.put("ACCOUNTSINFOS", "Información de cuentas");
+        this.DEFAULTS.put("ACCOUNTS_INFOS", "Información de cuentas");
         this.DEFAULTS.put("INFORMATION", "Informacións");
         this.DEFAULTS.put("SERVER", "Servidor");
         this.DEFAULTS.put("WORLDS", "Mundos");
@@ -26,7 +26,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("PORT", "Port");
         this.DEFAULTS.put("ONLINE_MODE", "Modo en línea");
         this.DEFAULTS.put("WHITELISTED", "ListaBlanca");
-        this.DEFAULTS.put("DEFAULT_GAMEMOD", "Modo de juego");
+        this.DEFAULTS.put("DEFAULT_GAME_MODE", "Modo de juego");
         this.DEFAULTS.put("DESCRIPTION", "Descripción");
         this.DEFAULTS.put("CONNECTED_USER", "Usuario conectado");
         this.DEFAULTS.put("CONNECTED_USERS", "Usuarios conectados");
@@ -72,7 +72,7 @@ public class Es extends DTraductionMaps {
                 "**Una confirmación de su cuenta `%s` es necesaria.**\n");
         this.DEFAULTS.put("INFO_TIME_TO_CONFIRM_SINCE",
                 "Para confirmar su cuenta usted tiene `%sh` de la aprobacion para conectarse al servidor Mincecraft®\n");
-        this.DEFAULTS.put("INFO_ACCES_REQUESTED",
+        this.DEFAULTS.put("INFO_ACCESS_REQUESTED",
                 "**Su demanda de acceso `%s` para `%s` ha sido enviada a los moderadores.**");
         this.DEFAULTS.put("INFO_PLZ_AWAIT",
                 "**Merci de patienter jusqu'à une prise de décision de leur part.**");
@@ -99,7 +99,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("WARN_BAD_PSEUDO_FORMAT_EXPLAIN",
                 "⚠️ Su apodo `%s`: `%s`, debe contener entre `3` y `16` caracteres.\n No debe contener caracteres especiales aparte de las barras abajo `_` o líneas horizontales `-`.");
         this.DEFAULTS.put("ERROR", "❌ ERROR");
-        this.DEFAULTS.put("CONTACT_ADMNIN", "Contactar con un administrador...");
+        this.DEFAULTS.put("CONTACT_ADMIN", "Contactar con un administrador...");
         this.DEFAULTS.put("CHECK_LOGS", "**Mira los archivos de `log`!!!!**");
         this.DEFAULTS.put("NOTREGISTERED", "No se pudo encontrar su registro...");
         this.DEFAULTS.put("CMD_ERROR", "❌ Lo sentimos... ¡Ocurrió un error durante esta solicitud!");
@@ -118,7 +118,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("CMD_LOOKUP", "busqueda");
         this.DEFAULTS.put("CMD_SETLOCAL", "idioma");
         this.DEFAULTS.put("CMD_FETCHDB_USERS", "miembros");
-        this.DEFAULTS.put("CMD_REMOVEDB_USERS", "retirar");
+        this.DEFAULTS.put("CMD_REMOVE_DB_USERS", "retirar");
         this.DEFAULTS.put("PARAM_PJAVA", "java");
         this.DEFAULTS.put("PARAM_PBEDR", "bedrock");
         this.DEFAULTS.put("PARAM_REGISTR_LABELJ", "Su pseudo Java");
@@ -136,12 +136,12 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("DESC_SETLOCAL",
                 "Cambiar el idioma de visualización.\n FR: Francés, EN: Inglés, ES: Español.");
         this.DEFAULTS.put("DESC_FETCHDB_USERS", "Récuperer les infos sur un membre."); // à traduire sv;
-        this.DEFAULTS.put("DESC_REMOVEDB_USERS",
+        this.DEFAULTS.put("DESC_REMOVE_DB_USERS",
                 "Eliminar todos los datos de un miembro y expulsarlo de Discord®.");
         this.DEFAULTS.put("TEXTONLY_CMD", "❌ Esta orden solo está disponible en los canales de texto.");
         this.DEFAULTS.put("GUILDONLY_CMD",
                 "❌ Esta orden solo está disponible en los canales de texto de los gremios que usan este plugin.");
-        this.DEFAULTS.put("USERONLY_CMD",
+        this.DEFAULTS.put("USER_ONLY_CMD",
                 "❌ Esta orden está reservada para usuarios registrados por Discord®.");
         this.DEFAULTS.put("ROLE_NOT_ALLOWED", "🔒 Lastima que no tiene los rollos necesarios... 🔒");
         this.DEFAULTS.put("SERVER_IS_UP", "El servidor sirve!");

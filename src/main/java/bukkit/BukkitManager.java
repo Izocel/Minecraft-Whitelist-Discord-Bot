@@ -8,7 +8,7 @@ import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
-
+import org.bukkit.scheduler.BukkitRunnable;
 import commands.bukkit.ConfirmLinkCmd;
 import commands.bukkit.HyperLinksCmd;
 import dao.DaoManager;
@@ -51,7 +51,6 @@ public class BukkitManager {
         final String description = Bukkit.getServer().getMotd();
         final GameMode gameMode = Bukkit.getServer().getDefaultGameMode();
         final boolean onlineMode = Bukkit.getServer().getOnlineMode();
-        final boolean usingWhiteList = Bukkit.getServer().hasWhitelist();
         final boolean forceWhitelist = Bukkit.getServer().isWhitelistEnforced();
 
         final String portJ = this.plugin.getConfigManager().get("portJava", "???");
@@ -64,7 +63,7 @@ public class BukkitManager {
         final String versionField = LOCAL.translateBy("VERSION", lang);
         final String onlineField = LOCAL.translateBy("ONLINE_MODE", lang);
         final String whitelistField = LOCAL.translateBy("WHITELISTED", lang);
-        final String defaultGModefield = LOCAL.translateBy("DEFAULT_GAMEMOD", lang);
+        final String defaultGModefield = LOCAL.translateBy("DEFAULT_GAME_MODE", lang);
         final String descField = LOCAL.translateBy("DESCRIPTION", lang);
         final String WORD_YES = LOCAL.translateBy("WORD_YES", lang);
         final String WORD_NO = LOCAL.translateBy("WORD_NO", lang);
@@ -118,78 +117,26 @@ public class BukkitManager {
         process.finish();
     }
 
-    public boolean banPlayer(String uuid) {
+    public boolean kickPlayer(String uuid, String reason) {
         try {
             final UUID UUID = java.util.UUID.fromString(uuid);
-            OfflinePlayer player = Bukkit.getOfflinePlayer(UUID);
-            plugin.deletePlayerRegistration(UUID);
-
-            if (player != null) {
-                player.setWhitelisted(false);
-                kickPlayer(uuid);
-            }
-
-            return getServer().getPlayer(UUID) == null;
-        } catch (Exception e) {
-            SentryService.captureEx(e);
-            return false;
-        }
-
-    }
-
-    public boolean kickPlayer(String uuid) {
-        try {
-            final UUID UUID = java.util.UUID.fromString(uuid);
+            OfflinePlayer player = getServer().getOfflinePlayer(UUID);
             Player onlinePlayer = getServer().getPlayer(UUID);
-            if (onlinePlayer == null) {
-                return true;
-            }
-
-            Bukkit.getScheduler().runTask(plugin, new Runnable() {
+            new BukkitRunnable() {
+                @Override
                 public void run() {
-                    onlinePlayer.kickPlayer("§lVous ne faites plus partie de l'aventure...\n");
+                    try {
+                        if (onlinePlayer != null) {
+                            onlinePlayer.kickPlayer(reason);
+                        }
+                        player.setWhitelisted(false);
+                    } catch (Exception e) {
+                        SentryService.captureEx(e);
+                    }
                 }
-            });
+            }.runTask(plugin);
 
             return getServer().getPlayer(UUID) == null;
-
-        } catch (Exception e) {
-            SentryService.captureEx(e);
-            return false;
-        }
-    }
-
-    public boolean sanitizeAnKickPlayer(String uuid) {
-        try {
-            if (uuid == null) {
-                return true;
-            }
-
-            final UUID UUID = java.util.UUID.fromString(uuid);
-            if (plugin.deletePlayerRegistration(UUID)) {
-                return kickPlayer(uuid);
-            }
-
-            return true;
-
-        } catch (Exception e) {
-            SentryService.captureEx(e);
-            return false;
-        }
-    }
-
-    public boolean sanitizeAndBanPlayer(String uuid) {
-        try {
-            if (uuid == null) {
-                return true;
-            }
-
-            final UUID UUID = java.util.UUID.fromString(uuid);
-            if (plugin.deleteAllPlayerData(UUID)) {
-                return banPlayer(uuid);
-            }
-
-            return true;
 
         } catch (Exception e) {
             SentryService.captureEx(e);

@@ -13,12 +13,12 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("NIGHT", "Nuit");
         this.DEFAULTS.put("NAME", "nom");
         this.DEFAULTS.put("VERSION", "Version");
-        this.DEFAULTS.put("ISACTIVE", "est actif");
-        this.DEFAULTS.put("ISINACTIVE", "est inactif");
-        this.DEFAULTS.put("DOREGISTER", "Enregistrer vous sur le serveur Discord®");
-        this.DEFAULTS.put("MINECRAFT_ALREADYCONFIRMED", "Votre compte est déjà confirmé...");
-        this.DEFAULTS.put("MINECRAFT_CONFIRMATIONONITSWAY","Vérifiez vos messages Discord® pour confirmer votre inscription...");
-        this.DEFAULTS.put("ACCOUNTSINFOS", "Informations de comptes");
+        this.DEFAULTS.put("IS_ACTIVE", "est actif");
+        this.DEFAULTS.put("IS_INACTIVE", "est inactif");
+        this.DEFAULTS.put("DO_REGISTER", "Enregistrer vous sur le serveur Discord®");
+        this.DEFAULTS.put("MINECRAFT_ALREADY_CONFIRMED", "Votre compte est déjà confirmé...");
+        this.DEFAULTS.put("MINECRAFT_CONFIRMATION_ON_ITS_WAY","Vérifiez vos messages Discord® pour confirmer votre inscription...");
+        this.DEFAULTS.put("ACCOUNTS_INFOS", "Informations de comptes");
         this.DEFAULTS.put("INFORMATION", "Informations");
         this.DEFAULTS.put("SERVER", "Serveur");
         this.DEFAULTS.put("WORLDS", "Mondes");
@@ -26,7 +26,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("PORT", "Port");
         this.DEFAULTS.put("ONLINE_MODE", "Mode en ligne");
         this.DEFAULTS.put("WHITELISTED", "Whitelisted");
-        this.DEFAULTS.put("DEFAULT_GAMEMOD", "Mode de jeu default");
+        this.DEFAULTS.put("DEFAULT_GAME_MODE", "Mode de jeu default");
         this.DEFAULTS.put("DESCRIPTION", "Description");
         this.DEFAULTS.put("CONNECTED_USER", "Joueur connecté");
         this.DEFAULTS.put("CONNECTED_USERS", "Joueurs connectés");
@@ -70,7 +70,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("INFO_MUST_CONFIRM_ACCOUNT", "**Une confirmation de votre compte `%s` est nécéssaire.**\n");
         this.DEFAULTS.put("INFO_TIME_TO_CONFIRM_SINCE",
                 "Pour confimer votre compte vous aviez `%sh` depuis l'aprobation pour vous connecter au server Mincecraft®\n");
-        this.DEFAULTS.put("INFO_ACCES_REQUESTED",
+        this.DEFAULTS.put("INFO_ACCESS_REQUESTED",
                 "**Votre demande d'accès `%s` pour `%s` a été envoyé aux modérateurs.**");
         this.DEFAULTS.put("INFO_PLZ_AWAIT", "**Merci de patienter jusqu'à une prise de décision de leur part.**");
         this.DEFAULTS.put("INFO_REGISTER_REQUEST", "Un joueur `%s` veut s'enregister sur votre serveur `Minecraft®`");
@@ -91,7 +91,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("WARN_BAD_PSEUDO_FORMAT_EXPLAIN",
                 "⚠️ Votre pseudo `%s`: `%s`, devrait comporter entre `3` et `16` caractères.\nIl ne doit pas comporter de caractères spéciaux à part des underscores `_` ou tirets `-`.");
         this.DEFAULTS.put("ERROR", "❌ ERREUR");
-        this.DEFAULTS.put("CONTACT_ADMNIN", "Contactez un admin...");
+        this.DEFAULTS.put("CONTACT_ADMIN", "Contactez un admin...");
         this.DEFAULTS.put("CHECK_LOGS", "**Regarder les fichers de `log`!!!!**");
         this.DEFAULTS.put("NOTREGISTERED", "Votre enregistrement n'a pas pu être retrouvé...");
         this.DEFAULTS.put("CMD_ERROR", "❌ Désoler... une erreur est survenu lors de cette demande!!!");
@@ -110,7 +110,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("CMD_LOOKUP", "recherche");
         this.DEFAULTS.put("CMD_SETLOCAL", "langue");
         this.DEFAULTS.put("CMD_FETCHDB_USERS", "membres");
-        this.DEFAULTS.put("CMD_REMOVEDB_USERS", "retirer");
+        this.DEFAULTS.put("CMD_REMOVE_DB_USERS", "retirer");
         this.DEFAULTS.put("PARAM_PJAVA", "pseudo-java");
         this.DEFAULTS.put("PARAM_PBEDR", "pseudo-bedrock");
         this.DEFAULTS.put("PARAM_REGISTR_LABELJ", "Votre pseudo Java");
@@ -127,12 +127,12 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("DESC_LOOKUP", "Trouver des infos de joueurs Minecraft® par uuid ou pseudo.");
         this.DEFAULTS.put("DESC_SETLOCAL", "Changer la langue d'affichage.\n FR: francais, EN: english, ES: española.");
         this.DEFAULTS.put("DESC_FETCHDB_USERS", "Récuperer les infos sur un membre.");
-        this.DEFAULTS.put("DESC_REMOVEDB_USERS",
+        this.DEFAULTS.put("DESC_REMOVE_DB_USERS",
                 "Supprimer toutes les données d'un membre et expulsez-le de Discord®.");
         this.DEFAULTS.put("TEXTONLY_CMD", "❌ Cette commande est disponible seulement dans les cannaux textuels.");
         this.DEFAULTS.put("GUILDONLY_CMD",
                 "❌ Cette commande est disponible seulement dans les cannaux textuels de guild utilisant ce plugin.");
-        this.DEFAULTS.put("USERONLY_CMD", "❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®.");
+        this.DEFAULTS.put("USER_ONLY_CMD", "❌ Cette commande est réservée aux utilisateurs enregistrés par Discord®.");
         this.DEFAULTS.put("ROLE_NOT_ALLOWED", "🔒 Dommage vous n'avez pas les roles nécéssaires... 🔒");
         this.DEFAULTS.put("SERVER_IS_UP", "Le serveur est up and running boyyssss!");
     }

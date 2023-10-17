@@ -6,8 +6,10 @@ import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
@@ -29,6 +31,8 @@ import io.sentry.SpanStatus;
 import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.npc.NPC;
 import services.sentry.SentryService;
 
 public final class WhitelistDmc extends JavaPlugin implements Listener {
@@ -147,7 +151,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
             sb.append(String.format(
                     LOCALES.translate("PLUGIN_HELLO"),
-                    this.getName(), LOCALES.translate("ISACTIVE")));
+                    this.getName(), LOCALES.translate("IS_ACTIVE")));
 
             sb.append(getPluginInfos(false));
             guildManager.getBotLogChannel()
@@ -167,7 +171,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
                 sb.append(String.format(
                         LOCALES.translate("PLUGIN_HELLO_ERROR"),
-                        this.getName(), LOCALES.translate("ISINACTIVE")));
+                        this.getName(), LOCALES.translate("IS_INACTIVE")));
 
                 sb.append(LOCALES.translate("CHECK_LOGS") + "\n\n");
                 sb.append(getPluginInfos(false));
@@ -191,7 +195,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
         sb.append(String.format(
                 LOCALES.translate("PLUGIN_GOODBYE"),
-                this.getName(), LOCALES.translate("ISINACTIVE")));
+                this.getName(), LOCALES.translate("IS_INACTIVE")));
         sb.append(getPluginInfos(false));
 
         guildManager.getBotLogChannel()
@@ -371,7 +375,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         return data;
     }
 
-    public final boolean deletePlayerRegistration(UUID UUID) {
+    public final boolean removePlayerRegistry(UUID UUID, String reason) {
         try {
             if (UUID == null) {
                 return false;
@@ -382,49 +386,19 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
             if (javaData != null) {
-                return javaData.delete(DaoManager.getJavaDataDao()) > 0;
+                javaData.delete(DaoManager.getJavaDataDao());
             }
 
             else if (bedData != null) {
-                return bedData.delete(DaoManager.getBedrockDataDao()) > 0;
+                bedData.delete(DaoManager.getBedrockDataDao());
             }
 
-            return false;
+            return bukkitManager.kickPlayer(uuid, reason);
 
         } catch (Exception e) {
             SentryService.captureEx(e);
             return false;
         }
-
-    }
-
-    public final boolean deleteAllPlayerData(UUID UUID) {
-        try {
-            if (UUID == null) {
-                return false;
-            }
-
-            final String uuid = UUID.toString();
-            final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
-            final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
-
-            if (javaData != null) {
-                return DaoManager.getUsersDao().findUser(javaData.getUserId())
-                        .delete(DaoManager.getUsersDao()) > 0;
-            }
-
-            else if (bedData != null) {
-                return DaoManager.getUsersDao().findUser(bedData.getUserId())
-                        .delete(DaoManager.getUsersDao()) > 0;
-            }
-
-            return false;
-
-        } catch (Exception e) {
-            SentryService.captureEx(e);
-            return false;
-        }
-
     }
 
     // You can test some features here in 'dev' mode only.
@@ -437,17 +411,25 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         try {
             final Player player = (Player) sender;
             final Server server = sender.getServer();
+            final World world = player.getWorld();
             final String cmdName = command.getLabel().toString();
-            
+            final Location playerLoc = player.getLocation();
 
-            logger.warning("---- Job was not found ----");
-            return false;
+            if (cmdName.equals("w-test")) {
+                
+            }
+
+            else {
+                logger.warning("---- Job was not found ----");
+                return false;
+            }
 
         } catch (Exception e) {
             logger.warning("Job error !!!");
             SentryService.captureEx(e);
-            return false;
         }
+
+        return false;
     }
 
     public boolean isProduction() {

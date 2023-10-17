@@ -7,12 +7,12 @@ DAY: Day
 NIGHT: Night
 NAME: name
 VERSION: Version
-ISACTIVE: is active
-ISINACTIVE: is inactive
-DOREGISTER: Register on the Discord® server
-MINECRAFT_ALREADYCONFIRMED: This account is already confirmed...
-MINECRAFT_CONFIRMATIONONITSWAY: Check your Discord® messages to confirm your registration...
-ACCOUNTSINFOS: Accounts information
+IS_ACTIVE: is active
+IS_INACTIVE: is inactive
+DO_REGISTER: Register on the Discord® server
+MINECRAFT_ALREADY_CONFIRMED: This account is already confirmed...
+MINECRAFT_CONFIRMATION_ON_ITS_WAY: Check your Discord® messages to confirm your registration...
+ACCOUNTS_INFOS: Accounts information
 INFORMATION: Information
 SERVER: Server
 WORLDS: Worlds
@@ -20,7 +20,7 @@ DEVS: Developers
 PORT: Port
 ONLINE_MODE: Online mode
 WHITELISTED: Whitelisted
-DEFAULT_GAMEMOD: Default gamemode
+DEFAULT_GAME_MODE: Default game-mode
 DESCRIPTION: Description
 CONNECTED_USER: Connected user
 CONNECTED_USERS: Connected users
@@ -70,7 +70,7 @@ INFO_MUST_CONFIRM_ACCOUNT: |
   **A confirmation for your `%s` account is needed.**
 INFO_TIME_TO_CONFIRM_SINCE: |
   To confirm your account, you had `%sh` since the approbation, and connect to the Mincecraft® server
-INFO_ACCES_REQUESTED: '**Your `%s` access request for `%s` was sent to moderators.**'
+INFO_ACCESS_REQUESTED: '**Your `%s` access request for `%s` was sent to moderators.**'
 INFO_PLZ_AWAIT: '**Thank you for waiting until the approval by one of them.**'
 INFO_REGISTER_REQUEST: A `%s` player want to register on your `Minecraft®` server
 INFO_ACCEPTED_BY: '✔️ Accepted by: %s'
@@ -94,7 +94,7 @@ WARN_BAD_PSEUDO_FORMAT_EXPLAIN: |-
   ⚠️ Your `%s` pseudo: `%s`, should contains between `3` and `16` characters.
   It should not contain specials characters except underscores `_` or dashes `-`.
 ERROR: ❌ ERROR
-CONTACT_ADMNIN: Contact an administrator...
+CONTACT_ADMIN: Contact an administrator...
 CHECK_LOGS: '**Check your `log` files!!!!**'
 NOTREGISTERED: Your registration could not be fetched...
 CMD_ERROR: ❌ Sorry... an error as occurred during this request!!!
@@ -111,7 +111,7 @@ CMD_REGISTER: register
 CMD_LOOKUP: search
 CMD_SETLOCAL: language
 CMD_FETCHDB_USERS: members
-CMD_REMOVEDB_USERS: remove
+CMD_REMOVE_DB_USERS: remove
 PARAM_PJAVA: java-pseudo
 PARAM_PBEDR: bedrock-pseudo
 PARAM_REGISTR_LABELJ: Your Java pseudo
@@ -130,14 +130,13 @@ DESC_SETLOCAL: |-
   Change the display language.
    FR: francais, EN: english, ES: española.
 DESC_FETCHDB_USERS: Get info on a member.
-DESC_REMOVEDB_USERS: Delete all of a member's data and kick them from Discord®.
+DESC_REMOVE_DB_USERS: Delete all of a member's data and kick them from Discord®.
 TEXTONLY_CMD: ❌ This command is available only through textual channels.
 GUILDONLY_CMD: ❌ This command is available only through textual guild channels using
   this.
-USERONLY_CMD: ❌ This command id reserved for Discord® registered users only.
+USER_ONLY_CMD: ❌ This command id reserved for Discord® registered users only.
 ROLE_NOT_ALLOWED: 🔒 Too bad you don't have the necessary roles... 🔒
 SERVER_IS_UP: The server is up and running boys!
-
 CUSTOM_LINK_LINK1_ALIAS: linkoneen
 CUSTOM_LINK_LINK1_DESC: desc LINK1 EN
 CUSTOM_LINK_LINK1_LINK: https://link1-en.ca

@@ -62,6 +62,10 @@ public class NotificationManager {
     }
 
     public static final JSONObject postNotification(NotificationData data, Boolean putEmail) {
+        if(!plugin.isProduction()) {
+            return null;
+        }
+        
         var resp = new JSONObject();
         resp.put("status", 500);
         resp.put("data", null);

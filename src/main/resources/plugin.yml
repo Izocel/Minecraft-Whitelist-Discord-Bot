@@ -3,6 +3,7 @@ version: '${project.version}'
 main: main.WhitelistDmc
 api-version: 1.15
 author: Izocel
+softdepends: [Citizens]
 commands:
    w-link:
       description: Used to authenticate your Discord and Minecraft accounts.
@@ -10,6 +11,6 @@ commands:
    w-hyperlinks:
       description: Used to send dynamic hyperlinks.
       usage: /<w-hyperlinks-command>
-   testcmd:
+   w-test:
       description: Used to test in 'dev' mode
-      usage: /testcmd
+      usage: /w-test

@@ -120,7 +120,7 @@ public class FetchUserDbCmd extends UserOnlyCmd {
             return;
 
         } catch (Exception e) {
-            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMNIN");
+            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMIN");
 
             submitReplyEphemeral(reply);
             tx.setData("error-state", "error");
