@@ -129,12 +129,13 @@ src/main/resources/www/*
 server_test/plugins/WhitelistDmc/www/*
 
 server_test/plugins/Geyser-Spigot/*
-server_test/plugins/ViaBackwards/*
-server_test/plugins/ViaRewind/*
-server_test/plugins/ViaVersion/*
+server_test/plugins/Citizens/*
 server_test/plugins/spark/*
 server_test/plugins/Essentials/*
 server_test/plugins/Waypoints/*
+server_test/plugins/ViaBackwards/*
+server_test/plugins/ViaRewind/*
+server_test/plugins/ViaVersion/*
 
 server_test/banned-ips.json
 server_test/banned-players.json

@@ -1,5 +1,7 @@
 package commands.discords;
 
+import java.util.UUID;
+
 import org.json.JSONArray;
 
 import dao.DaoManager;
@@ -22,8 +24,8 @@ import com.google.gson.JsonArray;
  */
 public class DeleteUserDbCmd extends UserOnlyCmd {
 
-    private final static String KEY_CMD_NAME = "CMD_REMOVEDB_USERS";
-    private final static String KEY_CMD_DESC = "DESC_REMOVEDB_USERS";
+    private final static String KEY_CMD_NAME = "CMD_REMOVE_DB_USERS";
+    private final static String KEY_CMD_DESC = "DESC_REMOVE_DB_USERS";
     private final static String KEY_PARAM_USER = "PARAM_MEMBER";
     private final static String KEY_PARAM_USER_LABEL = "PARAM_MEMBER_LABEL";
     private final static String KEY_PARAM_UUID = "PARAM_UUID";
@@ -48,7 +50,7 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
     public DeleteUserDbCmd(WhitelistDmc plugin) {
         super(plugin,
                 "DeleteUserDbCmd",
-                "CMD_REMOVEDB_USERS",
+                "CMD_REMOVE_DB_USERS",
                 "Delete DB user",
                 "Delete user");
     }
@@ -77,7 +79,7 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
                 sb.append("❌ Bad parameters...");
 
                 submitReplyEphemeral(sb.toString());
-                tx.setData("state", "notFound (no params)");
+                tx.setData("state", "notFound (bad params)");
                 tx.finish(SpanStatus.NOT_FOUND);
                 return;
             }
@@ -91,8 +93,11 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
             if (userParam != null) {
                 lookUpMember = userParam.getAsMember();
                 lookupBdUser = User.getFromMember(lookUpMember);
-                bedData = lookupBdUser.toJson().optJSONArray("bedData");
-                javaData = lookupBdUser.toJson().optJSONArray("javaData");
+
+                if (lookupBdUser != null) {
+                    bedData = lookupBdUser.toJson().optJSONArray("bedData");
+                    javaData = lookupBdUser.toJson().optJSONArray("javaData");
+                }
             }
 
             if (uuidParam != null) {
@@ -105,7 +110,10 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
                         : javaSingeleData.getUserId();
 
                 lookupBdUser = DaoManager.getUsersDao().findUser(userId);
-                lookUpMember = plugin.getGuildManager().findMember(lookupBdUser.getDiscordId());
+
+                if (lookupBdUser != null) {
+                    lookUpMember = plugin.getGuildManager().findMember(lookupBdUser.getDiscordId());
+                }
 
                 if (bedSingeleData != null) {
                     bedData.put(bedSingeleData.toJson());
@@ -116,45 +124,68 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
                 }
             }
 
-            // User NOT-FOUND
-            if (lookupBdUser == null) {
-                sb.append("❌ User's not registered...");
+            // Member NOT-FOUND
+            if (lookUpMember == null) {
+                sb.append("❌ User's not in your guild...");
 
                 submitReplyEphemeral(sb.toString());
-                tx.setData("state", "notFound");
+                tx.setData("state", "Discord guild member not found");
                 tx.finish(SpanStatus.NOT_FOUND);
                 return;
             }
 
-            try {
-                lookUpMember.kick();
-            } catch (Exception e) {
-                sb.append("❌ " + e.getMessage() + "\n");
-                tx.setData("error-state", "error diccord-kick unauthorized");
-                SentryService.captureEx(e);
+            if (!member.canInteract(lookUpMember) || !bot.canInteract(lookUpMember)) {
+                logger.info(String.format("The bot cannot kick %s", lookUpMember.getEffectiveName()));
+                sb.append("⚠️ [Discord-Kick] Can't modify a member with ");
+                sb.append("higher or equal highest role than yourself!\n\n");
+            } else {
+                try {
+                    logger.info(String.format("The bot is trying to kick %s", lookUpMember.getEffectiveName()));
+                    lookUpMember.kick().complete();
+                } catch (Exception e) {
+                    logger.info(e.getMessage());
+                    sb.append("⚠️ [Discord-Kick] " + e.getMessage() + "\n\n");
+                    tx.setData("error-state", "error discord-kick unauthorized (higher or equal ranks)");
+                    SentryService.captureEx(e);
+                }
             }
 
-            final String olduserData = lookupBdUser.toJson().toString(1);
+            if (lookupBdUser ==  null || (javaData == null && bedData == null)) {
+                sb.append("❌ User don't have any minecraft data registered...");
+
+                submitReplyEphemeral(sb.toString());
+                tx.setData("state", "minecraft data notFound");
+                tx.finish(SpanStatus.NOT_FOUND);
+                return;
+            }
+
+            final String oldUserData = lookupBdUser.toJson().toString(1);
             sb.append("User is registered here's the old user infos:\n");
-            sb.append("```json\n" + olduserData +"\n```");
+            sb.append("```json\n" + oldUserData + "\n```");
 
             int i = 0;
             final JsonArray j_ids = new JsonArray();
-            final JsonArray b_ids = new JsonArray();
+            if (javaData != null) {
+                for (i = 0; i < javaData.length(); i++) {
+                    final UUID uuid = UUID.fromString(javaData.getJSONObject(i).getString("uuid"));
+                    plugin.removePlayerRegistry(uuid, "You where kicked by an admin...");
+                    j_ids.add(uuid.toString());
+                }
+            }
+            sb.append("Deleted `" + i + "`  Java® accounts --> `" + j_ids.toString() + "`\n");
 
-            for (i = 0; i < bedData.length(); i++) {
-                b_ids.add(bedData.getJSONObject(i).getString("uuid"));
-                plugin.getBukkitManager().banPlayer(b_ids.get(i).getAsString());
+            i = 0;
+            final JsonArray b_ids = new JsonArray();
+            if (bedData != null) {
+                for (i = 0; i < bedData.length(); i++) {
+                    final UUID uuid = UUID.fromString(bedData.getJSONObject(i).getString("uuid"));
+                    plugin.removePlayerRegistry(uuid, "You where kicked by an admin...");
+                    b_ids.add(uuid.toString());
+                }
             }
             sb.append("Deleted `" + i + "` Bedrock® accounts --> `" + b_ids.toString() + "`\n");
 
-            for (i = 0; i < javaData.length(); i++) {
-                j_ids.add(javaData.getJSONObject(i).getString("uuid"));
-                plugin.getBukkitManager().banPlayer(j_ids.get(i).getAsString());
-            }
-            sb.append("Deleted `" + i + "`  Java® accounts --> `"+ j_ids.toString() + "`\n");
-
-            if(userParam != null) {
+            if (userParam != null) {
                 lookupBdUser.delete(DaoManager.getUsersDao());
             }
 
@@ -163,8 +194,10 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
             tx.finish(SpanStatus.OK);
             return;
 
-        } catch (Exception e) {
-            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMNIN");
+        } catch (
+
+        Exception e) {
+            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMIN");
 
             submitReplyEphemeral(reply);
             tx.setData("error-state", "error");

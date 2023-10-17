@@ -27,6 +27,7 @@ import models.User;
 
 import java.awt.*;
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class RegisterCommand extends BaseCmd {
 
@@ -215,15 +216,15 @@ public class RegisterCommand extends BaseCmd {
             return;
         }
 
-        if (sendJava == true) {
+        if (sendJava) {
             submitRequestEmbeded(discordId, pseudoJava, javaUuid, "Java");
-            replyJava = String.format(useTranslator("INFO_ACCES_REQUESTED"), "Java", pseudoJava)
+            replyJava = String.format(useTranslator("INFO_ACCESS_REQUESTED"), "Java", pseudoJava)
                     + "\n" + useTranslator("INFO_PLZ_AWAIT");
         }
 
-        if (sendBedrock == true) {
+        if (sendBedrock) {
             submitRequestEmbeded(discordId, pseudoBedrock, bedrockUuid, "Bedrock");
-            replyBedrock = String.format(useTranslator("INFO_ACCES_REQUESTED"), "Bedrock", pseudoBedrock)
+            replyBedrock = String.format(useTranslator("INFO_ACCESS_REQUESTED"), "Bedrock", pseudoBedrock)
                     + "\n" + useTranslator("INFO_PLZ_AWAIT");
         }
 
@@ -234,18 +235,23 @@ public class RegisterCommand extends BaseCmd {
                 "\n\t`Pseudo-Bedrock`: " + pseudoBedrock +
                 "\n\t`Discord-Server`: " + guild.getName();
 
-        LinkedList<Member> registrars = plugin.getGuildManager().getNotifiableMembers();
-        for (Member member : registrars) {
-            this.plugin.getDiscordManager().jda.openPrivateChannelById(member.getUser().getId()).queue(channel -> {
-                channel.sendMessage("**" + registrarTitle + "**" + registrarMsg).submit(true).isDone();
-            });
-        }
+        try {
+            LinkedList<Member> registrars = plugin.getGuildManager().getNotifiableMembers();
+            for (Member member : registrars) {
+                this.plugin.getDiscordManager().jda.openPrivateChannelById(member.getUser().getId()).queue(channel -> {
+                    channel.sendMessage("**" + registrarTitle + "**" + registrarMsg).submit(true).isDone();
+                });
+            }
 
-        final NotificationData notification = new NotificationData(registrarTitle, registrarMsg);
-        notification.topic = NotificationManager.registrationTopic;
-        notification.addViewAction("Admin panel", "https://rvdprojects.synology.me:3000/#/dashboard");
-        notification.markdown = true;
-        NotificationManager.postNotification(notification, true);
+            final NotificationData notification = new NotificationData(registrarTitle, registrarMsg);
+            notification.topic = NotificationManager.registrationTopic;
+            notification.addViewAction("Admin panel", "https://rvdprojects.synology.me:3000/#/dashboard");
+            notification.markdown = true;
+            NotificationManager.postNotification(notification, true);
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
 
         event.reply(replyMsg).setEphemeral(true).submit(true);
         tx.setData("state", "Registration request sent successfully.");
@@ -461,7 +467,7 @@ public class RegisterCommand extends BaseCmd {
     // Reject
     private void handleRejected(ButtonClickEvent event, String discordId, String pseudo, String uuid) {
         try {
-            plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
+            plugin.removePlayerRegistry(UUID.fromString(uuid), "§lYou're no longer part of this adventure...");
             final EmbedBuilder newMsgContent = this.getRejectedEmbeded(pseudo, discordId);
 
             final String label = String.format(LOCAL.useDefault("INFO_REJECTED_BY"), member.getEffectiveName());

@@ -91,6 +91,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>citizens-repo</id>
+            <url>https://maven.citizensnpcs.co/repo</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -180,6 +184,19 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7.1</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.citizensnpcs</groupId>
+            <artifactId>citizens-main</artifactId>
+            <version>2.0.33-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>

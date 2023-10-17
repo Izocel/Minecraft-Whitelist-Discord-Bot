@@ -22,6 +22,7 @@ public abstract class UserOnlyCmd extends BaseCmd {
         this.event = event;
         this.guild = event.getGuild();
         this.member = event.getMember();
+        this.bot = event.getGuild().getSelfMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
         this.setWdmcUser();
@@ -40,7 +41,7 @@ public abstract class UserOnlyCmd extends BaseCmd {
         }
 
         if (this.user == null) {
-            final String reply = useTranslator("USERONLY_CMD");
+            final String reply = useTranslator("USER_ONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "unregistered");
             tx.finish(SpanStatus.UNAUTHENTICATED);
@@ -50,7 +51,7 @@ public abstract class UserOnlyCmd extends BaseCmd {
         try {
             this.execute();
         } catch (Exception e) {
-            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMNIN");
+            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMIN");
 
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "error");
