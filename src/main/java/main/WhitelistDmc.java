@@ -416,8 +416,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             final Location playerLoc = player.getLocation();
 
             if (cmdName.equals("w-test")) {
-                NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER, "Whitelist-Warden");
-                npc.spawn(playerLoc);
+                
             }
 
             else {
