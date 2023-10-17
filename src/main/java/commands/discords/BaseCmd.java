@@ -72,7 +72,7 @@ public abstract class BaseCmd extends ListenerAdapter {
         try {
             this.execute();
         } catch (Exception e) {
-            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMNIN");
+            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMIN");
 
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "error");

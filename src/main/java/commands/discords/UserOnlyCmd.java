@@ -40,7 +40,7 @@ public abstract class UserOnlyCmd extends BaseCmd {
         }
 
         if (this.user == null) {
-            final String reply = useTranslator("USERONLY_CMD");
+            final String reply = useTranslator("USER_ONLY_CMD");
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "unregistered");
             tx.finish(SpanStatus.UNAUTHENTICATED);
@@ -50,7 +50,7 @@ public abstract class UserOnlyCmd extends BaseCmd {
         try {
             this.execute();
         } catch (Exception e) {
-            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMNIN");
+            final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMIN");
 
             event.reply(reply).setEphemeral(true).submit(true);
             tx.setData("error-state", "error");

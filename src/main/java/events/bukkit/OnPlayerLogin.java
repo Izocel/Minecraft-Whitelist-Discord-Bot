@@ -104,9 +104,8 @@ public class OnPlayerLogin implements Listener {
             try {
                 if (loginPlayer.isBanned()) {
                     this.logger.info("player is banned, falling back to default handling");
-                    loginPlayer.setWhitelisted(false);
                     event.disallow(PlayerLoginEvent.Result.KICK_BANNED, getDisallowBannedMsg());
-                    plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
+                    plugin.removePlayerRegistry(loginPlayer.getUniqueId(), getDisallowBannedMsg());
                     return;
                 }
             } catch (Exception e) {
@@ -138,17 +137,14 @@ public class OnPlayerLogin implements Listener {
                 bedData.save(DaoManager.getBedrockDataDao());
             }
 
-            if (allowed) {
+            if (!allowed) {
+                this.logger.info("login player is NOT allowed");
+                event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
+                plugin.removePlayerRegistry(loginPlayer.getUniqueId(), getDisallowMsg());
+            } else {
                 this.logger.info("login player is allowed -> whitelisting");
                 loginPlayer.setWhitelisted(true);
                 event.allow();
-            }
-
-            else {
-                this.logger.info("login player is NOT allowed");
-                loginPlayer.setWhitelisted(false);
-                plugin.getBukkitManager().sanitizeAnKickPlayer(uuid);
-                event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, getDisallowMsg());
             }
 
             this.logger.info("continuing default login procedures");

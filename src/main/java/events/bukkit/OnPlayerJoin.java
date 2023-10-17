@@ -28,14 +28,18 @@ public class OnPlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         try {
             final Player loginPlayer = event.getPlayer();
-            
-            if(plugin.playerIsConfirmed(loginPlayer.getUniqueId()) > 0) {
+
+            if (plugin.playerIsConfirmed(loginPlayer.getUniqueId()) > 0) {
                 return;
             }
 
             final String uuid = loginPlayer.getUniqueId().toString();
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
+
+            if (javaData == null && bedData == null) {
+                return;
+            }
 
             final Integer confirmHourDelay = Integer.valueOf(
                     this.plugin.getConfigManager().get("hoursToConfirmMcAccount", "24"));
@@ -59,12 +63,8 @@ public class OnPlayerJoin implements Listener {
                 userId = bedData.getUserId();
                 registrationDate = bedData.getCreatedAt();
             }
-            else {
-                return;
-            }
-
             final boolean canConfirm = Helper.isWithinXXHour(
-                Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
+                    Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
 
             final User user = DaoManager.getUsersDao().findUser(userId);
 
@@ -73,9 +73,7 @@ public class OnPlayerJoin implements Listener {
 
             if (!canConfirm) {
                 msg = getDisallowMsg(user.getDiscordTag(), uuid);
-                event.getPlayer().setWhitelisted(false);
-                event.getPlayer().kickPlayer(msg);
-                plugin.deletePlayerRegistration(player.getUniqueId());
+                plugin.removePlayerRegistry(player.getUniqueId(), msg);
                 return;
             }
 

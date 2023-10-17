@@ -12,13 +12,13 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("NIGHT", "Night");
         this.DEFAULTS.put("NAME", "name");
         this.DEFAULTS.put("VERSION", "Version");
-        this.DEFAULTS.put("ISACTIVE", "is active");
-        this.DEFAULTS.put("ISINACTIVE", "is inactive");
-        this.DEFAULTS.put("DOREGISTER", "Register on the Discord® server");
-        this.DEFAULTS.put("MINECRAFT_ALREADYCONFIRMED", "This account is already confirmed...");
-        this.DEFAULTS.put("MINECRAFT_CONFIRMATIONONITSWAY",
+        this.DEFAULTS.put("IS_ACTIVE", "is active");
+        this.DEFAULTS.put("IS_INACTIVE", "is inactive");
+        this.DEFAULTS.put("DO_REGISTER", "Register on the Discord® server");
+        this.DEFAULTS.put("MINECRAFT_ALREADY_CONFIRMED", "This account is already confirmed...");
+        this.DEFAULTS.put("MINECRAFT_CONFIRMATION_ON_ITS_WAY",
                 "Check your Discord® messages to confirm your registration...");
-        this.DEFAULTS.put("ACCOUNTSINFOS", "Accounts information");
+        this.DEFAULTS.put("ACCOUNTS_INFOS", "Accounts information");
         this.DEFAULTS.put("INFORMATION", "Information");
         this.DEFAULTS.put("SERVER", "Server");
         this.DEFAULTS.put("WORLDS", "Worlds");
@@ -26,7 +26,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("PORT", "Port");
         this.DEFAULTS.put("ONLINE_MODE", "Online mode");
         this.DEFAULTS.put("WHITELISTED", "Whitelisted");
-        this.DEFAULTS.put("DEFAULT_GAMEMOD", "Default gamemode");
+        this.DEFAULTS.put("DEFAULT_GAME_MODE", "Default game-mode");
         this.DEFAULTS.put("DESCRIPTION", "Description");
         this.DEFAULTS.put("CONNECTED_USER", "Connected user");
         this.DEFAULTS.put("CONNECTED_USERS", "Connected users");
@@ -69,7 +69,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("INFO_MUST_CONFIRM_ACCOUNT", "**A confirmation for your `%s` account is needed.**\n");
         this.DEFAULTS.put("INFO_TIME_TO_CONFIRM_SINCE",
                 "To confirm your account, you had `%sh` since the approbation, and connect to the Mincecraft® server\n");
-        this.DEFAULTS.put("INFO_ACCES_REQUESTED", "**Your `%s` access request for `%s` was sent to moderators.**");
+        this.DEFAULTS.put("INFO_ACCESS_REQUESTED", "**Your `%s` access request for `%s` was sent to moderators.**");
         this.DEFAULTS.put("INFO_PLZ_AWAIT", "**Thank you for waiting until the approval by one of them.**");
         this.DEFAULTS.put("INFO_REGISTER_REQUEST", "A `%s` player want to register on your `Minecraft®` server");
         this.DEFAULTS.put("INFO_ACCEPTED_BY", "✔️ Accepted by: %s");
@@ -93,7 +93,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("WARN_BAD_PSEUDO_FORMAT_EXPLAIN",
                 "⚠️ Your `%s` pseudo: `%s`, should contains between `3` and `16` characters.\nIt should not contain specials characters except underscores `_` or dashes `-`.");
         this.DEFAULTS.put("ERROR", "❌ ERROR");
-        this.DEFAULTS.put("CONTACT_ADMNIN", "Contact an administrator...");
+        this.DEFAULTS.put("CONTACT_ADMIN", "Contact an administrator...");
         this.DEFAULTS.put("CHECK_LOGS", "**Check your `log` files!!!!**");
         this.DEFAULTS.put("NOTREGISTERED", "Your registration could not be fetched...");
         this.DEFAULTS.put("CMD_ERROR", "❌ Sorry... an error as occurred during this request!!!");
@@ -110,7 +110,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("CMD_LOOKUP", "search");
         this.DEFAULTS.put("CMD_SETLOCAL", "language");
         this.DEFAULTS.put("CMD_FETCHDB_USERS", "members");
-        this.DEFAULTS.put("CMD_REMOVEDB_USERS", "remove");
+        this.DEFAULTS.put("CMD_REMOVE_DB_USERS", "remove");
         this.DEFAULTS.put("PARAM_PJAVA", "java-pseudo");
         this.DEFAULTS.put("PARAM_PBEDR", "bedrock-pseudo");
         this.DEFAULTS.put("PARAM_REGISTR_LABELJ", "Your Java pseudo");
@@ -127,11 +127,11 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("DESC_LOOKUP", "Find `Minecraft®` players infos by uuid or pseudo.");
         this.DEFAULTS.put("DESC_SETLOCAL", "Change the display language.\n FR: francais, EN: english, ES: española.");
         this.DEFAULTS.put("DESC_FETCHDB_USERS", "Get info on a member.");
-        this.DEFAULTS.put("DESC_REMOVEDB_USERS", "Delete all of a member's data and kick them from Discord®.");
+        this.DEFAULTS.put("DESC_REMOVE_DB_USERS", "Delete all of a member's data and kick them from Discord®.");
         this.DEFAULTS.put("TEXTONLY_CMD", "❌ This command is available only through textual channels.");
         this.DEFAULTS.put("GUILDONLY_CMD",
                 "❌ This command is available only through textual guild channels using this.");
-        this.DEFAULTS.put("USERONLY_CMD", "❌ This command id reserved for Discord® registered users only.");
+        this.DEFAULTS.put("USER_ONLY_CMD", "❌ This command id reserved for Discord® registered users only.");
         this.DEFAULTS.put("ROLE_NOT_ALLOWED", "🔒 Too bad you don't have the necessary roles... 🔒");
         this.DEFAULTS.put("SERVER_IS_UP", "The server is up and running boys!");
 

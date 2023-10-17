@@ -147,8 +147,7 @@ public class OnUserConfirm extends ListenerAdapter {
         try {
             final List<Field> fields = event.getMessage().getEmbeds().get(0).getFields();
             final String uuid = fields.get(1).getValue();
-
-            plugin.getBukkitManager().sanitizeAndBanPlayer(uuid);
+            plugin.removePlayerRegistry(UUID.fromString(uuid), "2FA refusé sur discord.");
 
             event.reply("✔️ La demande a bien été rejetée.").submit(true);
             event.getMessage().editMessage("All good").setActionRows(ActionRow.of(

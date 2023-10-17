@@ -47,8 +47,8 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
       if (playerData == null) {
         final String msg = LOCAL.translate("NOTREGISTERED") + "\n" +
-            LOCAL.translate("USERONLY_CMD") + "\n" +
-            LOCAL.translate("DOREGISTER") + " :: " + LOCAL.translate("CONTACT_ADMNIN");
+            LOCAL.translate("USER_ONLY_CMD") + "\n" +
+            LOCAL.translate("DO_REGISTER") + " :: " + LOCAL.translate("CONTACT_ADMIN");
         player.sendMessage(msg);
 
         tx.setData("state", "player not yet registered");
@@ -65,7 +65,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       userLang = user.getLang();
 
       if (isConfirmed) {
-        final String msg = LOCAL.translateBy("MINECRAFT_ALREADYCONFIRMED", userLang) + "\n" +
+        final String msg = LOCAL.translateBy("MINECRAFT_ALREADY_CONFIRMED", userLang) + "\n" +
             LOCAL.translateBy("LABEL_DISCORD_ID", userLang) + ": " + user.getDiscordId();
         player.sendMessage(msg);
 
@@ -75,25 +75,23 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       }
 
       final Integer confirmHourDelay = Integer.valueOf(
-        configs.get("hoursToConfirmMcAccount", "24"));
+          configs.get("hoursToConfirmMcAccount", "24"));
 
       final boolean canConfirm = Helper.isWithinXXHour(
           Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
 
       if (!canConfirm) {
         final String msg = getDisallowMsg(user.getDiscordTag(), uuid, userLang);
-        player.setWhitelisted(false);
-        player.kickPlayer(msg);
-        plugin.deletePlayerRegistration(player.getUniqueId());
+        plugin.removePlayerRegistry(player.getUniqueId(), "2FA refusé sur discord!");
 
         tx.setData("state", "delay for confirmation was exceeded");
         tx.finish(SpanStatus.PERMISSION_DENIED);
         return;
       }
-      
+
       Member member = plugin.getGuildManager().findMember(user.getDiscordId());
       this.sendConfimationEmbeded(member, player, userLang);
-      final String msg = LOCAL.translateBy("MINECRAFT_CONFIRMATIONONITSWAY", userLang);
+      final String msg = LOCAL.translateBy("MINECRAFT_CONFIRMATION_ON_ITS_WAY", userLang);
       player.sendMessage(msg);
 
     } catch (Exception e) {
@@ -115,7 +113,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String cmdName = ": /" + LOCAL.translateBy("CMD_REGISTER", userLang);
 
     return "\n\n§c§l" + LOCAL.translateBy("WARN_REGISTRATIONDELAY", userLang) +
-        "\n§f" + LOCAL.translateBy("ACCOUNTSINFOS", userLang) +
+        "\n§f" + LOCAL.translateBy("ACCOUNTS_INFOS", userLang) +
         "\n§f" + LOCAL.translateBy("LABEL_DISCORD_TAG", userLang) + ": " + tagDiscord +
         "\n§f" + LOCAL.translateBy("LABEL_MINECRAFT_UUID", userLang) + ": " + mcUUID +
         "\n\n§l" + LOCAL.translateBy("INFO_TRYREGISTERAGAIN", userLang) +
@@ -132,8 +130,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       final String channel_id = channel.getId();
 
       final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(
-        this.confirmationEmbededs(channel_id, uuid.toString(), pData.getString("pseudo"), lang)
-      );
+          this.confirmationEmbededs(channel_id, uuid.toString(), pData.getString("pseudo"), lang));
       final ArrayList<ActionRow> msgActions = Helper.getActionRowsfromJson(this.confirmationActions(channel_id, lang));
 
       Helper.preparePrivateCustomMsg(channel, msgEmbededs, msgActions).submit(true);
@@ -152,39 +149,39 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String embedUrl = this.configs.get("minecraftInfosLink");
 
     final String jsonEmbeded = """
-    {
-      "embeds": [
         {
-          "type": "rich",
-          "title": '""" + title + "'," + """
-          "url": '""" + embedUrl + "'," + """
-          "description": '""" + description + "'," + """
-          "color": "cc00ff",
-          "fields": [
+          "embeds": [
             {
-            "name": '""" + mcNameLabel + "'," + """
-            "value": '""" + pseudo + "'," + """
+              "type": "rich",
+              "title": '""" + title + "'," + """
+        "url": '""" + embedUrl + "'," + """
+        "description": '""" + description + "'," + """
+        "color": "cc00ff",
+        "fields": [
+          {
+          "name": '""" + mcNameLabel + "'," + """
+        "value": '""" + pseudo + "'," + """
+        "inline": true
+        },
+        {
+          "name": '""" + mcUuidLabel + "'," + """
+        "value": '""" + uuid + "'," + """
             "inline": true
-            },
-            {
-              "name": '""" + mcUuidLabel + "'," + """
-              "value": '""" + uuid + "'," + """
-              "inline": true
-            }
-          ],
-          "image": {
-            "url": 'https://info.varonis.com/hubfs/Varonis_June2021/Images/data-security-hero-1200x401.png'
-          },
-          "author": {
-            "name": '""" + this.plugin.getName() + "'," + """
-            "icon_url": 'https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg'
-          },
-          "footer": {
-            "text": '""" + policy + "'" + """
           }
-        }
-      ]
-    }""";
+        ],
+        "image": {
+          "url": 'https://info.varonis.com/hubfs/Varonis_June2021/Images/data-security-hero-1200x401.png'
+        },
+        "author": {
+          "name": '""" + this.plugin.getName() + "'," + """
+          "icon_url": 'https://incrypted.com/wp-content/uploads/2021/07/a4cf2df48e2218af11db8.jpeg'
+        },
+        "footer": {
+          "text": '""" + policy + "'" + """
+              }
+            }
+          ]
+        }""";
 
     return jsonEmbeded;
   }
@@ -196,29 +193,29 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     final String WORD_NO = '"' + LOCAL.translateBy("EMBD_LINK_NOTME", lang) + '"';
 
     final String jsonEmbeded = """
-    {
-      "components": [
         {
-          "type": "1",
           "components": [
             {
-              "style": "4",
-              "label": """ + WORD_NO + "," + """
-              "custom_id": '""" + rejectId + "'," + """
-              "disabled": false,
-              "type": "2"
-            },
-            {
-              "style": "3",
-              "label": """ + WORD_YES + "," + """
-              "custom_id": '""" + acceptId + "'," + """
-              "disabled": false,
-              "type": "2"
+              "type": "1",
+              "components": [
+                {
+                  "style": "4",
+                  "label": """ + WORD_NO + "," + """
+        "custom_id": '""" + rejectId + "'," + """
+          "disabled": false,
+          "type": "2"
+        },
+        {
+          "style": "3",
+          "label": """ + WORD_YES + "," + """
+        "custom_id": '""" + acceptId + "'," + """
+                  "disabled": false,
+                  "type": "2"
+                }
+              ]
             }
           ]
-        }
-      ]
-    }""";
+        }""";
 
     return jsonEmbeded;
   }
