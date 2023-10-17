@@ -23,6 +23,7 @@ public abstract class BaseCmd extends ListenerAdapter {
     protected Guild guild;
     protected Logger logger;
     protected Member member;
+    protected Member bot;
     protected ITransaction tx;
     protected WhitelistDmc plugin;
     protected MessageChannel channel;
@@ -60,6 +61,7 @@ public abstract class BaseCmd extends ListenerAdapter {
         this.event = event;
         this.guild = event.getGuild();
         this.member = event.getMember();
+        this.bot = event.getGuild().getSelfMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
         this.setWdmcUser();

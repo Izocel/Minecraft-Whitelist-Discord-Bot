@@ -93,8 +93,11 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
             if (userParam != null) {
                 lookUpMember = userParam.getAsMember();
                 lookupBdUser = User.getFromMember(lookUpMember);
-                bedData = lookupBdUser.toJson().optJSONArray("bedData");
-                javaData = lookupBdUser.toJson().optJSONArray("javaData");
+
+                if (lookupBdUser != null) {
+                    bedData = lookupBdUser.toJson().optJSONArray("bedData");
+                    javaData = lookupBdUser.toJson().optJSONArray("javaData");
+                }
             }
 
             if (uuidParam != null) {
@@ -107,7 +110,10 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
                         : javaSingeleData.getUserId();
 
                 lookupBdUser = DaoManager.getUsersDao().findUser(userId);
-                lookUpMember = plugin.getGuildManager().findMember(lookupBdUser.getDiscordId());
+
+                if (lookupBdUser != null) {
+                    lookUpMember = plugin.getGuildManager().findMember(lookupBdUser.getDiscordId());
+                }
 
                 if (bedSingeleData != null) {
                     bedData.put(bedSingeleData.toJson());
@@ -118,34 +124,37 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
                 }
             }
 
-            // User NOT-FOUND
-            if (lookupBdUser == null) {
-                sb.append("❌ User's not registered...");
+            // Member NOT-FOUND
+            if (lookUpMember == null) {
+                sb.append("❌ User's not in your guild...");
 
                 submitReplyEphemeral(sb.toString());
-                tx.setData("state", "wdmc data not found");
+                tx.setData("state", "Discord guild member not found");
                 tx.finish(SpanStatus.NOT_FOUND);
                 return;
             }
 
-            if (member.canInteract(lookUpMember)) {
+            if (!member.canInteract(lookUpMember) || !bot.canInteract(lookUpMember)) {
+                logger.info(String.format("The bot cannot kick %s", lookUpMember.getEffectiveName()));
+                sb.append("⚠️ [Discord-Kick] Can't modify a member with ");
+                sb.append("higher or equal highest role than yourself!\n\n");
+            } else {
                 try {
-                    lookUpMember.kick();
+                    logger.info(String.format("The bot is trying to kick %s", lookUpMember.getEffectiveName()));
+                    lookUpMember.kick().complete();
                 } catch (Exception e) {
+                    logger.info(e.getMessage());
                     sb.append("⚠️ [Discord-Kick] " + e.getMessage() + "\n\n");
                     tx.setData("error-state", "error discord-kick unauthorized (higher or equal ranks)");
                     SentryService.captureEx(e);
                 }
-            } else {
-                sb.append(
-                        "⚠️ [Discord-Kick] Can't modify a member with higher or equal highest role than yourself!\n\n");
             }
 
-            if (javaData == null && bedData == null) {
-                sb.append("❌ User's don't have any minecraft data...");
+            if (lookupBdUser ==  null || (javaData == null && bedData == null)) {
+                sb.append("❌ User don't have any minecraft data registered...");
 
                 submitReplyEphemeral(sb.toString());
-                tx.setData("state", "mc data notFound");
+                tx.setData("state", "minecraft data notFound");
                 tx.finish(SpanStatus.NOT_FOUND);
                 return;
             }
@@ -185,7 +194,9 @@ public class DeleteUserDbCmd extends UserOnlyCmd {
             tx.finish(SpanStatus.OK);
             return;
 
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             final String reply = useTranslator("CMD_ERROR") + ": " + useTranslator("CONTACT_ADMIN");
 
             submitReplyEphemeral(reply);

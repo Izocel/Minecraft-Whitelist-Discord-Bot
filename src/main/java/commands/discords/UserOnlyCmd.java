@@ -22,6 +22,7 @@ public abstract class UserOnlyCmd extends BaseCmd {
         this.event = event;
         this.guild = event.getGuild();
         this.member = event.getMember();
+        this.bot = event.getGuild().getSelfMember();
         this.eventUser = event.getUser();
         this.channel = event.getChannel();
         this.setWdmcUser();
