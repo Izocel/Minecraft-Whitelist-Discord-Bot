@@ -44,6 +44,7 @@ api:
     apiKey: "276931890735218689",
     keyStoreFile: keystore.jks,
     keyStorePassword: password,
+    allowedHosts: { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com", 2: "localhost" },
   }
 notificationsApi:
   ntfyUrl: https://rvdprojects.synology.me:8890
