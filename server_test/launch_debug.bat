@@ -13,4 +13,3 @@ set xms = -Xms%EXCEC_MAX_RAM%
 "%JAVA_FOLDER%\bin\java.exe" %DEBUG_ARGS% %xms% %xmx% -jar "%MC_SERVER_FILE%" -nogui
 echo closing script...
 timeout 10
-

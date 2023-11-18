@@ -1,0 +1,21 @@
+# +----------------------------------------------------+
+# <         ClueScrolls Database Config File           >
+# <               For MC versions 1.8.4+               >
+# <    To reload your changes, /cluescrolls reload     >
+# <                                                    >
+# <     https://www.spigotmc.org/resources/30276/      >
+# <  http://dev.electro2560.com/plugins/ClueScrolls/   >
+# +----------------------------------------------------+
+
+# Database configuration
+database:
+  # mysql or h2
+  type: h2
+  # prefix for all tables used by cluescrolls
+  tables_prefix: cluescrolls_
+  # configure if using h2
+  h2:
+    file: database.db
+
+# Do not edit this!
+version: 4.9.0

@@ -9,6 +9,7 @@ import static spark.Spark.options;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
@@ -67,7 +68,7 @@ public class WhitelistSpark {
         return true;
     }
 
-    private static void enableCORS(final String methods, final String headers) {
+    private static void enableCORS(final String methods, final String headers, final LinkedHashMap<String, Object> allowedHosts) {
 
         options("*/*", (request, response) -> {
 
@@ -89,7 +90,14 @@ public class WhitelistSpark {
             response.header("Server", "NONE");
             response.header("Access-Control-Allow-Headers", headers);
             response.header("Access-Control-Request-Method", methods);
-            response.header("Access-Control-Allow-Origin", "https://wdmccentral.rvdprojects.com");
+
+            final String[] host = request.headers("Host").split(":");
+            if (allowedHosts.containsValue(host[0])) {
+                response.header("Access-Control-Allow-Origin", request.headers("Origin"));
+                return;
+            }
+
+            response.header("Access-Control-Allow-Origin", "null");
         });
     }
 
@@ -105,7 +113,8 @@ public class WhitelistSpark {
             logger.warning(e.getMessage());
         }
 
-        enableCORS("*", "*");
+        final LinkedHashMap<String, Object> allowedHosts = getAllowedHosts();
+        enableCORS("*", "*", allowedHosts);
         setApiPaths();
     }
 
@@ -206,5 +215,9 @@ public class WhitelistSpark {
             });
         });
 
+    }
+
+    private static LinkedHashMap<String, Object> getAllowedHosts() {
+        return configs.getAsMap("api.allowedHosts");
     }
 }

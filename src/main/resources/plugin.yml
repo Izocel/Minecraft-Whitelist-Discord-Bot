@@ -1,3 +1,4 @@
+api: "1.15"
 name: WhitelistDmc
 version: '${project.version}'
 main: main.WhitelistDmc

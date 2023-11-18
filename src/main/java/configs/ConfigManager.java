@@ -23,6 +23,7 @@ public final class ConfigManager {
             "api.keyStorePassword",
             "api.keyStoreFile",
             "api.apiKey",
+            "api.allowedHosts",
             "notificationsApi.token"
     };
 
@@ -131,6 +132,7 @@ public final class ConfigManager {
         FROM_CONFIGS.put("api.localPort", api.get("localPort"));
         FROM_CONFIGS.put("api.keyStoreFile", api.get("keyStoreFile"));
         FROM_CONFIGS.put("api.keyStorePassword", api.get("keyStorePassword"));
+        FROM_CONFIGS.put("api.allowedHosts", api.get("allowedHosts"));
 
         FROM_CONFIGS.put("notificationsApi.ntfyUrl", notificationsApi.get("ntfyUrl"));
         FROM_CONFIGS.put("notificationsApi.token", notificationsApi.get("token"));
