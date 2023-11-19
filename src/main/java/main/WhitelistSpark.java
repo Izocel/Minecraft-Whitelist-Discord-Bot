@@ -28,9 +28,9 @@ public class WhitelistSpark {
 
     private final static Logger logger = Logger.getLogger("WDMC-API");
     private static ConfigManager configs;
-    private static WhitelistDmc plugin;
+    private static WhitelistDmcNode plugin;
 
-    public static void main(WhitelistDmc plugin, ConfigManager configs) {
+    public static void main(WhitelistDmcNode plugin, ConfigManager configs) {
         WhitelistSpark.plugin = plugin;
         WhitelistSpark.configs = configs;
 
@@ -102,7 +102,6 @@ public class WhitelistSpark {
     }
 
     private static void setPaths() {
-        final String discordId = configs.get("discordServerId", "????");
         final String appRootPath = FileHelper.PLUGIN_DIR.toString()
                 + FileHelper.fSep + configs.get("api.appRoot", "www");
         try {
@@ -152,17 +151,17 @@ public class WhitelistSpark {
                     return res.body();
                 });
 
-                get("/:discordIdentity", (req, res) -> {
-                    final String discordIdentity = req.params(":discordIdentity");
-                    final boolean isId = Helper.isNumeric(discordIdentity);
+                get("/:discordId", (req, res) -> {
+                    final String discordId = req.params(":id");
+                    final boolean isId = Helper.isNumeric(discordId);
 
                     if (isId) {
-                        final User usersData = DaoManager.getUsersDao().findByDiscordId(discordIdentity);
+                        final User usersData = DaoManager.getUsersDao().findByDiscordId(discordId);
                         res.body(usersData.toJson().toString());
                         return res.body();
                     }
 
-                    final User usersData = DaoManager.getUsersDao().findByDiscordTag(discordIdentity);
+                    final User usersData = DaoManager.getUsersDao().findByDiscordTag(discordId);
                     res.body(usersData.toJson().toString());
                     return res.body();
                 });

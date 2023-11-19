@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import dao.DaoManager;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import services.sentry.SentryService;
 
 public class User extends BaseModel {
@@ -30,7 +30,7 @@ public class User extends BaseModel {
     public User(String discordId, String discordTag) {
         this.setDiscordId(discordId);
         this.setDiscordTag(discordTag);
-        this.setLang(WhitelistDmc.LOCALES.getDefaultLang());
+        this.setLang(WhitelistDmcNode.LOCALES.getDefaultLang());
     }
 
     public User(JSONObject json) {
@@ -96,7 +96,7 @@ public class User extends BaseModel {
     }
 
     public void setLang(String lang) {
-        if (WhitelistDmc.LOCALES.isUserSupported(lang))
+        if (WhitelistDmcNode.LOCALES.isUserSupported(lang))
             this.lang = lang.toUpperCase();
     }
 

@@ -9,15 +9,15 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import helpers.NotificationManager;
 import locals.LocalManager;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import models.NotificationData;
 import services.sentry.SentryService;
 
 public class OnServerLoad implements Listener {
-    private WhitelistDmc plugin;
+    private WhitelistDmcNode plugin;
     private Logger logger;
 
-    public OnServerLoad(WhitelistDmc plugin) {
+    public OnServerLoad(WhitelistDmcNode plugin) {
         this.plugin = plugin;
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
@@ -25,7 +25,7 @@ public class OnServerLoad implements Listener {
     @EventHandler
     public void onServerLoad(ServerLoadEvent event) {
         try {
-            LocalManager LOCAL = WhitelistDmc.LOCALES;
+            LocalManager LOCAL = WhitelistDmcNode.LOCALES;
             final String title = LOCAL.translate("SERVER_IS_UP");
             final String msg = this.plugin.getBukkitManager().getServerInfoString();
             final String dashboardUrl = plugin.getConfigManager().get("misc.adminPanelUrl");

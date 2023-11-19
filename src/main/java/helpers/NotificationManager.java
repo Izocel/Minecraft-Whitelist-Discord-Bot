@@ -10,13 +10,13 @@ import org.jooq.tools.json.JSONObject;
 import configs.ConfigManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import models.NotificationData;
 import services.sentry.SentryService;
 
 public class NotificationManager {
     private static ConfigManager configs;
-    private static WhitelistDmc plugin;
+    private static WhitelistDmcNode plugin;
     private static Logger logger;
     private static String url;
     private static String emailGroup;
@@ -26,7 +26,7 @@ public class NotificationManager {
     public static String miscTopic = "WDMC-Misc";
     private static Map<String, String> headers;
 
-    public NotificationManager(WhitelistDmc plugin) {
+    public NotificationManager(WhitelistDmcNode plugin) {
         NotificationManager.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("NotificationManager");

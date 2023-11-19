@@ -10,21 +10,21 @@ import org.bukkit.entity.Player;
 
 import locals.LocalManager;
 import services.sentry.SentryService;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 
 public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
 
-  protected WhitelistDmc plugin;
+  protected WhitelistDmcNode plugin;
   protected LocalManager LOCAL;
   protected String cmdName;
   protected Logger logger;
   protected Player player;
 
-  public PlayerBaseCmd(WhitelistDmc plugin, String cmdName) {
+  public PlayerBaseCmd(WhitelistDmcNode plugin, String cmdName) {
     this.plugin = plugin;
     this.cmdName = cmdName;
     this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName() + " </> " + this.cmdName);
-    this.LOCAL = WhitelistDmc.LOCALES;
+    this.LOCAL = WhitelistDmcNode.LOCALES;
   }
 
   @Override

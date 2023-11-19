@@ -13,15 +13,15 @@ import org.bukkit.util.Vector;
 
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import services.sentry.SentryService;
 
 public class StatsManager {
-    private static WhitelistDmc plugin;
+    private static WhitelistDmcNode plugin;
     private static Server server;
     private static Logger logger;
 
-    public StatsManager(WhitelistDmc plugin) {
+    public StatsManager(WhitelistDmcNode plugin) {
         logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("StatsManager");

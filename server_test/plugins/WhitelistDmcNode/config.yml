@@ -1,0 +1,103 @@
+database:
+  {
+    type: mysql,
+    host: localhost,
+    port: "3306",
+    name: whitelist_dmc,
+    user: whitelist_dmc,
+    password: mysql,
+    defaultTable: wje_users,
+    maxConnection: "15",
+    maxIdleConnection: "5",
+  }
+minecraft:
+  {
+    portJava: "25565",
+    portBedrock: "19132",
+    javaIp: rvdprojects.synology.me,
+    bedrockIp: rvdprojects.synology.me,
+  }
+features: { maxHoursFor2FA: "24", defaultLang: EN }
+api:
+  {
+    appRoot: "www",
+    localPort: 8084,
+    apiKey: "276931890735218689",
+    keyStoreFile: "keystore.jks",
+    keyStorePassword: "password",
+    allowedHosts:
+      { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com" },
+  }
+notificationsApi:
+  {
+    ntfyUrl: "https://rvdprojects.synology.me:8890",
+    token: "tk_q9xj4ixun19rebzfudceg7nk63ptf",
+    topics:
+      {
+        registration: "WDMC-Registration",
+        guildJoin: "WDMC-GuildJoin",
+        misc: "WDMC-Misc",
+      },
+    emailGroup: "webdevteam@rvdprojects.com",
+  }
+misc:
+  {
+    confirmLinkCmdName: w-link,
+    discordServerName: "RVÐ-Projects",
+    discordInviteUrl: "https://discord.gg/XjFuNMHwgQ",
+    serverInfosLink: "https://https://rvdprojects.com/",
+    serverContactEmail: webdevteam@rvdprojects.com,
+    adminPanelUrl: "https://rvdprojects.synology.me:3000",
+    envType: "production",
+  }
+quests:
+  {
+    registration:
+      {
+        baseXp: 8,
+        xpOrbsCount: 8,
+        xpOrbsValue: 2,
+        vaultDeposit: 4.20,
+        npc: "666288be-91fd-40e9-9409-10ac4cbd4776",
+        isWelcomerQuest: true,
+        scroll: null,
+        questFile: null,
+      },
+  }
+linksCommands:
+  linkOne:
+    {
+      useDiscord: true,
+      useMinecraft: true,
+      isPublicMsg: true,
+      permission: everyone,
+      aliasTradKey: CUSTOM_LINK_LINK1_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK1_DESC,
+      linkTradKey: CUSTOM_LINK_LINK1_LINK,
+      minecraftTextTradKey: CUSTOM_LINK_LINK1_TXT_MC,
+      discordTextTradKey: CUSTOM_LINK_LINK1_TXT_DISC,
+    }
+  linkTwo:
+    {
+      useDiscord: true,
+      useMinecraft: false,
+      isPublicMsg: false,
+      permission: everyone,
+      aliasTradKey: CUSTOM_LINK_LINK2_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK2_DESC,
+      linkTradKey: CUSTOM_LINK_LINK2_LINK,
+      minecraftTextTradKey: CUSTOM_LINK_LINK2_TXT_MC,
+      discordTextTradKey: CUSTOM_LINK_LINK2_TXT_DISC,
+    }
+  linkThree:
+    {
+      useDiscord: false,
+      useMinecraft: true,
+      isPublicMsg: false,
+      permission: everyone,
+      aliasTradKey: CUSTOM_LINK_LINK3_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK3_DESC,
+      linkTradKey: CUSTOM_LINK_LINK3_LINK,
+      minecraftTextTradKey: CUSTOM_LINK_LINK3_TXT_MC,
+      discordTextTradKey: CUSTOM_LINK_LINK3_TXT_DISC,
+    }

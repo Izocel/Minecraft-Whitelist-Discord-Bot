@@ -9,18 +9,18 @@ import org.json.JSONObject;
 
 import dao.DaoManager;
 import services.sentry.SentryService;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import models.User;
 
 public class UserBaseCmd extends PlayerBaseCmd {
 
-  protected WhitelistDmc plugin;
+  protected WhitelistDmcNode plugin;
   protected String cmdName;
   protected Logger logger;
   protected boolean confirmedOnly;
   protected User user;
 
-  public UserBaseCmd(WhitelistDmc plugin, String cmdName, boolean confirmedOnly) {
+  public UserBaseCmd(WhitelistDmcNode plugin, String cmdName, boolean confirmedOnly) {
     super(plugin, cmdName);
     this.confirmedOnly = confirmedOnly;
   }

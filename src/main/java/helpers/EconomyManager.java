@@ -8,17 +8,17 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
 public class EconomyManager {
-    private static WhitelistDmc plugin;
+    private static WhitelistDmcNode plugin;
     private static Server server;
     private static Economy vaultEconomy;
     private static Logger logger;
 
-    public EconomyManager(WhitelistDmc plugin) {
+    public EconomyManager(WhitelistDmcNode plugin) {
         logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("EconomyManager");

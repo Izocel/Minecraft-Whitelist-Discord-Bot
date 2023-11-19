@@ -7,7 +7,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import helpers.DbPoolFactory;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import services.sentry.SentryService;
 
 public class DaoManager {
@@ -17,7 +17,7 @@ public class DaoManager {
     protected static JavaDataDao javaDataDao = null;
     private Logger logger;
 
-    public DaoManager(WhitelistDmc plugin) {
+    public DaoManager(WhitelistDmcNode plugin) {
         try {
             ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("DaoManager");

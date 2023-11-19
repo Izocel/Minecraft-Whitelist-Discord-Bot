@@ -13,17 +13,17 @@ import io.sentry.SentryEvent;
 import io.sentry.SentryLevel;
 import io.sentry.protocol.SentryId;
 import io.sentry.protocol.User;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 
 public class SentryService {
   private static Logger logger;
   private static User user;
-  private static WhitelistDmc plugin;
+  private static WhitelistDmcNode plugin;
   private static String envType;
 
   HashMap<Integer, ITransaction> pendingTransactions = new HashMap<Integer, ITransaction>();
 
-  public SentryService(WhitelistDmc plugin) {
+  public SentryService(WhitelistDmcNode plugin) {
     SentryService.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     SentryService.plugin = plugin;
     SentryService.initUser();
@@ -144,23 +144,25 @@ public class SentryService {
 
   private static String userToString() {
     return """
-        \n User:
-        \t Id: """ + user.getId() + """
-        \n\t Server: """ + user.getName() + """
-        \n\t Username: """ + user.getUsername() + """
-        \n\t IpAdress: """ + user.getIpAddress() + """
-        \n\t Email: """ + user.getEmail() + """
+        User:
+        \t Mc-Server: """ + user.getUsername() + """
+        \n\t DiscordServer: """ + user.getId() + """
+        \n\t DiscordOwnerId: """ + user.getName() + """
+        \n\t Contact-Email: """ + user.getEmail() + """
+        \n\t Ip-Address: """ + user.getIpAddress() + """
         """;
   }
 
   private static void initUser() {
-    final String username = plugin.getServer().getName();
+    final String username = plugin.getServer().getName() + "-Node";
     final String ipAddress = plugin.getConfigManager().get("javaIp", "?javaIp?");
-    final String id = plugin.getConfigManager().get("discordServerId", "?discordServerId?");
+    final String id = plugin.getConfigManager().get("misc.discordServerId", "?discordServerId?");
+    final String name = plugin.getConfigManager().get("misc.discordOwnerId", "?discordOwnerId?");
     final String email = plugin.getConfigManager().get("misc.serverContactEmail", "?serverContactEmail?");
 
     final User user = new User();
     user.setId(id);
+    user.setName(name);
     user.setEmail(email);
     user.setUsername(username);
     user.setIpAddress(ipAddress);

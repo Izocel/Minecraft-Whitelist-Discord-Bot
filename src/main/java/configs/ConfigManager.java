@@ -116,6 +116,8 @@ public final class ConfigManager {
 
         FROM_CONFIGS.put("misc.confirmLinkCmdName", misc.get("confirmLinkCmdName"));
         FROM_CONFIGS.put("misc.discordServerName", misc.get("discordServerName"));
+        FROM_CONFIGS.put("misc.discordServerId", misc.get("discordServerId"));
+        FROM_CONFIGS.put("misc.discordOwnerId", misc.get("discordOwnerId"));
         FROM_CONFIGS.put("misc.discordInviteUrl", misc.get("discordInviteUrl"));
 
         FROM_CONFIGS.put("misc.serverInfosLink", misc.get("serverInfosLink"));

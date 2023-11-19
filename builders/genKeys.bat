@@ -1,4 +1,4 @@
-set PROJECT=C:\projects\Whitelist-DMC
+set PROJECT=C:\projects\Whitelist-DMC-Node
 set SERVER=%PROJECT%\server_test
 
 call keytool -genkeypair -keystore selfsigned.jks -keyalg RSA -alias selfsigned -dname "CN=rvdprojects.com L=Qc S=Qc C=CA" -storepass examplestorepass

@@ -126,7 +126,7 @@ server_test/versions/*
 server_test/logs/*
 
 src/main/resources/www/*
-server_test/plugins/WhitelistDmc/www/*
+server_test/plugins/WhitelistDmcNode/www/*
 
 server_test/plugins/Geyser-Spigot/*
 server_test/plugins/Citizens/*

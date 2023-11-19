@@ -2,10 +2,10 @@ name: "CodeQL"
 
 on:
   push:
-    branches: ["master", "node"]
+    branches: ["node"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: ["master", "node"]
+    branches: [node"]
 
 jobs:
   analyze:
@@ -60,7 +60,7 @@ jobs:
       - name: "Deploying plugin to server"
         run: |
           cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/
-          mkdir -p server_test/plugins/WhitelistDmc
+          mkdir -p server_test/plugins/WhitelistDmcNode
           echo Target jar:
           ls target
           cp -f target/Whitelist*.jar server_test/plugins/
@@ -74,16 +74,6 @@ jobs:
           mvn flyway:baseline
           mvn flyway:migrate
 
-      - name: Replace Discord® Token
-        env:
-          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        run: |
-          cd /home/runner/work/Minecraft-Whitelist-Discord-Bot/Minecraft-Whitelist-Discord-Bot/server_test/plugins/WhitelistDmc
-          export search="botToken:.*."
-          export replace="botToken: $DISCORD_TOKEN"
-          cp config.yml config.tmp.yml
-          sed "s/$search/$replace/g" config.tmp.yml > config.yml
-          rm config.tmp.yml
 
       - name: "Mc® Server launch"
         run: |

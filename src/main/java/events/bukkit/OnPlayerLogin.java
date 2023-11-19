@@ -15,7 +15,7 @@ import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import services.api.PlayerDbApi;
 import services.sentry.SentryService;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import models.BedrockData;
 import models.JavaData;
 
@@ -49,7 +49,7 @@ import models.JavaData;
  * 
  */
 public class OnPlayerLogin implements Listener {
-    private WhitelistDmc plugin;
+    private WhitelistDmcNode plugin;
     private Logger logger;
 
     private String getDisallowMsg() {
@@ -71,7 +71,7 @@ public class OnPlayerLogin implements Listener {
                 "§f\n\nIl semble que vous ayez été§l banni§f du serveur... §a";
     }
 
-    public OnPlayerLogin(WhitelistDmc plugin) {
+    public OnPlayerLogin(WhitelistDmcNode plugin) {
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         this.plugin = plugin;
     }

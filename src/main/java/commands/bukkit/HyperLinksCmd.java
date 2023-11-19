@@ -12,7 +12,7 @@ import io.sentry.ITransaction;
 import io.sentry.Sentry;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
-import main.WhitelistDmc;
+import main.WhitelistDmcNode;
 import services.sentry.SentryService;
 
 public class HyperLinksCmd extends UserBaseCmd {
@@ -20,7 +20,7 @@ public class HyperLinksCmd extends UserBaseCmd {
   private final ConfigManager configs;
   private LinkedHashMap<String, Object> linkConfigs;
 
-  public HyperLinksCmd(WhitelistDmc plugin, String cmdName) {
+  public HyperLinksCmd(WhitelistDmcNode plugin, String cmdName) {
     super(plugin, cmdName, true);
     this.configs = plugin.getConfigManager();
   }
@@ -81,7 +81,7 @@ public class HyperLinksCmd extends UserBaseCmd {
   }
 
   private void sendMcLink() {
-    final LocalManager LOCAL = WhitelistDmc.LOCALES;
+    final LocalManager LOCAL = WhitelistDmcNode.LOCALES;
 
     final String textKey = linkConfigs.get("minecraftTextTradKey").toString();
     final String linkKey = linkConfigs.get("linkTradKey").toString();

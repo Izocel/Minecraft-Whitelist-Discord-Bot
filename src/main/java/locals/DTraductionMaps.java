@@ -15,6 +15,12 @@ public class DTraductionMaps {
 
     public DTraductionMaps() {
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
+        try {
+            this.initMaps();
+            this.setMaps();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setMaps() {
@@ -29,7 +35,7 @@ public class DTraductionMaps {
             FROM_CONFIGS = YamlFileParser.fromPluginFile(fileName);
 
             DEFAULTS.forEach((k, v) -> {
-                if(FROM_CONFIGS.containsKey(k)) {
+                if (FROM_CONFIGS.containsKey(k)) {
                     return;
                 }
 
@@ -37,7 +43,7 @@ public class DTraductionMaps {
                 wasAltered = true;
             });
 
-            if(wasAltered) {
+            if (wasAltered) {
                 YamlFileParser.toPluginFile(fileName, FROM_CONFIGS);
             }
 
@@ -52,5 +58,9 @@ public class DTraductionMaps {
         }
 
         return FROM_CONFIGS.getOrDefault(key, DEFAULTS.get(key)).toString();
+    }
+
+    protected void initMaps() throws Exception {
+        throw new Exception("Method Not Implemented Yet.");
     }
 }
