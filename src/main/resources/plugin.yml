@@ -1,5 +1,5 @@
 api: "1.15"
-name: WhitelistDmc
+name: WhitelistDmcNode
 version: '${project.version}'
 main: main.WhitelistDmc
 api-version: 1.15
