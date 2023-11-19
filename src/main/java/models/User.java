@@ -10,7 +10,6 @@ import org.json.JSONObject;
 
 import dao.DaoManager;
 import main.WhitelistDmc;
-import net.dv8tion.jda.api.entities.Member;
 import services.sentry.SentryService;
 
 public class User extends BaseModel {
@@ -147,40 +146,6 @@ public class User extends BaseModel {
 
     public Integer deleteUser() {
         return this.delete(DaoManager.getUsersDao());
-    }
-
-    public static User getFromMember(Member member) {
-        final String discordId = member.getUser().getId();
-        User user = DaoManager.getUsersDao().findByDiscordId(discordId);
-
-        if (user == null || user.getId() < 1) {
-            return null;
-        }
-
-        return user;
-    }
-
-    public static User updateFromMember(Member member) {
-        final net.dv8tion.jda.api.entities.User userDc = member.getUser();
-        final String discordId = userDc.getId();
-        final String discordTag = userDc.getAsTag();
-        final String avatarUrl = userDc.getAvatarUrl();
-
-        User user = DaoManager.getUsersDao().findByDiscordId(discordId);
-
-        if (user == null || user.getId() < 1) {
-            user = new User(discordId, discordTag);
-        }
-
-        user.setDiscordTag(discordTag);
-        user.setAvatarUrl(avatarUrl);
-        final Integer userId = user.saveUser();
-
-        if (userId < 1) {
-            return null;
-        }
-
-        return getFromMember(member);
     }
 
     public JSONArray getJavaData() {

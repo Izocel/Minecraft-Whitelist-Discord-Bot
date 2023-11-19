@@ -63,11 +63,11 @@ public class OnPlayerJoin implements Listener {
                 userId = bedData.getUserId();
                 registrationDate = bedData.getCreatedAt();
             }
+
             final boolean canConfirm = Helper.isWithinXXHour(
                     Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
 
             final User user = DaoManager.getUsersDao().findUser(userId);
-
             String msg = getAllowMsg(user.getDiscordTag(), uuid);
             Player player = event.getPlayer();
 
@@ -95,7 +95,7 @@ public class OnPlayerJoin implements Listener {
     }
 
     private String getAllowMsg(String tagDiscord, String mcUUID) {
-        final String cmdName = this.plugin.getConfigManager().get("confirmLinkCmdName", "w-link");
+        final String cmdName = this.plugin.getConfigManager().get("misc.confirmLinkCmdName", "w-link");
         return "§f§lLe compte  Discord®: " + tagDiscord + " a fait une demande pour relier ce compte Minecraft®." +
                 "\n\n§f§lPour comfirmer cette demande utiliser la commande:\n§9    /" + cmdName +
                 "\n\n§cSi cette demande vous semble illégitime, contactez un administrateur!!!" +

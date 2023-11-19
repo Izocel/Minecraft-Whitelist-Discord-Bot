@@ -1,22 +1,3 @@
-discord:
-  botToken: -----------------------RESOURCE-------------------------------------
-  serverId: "276931890735218689"
-  channels:
-    {
-      welcomeChanelId: "925583159964352643",
-      adminChanelId: "927283856053252106",
-      whitelistChanelId: "927283856053252106",
-      botLogChannelId: "927283856053252106",
-      javaLogChannelId: "927283856053252106",
-    }
-  roles:
-    {
-      discordAdminRoleId: "293133215500075010",
-      moderatorRoleId: "1021054284214833182",
-      devRoleId: "1021054460438523976",
-      helperRoleId: "1021054460438523976",
-    }
-  registrarMemberIds: { 0: "258071819108614144", 1: "272924120142970892" }
 database:
   {
     type: mysql,
@@ -36,7 +17,7 @@ minecraft:
     javaIp: rvdprojects.synology.me,
     bedrockIp: rvdprojects.synology.me,
   }
-features: { maxHoursFor2FA: "24", showAllWorldsMeteo: "true", defaultLang: FR }
+features: { maxHoursFor2FA: "24", defaultLang: EN }
 api:
   {
     appRoot: "www",
@@ -44,7 +25,8 @@ api:
     apiKey: "276931890735218689",
     keyStoreFile: "keystore.jks",
     keyStorePassword: "password",
-    allowedHosts: { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com" },
+    allowedHosts:
+      { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com" },
   }
 notificationsApi:
   {
@@ -57,6 +39,30 @@ notificationsApi:
         misc: "WDMC-Misc",
       },
     emailGroup: "webdevteam@rvdprojects.com",
+  }
+misc:
+  {
+    confirmLinkCmdName: w-link,
+    discordServerName: "RVÐ-Projects",
+    discordInviteUrl: "https://discord.gg/XjFuNMHwgQ",
+    serverInfosLink: "https://https://rvdprojects.com/",
+    serverContactEmail: webdevteam@rvdprojects.com,
+    adminPanelUrl: "https://rvdprojects.synology.me:3000",
+    envType: "production",
+  }
+quests:
+  {
+    registration:
+      {
+        baseXp: 8,
+        xpOrbsCount: 8,
+        xpOrbsValue: 2,
+        vaultDeposit: 4.20,
+        npc: "666288be-91fd-40e9-9409-10ac4cbd4776",
+        isWelcomerQuest: true,
+        scroll: null,
+        questFile: null,
+      },
   }
 linksCommands:
   linkOne:
@@ -95,25 +101,3 @@ linksCommands:
       minecraftTextTradKey: CUSTOM_LINK_LINK3_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK3_TXT_DISC,
     }
-misc:
-  {
-    confirmLinkCmdName: w-link,
-    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
-    serverContactEmail: webdevteam@rvdprojects.com,
-    adminPanelUrl: "https://rvdprojects.synology.me:3000",
-    envType: "production",
-  }
-quests:
-  {
-    registration:
-      {
-        baseXp: 8,
-        xpOrbsCount: 8,
-        xpOrbsValue: 2,
-        vaultDeposit: 4.20,
-        npc: "666288be-91fd-40e9-9409-10ac4cbd4776",
-        isWelcomerQuest: true,
-        scroll: null,
-        questFile: null
-      },
-  }

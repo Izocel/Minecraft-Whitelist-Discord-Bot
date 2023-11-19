@@ -47,7 +47,7 @@ import models.JavaData;
 
 /**
  * 
-*/
+ */
 public class OnPlayerLogin implements Listener {
     private WhitelistDmc plugin;
     private Logger logger;
@@ -55,10 +55,10 @@ public class OnPlayerLogin implements Listener {
     private String getDisallowMsg() {
         final String javaIp = plugin.getConfigManager().get("javaIp", "Not bind to any IP");
         final String bedrockIp = plugin.getConfigManager().get("bedrockIp", "Not bind to any IP");
+        final String ds_srvName = plugin.getConfigManager().get("misc.discordServerName", "[DS Server Name]");
+        final String ds_inviteUrl = plugin.getConfigManager().get("misc.discordInviteUrl", "[DS Invite Link]");
         final String version = Bukkit.getServer().getVersion();
 
-        final String ds_srvName = this.plugin.getDiscordManager().getServerName();
-        final String ds_inviteUrl = this.plugin.getDiscordManager().getInviteUrl();
         return "§c§lCe serveur est sous whitelist Discord®§l" +
                 "§a\n\nJoin §l" + ds_srvName + "§a at: §9§n§l" + ds_inviteUrl +
                 "§f\n\n§lServer Version: §f" + version +
@@ -67,17 +67,8 @@ public class OnPlayerLogin implements Listener {
     }
 
     private String getDisallowBannedMsg() {
-        final String javaIp = plugin.getConfigManager().get("javaIp", "Not bind to any IP");
-        final String bedrockIp = plugin.getConfigManager().get("bedrockIp", "Not bind to any IP");
-        final String version = Bukkit.getServer().getVersion();
-
-        final String ds_srvName = this.plugin.getDiscordManager().getServerName();
-        return "§c§lCe serveur est sous whitelist Discord®§l" +
-                "§f\n\nIl semble que vous ayez été§l banni§f du serveur: §a" + ds_srvName +
-                ".\n§fMeilleur chance la prochaine fois..." +
-                "§f\n\n§lServer Version: §f" + version +
-                "§f\n\n§lServer Java Address: §f" + javaIp +
-                "§f\n\n§lServer Bedrock Address: §f" + bedrockIp;
+        return getDisallowMsg() +
+                "§f\n\nIl semble que vous ayez été§l banni§f du serveur... §a";
     }
 
     public OnPlayerLogin(WhitelistDmc plugin) {

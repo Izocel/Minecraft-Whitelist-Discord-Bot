@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.ServerLoadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jooq.tools.json.JSONObject;
 
 import helpers.NotificationManager;
 import locals.LocalManager;
@@ -27,18 +26,13 @@ public class OnServerLoad implements Listener {
     public void onServerLoad(ServerLoadEvent event) {
         try {
             LocalManager LOCAL = WhitelistDmc.LOCALES;
-            StringBuilder sb = new StringBuilder();
             final String title = LOCAL.translate("SERVER_IS_UP");
-            final String msg = this.plugin.getBukkitManager().getServerInfoString(LOCAL.getNextLang());
-            sb.append("**" + title + "**");
-            sb.append(msg);
-
-            this.plugin.getGuildManager().getBotLogChannel()
-                    .sendMessage(sb.toString()).submit(true);
+            final String msg = this.plugin.getBukkitManager().getServerInfoString();
+            final String dashboardUrl = plugin.getConfigManager().get("misc.adminPanelUrl");
 
             final var notification = new NotificationData(title, msg);
             notification.topic = NotificationManager.miscTopic;
-            notification.addViewAction("Admin panel", "https://rvdprojects.synology.me:3000/#/dashboard");
+            notification.addViewAction("Admin panel", dashboardUrl);
             notification.markdown = true;
             notification.tags.add("robot");
 

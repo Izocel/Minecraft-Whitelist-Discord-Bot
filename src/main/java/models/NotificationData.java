@@ -17,9 +17,6 @@ public class NotificationData extends Object {
     public Boolean markdown;
     public Integer priority;
     public JSONArray tags = new JSONArray();
-
-    // [{ "action": "view", "label": "Admin panel", "url":
-    // "https://rvdprojects.synology.me:3000/#/dashboard" }]
     public JSONArray actions = new JSONArray();
 
     public NotificationData(String title, String message) {

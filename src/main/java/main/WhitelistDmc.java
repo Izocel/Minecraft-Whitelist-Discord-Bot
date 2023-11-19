@@ -9,7 +9,6 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
@@ -19,8 +18,6 @@ import bukkit.BukkitManager;
 import configs.ConfigManager;
 import dao.DaoManager;
 import db.Migrator;
-import discord.DiscordManager;
-import discord.GuildManager;
 import helpers.EconomyManager;
 import helpers.NotificationManager;
 import helpers.StatsManager;
@@ -31,17 +28,13 @@ import io.sentry.SpanStatus;
 import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import services.sentry.SentryService;
 
 public final class WhitelistDmc extends JavaPlugin implements Listener {
 
     private Logger logger;
     private BukkitManager bukkitManager;
-    private GuildManager guildManager;
     private ConfigManager configManager;
-    private DiscordManager discordManager;
     private DaoManager daoManager;
     private NotificationManager notificationManager;
     private StatsManager statsManager;
@@ -125,15 +118,6 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             daoManager = new DaoManager(this);
             logger.info("LOADED: DaoManager");
 
-            // migrator = new Migrator(this);
-            // logger.info("LOADED: Migrator");
-
-            discordManager = new DiscordManager(this);
-            logger.info("LOADED: DiscordManager");
-
-            guildManager = new GuildManager(this);
-            logger.info("LOADED: GuildManager");
-
             bukkitManager = new BukkitManager(this);
             logger.info("LOADED: BukkitManager");
 
@@ -154,8 +138,6 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
                     this.getName(), LOCALES.translate("IS_ACTIVE")));
 
             sb.append(getPluginInfos(false));
-            guildManager.getBotLogChannel()
-                    .sendMessage(sb.toString()).submit(true);
 
             logger.info(this.getfiglet());
 
@@ -175,8 +157,6 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
                 sb.append(LOCALES.translate("CHECK_LOGS") + "\n\n");
                 sb.append(getPluginInfos(false));
-
-                guildManager.getBotLogChannel().sendMessage(sb.toString()).submit(true);
 
             } catch (Exception err) {
                 transaction.setThrowable(err);
@@ -198,13 +178,8 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
                 this.getName(), LOCALES.translate("IS_INACTIVE")));
         sb.append(getPluginInfos(false));
 
-        guildManager.getBotLogChannel()
-                .sendMessage(sb.toString()).submit(true);
     }
 
-    public final DiscordManager getDiscordManager() {
-        return this.discordManager;
-    }
 
     public final DaoManager getDaoManager() {
         return this.daoManager;
@@ -214,9 +189,6 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         return this.configManager;
     }
 
-    public final GuildManager getGuildManager() {
-        return this.guildManager;
-    }
 
     public final BukkitManager getBukkitManager() {
         return this.bukkitManager;

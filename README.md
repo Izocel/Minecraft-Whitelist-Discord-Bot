@@ -65,7 +65,7 @@ $$/      $$/ $$/   $$/ $$/    $$$$/   $$$$$$$/ $$/ $$/ $$$$$$$/     $$$$/       
 
 ## Developper environement setup:
 
-- ### Comming soon...
+- ### TODO...
 
 #
 

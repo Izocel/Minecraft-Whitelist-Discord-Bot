@@ -4,7 +4,7 @@
 		{
 			"type": "shell",
 			"label": "build",
-			"command": "call build.bat",
+			"command": "call ./builders/build.bat",
 			"presentation": {
 				"echo": true,
 				"reveal": "always",
@@ -22,7 +22,7 @@
 			"type": "shell",
 			"label": "deploy-debug",
 			"dependsOn": "build",
-			"command": "call deploy-debug.bat",
+			"command": "call ./builders/deploy-debug.bat",
 			"presentation": {
 				"echo": true,
 				"reveal": "always",
@@ -41,7 +41,7 @@
 			"type": "shell",
 			"label": "deploy",
 			"dependsOn": "build",
-			"command": "call deploy.bat",
+			"command": "call ./builders/deploy.bat",
 			"presentation": {
 				"echo": true,
 				"reveal": "always",

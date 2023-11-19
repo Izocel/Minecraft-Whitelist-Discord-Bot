@@ -9,7 +9,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import commands.bukkit.ConfirmLinkCmd;
 import commands.bukkit.HyperLinksCmd;
 import dao.DaoManager;
 import events.bukkit.OnPlayerJoin;
@@ -45,8 +44,9 @@ public class BukkitManager {
         return Bukkit.getServer();
     }
 
-    public String getServerInfoString(String lang) {
+    public String getServerInfoString() {
         final String ip = Bukkit.getServer().getIp();
+        final String name = Bukkit.getServer().getName();
         final String version = Bukkit.getServer().getVersion();
         final String description = Bukkit.getServer().getMotd();
         final GameMode gameMode = Bukkit.getServer().getDefaultGameMode();
@@ -59,19 +59,21 @@ public class BukkitManager {
         final String bedrockIp = this.plugin.getConfigManager().get("bedrockIp", "???");
 
         final LocalManager LOCAL = WhitelistDmc.LOCALES;
-        final String portField = LOCAL.translateBy("PORT", lang);
-        final String versionField = LOCAL.translateBy("VERSION", lang);
-        final String onlineField = LOCAL.translateBy("ONLINE_MODE", lang);
-        final String whitelistField = LOCAL.translateBy("WHITELISTED", lang);
-        final String defaultGModefield = LOCAL.translateBy("DEFAULT_GAME_MODE", lang);
-        final String descField = LOCAL.translateBy("DESCRIPTION", lang);
-        final String WORD_YES = LOCAL.translateBy("WORD_YES", lang);
-        final String WORD_NO = LOCAL.translateBy("WORD_NO", lang);
+        final String nameField = LOCAL.translate("SERVER");
+        final String portField = LOCAL.translate("PORT");
+        final String versionField = LOCAL.translate("VERSION");
+        final String onlineField = LOCAL.translate("ONLINE_MODE");
+        final String whitelistField = LOCAL.translate("WHITELISTED");
+        final String defaultGModefield = LOCAL.translate("DEFAULT_GAME_MODE");
+        final String descField = LOCAL.translate("DESCRIPTION");
+        final String WORD_YES = LOCAL.translate("WORD_YES");
+        final String WORD_NO = LOCAL.translate("WORD_NO");
 
         final String onlineStr = onlineMode ? "`" + WORD_YES + "`" : "`" + WORD_NO + "`";
         final String fwStr = forceWhitelist ? "`" + WORD_YES + "`" : "`" + WORD_NO + "`";
 
         StringBuilder sb = new StringBuilder();
+        sb.append("\n\t" + nameField + " : `" + name + "`");
         sb.append("\n\tJava Ip: `" + javaIp + "`");
         sb.append("\n\tBedrock Ip: `" + bedrockIp + "`");
         sb.append("\n\t" + portField + " Java: `" + portJ + "`");
@@ -104,10 +106,7 @@ public class BukkitManager {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("BukkitManager.registerCommands");
 
-        final String linkCmd = this.plugin.getConfigManager().get("confirmLinkCmdName", "w-link");
-
         try {
-            this.plugin.getCommand(linkCmd).setExecutor(new ConfirmLinkCmd(this.plugin, linkCmd));
             this.plugin.getCommand("w-hyperlinks").setExecutor(new HyperLinksCmd(this.plugin, "w-hyperlinks"));
         } catch (Exception e) {
             SentryService.captureEx(e);

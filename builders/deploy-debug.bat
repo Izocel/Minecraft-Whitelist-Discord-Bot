@@ -1,5 +1,5 @@
-set SERVER=C:\projects\Whitelist-DMC\server_test
-set BUILDER=C:\projects\Whitelist-DMC
+set PROJECT=C:\projects\Whitelist-DMC
+set SERVER=%PROJECT%\server_test
 set PLUGIN_FILTER=Whitelist*shaded.jar
 
 
@@ -9,4 +9,6 @@ XCOPY target\%PLUGIN_FILTER% %SERVER%\plugins\ /S /Y
 cd %SERVER%
 START "Minecraft-Debug" launch_debug.bat
 
-echo Job's done SERVER is awaiting debug socket connection...
+echo ""
+echo "Job's done SERVER is awaiting debug socket connection..."
+exit 0

@@ -137,6 +137,8 @@ server_test/plugins/ViaBackwards/*
 server_test/plugins/ViaRewind/*
 server_test/plugins/ViaVersion/*
 
+server_test/plugins/ClueScrolls-4.9.0.jar
+
 server_test/banned-ips.json
 server_test/banned-players.json
 server_test/bukkit.yml

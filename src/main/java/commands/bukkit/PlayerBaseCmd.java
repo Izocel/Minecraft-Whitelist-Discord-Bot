@@ -8,34 +8,40 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import locals.LocalManager;
 import services.sentry.SentryService;
 import main.WhitelistDmc;
 
 public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
 
   protected WhitelistDmc plugin;
+  protected LocalManager LOCAL;
   protected String cmdName;
   protected Logger logger;
-  
+  protected Player player;
 
   public PlayerBaseCmd(WhitelistDmc plugin, String cmdName) {
     this.plugin = plugin;
     this.cmdName = cmdName;
-    this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName() + " </>:" + this.cmdName);
+    this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName() + " </> " + this.cmdName);
+    this.LOCAL = WhitelistDmc.LOCALES;
   }
-  
+
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
     try {
-      if (cmd.getName().equalsIgnoreCase(this.cmdName)) {
-
-          if (!(sender instanceof Player)) {
-              sender.sendMessage("This command can only be run by a player instance.");
-          } else {
-              this.execute(sender, cmd, label, args);
-          }
-          return true;
+      if (!cmd.getName().equalsIgnoreCase(this.cmdName)) {
+        return true;
       }
+
+      if (!(sender instanceof Player)) {
+        sender.sendMessage("This command can only be run by a player instance.");
+      } else {
+        this.player = (Player) sender;
+        this.execute(sender, cmd, label, args);
+      }
+      return true;
+
     } catch (Exception e) {
       SentryService.captureEx(e);
     }
@@ -44,7 +50,7 @@ public class PlayerBaseCmd implements IPlayerCmd, CommandExecutor {
 
   @Override
   public void execute(CommandSender sender, Command cmd, String label, String[] args) {
-      throw new NotImplementedException();
+    throw new NotImplementedException();
   }
 
 }

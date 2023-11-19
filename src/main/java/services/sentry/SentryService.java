@@ -5,8 +5,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
-import org.jetbrains.annotations.NotNull;
-
 import services.sentry.SentryService;
 import io.sentry.Hint;
 import io.sentry.ITransaction;
@@ -18,37 +16,21 @@ import io.sentry.protocol.User;
 import main.WhitelistDmc;
 
 public class SentryService {
-
-  private Logger logger;
+  private static Logger logger;
   private static User user;
-  private WhitelistDmc plugin;
-  private static WhitelistDmc main;
-  private boolean enabled = true;
-  private String debugMode = "debug";
+  private static WhitelistDmc plugin;
   private static String envType;
 
   HashMap<Integer, ITransaction> pendingTransactions = new HashMap<Integer, ITransaction>();
 
   public SentryService(WhitelistDmc plugin) {
-    this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
+    SentryService.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
+    SentryService.plugin = plugin;
+    SentryService.initUser();
 
-    this.plugin = plugin;
-    SentryService.main = this.plugin;
+    SentryService.envType = plugin.getConfigManager().get("misc.envType", "production");
+    final String release = plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
 
-    final User user = new User();
-    final String username = "?discordOwnerId?";
-    final String id = this.plugin.getConfigManager().get("discordServerId", "?discordServerId?");
-    final String email = this.plugin.getConfigManager().get("serverContactEmail", "?serverContactEmail?");
-    final String ipAddress = this.plugin.getConfigManager().get("javaIp", "?javaIp?");
-    SentryService.envType = this.plugin.getConfigManager().get("envType", "production");
-    final String release = this.plugin.getConfigManager().get("pluginVersion", "?release?") + "@" + envType;
-
-    user.setId(id);
-    user.setEmail(email);
-    user.setUsername(username);
-    user.setIpAddress(ipAddress);
-
-    SentryService.user = user;
     Sentry.setLevel(SentryLevel.DEBUG);
     Sentry.init(options -> {
       options.setEnableAutoSessionTracking(true);
@@ -134,16 +116,6 @@ public class SentryService {
     return this.pendingTransactions;
   }
 
-  private static String userToString() {
-    return """
-        \n User:
-        \t Id: """ + user.getId() + """
-        \n\t Username: """ + user.getUsername() + """
-        \n\t IpAdress: """ + user.getIpAddress() + """
-        \n\t Email: """ + user.getEmail() + """
-        """;
-  }
-
   public static SentryId captureEx(Throwable error) {
     Logger.getLogger("WDMC-Sentry").warning("WARNING:");
     error.fillInStackTrace();
@@ -158,7 +130,7 @@ public class SentryService {
     return Sentry.captureException(error, hint);
   }
 
-  public @NotNull SentryId captureEvent(SentryEvent event) {
+  public SentryId captureEvent(SentryEvent event) {
     return envType.equals("production")
         ? Sentry.captureEvent(event)
         : null;
@@ -170,24 +142,29 @@ public class SentryService {
     });
   }
 
-  public void setUsername(String username) {
-    user.setUsername(username);
-    changeUser(user);
+  private static String userToString() {
+    return """
+        \n User:
+        \t Id: """ + user.getId() + """
+        \n\t Server: """ + user.getName() + """
+        \n\t Username: """ + user.getUsername() + """
+        \n\t IpAdress: """ + user.getIpAddress() + """
+        \n\t Email: """ + user.getEmail() + """
+        """;
   }
 
-  public void setUserEmail(String email) {
-    user.setEmail(email);
-    changeUser(user);
-  }
+  private static void initUser() {
+    final String username = plugin.getServer().getName();
+    final String ipAddress = plugin.getConfigManager().get("javaIp", "?javaIp?");
+    final String id = plugin.getConfigManager().get("discordServerId", "?discordServerId?");
+    final String email = plugin.getConfigManager().get("misc.serverContactEmail", "?serverContactEmail?");
 
-  public void setUserIpAdress(String ip) {
-    user.setIpAddress(ip);
-    changeUser(user);
-  }
-
-  public void setUserId(String id) {
+    final User user = new User();
     user.setId(id);
-    changeUser(user);
+    user.setEmail(email);
+    user.setUsername(username);
+    user.setIpAddress(ipAddress);
+    SentryService.user = user;
   }
 
 }

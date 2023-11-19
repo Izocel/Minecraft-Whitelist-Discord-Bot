@@ -18,8 +18,6 @@ public final class ConfigManager {
             "database.user",
             "database.host",
             "database.port",
-            "discord.botToken",
-            "discord.registrarMemberIds",
             "api.keyStorePassword",
             "api.keyStoreFile",
             "api.apiKey",
@@ -58,15 +56,6 @@ public final class ConfigManager {
             YamlFileParser.toPluginFile(fileName, FROM_CONFIGS);
         }
 
-        LinkedHashMap<String, Object> discord = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("discord");
-        FROM_MAPS.put("discord", discord);
-
-        LinkedHashMap<String, Object> discord_channels = (LinkedHashMap<String, Object>) discord.get("channels");
-        FROM_MAPS.put("discord_channels", discord_channels);
-
-        LinkedHashMap<String, Object> discord_roles = (LinkedHashMap<String, Object>) discord.get("roles");
-        FROM_MAPS.put("discord_roles", discord_roles);
-
         LinkedHashMap<String, Object> database = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("database");
         FROM_MAPS.put("database", database);
 
@@ -92,22 +81,6 @@ public final class ConfigManager {
         LinkedHashMap<String, Object> misc = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("misc");
         FROM_MAPS.put("misc", misc);
 
-        FROM_CONFIGS.put("discordBotToken", discord.get("botToken"));
-        FROM_CONFIGS.put("discordServerId", discord.get("serverId"));
-
-        FROM_CONFIGS.put("discordAdminChanelId", discord_channels.get("adminChanelId"));
-        FROM_CONFIGS.put("botLogChannelId", discord_channels.get("botLogChannelId"));
-        FROM_CONFIGS.put("javaLogChannelId", discord_channels.get("javaLogChannelId"));
-        FROM_CONFIGS.put("discordWelcomeChanelId", discord_channels.get("welcomeChanelId"));
-        FROM_CONFIGS.put("discordWhitelistChanelId", discord_channels.get("whitelistChanelId"));
-
-        FROM_CONFIGS.put("discordAdminRoleId", discord_roles.get("discordAdminRoleId"));
-        FROM_CONFIGS.put("discordModeratorRoleId", discord_roles.get("moderatorRoleId"));
-        FROM_CONFIGS.put("discordDevRoleId", discord_roles.get("devRoleId"));
-        FROM_CONFIGS.put("discordHelperRoleId", discord_roles.get("helperRoleId"));
-
-        FROM_CONFIGS.put("discord.registrarMemberIds", discord.get("registrarMemberIds"));
-
         FROM_CONFIGS.put("dbType", database.get("type"));
         FROM_CONFIGS.put("dbHost", database.get("host"));
         FROM_CONFIGS.put("dbPort", database.get("port"));
@@ -124,7 +97,6 @@ public final class ConfigManager {
         FROM_CONFIGS.put("bedrockIp", minecraft.get("bedrockIp"));
 
         FROM_CONFIGS.put("hoursToConfirmMcAccount", features.get("maxHoursFor2FA"));
-        FROM_CONFIGS.put("showAllWorldsMeteo", features.get("showAllWorldsMeteo"));
         FROM_CONFIGS.put("defaultLang", features.get("defaultLang"));
 
         FROM_CONFIGS.put("api.appRoot", api.get("appRoot"));
@@ -142,11 +114,14 @@ public final class ConfigManager {
         FROM_CONFIGS.put("linksCommands", linksCommands);
         FROM_CONFIGS.put("quests", quests);
 
-        FROM_CONFIGS.put("confirmLinkCmdName", misc.get("confirmLinkCmdName"));
-        FROM_CONFIGS.put("minecraftInfosLink", misc.get("minecraftInfosLink"));
-        FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
-        FROM_CONFIGS.put("adminPanelUrl", misc.get("adminPanelUrl"));
-        FROM_CONFIGS.put("envType", misc.get("envType"));
+        FROM_CONFIGS.put("misc.confirmLinkCmdName", misc.get("confirmLinkCmdName"));
+        FROM_CONFIGS.put("misc.discordServerName", misc.get("discordServerName"));
+        FROM_CONFIGS.put("misc.discordInviteUrl", misc.get("discordInviteUrl"));
+
+        FROM_CONFIGS.put("misc.serverInfosLink", misc.get("serverInfosLink"));
+        FROM_CONFIGS.put("misc.serverContactEmail", misc.get("serverContactEmail"));
+        FROM_CONFIGS.put("misc. adminPanelUrl", misc.get("adminPanelUrl"));
+        FROM_CONFIGS.put("misc.envType", misc.get("envType"));
 
         this.setHidden();
     }
