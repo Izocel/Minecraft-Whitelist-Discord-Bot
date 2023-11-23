@@ -1,5 +1,5 @@
 discord:
-  botToken: MTAxNzk3MTY5MDM0MjQ1NzM1Ng.GY_qPp.zbiK8rZBrfDIMqVSlaTDMwfChq75dO0qK0WLEA
+  botToken: MTAxNzk3MTY5MDM0MjQ1NzM1Ng.GblgL-.OWYHCPJ3i1bPoOTDtU4Lbqk-AKnlF6BHI6PTbk
   serverId: "276931890735218689"
   channels:
     {
@@ -44,7 +44,12 @@ api:
     apiKey: "276931890735218689",
     keyStoreFile: keystore.jks,
     keyStorePassword: password,
-    allowedHosts: { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com", 2: "localhost" },
+    allowedHosts:
+      {
+        0: "rvdprojects.synology.me",
+        1: "wdmccentral.rvdprojects.com",
+        2: "localhost",
+      },
   }
 notificationsApi:
   ntfyUrl: https://rvdprojects.synology.me:8890
@@ -56,6 +61,26 @@ notificationsApi:
       misc: WDMC-Misc,
     }
   emailGroup: webdevteam@rvdprojects.com
+misc:
+  {
+    confirmLinkCmdName: w-link,
+    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
+    serverContactEmail: webdevteam@rvdprojects.com,
+    adminPanelUrl: "https://rvdprojects.synology.me:3000",
+    envType: devU2,
+  }
+quests:
+  registration:
+    {
+      baseXp: 8,
+      xpOrbsCount: 8,
+      xpOrbsValue: 2,
+      vaultDeposit: 4.2,
+      npc: 666288be-91fd-40e9-9409-10ac4cbd4776,
+      isWelcomerQuest: true,
+      scroll: null,
+      questFile: null,
+    }
 linksCommands:
   linkOne:
     {
@@ -92,24 +117,4 @@ linksCommands:
       linkTradKey: CUSTOM_LINK_LINK3_LINK,
       minecraftTextTradKey: CUSTOM_LINK_LINK3_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK3_TXT_DISC,
-    }
-misc:
-  {
-    confirmLinkCmdName: w-link,
-    minecraftInfosLink: "https://www.spigotmc.org/resources/whitelist-dmc.111065/",
-    serverContactEmail: webdevteam@rvdprojects.com,
-    adminPanelUrl: "https://rvdprojects.synology.me:3000",
-    envType: devU2,
-  }
-quests:
-  registration:
-    {
-      baseXp: 8,
-      xpOrbsCount: 8,
-      xpOrbsValue: 2,
-      vaultDeposit: 4.2,
-      npc: 666288be-91fd-40e9-9409-10ac4cbd4776,
-      isWelcomerQuest: true,
-      scroll: null,
-      questFile: null,
     }

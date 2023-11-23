@@ -68,7 +68,8 @@ public class WhitelistSpark {
         return true;
     }
 
-    private static void enableCORS(final String methods, final String headers, final LinkedHashMap<String, Object> allowedHosts) {
+    private static void enableCORS(final String methods, final String headers,
+            final LinkedHashMap<String, Object> allowedHosts) {
 
         options("*/*", (request, response) -> {
 
@@ -102,7 +103,6 @@ public class WhitelistSpark {
     }
 
     private static void setPaths() {
-        final String discordId = configs.get("discordServerId", "????");
         final String appRootPath = FileHelper.PLUGIN_DIR.toString()
                 + FileHelper.fSep + configs.get("api.appRoot", "www");
         try {
@@ -152,17 +152,17 @@ public class WhitelistSpark {
                     return res.body();
                 });
 
-                get("/:discordIdentity", (req, res) -> {
-                    final String discordIdentity = req.params(":discordIdentity");
-                    final boolean isId = Helper.isNumeric(discordIdentity);
+                get("/:discordId", (req, res) -> {
+                    final String discordId = req.params(":id");
+                    final boolean isId = Helper.isNumeric(discordId);
 
                     if (isId) {
-                        final User usersData = DaoManager.getUsersDao().findByDiscordId(discordIdentity);
+                        final User usersData = DaoManager.getUsersDao().findByDiscordId(discordId);
                         res.body(usersData.toJson().toString());
                         return res.body();
                     }
 
-                    final User usersData = DaoManager.getUsersDao().findByDiscordTag(discordIdentity);
+                    final User usersData = DaoManager.getUsersDao().findByDiscordTag(discordId);
                     res.body(usersData.toJson().toString());
                     return res.body();
                 });
