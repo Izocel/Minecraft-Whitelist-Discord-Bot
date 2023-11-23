@@ -122,7 +122,7 @@ public final class ConfigManager {
 
         FROM_CONFIGS.put("misc.serverInfosLink", misc.get("serverInfosLink"));
         FROM_CONFIGS.put("misc.serverContactEmail", misc.get("serverContactEmail"));
-        FROM_CONFIGS.put("misc. adminPanelUrl", misc.get("adminPanelUrl"));
+        FROM_CONFIGS.put("misc.adminPanelUrl", misc.get("adminPanelUrl"));
         FROM_CONFIGS.put("misc.envType", misc.get("envType"));
 
         this.setHidden();
@@ -247,6 +247,6 @@ public final class ConfigManager {
     }
 
     public boolean isProduction() {
-        return !this.get("envType").equals("devU2");
+        return !this.get("misc.envType").equals("devU2");
     }
 }

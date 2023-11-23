@@ -1,7 +1,7 @@
 cls
 @echo off
 set JAVA_FOLDER=D:\Program Files\Java\jdk-18.0.2
-set DEBUG_ARGS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005
+set DEBUG_ARGS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5006
 set MC_SERVER_FILE=paper.jar
 set BOOT_MAX_RAM=8G
 set EXEC_MAX_RAM=8G

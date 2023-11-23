@@ -5,4 +5,4 @@ call keytool -genkeypair -keystore selfsigned.jks -keyalg RSA -alias selfsigned 
 @REM call keytool -exportcert -keystore selfsigned.jks -alias selfsigned -storepass examplestorepass -file test1.cer
 @REM call keytool -importcert -keystore truststore -alias selfsigned -storepass examplestorepass -file test1.cer -noprompt
 
-move selfsigned.jks %BUILDER%\src\main\resources\
+move selfsigned.jks %PROJECT%\src\main\resources\

@@ -21,10 +21,10 @@ features: { maxHoursFor2FA: "24", defaultLang: EN }
 api:
   {
     appRoot: "www",
-    localPort: 8084,
+    localPort: 8085,
     apiKey: "276931890735218689",
-    keyStoreFile: "keystore.jks",
-    keyStorePassword: "password",
+    keyStoreFile: keystore.jks,
+    keyStorePassword: password,
     allowedHosts:
       { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com" },
   }
@@ -44,6 +44,8 @@ misc:
   {
     confirmLinkCmdName: w-link,
     discordServerName: "RVÐ-Projects",
+    discordServerId: "276931890735218689",
+    discordOwnerId: "272924120142970892",
     discordInviteUrl: "https://discord.gg/XjFuNMHwgQ",
     serverInfosLink: "https://https://rvdprojects.com/",
     serverContactEmail: webdevteam@rvdprojects.com,

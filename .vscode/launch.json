@@ -14,7 +14,7 @@
             "name": "Debug Mc Server(Attach)",
             "request": "attach",
             "hostName": "localhost",
-            "port": 5005,
+            "port": 5006,
             "preLaunchTask": "deploy-debug"
         },
         {
@@ -22,7 +22,7 @@
             "name": "Listen Mc Server(Attach)",
             "request": "attach",
             "hostName": "localhost",
-            "port": 5005
+            "port": 5006
         }
     ]
 }

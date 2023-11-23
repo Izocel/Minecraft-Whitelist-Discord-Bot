@@ -6,7 +6,7 @@
 
     <groupId>com.rvdprojects.whitelistdmcnode</groupId>
     <artifactId>WhitelistDmcNode</artifactId>
-    <version>2424.1.${maven.build.timestamp}</version>
+    <version>2024.1.${maven.build.timestamp}</version>
     <packaging>jar</packaging>
 
     <name>WhitelistDmcNode</name>

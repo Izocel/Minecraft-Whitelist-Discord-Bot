@@ -45,7 +45,7 @@ public class WhitelistSpark {
 
     private static boolean setSSL() {
         try {
-            final int port = Integer.parseInt(configs.get("api.localPort", "8084"));
+            final int port = Integer.parseInt(configs.get("api.localPort", "8085"));
             final String configPass = configs.get("api.keyStorePassword", "");
             final String configFile = configs.get("api.keyStoreFile", null);
             final String keyStorePath = FileHelper.writeResourceToPluginDir(configFile, false);
@@ -68,7 +68,8 @@ public class WhitelistSpark {
         return true;
     }
 
-    private static void enableCORS(final String methods, final String headers, final LinkedHashMap<String, Object> allowedHosts) {
+    private static void enableCORS(final String methods, final String headers,
+            final LinkedHashMap<String, Object> allowedHosts) {
 
         options("*/*", (request, response) -> {
 
