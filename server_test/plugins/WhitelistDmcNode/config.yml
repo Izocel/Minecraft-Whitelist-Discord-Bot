@@ -29,7 +29,7 @@ api:
       {
         0: "rvdprojects.synology.me",
         1: "wdmccentral.rvdprojects.com",
-        3: "localhost",
+        2: "localhost",
       },
   }
 notificationsApi:
