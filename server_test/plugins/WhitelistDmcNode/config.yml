@@ -26,7 +26,11 @@ api:
     keyStoreFile: keystore.jks,
     keyStorePassword: password,
     allowedHosts:
-      { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com" },
+      {
+        0: "rvdprojects.synology.me",
+        1: "wdmccentral.rvdprojects.com",
+        3: "localhost",
+      },
   }
 notificationsApi:
   {
