@@ -1,5 +1,5 @@
 discord:
-  botToken: MTAxNzk3MTY5MDM0MjQ1NzM1Ng.GY_qPp.zbiK8rZBrfDIMqVSlaTDMwfChq75dO0qK0WLEA
+  botToken: MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gs2Xw_.TN4seA371UBXj4WhjdqMKjMzpSU9c5XQZJknL8
   serverId: "276931890735218689"
   channels:
     {
@@ -44,7 +44,14 @@ api:
     apiKey: "276931890735218689",
     keyStoreFile: keystore.jks,
     keyStorePassword: password,
-    allowedHosts: { 0: "rvdprojects.synology.me", 1: "wdmccentral.rvdprojects.com", 2: "localhost" },
+    allowedHosts:
+      {
+        0: "rvdprojects.synology.me",
+        1: "wdmccentral.rvdprojects.com",
+        2: "192.168.1.100",
+        3: "127.0.0.1",
+        4: "localhost"
+      },
   }
 notificationsApi:
   ntfyUrl: https://rvdprojects.synology.me:8890
@@ -64,7 +71,7 @@ linksCommands:
       isPublicMsg: true,
       permission: everyone,
       aliasTradKey: CUSTOM_LINK_LINK1_ALIAS,
-      descriptionTradKey: CUSTOM_LINK_LINK1_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK1_DESC,
       linkTradKey: CUSTOM_LINK_LINK1_LINK,
       minecraftTextTradKey: CUSTOM_LINK_LINK1_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK1_TXT_DISC,
@@ -76,7 +83,7 @@ linksCommands:
       isPublicMsg: false,
       permission: everyone,
       aliasTradKey: CUSTOM_LINK_LINK2_ALIAS,
-      descriptionTradKey: CUSTOM_LINK_LINK2_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK2_DESC,
       linkTradKey: CUSTOM_LINK_LINK2_LINK,
       minecraftTextTradKey: CUSTOM_LINK_LINK2_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK2_TXT_DISC,
