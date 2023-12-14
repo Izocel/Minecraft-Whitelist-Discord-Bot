@@ -1,5 +1,9 @@
 discord:
+<<<<<<< HEAD
   botToken: MTAxNzk3MTY5MDM0MjQ1NzM1Ng.GblgL-.OWYHCPJ3i1bPoOTDtU4Lbqk-AKnlF6BHI6PTbk
+=======
+  botToken: MTAxNzk3MTY5MDM0MjQ1NzM1Ng.Gs2Xw_.TN4seA371UBXj4WhjdqMKjMzpSU9c5XQZJknL8
+>>>>>>> release/2024.1
   serverId: "276931890735218689"
   channels:
     {
@@ -48,7 +52,13 @@ api:
       {
         0: "rvdprojects.synology.me",
         1: "wdmccentral.rvdprojects.com",
+<<<<<<< HEAD
         2: "localhost",
+=======
+        2: "192.168.1.100",
+        3: "127.0.0.1",
+        4: "localhost"
+>>>>>>> release/2024.1
       },
   }
 notificationsApi:
@@ -89,7 +99,7 @@ linksCommands:
       isPublicMsg: true,
       permission: everyone,
       aliasTradKey: CUSTOM_LINK_LINK1_ALIAS,
-      descriptionTradKey: CUSTOM_LINK_LINK1_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK1_DESC,
       linkTradKey: CUSTOM_LINK_LINK1_LINK,
       minecraftTextTradKey: CUSTOM_LINK_LINK1_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK1_TXT_DISC,
@@ -101,7 +111,7 @@ linksCommands:
       isPublicMsg: false,
       permission: everyone,
       aliasTradKey: CUSTOM_LINK_LINK2_ALIAS,
-      descriptionTradKey: CUSTOM_LINK_LINK2_ALIAS,
+      descriptionTradKey: CUSTOM_LINK_LINK2_DESC,
       linkTradKey: CUSTOM_LINK_LINK2_LINK,
       minecraftTextTradKey: CUSTOM_LINK_LINK2_TXT_MC,
       discordTextTradKey: CUSTOM_LINK_LINK2_TXT_DISC,
