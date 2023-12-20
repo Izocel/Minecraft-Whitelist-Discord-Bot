@@ -77,6 +77,38 @@ quests:
       scroll: null,
       questFile: null,
     }
+rewardsSystem:
+  active: false
+  wipeAll: false
+  calendars:
+    myAwesomeWinterReferralSystem:
+      type: referrals
+      active: false
+      claimsActive: false
+      wipeNow: false
+      calendarStart: "2024-01-01 00:00"
+      calendarStop: "2024-06-01 24:00"
+      claimableUntil: "2024-06-01 24:00"
+      rewards:
+        [
+          { refRequired: 1, items: ["xp 1", "money 1", "#111 1"] },
+          { refRequired: 2, items: ["xp 2", "money 2", "#222 1"] },
+          {
+            refRequired: 3,
+            recurseEvery: 2,
+            items: ["xp 3", "money 3", "#333 1"],
+          },
+          {
+            refRequired: 4,
+            recurseEvery: 3,
+            items: ["xp 4", "money 4", "#444 1"],
+          },
+          {
+            refRequired: 5,
+            recurseEvery: 4,
+            items: ["xp 5", "money 5", "#555 1"],
+          },
+        ]
 linksCommands:
   linkOne:
     {

@@ -24,7 +24,8 @@ public final class ConfigManager {
             "api.keyStoreFile",
             "api.apiKey",
             "api.allowedHosts",
-            "notificationsApi.token"
+            "notificationsApi.token",
+            "rewardsSystems"
     };
 
     private final String[] PRIVATE_KEYS = {};
@@ -92,6 +93,9 @@ public final class ConfigManager {
         LinkedHashMap<String, Object> misc = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("misc");
         FROM_MAPS.put("misc", misc);
 
+        LinkedHashMap<String, Object> rewardsSystem = (LinkedHashMap<String, Object>) FROM_CONFIGS.get("rewardsSystem");
+        FROM_MAPS.put("rewardsSystem", rewardsSystem);
+
         FROM_CONFIGS.put("discordBotToken", discord.get("botToken"));
         FROM_CONFIGS.put("discordServerId", discord.get("serverId"));
 
@@ -142,6 +146,10 @@ public final class ConfigManager {
         FROM_CONFIGS.put("linksCommands", linksCommands);
         FROM_CONFIGS.put("quests", quests);
 
+        FROM_CONFIGS.put("rewardsSystem.active", rewardsSystem.get("active"));
+        FROM_CONFIGS.put("rewardsSystem.wipeAll", rewardsSystem.get("wipeAll"));
+        FROM_CONFIGS.put("rewardsSystem.calendars", rewardsSystem.get("calendars"));
+
         FROM_CONFIGS.put("confirmLinkCmdName", misc.get("confirmLinkCmdName"));
         FROM_CONFIGS.put("minecraftInfosLink", misc.get("minecraftInfosLink"));
         FROM_CONFIGS.put("serverContactEmail", misc.get("serverContactEmail"));
@@ -159,8 +167,7 @@ public final class ConfigManager {
                 + get("dbPort") + "/"
                 + get("dbName"));
 
-        final LinkedHashMap<String, Object> hidden = new LinkedHashMap<>() {
-        };
+        final LinkedHashMap<String, Object> hidden = new LinkedHashMap<>();
         hidden.put("pluginVersion", this.pluginVersion);
         hidden.put("dbJdbcUrl", FROM_CONFIGS.get("dbJdbcUrl"));
 
