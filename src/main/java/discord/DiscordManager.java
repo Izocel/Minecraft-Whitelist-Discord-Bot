@@ -215,5 +215,3 @@ public class DiscordManager {
         return this.guild;
     }
 }
-
-// TEST BIDON

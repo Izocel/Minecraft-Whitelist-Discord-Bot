@@ -119,28 +119,28 @@ linksCommands:
       discordTextTradKey: CUSTOM_LINK_LINK3_TXT_DISC,
     }
 rewardsSystem:
-  active: false
+  active: true
   wipeAll: false
   calendars:
     myAwesomeWinterReferralSystem:
       type: referrals
-      active: false
-      claimsActive: false
+      active: true
+      claimsActive: true
       wipeNow: false
       calendarStart: 2024-01-01 00:00
       calendarStop: 2024-06-01 24:00
       claimableUntil: 2024-06-01 24:00
       rewards:
-        - refRequired: 1
+        - qualifiedAt: 1
           items: [xp 1, money 1, "#111 1"]
-        - refRequired: 2
+        - qualifiedAt: 2
           items: [xp 2, money 2, "#222 1"]
-        - refRequired: 3
+        - qualifiedAt: 3
           recurseEvery: 2
           items: [xp 3, money 3, "#333 1"]
-        - refRequired: 4
+        - qualifiedAt: 4
           recurseEvery: 3
           items: [xp 4, money 4, "#444 1"]
-        - refRequired: 5
+        - qualifiedAt: 5
           recurseEvery: 4
           items: [xp 5, money 5, "#555 1"]

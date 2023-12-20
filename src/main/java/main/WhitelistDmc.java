@@ -9,7 +9,6 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
@@ -23,6 +22,7 @@ import discord.DiscordManager;
 import discord.GuildManager;
 import helpers.EconomyManager;
 import helpers.NotificationManager;
+import helpers.RewardsManager;
 import helpers.StatsManager;
 import io.sentry.ISpan;
 import io.sentry.ITransaction;
@@ -31,8 +31,6 @@ import io.sentry.SpanStatus;
 import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
-import net.citizensnpcs.api.CitizensAPI;
-import net.citizensnpcs.api.npc.NPC;
 import services.sentry.SentryService;
 
 public final class WhitelistDmc extends JavaPlugin implements Listener {
@@ -46,6 +44,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
     private NotificationManager notificationManager;
     private StatsManager statsManager;
     private EconomyManager economyManager;
+    private RewardsManager rewardsManager;
 
     private JSONArray players = new JSONArray();
     private JSONArray playersAllowed = new JSONArray();
@@ -146,6 +145,9 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             economyManager = new EconomyManager(this);
             logger.info("LOADED: EconomyManager *vaultApi");
 
+            rewardsManager = new RewardsManager(this);
+            logger.info("LOADED: RewardsManager");
+
             updateAllPlayers();
             logger.info("UPDATED PLAYERS CACHE");
 
@@ -232,6 +234,10 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
     public final EconomyManager getEconomyManager() {
         return this.economyManager;
+    }
+
+    public final RewardsManager getRewardsManager() {
+        return this.rewardsManager;
     }
 
     public final JSONArray updateAllPlayers() {
@@ -409,23 +415,14 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         }
 
         try {
-            final Player player = (Player) sender;
             final Server server = sender.getServer();
-            final World world = player.getWorld();
             final String cmdName = command.getLabel().toString();
-            final Location playerLoc = player.getLocation();
 
             if (cmdName.equals("w-test")) {
-                
-            }
-
-            else {
-                logger.warning("---- Job was not found ----");
-                return false;
             }
 
         } catch (Exception e) {
-            logger.warning("Job error !!!");
+            logger.warning("Test error !!!");
             SentryService.captureEx(e);
         }
 
