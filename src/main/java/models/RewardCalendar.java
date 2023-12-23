@@ -2,10 +2,13 @@ package models;
 
 import java.util.LinkedList;
 
+import org.jooq.tools.json.JSONObject;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+// https://minecraft-ids.grahamedgecombe.com/
 public class RewardCalendar {
     private boolean active;
     private boolean needsWipe;
@@ -67,13 +70,25 @@ public class RewardCalendar {
         }
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public LinkedList<Reward> getRewards() {
         return rewards;
     }
 
-    public void prepareRewardsFor(int discordId) {
+    public void parsePrepareEvent(JSONObject event) {
         for (int i = 0; i < rewards.size(); ++i) {
 
         }
+    }
+
+    public void parseClaimEvent(JSONObject event) {
+
     }
 }

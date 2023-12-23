@@ -1,13 +1,18 @@
 package bukkit;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import commands.bukkit.ConfirmLinkCmd;
 import commands.bukkit.HyperLinksCmd;
@@ -26,10 +31,10 @@ import services.sentry.SentryService;
 
 public class BukkitManager {
     private WhitelistDmc plugin;
-    private Logger logger;
+    static private Logger logger;
 
     public BukkitManager(WhitelistDmc plugin) {
-        this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
+        logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
                 .startChild("BukkitManager");
 
@@ -254,5 +259,54 @@ public class BukkitManager {
             SentryService.captureEx(e);
             return "https://mc-heads.net/body/08673fd1-1196-43be-bc8b-e93fd2dee36d/";
         }
+    }
+
+    public static ItemStack castItemStack(String ITEM_NAME, int amount, ArrayList<String> extraLores,
+            String displayName) {
+        try {
+            if (amount < 1) {
+                throw new Error("Invalid amount");
+            }
+
+            ITEM_NAME = ITEM_NAME.toUpperCase();
+            final Material material = Material.getMaterial(ITEM_NAME);
+            if (material == null) {
+                throw new Exception("Material was not found for: '" + ITEM_NAME + "'");
+            }
+
+            final ItemStack itemStack = new ItemStack(material, amount);
+            final ItemMeta meta = itemStack.getItemMeta();
+
+            // Set display name
+            if (displayName != null && !displayName.isEmpty()) {
+                meta.setDisplayName(
+                        displayName + " [" + ChatColor.AQUA + meta.getLocalizedName() + ChatColor.RESET + "]");
+            }
+
+            // Adds extra lores
+            if (extraLores != null && !extraLores.isEmpty()) {
+                extraLores.add(ChatColor.RESET + "");
+                extraLores.add(ChatColor.RESET + "");
+                extraLores.add("[" + ChatColor.AQUA + "wdmc" + ChatColor.RESET + "]");
+
+                if (meta.getLore() != null && !meta.getLore().isEmpty()) {
+                    meta.getLore().addAll(extraLores);
+                } else {
+                    meta.setLore(extraLores);
+                }
+            }
+
+            itemStack.setItemMeta(meta);
+
+            return itemStack;
+
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return null;
+        }
+    }
+
+    public static void givePlayerItem(Player player, ItemStack itemStack) {
+        player.getInventory().addItem(itemStack);
     }
 }

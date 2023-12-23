@@ -1,6 +1,7 @@
 package helpers;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.logging.Logger;
 
 import configs.ConfigManager;
@@ -15,7 +16,7 @@ public class RewardsManager {
     private Logger logger;
     private boolean active;
     private boolean needsWipe;
-    private LinkedHashMap<String, Object> calendarsData;
+    final private LinkedHashMap<String, Object> calendarsData;
 
     public RewardsManager(WhitelistDmc plugin) {
         ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
@@ -43,6 +44,29 @@ public class RewardsManager {
         return new RewardCalendar(calendarsData.get(name), name);
     }
 
+    public LinkedList<RewardCalendar> getCalendars(String type, int active) {
+        final LinkedList<RewardCalendar> calendars = new LinkedList<>();
+        for (String name : calendarsData.keySet()) {
+            final RewardCalendar calendar = new RewardCalendar(calendarsData.get(name), name);
+
+            if (!calendar.getType().equals(type)) {
+                continue;
+            }
+
+            if (active == 0 && calendar.isActive()) {
+                continue;
+            }
+
+            if (active == 1 && !calendar.isActive()) {
+                continue;
+            }
+
+            calendars.add(calendar);
+        }
+
+        return calendars;
+    }
+
     public void prepareRewardsFor(String calendarName, int discordId) {
         if (!active || needsWipe) {
             return;
@@ -50,13 +74,13 @@ public class RewardsManager {
 
         RewardCalendar calendar = getCalendar(calendarName);
         if (calendar != null) {
-            calendar.prepareRewardsFor(discordId);
+            
         }
     }
 
     public void prepareAllRewardsFor(int discordId) {
         for (String key : calendarsData.keySet()) {
-            prepareRewardsFor(key, discordId);
+            
         }
     }
 }

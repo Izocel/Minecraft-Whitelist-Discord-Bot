@@ -1,6 +1,7 @@
 package main;
 
 import java.net.http.WebSocket.Listener;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -10,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -103,6 +105,10 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
     public String getVersion() {
         return this.configManager.get("pluginVersion");
+    }
+
+    public boolean isProduction() {
+        return configManager.isProduction();
     }
 
     @Override
@@ -408,7 +414,6 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
     }
 
     // You can test some features here in 'dev' mode only.
-    @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         if (isProduction()) {
             return false;
@@ -417,8 +422,20 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         try {
             final Server server = sender.getServer();
             final String cmdName = command.getLabel().toString();
+            final Player player = (Player) sender;
+            final World world = player.getWorld();
+            final Location loc = player.getLocation();
 
             if (cmdName.equals("w-test")) {
+                var ITEM_NAME = "iron_sword";
+
+                String displayName = "Mealgorth";
+
+                ArrayList<String> extraLore = new ArrayList<String>();
+                extraLore.add("Acquired via reward system.");
+
+                final ItemStack itemStack = BukkitManager.castItemStack(ITEM_NAME, 1, extraLore, displayName);
+                BukkitManager.givePlayerItem(player, itemStack);
             }
 
         } catch (Exception e) {
@@ -427,9 +444,5 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
         }
 
         return false;
-    }
-
-    public boolean isProduction() {
-        return configManager.isProduction();
     }
 }
