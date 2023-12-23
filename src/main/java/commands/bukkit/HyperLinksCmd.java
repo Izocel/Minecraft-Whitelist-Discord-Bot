@@ -71,7 +71,7 @@ public class HyperLinksCmd extends PlayerBaseCmd {
       final JSONObject playerData = plugin.getMinecraftDataJson(player.getUniqueId());
 
       if (playerData == null) {
-        final String msg = LOCAL.translate("NOTREGISTERED") + "\n" +
+        final String msg = LOCAL.translate("NOT_REGISTERED") + "\n" +
             LOCAL.translate("USER_ONLY_CMD") + "\n" +
             LOCAL.translate("DO_REGISTER") + " :: " + LOCAL.translate("CONTACT_ADMIN");
 

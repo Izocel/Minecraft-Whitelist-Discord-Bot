@@ -4,7 +4,7 @@ version: '${project.version}'
 main: main.WhitelistDmc
 api-version: 1.15
 author: Izocel
-softdepends: [Citizens]
+softdepends: [Citizens, VaultAPI, LuckPerms]
 commands:
    w-link:
       description: Used to authenticate your Discord and Minecraft accounts.

@@ -38,10 +38,10 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("LANG_CHANGED", "Your language was changed");
         this.DEFAULTS.put("LANG_CURRENT", "You current language is");
         this.DEFAULTS.put("TITLE_ACCOUNT_CONFIRM", "Your accounts confirmation");
-        this.DEFAULTS.put("EMBD_LINK_DESC", "Please confirm this relation request");
-        this.DEFAULTS.put("EMBD_LINK_YESME", "Yes it\'s me");
-        this.DEFAULTS.put("EMBD_LINK_NOTME", "No it\'s not me");
-        this.DEFAULTS.put("EMBD_LINK_POLICY",
+        this.DEFAULTS.put("EMBED_LINK_DESC", "Please confirm this relation request");
+        this.DEFAULTS.put("EMBED_LINK_YES_ME", "Yes it\'s me");
+        this.DEFAULTS.put("EMBED_LINK_NOT_ME", "No it\'s not me");
+        this.DEFAULTS.put("EMBED_LINK_POLICY",
                 "When clicking on `WORD_YES` you assert that those accounts are to be linked, and that you are the legitimate holder.\nWhen clicking on `WORD_NO` the temporary links will be dissolved, and all current or further activities will be suspended.");
         this.DEFAULTS.put("LABEL_LONG_MC", "Minecraft® identification");
         this.DEFAULTS.put("LABEL_MINECRAFT_UUID", "Minecraft® uuid");
@@ -52,7 +52,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("LABEL_BEDROCK_ID", "Bedrock® id");
         this.DEFAULTS.put("LABEL_LONG_JAVA", "Java identification");
         this.DEFAULTS.put("LABEL_JAVA_ID", "Java® id");
-        this.DEFAULTS.put("LABEL_USECMD", "Use the command");
+        this.DEFAULTS.put("LABEL_USE_CMD", "Use the command");
         this.DEFAULTS.put("PLUGIN_HELLO", "**The plugin `%s` %s**\n\n");
         this.DEFAULTS.put("PLUGIN_HELLO_ERROR",
                 "❌ **`ERROR:` The plugin `%s` as encountered errors at initialization**\n");
@@ -61,7 +61,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("PLUGIN_VERSION", "Version: `%s`");
         this.DEFAULTS.put("PLUGIN_DEVBY", "Developed by: %s");
         this.DEFAULTS.put("INFO_LEGITIMATE", "If this request seems illegitimate to you, contact an administrator!!!");
-        this.DEFAULTS.put("INFO_TRYREGISTERAGAIN", "Try to do a registration request on Discord®.");
+        this.DEFAULTS.put("INFO_TRY_REGISTER_AGAIN", "Try to do a registration request on Discord®.");
         this.DEFAULTS.put("INFO_CHECK_YOUR_MSG", "See more details in your private messages.");
         this.DEFAULTS.put("INFO_CONTACT_ADMIN_MORE_INFO", "To get more information, contact an admin directly...");
         this.DEFAULTS.put("INFO_ALREADY_ACCEPTED_CONNECT",
@@ -84,7 +84,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("INFO_USER_WAS_REJECTED",
                 "❌ **The player <@%s> was strongly refused for the pseudo: `%s`.**");
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Your registration on the server was rejected.**");
-        this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
+        this.DEFAULTS.put("WARN_REGISTRATION_DELAY",
                 "⚠️ You're already registered, but the delay to confirm this account is overdue...");
         this.DEFAULTS.put("WARN_ALREADY_REGISTERED",
                 "⚠️ **This `%s` pseudo is already registered to another player**");
@@ -95,7 +95,7 @@ public class En extends DTraductionMaps {
         this.DEFAULTS.put("ERROR", "❌ ERROR");
         this.DEFAULTS.put("CONTACT_ADMIN", "Contact an administrator...");
         this.DEFAULTS.put("CHECK_LOGS", "**Check your `log` files!!!!**");
-        this.DEFAULTS.put("NOTREGISTERED", "Your registration could not be fetched...");
+        this.DEFAULTS.put("NOT_REGISTERED", "Your registration could not be fetched...");
         this.DEFAULTS.put("CMD_ERROR", "❌ Sorry... an error as occurred during this request!!!");
         this.DEFAULTS.put("LOOKUP_ERROR", "This lookup value is not valid...");
         this.DEFAULTS.put("LOOKUP_PARAM_ERROR", "You must choose a valid lookup type");

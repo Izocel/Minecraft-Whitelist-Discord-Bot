@@ -32,10 +32,10 @@ BTN_REFUSE: ❌ Refuse
 LANG_CHANGED: Your language was changed
 LANG_CURRENT: You current language is
 TITLE_ACCOUNT_CONFIRM: Your accounts confirmation
-EMBD_LINK_DESC: Please confirm this relation request
-EMBD_LINK_YESME: Yes it's me
-EMBD_LINK_NOTME: No it's not me
-EMBD_LINK_POLICY: |-
+EMBED_LINK_DESC: Please confirm this relation request
+EMBED_LINK_YES_ME: Yes it's me
+EMBED_LINK_NOT_ME: No it's not me
+EMBED_LINK_POLICY: |-
   When clicking on `WORD_YES` you assert that those accounts are to be linked, and that you are the legitimate holder.
   When clicking on `WORD_NO` the temporary links will be dissolved, and all current or further activities will be suspended.
 LABEL_LONG_MC: Minecraft® identification
@@ -47,7 +47,7 @@ LABEL_LONG_BEDROCK: Bedrock® identification
 LABEL_BEDROCK_ID: Bedrock® id
 LABEL_LONG_JAVA: Java identification
 LABEL_JAVA_ID: Java® id
-LABEL_USECMD: Use the command
+LABEL_USE_CMD: Use the command
 PLUGIN_HELLO: |+
   **The plugin `%s` %s**
 
@@ -60,7 +60,7 @@ PLUGIN_NAME: 'Name: `%s`'
 PLUGIN_VERSION: 'Version: `%s`'
 PLUGIN_DEVBY: 'Developed by: %s'
 INFO_LEGITIMATE: If this request seems illegitimate to you, contact an administrator!!!
-INFO_TRYREGISTERAGAIN: Try to do a registration request on Discord®.
+INFO_TRY_REGISTER_AGAIN: Try to do a registration request on Discord®.
 INFO_CHECK_YOUR_MSG: See more details in your private messages.
 INFO_CONTACT_ADMIN_MORE_INFO: To get more information, contact an admin directly...
 INFO_ALREADY_ACCEPTED_CONNECT: |-
@@ -85,7 +85,7 @@ INFO_USER_WAS_ACCEPTED: '✔️ **The player <@%s> was gently accepted for the p
 INFO_USER_WAS_REJECTED: '❌ **The player <@%s> was strongly refused for the pseudo:
   `%s`.**'
 INFO_REJECTED_USER: '**❌ Your registration on the server was rejected.**'
-WARN_REGISTRATIONDELAY: ⚠️ You're already registered, but the delay to confirm this
+WARN_REGISTRATION_DELAY: ⚠️ You're already registered, but the delay to confirm this
   account is overdue...
 WARN_ALREADY_REGISTERED: ⚠️ **This `%s` pseudo is already registered to another player**
 WARN_NOT_ACCEPTED_YET: ⚠️ **This `%s` account was not yet accepted on the server by
@@ -96,7 +96,7 @@ WARN_BAD_PSEUDO_FORMAT_EXPLAIN: |-
 ERROR: ❌ ERROR
 CONTACT_ADMIN: Contact an administrator...
 CHECK_LOGS: '**Check your `log` files!!!!**'
-NOTREGISTERED: Your registration could not be fetched...
+NOT_REGISTERED: Your registration could not be fetched...
 CMD_ERROR: ❌ Sorry... an error as occurred during this request!!!
 LOOKUP_ERROR: This lookup value is not valid...
 LOOKUP_PARAM_ERROR: You must choose a valid lookup type

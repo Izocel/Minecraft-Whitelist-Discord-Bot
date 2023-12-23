@@ -38,10 +38,10 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("LANG_CHANGED", "Tu idioma fue cambiado");
         this.DEFAULTS.put("LANG_CURRENT", "Su idioma es actualmente");
         this.DEFAULTS.put("TITLE_ACCOUNT_CONFIRM", "Confirmación de sus cuentas");
-        this.DEFAULTS.put("EMBD_LINK_DESC", "Porfavor confirme la demanda de relación");
-        this.DEFAULTS.put("EMBD_LINK_YESME", "Sí, soy yo");
-        this.DEFAULTS.put("EMBD_LINK_NOTME", "No, no soy yo");
-        this.DEFAULTS.put("EMBD_LINK_POLICY",
+        this.DEFAULTS.put("EMBED_LINK_DESC", "Porfavor confirme la demanda de relación");
+        this.DEFAULTS.put("EMBED_LINK_YES_ME", "Sí, soy yo");
+        this.DEFAULTS.put("EMBED_LINK_NOT_ME", "No, no soy yo");
+        this.DEFAULTS.put("EMBED_LINK_POLICY",
                 "Eligiendo `Sí` Usted confirma que estas cuentas estan enlace y que usted es el detentor de ellas.\nEligiendo `No` los enlaces temporarios seran destruidos y todas las actividades corrientes y futuras seran sospendidas.");
         this.DEFAULTS.put("LABEL_LONG_MC", "Identificación Minecraft®");
         this.DEFAULTS.put("LABEL_MINECRAFT_UUID", "Minecraft® uuid");
@@ -52,7 +52,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("LABEL_BEDROCK_ID", "Bedrock® id");
         this.DEFAULTS.put("LABEL_LONG_JAVA", "Identificación Java");
         this.DEFAULTS.put("LABEL_JAVA_ID", "Java® id");
-        this.DEFAULTS.put("LABEL_USECMD", "Usa la comanda");
+        this.DEFAULTS.put("LABEL_USE_CMD", "Usa la comanda");
         this.DEFAULTS.put("PLUGIN_HELLO", "**El plugin `%s` %s **\n\n");
         this.DEFAULTS.put("PLUGIN_HELLO_ERROR",
                 "❌ **`ERROR:` El Plugin `%s` encontró `problemas` al inicializar**\n");
@@ -62,7 +62,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("PLUGIN_DEVBY", "Desarollado por: %s");
         this.DEFAULTS.put("INFO_LEGITIMATE",
                 "Si esta demanda le parece ilegitima, contacte un administrador!!!");
-        this.DEFAULTS.put("INFO_TRYREGISTERAGAIN", "Intente volver a solicitar el registro en Discord®.");
+        this.DEFAULTS.put("INFO_TRY_REGISTER_AGAIN", "Intente volver a solicitar el registro en Discord®.");
         this.DEFAULTS.put("INFO_CHECK_YOUR_MSG", "Ver detalles en sus mensajes privados.");
         this.DEFAULTS.put("INFO_CONTACT_ADMIN_MORE_INFO",
                 "Para saber mas contacte un administrador directamente...");
@@ -90,7 +90,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("INFO_USER_WAS_REJECTED",
                 "❌ **El jugador <@%s> ha sido rechazado por el apodo: `%s`.**");
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Su registracion en el servidor ha sido rechazada.**");
-        this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
+        this.DEFAULTS.put("WARN_REGISTRATION_DELAY",
                 "⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar esta cuenta...");
         this.DEFAULTS.put("WARN_ALREADY_REGISTERED",
                 "⚠️ **Este apodo `%s` ya fue registrado por otro jugador**");
@@ -101,7 +101,7 @@ public class Es extends DTraductionMaps {
         this.DEFAULTS.put("ERROR", "❌ ERROR");
         this.DEFAULTS.put("CONTACT_ADMIN", "Contactar con un administrador...");
         this.DEFAULTS.put("CHECK_LOGS", "**Mira los archivos de `log`!!!!**");
-        this.DEFAULTS.put("NOTREGISTERED", "No se pudo encontrar su registro...");
+        this.DEFAULTS.put("NOT_REGISTERED", "No se pudo encontrar su registro...");
         this.DEFAULTS.put("CMD_ERROR", "❌ Lo sentimos... ¡Ocurrió un error durante esta solicitud!");
         this.DEFAULTS.put("LOOKUP_ERROR", "Este valor de búsqueda no es válido...");
         this.DEFAULTS.put("LOOKUP_PARAM_ERROR", "Debe elegir un tipo de búsqueda válido");

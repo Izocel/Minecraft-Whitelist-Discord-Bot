@@ -136,6 +136,8 @@ server_test/plugins/Waypoints/*
 server_test/plugins/ViaBackwards/*
 server_test/plugins/ViaRewind/*
 server_test/plugins/ViaVersion/*
+server_test/plugins/ClueScrolls/*
+server_test/plugins/LuckPerms/*
 
 server_test/banned-ips.json
 server_test/banned-players.json

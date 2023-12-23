@@ -33,10 +33,10 @@ BTN_REFUSE: ❌ Refuser
 LANG_CHANGED: Votre langue a été modifié
 LANG_CURRENT: Votre langue est actuellement
 TITLE_ACCOUNT_CONFIRM: Confirmation de vos comptes
-EMBD_LINK_DESC: Veuillez confirmer la demande de relation
-EMBD_LINK_YESME: Oui, c'est bien moi
-EMBD_LINK_NOTME: Non, ce n'est pas moi
-EMBD_LINK_POLICY: |-
+EMBED_LINK_DESC: Veuillez confirmer la demande de relation
+EMBED_LINK_YES_ME: Oui, c'est bien moi
+EMBED_LINK_NOT_ME: Non, ce n'est pas moi
+EMBED_LINK_POLICY: |-
   En cliquant sur `OUI` vous confirmez que ces comptes seront reliés et que vous en êtes le détenteur.
   En cliquant sur `NON` les liens temporaires seront détruits et toutes activitées courrantes et futures seront suspendues.
 LABEL_LONG_MC: Identifiant Minecraft®
@@ -48,7 +48,7 @@ LABEL_LONG_BEDROCK: Identifiant Bedrock®
 LABEL_BEDROCK_ID: Bedrock® id
 LABEL_LONG_JAVA: Identifiant Java
 LABEL_JAVA_ID: Java® id
-LABEL_USECMD: Utilisez la commande
+LABEL_USE_CMD: Utilisez la commande
 PLUGIN_HELLO: |+
   **Le plugin `%s` %s **
 
@@ -61,7 +61,7 @@ PLUGIN_NAME: 'Nom: `%s`'
 PLUGIN_VERSION: 'Version: `%s`'
 PLUGIN_DEVBY: 'Développer par: %s'
 INFO_LEGITIMATE: Si cette demande vous semble illégitime, contactez un administrateur!!!
-INFO_TRYREGISTERAGAIN: Essayez de refaire une demande d'enregistrment sur Discord®.
+INFO_TRY_REGISTER_AGAIN: Essayez de refaire une demande d'enregistrment sur Discord®.
 INFO_CHECK_YOUR_MSG: Voir les détails dans vos messages privés.
 INFO_CONTACT_ADMIN_MORE_INFO: Pour en s'avoir d'avantage, contactez un administrateur
   directement...
@@ -86,7 +86,7 @@ INFO_USER_WAS_ACCEPTED: '✔️ **Le joueur <@%s> a bien été approuvé pour le
   `%s`.**'
 INFO_USER_WAS_REJECTED: '❌ **Le joueur <@%s> a bien été refusé pour le pseudo: `%s`.**'
 INFO_REJECTED_USER: '**❌ Votre enregistrement sur le serveur a été refusé.**'
-WARN_REGISTRATIONDELAY: ⚠️ Vous êtes bien enregistré, mais le délai pour confirmer
+WARN_REGISTRATION_DELAY: ⚠️ Vous êtes bien enregistré, mais le délai pour confirmer
   ce compte est dépassé...
 WARN_ALREADY_REGISTERED: ⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**
 WARN_NOT_ACCEPTED_YET: ⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**
@@ -96,7 +96,7 @@ WARN_BAD_PSEUDO_FORMAT_EXPLAIN: |-
 ERROR: ❌ ERREUR
 CONTACT_ADMIN: Contactez un admin...
 CHECK_LOGS: '**Regarder les fichers de `log`!!!!**'
-NOTREGISTERED: Votre enregistrement n'a pas pu être retrouvé...
+NOT_REGISTERED: Votre enregistrement n'a pas pu être retrouvé...
 CMD_ERROR: ❌ Désoler... une erreur est survenu lors de cette demande!!!
 LOOKUP_ERROR: Cette valeur de recherche n'est pas valide...
 LOOKUP_PARAM_ERROR: Vous devez choisir un type de rcherche valide

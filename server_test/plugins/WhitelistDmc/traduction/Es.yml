@@ -33,10 +33,10 @@ BTN_REFUSE: ❌ Rechazar
 LANG_CHANGED: Tu idioma fue cambiado
 LANG_CURRENT: Su idioma es actualmente
 TITLE_ACCOUNT_CONFIRM: Confirmación de sus cuentas
-EMBD_LINK_DESC: Porfavor confirme la demanda de relación
-EMBD_LINK_YESME: Sí, soy yo
-EMBD_LINK_NOTME: No, no soy yo
-EMBD_LINK_POLICY: |-
+EMBED_LINK_DESC: Porfavor confirme la demanda de relación
+EMBED_LINK_YES_ME: Sí, soy yo
+EMBED_LINK_NOT_ME: No, no soy yo
+EMBED_LINK_POLICY: |-
   Eligiendo `Sí` Usted confirma que estas cuentas estan enlace y que usted es el detentor de ellas.
   Eligiendo `No` los enlaces temporarios seran destruidos y todas las actividades corrientes y futuras seran sospendidas.
 LABEL_LONG_MC: Identificación Minecraft®
@@ -48,7 +48,7 @@ LABEL_LONG_BEDROCK: Identificación Bedrock®
 LABEL_BEDROCK_ID: Bedrock® id
 LABEL_LONG_JAVA: Identificación Java
 LABEL_JAVA_ID: Java® id
-LABEL_USECMD: Usa la comanda
+LABEL_USE_CMD: Usa la comanda
 PLUGIN_HELLO: |+
   **El plugin `%s` %s **
 
@@ -61,7 +61,7 @@ PLUGIN_NAME: 'Nombre: `%s`'
 PLUGIN_VERSION: 'Versión: `%s`'
 PLUGIN_DEVBY: 'Desarollado por: %s'
 INFO_LEGITIMATE: Si esta demanda le parece ilegitima, contacte un administrador!!!
-INFO_TRYREGISTERAGAIN: Intente volver a solicitar el registro en Discord®.
+INFO_TRY_REGISTER_AGAIN: Intente volver a solicitar el registro en Discord®.
 INFO_CHECK_YOUR_MSG: Ver detalles en sus mensajes privados.
 INFO_CONTACT_ADMIN_MORE_INFO: Para saber mas contacte un administrador directamente...
 INFO_ALREADY_ACCEPTED_CONNECT: |-
@@ -86,7 +86,7 @@ INFO_USER_WAS_ACCEPTED: '✔️ **El jugador <@%s> ha sido aprobado bien por el 
   `%s`.**'
 INFO_USER_WAS_REJECTED: '❌ **El jugador <@%s> ha sido rechazado por el apodo: `%s`.**'
 INFO_REJECTED_USER: '**❌ Su registracion en el servidor ha sido rechazada.**'
-WARN_REGISTRATIONDELAY: ⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar
+WARN_REGISTRATION_DELAY: ⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar
   esta cuenta...
 WARN_ALREADY_REGISTERED: ⚠️ **Este apodo `%s` ya fue registrado por otro jugador**
 WARN_NOT_ACCEPTED_YET: ⚠️ **Esta cuenta `%s` no ha sido aceptada todavia por el servidor**
@@ -96,7 +96,7 @@ WARN_BAD_PSEUDO_FORMAT_EXPLAIN: |-
 ERROR: ❌ ERROR
 CONTACT_ADMIN: Contactar con un administrador...
 CHECK_LOGS: '**Mira los archivos de `log`!!!!**'
-NOTREGISTERED: No se pudo encontrar su registro...
+NOT_REGISTERED: No se pudo encontrar su registro...
 CMD_ERROR: ❌ Lo sentimos... ¡Ocurrió un error durante esta solicitud!
 LOOKUP_ERROR: Este valor de búsqueda no es válido...
 LOOKUP_PARAM_ERROR: Debe elegir un tipo de búsqueda válido

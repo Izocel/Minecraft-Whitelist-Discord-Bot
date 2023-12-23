@@ -40,7 +40,7 @@ public class StatsManager {
     }
 
     public static boolean dropExpOrbs(Location loc, int orbsCount, int orbsXp) {
-        if (orbsCount <= 0 || orbsXp <= 0) {
+        if (orbsCount < 1 || orbsXp < 1) {
             return true;
         }
 

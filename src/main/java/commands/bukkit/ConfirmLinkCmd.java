@@ -35,7 +35,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
 
   @Override
   public void execute(CommandSender sender, Command cmd, String label, String[] args) {
-    ITransaction tx = Sentry.startTransaction("Wdmc-Link", "comfim user account");
+    ITransaction tx = Sentry.startTransaction("Wdmc-Link", "confirm user account");
 
     Player player = (Player) sender;
     LocalManager LOCAL = WhitelistDmc.LOCALES;
@@ -46,7 +46,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       final JSONObject playerData = plugin.getMinecraftDataJson(player.getUniqueId());
 
       if (playerData == null) {
-        final String msg = LOCAL.translate("NOTREGISTERED") + "\n" +
+        final String msg = LOCAL.translate("NOT_REGISTERED") + "\n" +
             LOCAL.translate("USER_ONLY_CMD") + "\n" +
             LOCAL.translate("DO_REGISTER") + " :: " + LOCAL.translate("CONTACT_ADMIN");
         player.sendMessage(msg);
@@ -81,7 +81,6 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
           Helper.convertStringToTimestamp(registrationDate), confirmHourDelay);
 
       if (!canConfirm) {
-        final String msg = getDisallowMsg(user.getDiscordTag(), uuid, userLang);
         plugin.removePlayerRegistry(player.getUniqueId(), "2FA refusé sur discord!");
 
         tx.setData("state", "delay for confirmation was exceeded");
@@ -90,7 +89,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
       }
 
       Member member = plugin.getGuildManager().findMember(user.getDiscordId());
-      this.sendConfimationEmbeded(member, player, userLang);
+      this.sendConfirmationEmbed(member, player, userLang);
       final String msg = LOCAL.translateBy("MINECRAFT_CONFIRMATION_ON_ITS_WAY", userLang);
       player.sendMessage(msg);
 
@@ -112,16 +111,16 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     LocalManager LOCAL = WhitelistDmc.LOCALES;
     final String cmdName = ": /" + LOCAL.translateBy("CMD_REGISTER", userLang);
 
-    return "\n\n§c§l" + LOCAL.translateBy("WARN_REGISTRATIONDELAY", userLang) +
+    return "\n\n§c§l" + LOCAL.translateBy("WARN_REGISTRATION_DELAY", userLang) +
         "\n§f" + LOCAL.translateBy("ACCOUNTS_INFOS", userLang) +
         "\n§f" + LOCAL.translateBy("LABEL_DISCORD_TAG", userLang) + ": " + tagDiscord +
         "\n§f" + LOCAL.translateBy("LABEL_MINECRAFT_UUID", userLang) + ": " + mcUUID +
-        "\n\n§l" + LOCAL.translateBy("INFO_TRYREGISTERAGAIN", userLang) +
-        "\n§9" + LOCAL.translateBy("LABEL_USECMD", userLang) + cmdName +
+        "\n\n§l" + LOCAL.translateBy("INFO_TRY_REGISTER_AGAIN", userLang) +
+        "\n§9" + LOCAL.translateBy("LABEL_USE_CMD", userLang) + cmdName +
         "\n\n§c" + LOCAL.translateBy("INFO_LEGITIMATE", userLang);
   }
 
-  private void sendConfimationEmbeded(Member member, Player player, String lang) {
+  private void sendConfirmationEmbed(Member member, Player player, String lang) {
     final UUID uuid = player.getUniqueId();
     final String discordId = member.getUser().getId();
     final JSONObject pData = plugin.getMinecraftDataJson(uuid);
@@ -129,26 +128,26 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
     this.plugin.getDiscordManager().jda.openPrivateChannelById(discordId).queue(channel -> {
       final String channel_id = channel.getId();
 
-      final MessageEmbed msgEmbededs = Helper.jsonToMessageEmbed(
-          this.confirmationEmbededs(channel_id, uuid.toString(), pData.getString("pseudo"), lang));
+      final MessageEmbed msgEmbeds = Helper.jsonToMessageEmbed(
+          this.confirmationEmbedded(channel_id, uuid.toString(), pData.getString("pseudo"), lang));
       final ArrayList<ActionRow> msgActions = Helper.getActionRowsfromJson(this.confirmationActions(channel_id, lang));
 
-      Helper.preparePrivateCustomMsg(channel, msgEmbededs, msgActions).submit(true);
+      Helper.preparePrivateCustomMsg(channel, msgEmbeds, msgActions).submit(true);
     });
   }
 
-  private String confirmationEmbededs(String channel_id, String uuid, String pseudo, String lang) {
+  private String confirmationEmbedded(String channel_id, String uuid, String pseudo, String lang) {
     LocalManager LOCAL = WhitelistDmc.LOCALES;
 
     final String title = LOCAL.translateBy("TITLE_ACCOUNT_CONFIRM", lang);
-    final String description = "**" + LOCAL.translateBy("EMBD_LINK_DESC", lang) + "**";
+    final String description = "**" + LOCAL.translateBy("EMBED_LINK_DESC", lang) + "**";
     final String mcNameLabel = LOCAL.translateBy("LABEL_LONG_MC", lang);
     final String mcUuidLabel = LOCAL.translateBy("LABEL_MINECRAFT_UUID", lang);
-    final String policy = LOCAL.translateBy("EMBD_LINK_POLICY", lang);
+    final String policy = LOCAL.translateBy("EMBED_LINK_POLICY", lang);
 
     final String embedUrl = this.configs.get("minecraftInfosLink");
 
-    final String jsonEmbeded = """
+    final String jsonEmbedded = """
         {
           "embeds": [
             {
@@ -183,16 +182,16 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
           ]
         }""";
 
-    return jsonEmbeded;
+    return jsonEmbedded;
   }
 
   private String confirmationActions(String channel_id, String lang) {
     LocalManager LOCAL = WhitelistDmc.LOCALES;
 
-    final String WORD_YES = '"' + LOCAL.translateBy("EMBD_LINK_YESME", lang) + '"';
-    final String WORD_NO = '"' + LOCAL.translateBy("EMBD_LINK_NOTME", lang) + '"';
+    final String WORD_YES = '"' + LOCAL.translateBy("EMBED_LINK_YES_ME", lang) + '"';
+    final String WORD_NO = '"' + LOCAL.translateBy("EMBED_LINK_NOT_ME", lang) + '"';
 
-    final String jsonEmbeded = """
+    final String jsonEmbedded = """
         {
           "components": [
             {
@@ -217,7 +216,7 @@ public class ConfirmLinkCmd extends PlayerBaseCmd {
           ]
         }""";
 
-    return jsonEmbeded;
+    return jsonEmbedded;
   }
 
 }

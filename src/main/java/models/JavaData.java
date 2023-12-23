@@ -172,13 +172,6 @@ public class JavaData extends BaseModel {
         this.updatedAt = updatedAt;
     }
 
-    public void executeOrder66(String moderatorId) {
-        if (moderatorId == null) {
-            moderatorId = "#666-TheChancelor";
-        }
-        this.setAsAllowed("order-66", false, moderatorId);
-    }
-
     @Override
     public JSONObject toJson() {
         JSONObject jsonObj = new JSONObject();

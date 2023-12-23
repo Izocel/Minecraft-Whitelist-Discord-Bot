@@ -38,10 +38,10 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("LANG_CHANGED", "Votre langue a été modifié");
         this.DEFAULTS.put("LANG_CURRENT", "Votre langue est actuellement");
         this.DEFAULTS.put("TITLE_ACCOUNT_CONFIRM", "Confirmation de vos comptes");
-        this.DEFAULTS.put("EMBD_LINK_DESC", "Veuillez confirmer la demande de relation");
-        this.DEFAULTS.put("EMBD_LINK_YESME", "Oui, c\'est bien moi");
-        this.DEFAULTS.put("EMBD_LINK_NOTME", "Non, ce n\'est pas moi");
-        this.DEFAULTS.put("EMBD_LINK_POLICY",
+        this.DEFAULTS.put("EMBED_LINK_DESC", "Veuillez confirmer la demande de relation");
+        this.DEFAULTS.put("EMBED_LINK_YES_ME", "Oui, c\'est bien moi");
+        this.DEFAULTS.put("EMBED_LINK_NOT_ME", "Non, ce n\'est pas moi");
+        this.DEFAULTS.put("EMBED_LINK_POLICY",
                 "En cliquant sur `OUI` vous confirmez que ces comptes seront reliés et que vous en êtes le détenteur.\nEn cliquant sur `NON` les liens temporaires seront détruits et toutes activitées courrantes et futures seront suspendues.");
         this.DEFAULTS.put("LABEL_LONG_MC", "Identifiant Minecraft®");
         this.DEFAULTS.put("LABEL_MINECRAFT_UUID", "Minecraft® uuid");
@@ -52,7 +52,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("LABEL_BEDROCK_ID", "Bedrock® id");
         this.DEFAULTS.put("LABEL_LONG_JAVA", "Identifiant Java");
         this.DEFAULTS.put("LABEL_JAVA_ID", "Java® id");
-        this.DEFAULTS.put("LABEL_USECMD", "Utilisez la commande");
+        this.DEFAULTS.put("LABEL_USE_CMD", "Utilisez la commande");
         this.DEFAULTS.put("PLUGIN_HELLO", "**Le plugin `%s` %s **\n\n");
         this.DEFAULTS.put("PLUGIN_HELLO_ERROR",
                 "❌ **`ERREUR:` Le plugin `%s` a rencontré des `problèmes` à l'initialisation**\n");
@@ -61,7 +61,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("PLUGIN_VERSION", "Version: `%s`");
         this.DEFAULTS.put("PLUGIN_DEVBY", "Développer par: %s");
         this.DEFAULTS.put("INFO_LEGITIMATE", "Si cette demande vous semble illégitime, contactez un administrateur!!!");
-        this.DEFAULTS.put("INFO_TRYREGISTERAGAIN", "Essayez de refaire une demande d'enregistrment sur Discord®.");
+        this.DEFAULTS.put("INFO_TRY_REGISTER_AGAIN", "Essayez de refaire une demande d'enregistrment sur Discord®.");
         this.DEFAULTS.put("INFO_CHECK_YOUR_MSG", "Voir les détails dans vos messages privés.");
         this.DEFAULTS.put("INFO_CONTACT_ADMIN_MORE_INFO",
                 "Pour en s'avoir d'avantage, contactez un administrateur directement...");
@@ -84,7 +84,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("INFO_USER_WAS_ACCEPTED", "✔️ **Le joueur <@%s> a bien été approuvé pour le pseudo: `%s`.**");
         this.DEFAULTS.put("INFO_USER_WAS_REJECTED", "❌ **Le joueur <@%s> a bien été refusé pour le pseudo: `%s`.**");
         this.DEFAULTS.put("INFO_REJECTED_USER", "**❌ Votre enregistrement sur le serveur a été refusé.**");
-        this.DEFAULTS.put("WARN_REGISTRATIONDELAY",
+        this.DEFAULTS.put("WARN_REGISTRATION_DELAY",
                 "⚠️ Vous êtes bien enregistré, mais le délai pour confirmer ce compte est dépassé...");
         this.DEFAULTS.put("WARN_ALREADY_REGISTERED", "⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**");
         this.DEFAULTS.put("WARN_NOT_ACCEPTED_YET", "⚠️ **Ce compte `%s` n'a pas encore été accepté sur le serveur.**");
@@ -93,7 +93,7 @@ public class Fr extends DTraductionMaps {
         this.DEFAULTS.put("ERROR", "❌ ERREUR");
         this.DEFAULTS.put("CONTACT_ADMIN", "Contactez un admin...");
         this.DEFAULTS.put("CHECK_LOGS", "**Regarder les fichers de `log`!!!!**");
-        this.DEFAULTS.put("NOTREGISTERED", "Votre enregistrement n'a pas pu être retrouvé...");
+        this.DEFAULTS.put("NOT_REGISTERED", "Votre enregistrement n'a pas pu être retrouvé...");
         this.DEFAULTS.put("CMD_ERROR", "❌ Désoler... une erreur est survenu lors de cette demande!!!");
         this.DEFAULTS.put("LOOKUP_ERROR", "Cette valeur de recherche n'est pas valide...");
         this.DEFAULTS.put("LOOKUP_PARAM_ERROR", "Vous devez choisir un type de rcherche valide");

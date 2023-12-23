@@ -1,6 +1,7 @@
 package bukkit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ import dao.DaoManager;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLogin;
 import events.bukkit.OnServerLoad;
+import helpers.PermsManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
@@ -68,7 +70,7 @@ public class BukkitManager {
         final String versionField = LOCAL.translateBy("VERSION", lang);
         final String onlineField = LOCAL.translateBy("ONLINE_MODE", lang);
         final String whitelistField = LOCAL.translateBy("WHITELISTED", lang);
-        final String defaultGModefield = LOCAL.translateBy("DEFAULT_GAME_MODE", lang);
+        final String defaultModeField = LOCAL.translateBy("DEFAULT_GAME_MODE", lang);
         final String descField = LOCAL.translateBy("DESCRIPTION", lang);
         final String WORD_YES = LOCAL.translateBy("WORD_YES", lang);
         final String WORD_NO = LOCAL.translateBy("WORD_NO", lang);
@@ -84,7 +86,7 @@ public class BukkitManager {
         sb.append("\n\t" + versionField + " : `" + version + "`");
         sb.append("\n\t" + onlineField + " : `" + onlineStr + "`");
         sb.append("\n\t" + whitelistField + " : `" + fwStr + "`");
-        sb.append("\n\t" + defaultGModefield + " : `" + gameMode.name() + "`");
+        sb.append("\n\t" + defaultModeField + " : `" + gameMode.name() + "`");
         sb.append("\n\t" + descField + " : `" + description + "`");
 
         return sb.toString();
@@ -201,12 +203,13 @@ public class BukkitManager {
             }
         }
 
-        logger.warning("Could not find any allowed player with UUID: " + uuid);
+        logger.warning("Could not find any player with UUID: " + uuid);
         return false;
     }
 
     public void setPlayerAsConfirmed(String uuid) {
         try {
+            PermsManager.addToPluginGroup(UUID.fromString(uuid));
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
@@ -261,17 +264,19 @@ public class BukkitManager {
         }
     }
 
+    // https://minecraft-ids.grahamedgecombe.com/
     public static ItemStack castItemStack(String ITEM_NAME, int amount, ArrayList<String> extraLores,
             String displayName) {
         try {
-            if (amount < 1) {
-                throw new Error("Invalid amount");
-            }
-
             ITEM_NAME = ITEM_NAME.toUpperCase();
             final Material material = Material.getMaterial(ITEM_NAME);
+
             if (material == null) {
                 throw new Exception("Material was not found for: '" + ITEM_NAME + "'");
+            }
+
+            if (amount < 1 || material.getMaxStackSize() < amount) {
+                throw new Exception("Invalid amount for Material: '" + ITEM_NAME + "' Amount: " + amount);
             }
 
             final ItemStack itemStack = new ItemStack(material, amount);
@@ -279,15 +284,13 @@ public class BukkitManager {
 
             // Set display name
             if (displayName != null && !displayName.isEmpty()) {
-                meta.setDisplayName(
-                        displayName + " [" + ChatColor.AQUA + meta.getLocalizedName() + ChatColor.RESET + "]");
+                meta.setDisplayName(displayName);
             }
 
             // Adds extra lores
             if (extraLores != null && !extraLores.isEmpty()) {
-                extraLores.add(ChatColor.RESET + "");
-                extraLores.add(ChatColor.RESET + "");
-                extraLores.add("[" + ChatColor.AQUA + "wdmc" + ChatColor.RESET + "]");
+                extraLores.add("");
+                extraLores.add(ChatColor.GREEN + "- " + ChatColor.WHITE + "WDMC");
 
                 if (meta.getLore() != null && !meta.getLore().isEmpty()) {
                     meta.getLore().addAll(extraLores);
@@ -306,7 +309,12 @@ public class BukkitManager {
         }
     }
 
-    public static void givePlayerItem(Player player, ItemStack itemStack) {
-        player.getInventory().addItem(itemStack);
+    public static HashMap<Integer, ItemStack> givePlayerItem(Player player, ItemStack itemStack) {
+        try {
+            return player.getInventory().addItem(itemStack);
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return null;
+        }
     }
 }

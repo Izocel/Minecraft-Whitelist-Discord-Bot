@@ -103,7 +103,7 @@ public class OnUserConfirm extends ListenerAdapter {
                 logger.info(("Found the quest NPC! using its location for the XPOrbs drop..."));
                 orbsLocation = registrarNpc.getLocation();
             } else {
-                logger.warning("The quest NPC was not found! Using its players for the XPOrbs drop...");
+                logger.warning("The quest NPC was not found! Using players for the XPOrbs drop...");
             }
 
             StatsManager.giveXp(player, questXp);

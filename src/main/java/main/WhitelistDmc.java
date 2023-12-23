@@ -11,7 +11,6 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,6 +23,7 @@ import discord.DiscordManager;
 import discord.GuildManager;
 import helpers.EconomyManager;
 import helpers.NotificationManager;
+import helpers.PermsManager;
 import helpers.RewardsManager;
 import helpers.StatsManager;
 import io.sentry.ISpan;
@@ -52,6 +52,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
     private JSONArray playersAllowed = new JSONArray();
     private SentryService sentryService;
     private Migrator migrator;
+    private PermsManager permsManager;
 
     public static LocalManager LOCALES;
 
@@ -145,6 +146,9 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             notificationManager = new NotificationManager(this);
             logger.info("LOADED: NotificationManager");
 
+            permsManager = new PermsManager(this);
+            logger.info("LOADED: PermsManager");
+
             statsManager = new StatsManager(this);
             logger.info("LOADED: StatsManager");
 
@@ -232,6 +236,10 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
 
     public final SentryService getSentryService() {
         return this.sentryService;
+    }
+
+    public final PermsManager getPermsManager() {
+        return this.permsManager;
     }
 
     public final StatsManager getStatsManager() {
@@ -394,6 +402,7 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             }
 
             final String uuid = UUID.toString();
+            PermsManager.removeFromPluginGroup(UUID);
             final JavaData javaData = DaoManager.getJavaDataDao().findWithUuid(uuid);
             final BedrockData bedData = DaoManager.getBedrockDataDao().findWithUuid(uuid);
 
@@ -419,25 +428,26 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             return false;
         }
 
+        final String cmdName = command.getLabel().toString();
+        if (!cmdName.equals("w-test")) {
+            return false;
+        }
+
         try {
             final Server server = sender.getServer();
-            final String cmdName = command.getLabel().toString();
             final Player player = (Player) sender;
             final World world = player.getWorld();
             final Location loc = player.getLocation();
 
-            if (cmdName.equals("w-test")) {
-                var ITEM_NAME = "iron_sword";
+            ArrayList<String> items = new ArrayList<>();
+            items.add("EXPERIENCE_ORB 2");
+            items.add("IRON_SWORD 1");
+            items.add("MONEY 2");
 
-                String displayName = "Mealgorth";
+            // iterate
+            for (int i = 0; i < items.size(); i++) {
 
-                ArrayList<String> extraLore = new ArrayList<String>();
-                extraLore.add("Acquired via reward system.");
-
-                final ItemStack itemStack = BukkitManager.castItemStack(ITEM_NAME, 1, extraLore, displayName);
-                BukkitManager.givePlayerItem(player, itemStack);
             }
-
         } catch (Exception e) {
             logger.warning("Test error !!!");
             SentryService.captureEx(e);

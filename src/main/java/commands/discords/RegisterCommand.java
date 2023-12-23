@@ -428,7 +428,7 @@ public class RegisterCommand extends BaseCmd {
 
             if (!ok) {
                 event.reply(LOCAL.useDefault("CMD_ERROR")
-                        + " --> " + LOCAL.useDefault("WARN_REGISTRATIONDELAY"))
+                        + " --> " + LOCAL.useDefault("WARN_REGISTRATION_DELAY"))
                         .setEphemeral(true).submit(true);
                 return;
             }
