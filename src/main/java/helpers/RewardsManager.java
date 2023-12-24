@@ -1,5 +1,6 @@
 package helpers;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -8,7 +9,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.jooq.tools.json.JSONObject;
+import org.json.JSONObject;
 
 import bukkit.BukkitManager;
 import configs.ConfigManager;
@@ -85,9 +86,9 @@ public class RewardsManager {
             return;
         }
 
-        String calendarType = (String) event.get("calendarType");
-        String receiverKey = (String) event.get("receiverKey");
-        String giverKey = (String) event.get("giverKey");
+        String calendarType = (String) event.getString("calendarType");
+        String receiverKey = (String) event.getString("receiverKey");
+        String giverKey = (String) event.getString("giverKey");
         String qualifier = (String) event.get("qualifier");
 
         try {
@@ -112,15 +113,13 @@ public class RewardsManager {
             return;
         }
 
-        String calendarType = (String) event.get("calendarType");
-        String receiverKey = (String) event.get("receiverKey");
-
-        LinkedList<RewardCalendar> calendars = getCalendars(calendarType, 1);
-        Iterator<RewardCalendar> iterator = calendars.iterator();
+        String calendarType = (String) event.getString("calendarType");
+        ArrayList<String> extraLores = new ArrayList<String>();
+        extraLores.add("Acquired via reward system.");
 
         try {
-            while (iterator.hasNext()) {
-                RewardCalendar calendar = iterator.next();
+            LinkedList<RewardCalendar> calendars = getCalendars(calendarType, 1);
+            for (RewardCalendar calendar : calendars) {
                 if (calendar == null || !calendar.isActive() || !calendar.isClaimActive() || calendar.needsWipe()) {
                     continue;
                 }
@@ -130,31 +129,24 @@ public class RewardsManager {
                     continue;
                 }
 
-                final ArrayList<String> items = (ArrayList<String>) event.getOrDefault("items", new ArrayList<>());
-                for (String item : items) {
-                    final String[] split = item.split(" ");
-                    final String ITEM_NAME = split[0].toUpperCase();
+                // TODO: fech rewards from DB
 
-                    switch (ITEM_NAME) {
-                        case "EXPERIENCE_ORB":
-                            final int amount = Integer.parseInt(split[1]);
-                            StatsManager.giveXp(player, amount);
-                            break;
+                // Compare now with claim max time
+                final Timestamp now = Helper.getTimestamp();
+                final String until = calendar.getClaimableUntil();
+                final bool claimable = true;
 
-                        case "MONEY":
-                            final double value = Double.parseDouble(split[1]);
-                            EconomyManager.depositPlayer(player, value);
-                            break;
-
-                        default:
-                            ArrayList<String> extraLore = new ArrayList<String>();
-                            extraLore.add("Acquired via reward system.");
-
-                            final ItemStack itemStack = BukkitManager.castItemStack(ITEM_NAME, 10, extraLore, null);
-                            BukkitManager.givePlayerItem(player, itemStack);
-                            break;
-                    }
+                if(!claimable) {
+                    continue;
                 }
+
+                
+                ArrayList<String> items = new ArrayList<>();
+                items.add("EXPERIENCE_ORB 2");
+                items.add("IRON_SWORD 1");
+                items.add("MONEY 2");
+
+                BukkitManager.givePlayerItemsReward(player, items, null, extraLores);
             }
         } catch (Exception e) {
             SentryService.captureEx(e);

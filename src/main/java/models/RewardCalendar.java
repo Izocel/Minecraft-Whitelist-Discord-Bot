@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.protobuf.Timestamp;
 
 public class RewardCalendar {
     private boolean active;
@@ -96,6 +97,10 @@ public class RewardCalendar {
 
     public String getRequiredRole() {
         return requiredRole;
+    }
+
+    public String getClaimableUntil() {
+        return claimableUntil;
     }
 
     public LinkedList<Reward> getRewards() {

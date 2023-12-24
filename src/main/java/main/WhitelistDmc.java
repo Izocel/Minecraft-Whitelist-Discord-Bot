@@ -2,6 +2,7 @@ package main;
 
 import java.net.http.WebSocket.Listener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -33,6 +34,7 @@ import io.sentry.SpanStatus;
 import locals.LocalManager;
 import models.BedrockData;
 import models.JavaData;
+import models.RewardCalendar;
 import services.sentry.SentryService;
 
 public final class WhitelistDmc extends JavaPlugin implements Listener {
@@ -439,15 +441,11 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             final World world = player.getWorld();
             final Location loc = player.getLocation();
 
-            ArrayList<String> items = new ArrayList<>();
-            items.add("EXPERIENCE_ORB 2");
-            items.add("IRON_SWORD 1");
-            items.add("MONEY 2");
+            JSONObject event = new JSONObject();
+            event.put("receiverKey", "Izocel");
+            event.put("calendarType", "referral");
 
-            // iterate
-            for (int i = 0; i < items.size(); i++) {
-
-            }
+            rewardsManager.parseClaimRewardsEvent(player, event);
         } catch (Exception e) {
             logger.warning("Test error !!!");
             SentryService.captureEx(e);

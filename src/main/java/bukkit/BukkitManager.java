@@ -21,13 +21,16 @@ import dao.DaoManager;
 import events.bukkit.OnPlayerJoin;
 import events.bukkit.OnPlayerLogin;
 import events.bukkit.OnServerLoad;
+import helpers.EconomyManager;
 import helpers.PermsManager;
+import helpers.StatsManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import locals.LocalManager;
 import main.WhitelistDmc;
 import models.BedrockData;
 import models.JavaData;
+import net.milkbowl.vault.economy.EconomyResponse;
 import services.api.PlayerDbApi;
 import services.sentry.SentryService;
 
@@ -315,6 +318,46 @@ public class BukkitManager {
         } catch (Exception e) {
             SentryService.captureEx(e);
             return null;
+        }
+    }
+
+    public static Object givePlayerItemsReward(Player player, ArrayList<String> items,
+            String displayName,
+            ArrayList<String> extraLores) {
+        try {
+            for (String item : items) {
+                final String[] split = item.split(" ");
+                final String ITEM_NAME = split[0].toUpperCase();
+                final int intAmount = Integer.parseInt(split[1]);
+                final double doubleAmount = Double.parseDouble(split[1]);
+
+                switch (ITEM_NAME) {
+                    case "EXPERIENCE_ORB":
+                        StatsManager.giveXp(player, intAmount);
+                        break;
+
+                    case "MONEY":
+                        EconomyResponse response = EconomyManager.depositPlayer(player, doubleAmount);
+                        if (response.errorMessage != null) {
+                            return true;
+                        }
+                        break;
+
+                    default:
+                        final ItemStack itemStack = BukkitManager.castItemStack(ITEM_NAME, intAmount, extraLores,
+                                displayName);
+                        HashMap<Integer, ItemStack> remains = BukkitManager.givePlayerItem(player, itemStack);
+
+                        if (remains.size() > 0) {
+                            return itemStack;
+                        }
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            return false;
         }
     }
 }
