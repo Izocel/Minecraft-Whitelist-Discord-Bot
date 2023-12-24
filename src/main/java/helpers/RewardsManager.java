@@ -16,7 +16,6 @@ import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import main.WhitelistDmc;
 import models.RewardCalendar;
-import net.dv8tion.jda.api.entities.User;
 import services.sentry.SentryService;
 
 public class RewardsManager {
@@ -81,79 +80,85 @@ public class RewardsManager {
         return calendars;
     }
 
-    public void prepareRewardsFor(String calendarName, int discordId) {
-        if (!active || needsWipe) {
-            return;
-        }
-
-        RewardCalendar calendar = getCalendar(calendarName);
-        if (calendar != null) {
-
-        }
-    }
-
-    public void prepareAllRewardsFor(int discordId) {
-        for (String key : calendarsData.keySet()) {
-
-        }
-    }
-
-    public void parsePrepareEvent(User sender, JSONObject event) {
-        if (!active || needsWipe) {
-            return;
-        }
-        
-        String calendarType = (String) event.get("calendarType");
-        LinkedList<RewardCalendar> calendar = getCalendars(calendarType, 1);
-        if (calendar.size() < 1) {
-            return;
-        }
-    }
-
-    public void parseClaimEvent(Player player, JSONObject event) {
+    public void parsePublishRewardsEvent(JSONObject event) {
         if (!active || needsWipe) {
             return;
         }
 
         String calendarType = (String) event.get("calendarType");
-        String calendarName = (String) event.get("calendarName");
-        RewardCalendar calendar = getCalendar(calendarName);
+        String receiverKey = (String) event.get("receiverKey");
+        String giverKey = (String) event.get("giverKey");
+        String qualifier = (String) event.get("qualifier");
 
-        if (!calendar.isActive() || !calendar.isClaimActive() || calendar.needsWipe()
-                || !calendar.getType().equals(calendarType)) {
-            return;
-        }
+        try {
+            LinkedList<RewardCalendar> calendars = getCalendars(calendarType, 1);
+            Iterator<RewardCalendar> iterator = calendars.iterator();
 
-        String requiredRole = (String) event.get("requiredRole");
-        if (!PermsManager.isPlayerInGroup(player, requiredRole)) {
-            return;
-        }
+            while (iterator.hasNext()) {
+                RewardCalendar calendar = iterator.next();
+                if (!calendar.isActive() || calendar.needsWipe()) {
+                    continue;
+                }
 
-        ArrayList<String> items = (ArrayList<String>) event.getOrDefault("items", new ArrayList());
-
-        for (String item : items) {
-            final String[] split = item.split(" ");
-            final String ITEM_NAME = split[0].toUpperCase();
-
-            switch (ITEM_NAME) {
-                case "EXPERIENCE_ORB":
-                    final int amount = Integer.parseInt(split[1]);
-                    StatsManager.giveXp(player, amount);
-                    break;
-
-                case "MONEY":
-                    final double value = Double.parseDouble(split[1]);
-                    EconomyManager.depositPlayer(player, value);
-                    break;
-
-                default:
-                    ArrayList<String> extraLore = new ArrayList<String>();
-                    extraLore.add("Acquired via reward system.");
-
-                    final ItemStack itemStack = BukkitManager.castItemStack(ITEM_NAME, 10, extraLore, null);
-                    BukkitManager.givePlayerItem(player, itemStack);
-                    break;
+                calendar.publishReward(qualifier, receiverKey, giverKey);
             }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+        }
+    }
+
+    public void parseClaimRewardsEvent(Player player, JSONObject event) {
+        if (!active || needsWipe) {
+            return;
+        }
+
+        String calendarType = (String) event.get("calendarType");
+        String receiverKey = (String) event.get("receiverKey");
+
+        LinkedList<RewardCalendar> calendars = getCalendars(calendarType, 1);
+        Iterator<RewardCalendar> iterator = calendars.iterator();
+
+        try {
+            while (iterator.hasNext()) {
+                RewardCalendar calendar = iterator.next();
+                if (calendar == null || !calendar.isActive() || !calendar.isClaimActive() || calendar.needsWipe()) {
+                    continue;
+                }
+
+                final String requiredRole = calendar.getRequiredRole();
+                if (requiredRole != null && !PermsManager.isPlayerInGroup(player, requiredRole)) {
+                    continue;
+                }
+
+                final ArrayList<String> items = (ArrayList<String>) event.getOrDefault("items", new ArrayList<>());
+                for (String item : items) {
+                    final String[] split = item.split(" ");
+                    final String ITEM_NAME = split[0].toUpperCase();
+
+                    switch (ITEM_NAME) {
+                        case "EXPERIENCE_ORB":
+                            final int amount = Integer.parseInt(split[1]);
+                            StatsManager.giveXp(player, amount);
+                            break;
+
+                        case "MONEY":
+                            final double value = Double.parseDouble(split[1]);
+                            EconomyManager.depositPlayer(player, value);
+                            break;
+
+                        default:
+                            ArrayList<String> extraLore = new ArrayList<String>();
+                            extraLore.add("Acquired via reward system.");
+
+                            final ItemStack itemStack = BukkitManager.castItemStack(ITEM_NAME, 10, extraLore, null);
+                            BukkitManager.givePlayerItem(player, itemStack);
+                            break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            SentryService.captureEx(e);
+            needsWipe = true;
         }
     }
 

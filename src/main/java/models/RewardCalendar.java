@@ -94,14 +94,22 @@ public class RewardCalendar {
         return type;
     }
 
+    public String getRequiredRole() {
+        return requiredRole;
+    }
+
     public LinkedList<Reward> getRewards() {
         return rewards;
+    }
+
+    public void publishReward(String qualification, String referralKey, String callerId) {
+        // TODO: put rewards, referralId, callerId, type.calendarName into DB
     }
 
     public boolean wipe() {
         needsWipe = false;
 
-        // TODO: change config.yml to needsWipe
+        // TODO: change config.yml with needsWipe new value
         return needsWipe;
     }
 }
