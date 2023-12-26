@@ -7,8 +7,7 @@ rm -rf $TARGET
 
 java --version;
 mvn --version;
-mvn javadoc:javadoc;
-mvn clean install package site javadoc:javadoc;
+mvn clean install package site;
 
 rm -rf $SITE_DIST
 cp -r $SITE_TRGT $SITE_DIST

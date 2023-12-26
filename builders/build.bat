@@ -7,7 +7,7 @@ RMDIR %TARGET% /S /Q
 
 CALL java --version
 CALL mvn --version
-CALL mvn clean install package site javadoc:javadoc
+CALL mvn clean install package site
 
 RMDIR %SITE_DIST% /S /Q
 XCOPY %SITE_TRGT% %SITE_DIST% /S /Y /I

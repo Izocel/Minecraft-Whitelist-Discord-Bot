@@ -1,5 +1,5 @@
 discord:
-  botToken: "-----------------------RESOURCE-------------------------------------"
+  botToken: "MTAxNzk3MTY5MDM0MjQ1NzM1Ng.GZkhi4.MSYTJYpwf0lb03-bG_4qwGmTb9vN0jO1B5Y8LI"
   serverId: "276931890735218689"
   channels:
     {
@@ -38,7 +38,7 @@ minecraft:
   }
 features: { maxHoursFor2FA: "24", showAllWorldsMeteo: "true", defaultLang: FR }
 api:
-  appRoot: www
+  appRoot: site
   localPort: 8084
   apiKey: "276931890735218689"
   keyStoreFile: keystore.jks
