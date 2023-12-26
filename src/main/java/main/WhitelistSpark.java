@@ -104,7 +104,7 @@ public class WhitelistSpark {
 
     private static void setPaths() {
         final String appRootPath = FileHelper.PLUGIN_DIR.toString()
-                + FileHelper.fSep + configs.get("api.appRoot", "www");
+                + FileHelper.fSep + configs.get("api.appRoot", "site");
         try {
             File rootDir = new File(appRootPath);
             FileUtils.forceMkdir(rootDir);

@@ -134,7 +134,7 @@ public class RewardsManager {
                 // Compare now with claim max time
                 final Timestamp now = Helper.getTimestamp();
                 final String until = calendar.getClaimableUntil();
-                final bool claimable = true;
+                final boolean claimable = true;
 
                 if(!claimable) {
                     continue;

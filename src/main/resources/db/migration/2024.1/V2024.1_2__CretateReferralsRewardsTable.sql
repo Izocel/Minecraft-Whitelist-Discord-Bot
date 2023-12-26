@@ -9,7 +9,6 @@ CREATE TABLE wdmc_referrals_rewards (
 );
 
 
-
 -- -- FILTER BY NAME, USER, CLAIMED
 -- SELECT
 --    *
