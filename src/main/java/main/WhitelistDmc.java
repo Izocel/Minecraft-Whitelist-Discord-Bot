@@ -442,7 +442,6 @@ public final class WhitelistDmc extends JavaPlugin implements Listener {
             final Location loc = player.getLocation();
 
             JSONObject event = new JSONObject();
-            event.put("receiverKey", "Izocel");
             event.put("calendarType", "referral");
 
             rewardsManager.parseClaimRewardsEvent(player, event);

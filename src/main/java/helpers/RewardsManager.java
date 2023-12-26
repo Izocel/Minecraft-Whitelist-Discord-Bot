@@ -139,7 +139,6 @@ public class RewardsManager {
                 if(!claimable) {
                     continue;
                 }
-
                 
                 ArrayList<String> items = new ArrayList<>();
                 items.add("EXPERIENCE_ORB 2");

@@ -119,7 +119,7 @@ rewardsSystem:
   active: false
   calendars:
     myAwesomeWinterReferralSystem:
-      type: referrals
+      type: referral
       active: false
       claimsActive: false
       wipeNow: false
