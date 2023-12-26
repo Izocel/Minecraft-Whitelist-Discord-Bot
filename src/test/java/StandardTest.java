@@ -5,10 +5,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-class StandardTests {
+@TestInstance(Lifecycle.PER_CLASS)
+class StandardTest {
     public final Logger logger = Logger.getLogger(this.getClass().getSimpleName());
-
 
     @BeforeAll
     void beforeAllTests() {

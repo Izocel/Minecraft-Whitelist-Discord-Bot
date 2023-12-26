@@ -24,5 +24,6 @@
         "Bukkit",
         "Gson",
         "wdmc"
-    ]
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
 }
