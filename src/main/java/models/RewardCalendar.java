@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.protobuf.Timestamp;
 
 public class RewardCalendar {
     private boolean active;
@@ -49,12 +48,12 @@ public class RewardCalendar {
                 ? data.get("claimsActive").getAsBoolean()
                 : false;
 
-        calendarStop = data.get("calendarStop") != null
-                ? data.get("calendarStop").getAsString()
-                : null;
-
         calendarStart = data.get("calendarStart") != null
                 ? data.get("calendarStart").getAsString()
+                : null;
+
+        calendarStop = data.get("calendarStop") != null
+                ? data.get("calendarStop").getAsString()
                 : null;
 
         claimableUntil = data.get("claimableUntil") != null
@@ -71,7 +70,7 @@ public class RewardCalendar {
 
         for (int i = 0; i < rewardData.size(); ++i) {
             JsonObject r_data = rewardData.get(i).getAsJsonObject();
-            rewards.add(new Reward(r_data));
+            rewards.add(new Reward(r_data, this.name, this.type));
         }
     }
 

@@ -17,7 +17,7 @@ import services.sentry.SentryService;
 public class BaseDao implements IDao {
 
     private Logger logger;
-    protected String tablename;
+    protected String tableName;
     protected ComboPooledDataSource datasource;
     protected Connection connection;
 
@@ -71,15 +71,15 @@ public class BaseDao implements IDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE BINARY id = ?;";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setInt(1, id);
-            pstmt.execute();
+            String sql = "SELECT * FROM " + this.tableName + " WHERE BINARY id = ?;";
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.setInt(1, id);
+            preStmt.execute();
 
             
-            final ResultSet resultSet = pstmt.getResultSet();
+            final ResultSet resultSet = preStmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -98,15 +98,15 @@ public class BaseDao implements IDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + ";";
+            String sql = "SELECT * FROM " + this.tableName + ";";
 
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.executeQuery();
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.executeQuery();
 
             
-            final ResultSet resultSet = pstmt.getResultSet();
+            final ResultSet resultSet = preStmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -126,13 +126,13 @@ public class BaseDao implements IDao {
         }
 
         try {
-            String sql = "DELETE FROM " + this.tablename + " WHERE BINARY id = ? LIMIT 1;";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setInt(1, id);
-            pstmt.execute();
+            String sql = "DELETE FROM " + this.tableName + " WHERE BINARY id = ? LIMIT 1;";
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.setInt(1, id);
+            preStmt.execute();
             
-            id = pstmt.getUpdateCount() > 0 ? id : null;
-            pstmt.close();
+            id = preStmt.getUpdateCount() > 0 ? id : null;
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {

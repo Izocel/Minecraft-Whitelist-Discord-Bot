@@ -1,14 +1,14 @@
 CREATE TABLE wdmc_referrals_rewards (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  referral_user_id VARCHAR(255) NOT NULL,
+  user_key VARCHAR(255) NOT NULL,
   calendar_name VARCHAR(255) NOT NULL,
+  calendar_type VARCHAR(255) NOT NULL,
   data JSON NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW(),
   claimed_at TIMESTAMP DEFAULT NULL,
-  FOREIGN KEY (referral_user_id) REFERENCES wdmc_referrals(referral_user_id)
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  FOREIGN KEY (user_key) REFERENCES wdmc_referrals(user_key)
 );
-
-
 -- -- FILTER BY NAME, USER, CLAIMED
 -- SELECT
 --    *
@@ -17,4 +17,4 @@ CREATE TABLE wdmc_referrals_rewards (
 -- WHERE
 -- 	claimed_at is NULL
 --     AND calendar_name = "sysName"
---     AND referral_user_id = 272924120142970892;
+--     AND user_key = 272924120142970892;

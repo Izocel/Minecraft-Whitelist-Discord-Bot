@@ -1,12 +1,12 @@
 CREATE TABLE wdmc_referrals (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  referral_user_id VARCHAR(255) UNIQUE NOT NULL,
+  user_key VARCHAR(255) UNIQUE NOT NULL,
   referral_key VARCHAR(255) UNIQUE DEFAULT NULL,
   invited_by VARCHAR(255) DEFAULT NULL,
   data JSON NOT NULL,
-  FOREIGN KEY (invited_by) REFERENCES wdmc_referrals(referral_user_id)
+  FOREIGN KEY (invited_by) REFERENCES wdmc_referrals(user_key)
 );
--- INSERT INTO wdmc_referrals (referral_user_id, referral_key, data)
+-- INSERT INTO wdmc_referrals (user_key, referral_key, data)
 -- VALUES ('272924120142970892', '272924120142970892', '{}' );
 
 -- -- INSERT A CALENDAR DATA
@@ -19,7 +19,7 @@ CREATE TABLE wdmc_referrals (
 --     	'{count:0}'
 --     )
 -- WHERE
---     referral_user_id = 272924120142970892 OR referral_key = "xxx";
+--     user_key = 272924120142970892 OR referral_key = "xxx";
 
 -- -- UPDATE A CALENDAR COUNTS
 -- UPDATE
@@ -34,7 +34,7 @@ CREATE TABLE wdmc_referrals (
 --         ) + 1
 --     )
 -- WHERE
---     referral_user_id = 272924120142970892 OR referral_key = "xxx";
+--     user_key = 272924120142970892 OR referral_key = "xxx";
 -- -- GET A SINGLE CALENDAR DATA
 
 -- SELECT
@@ -42,4 +42,4 @@ CREATE TABLE wdmc_referrals (
 -- FROM
 --     wdmc_referrals
 -- WHERE
---     referral_user_id = 272924120142970892 OR referral_key = "xxx";
+--     user_key = 272924120142970892 OR referral_key = "xxx";

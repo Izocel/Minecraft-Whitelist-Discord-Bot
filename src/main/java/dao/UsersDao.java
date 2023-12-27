@@ -16,14 +16,14 @@ import models.User;
 public class UsersDao extends BaseDao {
 
     private Logger logger;
-    private String tablename2;
-    private String tablename3;
+    private String tableName2;
+    private String tableName3;
 
     public UsersDao(ComboPooledDataSource poolDs) {
         super(poolDs);
-        this.tablename = "wdmc_users";
-        this.tablename2 = "wdmc_java_data";
-        this.tablename3 = "wdmc_bedrock_data";
+        this.tableName = "wdmc_users";
+        this.tableName2 = "wdmc_java_data";
+        this.tableName3 = "wdmc_bedrock_data";
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
 
@@ -46,29 +46,29 @@ public class UsersDao extends BaseDao {
             // New user
             if (id < 1) {
 
-                String sql = "INSERT INTO " + this.tablename + " (discord_id, discord_tag, avatar_url, lang) " +
+                String sql = "INSERT INTO " + this.tableName + " (discord_id, discord_tag, avatar_url, lang) " +
                         "VALUES (?,?,?,?);";
 
-                final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
-                pstmt.setString(1, discordId);
-                pstmt.setString(2, discordTag);
-                pstmt.setString(3, avatarUrl.length() > 0 ? avatarUrl : null);
-                pstmt.setObject(4, lang.length() > 0 ? lang : null);
-                status = pstmt.executeUpdate();
-                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                final PreparedStatement preStmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
+                preStmt.setString(1, discordId);
+                preStmt.setString(2, discordTag);
+                preStmt.setString(3, avatarUrl.length() > 0 ? avatarUrl : null);
+                preStmt.setObject(4, lang.length() > 0 ? lang : null);
+                status = preStmt.executeUpdate();
+                ResultSet generatedKeys = preStmt.getGeneratedKeys();
 
                 while (generatedKeys.next()) {
                     id = generatedKeys.getInt(1);
                     break;
                 }
 
-                pstmt.close();
+                preStmt.close();
                 this.closeConnection();
             }
 
             // Update User
             else if (this.findUser(id) != null) {
-                String sql = "UPDATE " + this.tablename + " SET " +
+                String sql = "UPDATE " + this.tableName + " SET " +
                         "discord_id = ?," +
                         "discord_tag = ?," +
                         "avatar_url = ?," +
@@ -76,15 +76,15 @@ public class UsersDao extends BaseDao {
                         "updated_at = CURRENT_TIMESTAMP " +
                         "WHERE id = ?;";
 
-                final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-                pstmt.setString(1, discordId);
-                pstmt.setString(2, discordTag);
-                pstmt.setString(3, avatarUrl.length() > 0 ? avatarUrl : null);
-                pstmt.setObject(4, lang.length() > 0 ? lang : null);
-                pstmt.setInt(5, id);
-                status = pstmt.executeUpdate();
-                id = pstmt.getUpdateCount() > 0 ? id : -1;
-                pstmt.close();
+                final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+                preStmt.setString(1, discordId);
+                preStmt.setString(2, discordTag);
+                preStmt.setString(3, avatarUrl.length() > 0 ? avatarUrl : null);
+                preStmt.setObject(4, lang.length() > 0 ? lang : null);
+                preStmt.setInt(5, id);
+                status = preStmt.executeUpdate();
+                id = preStmt.getUpdateCount() > 0 ? id : -1;
+                preStmt.close();
                 this.closeConnection();
             }
 
@@ -99,14 +99,14 @@ public class UsersDao extends BaseDao {
 
         JSONArray results = new JSONArray();
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE discord_id = ? LIMIT 1";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, discordId);
-            pstmt.executeQuery();
+            String sql = "SELECT * FROM " + this.tableName + " WHERE discord_id = ? LIMIT 1";
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.setString(1, discordId);
+            preStmt.executeQuery();
 
-            final ResultSet resultSet = pstmt.getResultSet();
+            final ResultSet resultSet = preStmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -124,14 +124,14 @@ public class UsersDao extends BaseDao {
 
         JSONArray results = new JSONArray();
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE discord_tag = ? LIMIT 1";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, discordTag);
-            pstmt.executeQuery();
+            String sql = "SELECT * FROM " + this.tableName + " WHERE discord_tag = ? LIMIT 1";
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.setString(1, discordTag);
+            preStmt.executeQuery();
 
-            final ResultSet resultSet = pstmt.getResultSet();
+            final ResultSet resultSet = preStmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {

@@ -6,7 +6,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class Reward {
-    private String qualifiedAt;
+    private int id;
+    private String calendarName;
+    private String calendarType;
+    private String qualifiedWith;
     private String recurseEvery;
     private String recurseOnlyUntil;
     private String requiredRole;
@@ -14,9 +17,16 @@ public class Reward {
     private JsonArray items;
     private JsonArray recurseItems;
 
-    public Reward(JsonObject data) {
-        qualifiedAt = data.get("qualifiedAt") != null
-                ? data.get("qualifiedAt").getAsString()
+    public Reward(JsonObject data , String calendarName, String calendarType) {
+        this.calendarName = calendarName;
+        this.calendarType = calendarType;
+
+        id = data.get("id") != null
+                ? data.get("id").getAsInt()
+                : null;
+
+        qualifiedWith = data.get("qualifiedWith") != null
+                ? data.get("qualifiedWith").getAsString()
                 : null;
 
         recurseEvery = data.get("recurseEvery") != null

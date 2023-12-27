@@ -20,7 +20,7 @@ public class BedrockDataDao extends BaseDao {
 
     public BedrockDataDao(ComboPooledDataSource poolDs) {
         super(poolDs);
-        this.tablename = "`wdmc_bedrock_data`";
+        this.tableName = "`wdmc_bedrock_data`";
         this.logger = Logger.getLogger("WDMC:" + this.getClass().getSimpleName());
     }
 
@@ -29,14 +29,14 @@ public class BedrockDataDao extends BaseDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE user_id = ?";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setInt(1, userId);
-            pstmt.executeQuery();
+            String sql = "SELECT * FROM " + this.tableName + " WHERE user_id = ?";
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.setInt(1, userId);
+            preStmt.executeQuery();
 
-            final ResultSet resultSet = pstmt.getResultSet();
+            final ResultSet resultSet = preStmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -88,35 +88,35 @@ public class BedrockDataDao extends BaseDao {
             if (found == null) {
                 id = -1;
 
-                String sql = "INSERT INTO " + this.tablename + " (user_id, pseudo, uuid, accepted_by, " +
+                String sql = "INSERT INTO " + this.tableName + " (user_id, pseudo, uuid, accepted_by, " +
                         "revoked_by, msg_id, confirmed, allowed, avatar_url, created_at, updated_at) " +
                         "VALUES (?,?,?,?,?,?,?,?,?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);";
 
-                final PreparedStatement pstmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
-                pstmt.setInt(1, userId);
-                pstmt.setString(2, pseudo);
-                pstmt.setString(3, uuid);
-                pstmt.setObject(4, acceptedBy);
-                pstmt.setObject(5, revokedBy);
-                pstmt.setString(6, msgId);
-                pstmt.setInt(7, confirmed);
-                pstmt.setInt(8, allowed);
-                pstmt.setObject(9, avatarUrl);
-                status = pstmt.executeUpdate();
-                ResultSet generatedKeys = pstmt.getGeneratedKeys();
+                final PreparedStatement preStmt = this.getConnection().prepareStatement(sql, new String[] { "id" });
+                preStmt.setInt(1, userId);
+                preStmt.setString(2, pseudo);
+                preStmt.setString(3, uuid);
+                preStmt.setObject(4, acceptedBy);
+                preStmt.setObject(5, revokedBy);
+                preStmt.setString(6, msgId);
+                preStmt.setInt(7, confirmed);
+                preStmt.setInt(8, allowed);
+                preStmt.setObject(9, avatarUrl);
+                status = preStmt.executeUpdate();
+                ResultSet generatedKeys = preStmt.getGeneratedKeys();
 
                 while (generatedKeys.next()) {
                     id = generatedKeys.getInt(1);
                     break;
                 }
 
-                pstmt.close();
+                preStmt.close();
                 this.closeConnection();
             }
 
             // Update User
             else {
-                String sql = "UPDATE " + this.tablename + " SET " +
+                String sql = "UPDATE " + this.tableName + " SET " +
                         "user_id = ?," +
                         "pseudo = ?," +
                         "uuid = ?," +
@@ -129,20 +129,20 @@ public class BedrockDataDao extends BaseDao {
                         "updated_at = CURRENT_TIMESTAMP " +
                         "WHERE id = ?;";
 
-                final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-                pstmt.setInt(1, userId);
-                pstmt.setString(2, pseudo);
-                pstmt.setString(3, uuid);
-                pstmt.setObject(4, acceptedBy);
-                pstmt.setObject(5, revokedBy);
-                pstmt.setString(6, msgId);
-                pstmt.setInt(7, confirmed);
-                pstmt.setInt(8, allowed);
-                pstmt.setObject(9, avatarUrl);
-                pstmt.setObject(10, id);
-                status = pstmt.executeUpdate();
-                id = pstmt.getUpdateCount() > 0 ? id : -1;
-                pstmt.close();
+                final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+                preStmt.setInt(1, userId);
+                preStmt.setString(2, pseudo);
+                preStmt.setString(3, uuid);
+                preStmt.setObject(4, acceptedBy);
+                preStmt.setObject(5, revokedBy);
+                preStmt.setString(6, msgId);
+                preStmt.setInt(7, confirmed);
+                preStmt.setInt(8, allowed);
+                preStmt.setObject(9, avatarUrl);
+                preStmt.setObject(10, id);
+                status = preStmt.executeUpdate();
+                id = preStmt.getUpdateCount() > 0 ? id : -1;
+                preStmt.close();
                 this.closeConnection();
             }
 
@@ -158,13 +158,13 @@ public class BedrockDataDao extends BaseDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE allowed = 1";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.executeQuery();
+            String sql = "SELECT * FROM " + this.tableName + " WHERE allowed = 1";
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.executeQuery();
 
-            final ResultSet resultSet = pstmt.getResultSet();
+            final ResultSet resultSet = preStmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -180,16 +180,16 @@ public class BedrockDataDao extends BaseDao {
 
     public void setPlayerUUID(Integer userId, UUID UUID, boolean tempConfirmed) {
         try {
-            String sql = "UPDATE " + this.tablename + " SET mc_uuid = ? WHERE user_id = ?;";
+            String sql = "UPDATE " + this.tableName + " SET mc_uuid = ? WHERE user_id = ?;";
             if (tempConfirmed) {
-                sql = "UPDATE " + this.tablename + " SET mc_uuid = ?, confirmed = 1 WHERE user_id = ?;";
+                sql = "UPDATE " + this.tableName + " SET mc_uuid = ?, confirmed = 1 WHERE user_id = ?;";
             }
 
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, UUID.toString());
-            pstmt.setInt(2, userId);
-            pstmt.executeUpdate();
-            pstmt.close();
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.setString(1, UUID.toString());
+            preStmt.setInt(2, userId);
+            preStmt.executeUpdate();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
@@ -202,14 +202,14 @@ public class BedrockDataDao extends BaseDao {
         JSONArray results = new JSONArray();
 
         try {
-            String sql = "SELECT * FROM " + this.tablename + " WHERE uuid = ?";
-            final PreparedStatement pstmt = this.getConnection().prepareStatement(sql);
-            pstmt.setString(1, uuid);
-            pstmt.executeQuery();
+            String sql = "SELECT * FROM " + this.tableName + " WHERE uuid = ?";
+            final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
+            preStmt.setString(1, uuid);
+            preStmt.executeQuery();
 
-            final ResultSet resultSet = pstmt.getResultSet();
+            final ResultSet resultSet = preStmt.getResultSet();
             results = resultSet == null ? null : this.toJsonArray(resultSet);
-            pstmt.close();
+            preStmt.close();
             this.closeConnection();
 
         } catch (SQLException e) {
