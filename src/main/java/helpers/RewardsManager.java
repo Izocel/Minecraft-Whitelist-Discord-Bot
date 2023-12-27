@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import bukkit.BukkitManager;
 import configs.ConfigManager;
+import dao.DaoManager;
 import io.sentry.ISpan;
 import io.sentry.SpanStatus;
 import main.WhitelistDmc;
@@ -39,7 +40,7 @@ public class RewardsManager {
         calendarsData = configs.getAsMap("rewardsSystem.calendars");
 
         if (needsWipe) {
-            wipe();
+            wipeAll();
         }
 
         process.setStatus(SpanStatus.OK);
@@ -136,10 +137,10 @@ public class RewardsManager {
                 final String until = calendar.getClaimableUntil();
                 final boolean claimable = true;
 
-                if(!claimable) {
+                if (!claimable) {
                     continue;
                 }
-                
+
                 ArrayList<String> items = new ArrayList<>();
                 items.add("EXPERIENCE_ORB 2");
                 items.add("IRON_SWORD 1");
@@ -149,33 +150,15 @@ public class RewardsManager {
             }
         } catch (Exception e) {
             SentryService.captureEx(e);
-            needsWipe = true;
         }
     }
 
-    public boolean wipe() {
+    public boolean wipeAll() {
         if (!active || !needsWipe) {
-            return true;
+            return false;
         }
 
-        needsWipe = false;
-
-        try {
-            LinkedList<RewardCalendar> calendars = getCalendars("", -1);
-            Iterator<RewardCalendar> iterator = calendars.iterator();
-
-            while (iterator.hasNext()) {
-                RewardCalendar calendar = iterator.next();
-                final boolean wipeFailed = calendar.wipe();
-                if (wipeFailed) {
-                    needsWipe = true;
-                }
-            }
-        } catch (Exception e) {
-            SentryService.captureEx(e);
-            needsWipe = true;
-        }
-
+        needsWipe = !DaoManager.getRewardsDAO().wipeAll();
         return needsWipe;
     }
 }

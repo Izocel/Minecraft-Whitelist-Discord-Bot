@@ -6,14 +6,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import dao.DaoManager;
+import dao.RewardsDAO;
+import helpers.Helper;
+
 public class RewardCalendar {
     private boolean active;
     private boolean needsWipe = false;
     private boolean claimsActive = false;
     private String name;
     private String type;
-    private String calendarStop;
-    private String calendarStart;
+    private String stopDate;
+    private String startDate;
     private String claimableUntil;
     private String requiredRole;
 
@@ -48,12 +52,12 @@ public class RewardCalendar {
                 ? data.get("claimsActive").getAsBoolean()
                 : false;
 
-        calendarStart = data.get("calendarStart") != null
-                ? data.get("calendarStart").getAsString()
+        startDate = data.get("startDate") != null
+                ? data.get("startDate").getAsString()
                 : null;
 
-        calendarStop = data.get("calendarStop") != null
-                ? data.get("calendarStop").getAsString()
+        stopDate = data.get("stopDate") != null
+                ? data.get("stopDate").getAsString()
                 : null;
 
         claimableUntil = data.get("claimableUntil") != null
@@ -111,9 +115,20 @@ public class RewardCalendar {
     }
 
     public boolean wipe() {
-        needsWipe = false;
+        final boolean success = DaoManager.getRewardsDAO().wipeClaimedByName(name, stopDate);
+        if (!success) {
+            needsWipe = true;
+        }
 
-        // TODO: change config.yml with needsWipe new value
+        return needsWipe;
+    }
+
+    public boolean forceWipe() {
+        final boolean success = DaoManager.getRewardsDAO().wipeClaimedByName(name, Helper.getTimestamp().toString());
+        if (!success) {
+            needsWipe = true;
+        }
+
         return needsWipe;
     }
 }

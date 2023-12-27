@@ -15,12 +15,13 @@ public class DaoManager {
     protected static UsersDao usersDao = null;
     protected static BedrockDataDao bedrockDataDao = null;
     protected static JavaDataDao javaDataDao = null;
+    protected static RewardsDAO rewardsDAO;
     private Logger logger;
 
     public DaoManager(WhitelistDmc plugin) {
         try {
             ISpan process = plugin.getSentryService().findWithuniqueName("onEnable")
-                .startChild("DaoManager");
+                    .startChild("DaoManager");
 
             this.logger = Logger.getLogger("WDMC:" + getClass().getSimpleName());
             dataSource = DbPoolFactory.getPoolConnection(plugin.getConfigManager());
@@ -55,5 +56,12 @@ public class DaoManager {
             javaDataDao = new JavaDataDao(dataSource);
         }
         return javaDataDao;
+    }
+
+    public static RewardsDAO getRewardsDAO() {
+        if (rewardsDAO == null) {
+            rewardsDAO = new RewardsDAO(dataSource);
+        }
+        return rewardsDAO;
     }
 }

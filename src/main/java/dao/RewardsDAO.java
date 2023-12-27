@@ -119,8 +119,8 @@ public class RewardsDAO extends BaseDao {
         return status;
     }
 
-    public Integer wipeClaimedByName(String calendarName, String stopDate) {
-        int status = -1;
+    public boolean wipeClaimedByName(String calendarName, String stopDate) {
+        boolean status = false;
 
         try {
             String sql = "DELETE FROM " + this.tableName + " WHERE calendar_name = ? and created_at < ?;";
@@ -130,7 +130,7 @@ public class RewardsDAO extends BaseDao {
             preStmt.setString(2, stopDate);
             preStmt.execute();
 
-            status = preStmt.getUpdateCount();
+            status = preStmt.getUpdateCount() >= 0;
             preStmt.close();
             this.closeConnection();
 
@@ -166,8 +166,8 @@ public class RewardsDAO extends BaseDao {
         return status;
     }
 
-    public Integer wipeAll() {
-        int status = -1;
+    public boolean wipeAll() {
+        boolean status = false;
 
         try {
             String sql = "DELETE FROM " + this.tableName + ";";
@@ -175,7 +175,7 @@ public class RewardsDAO extends BaseDao {
             final PreparedStatement preStmt = this.getConnection().prepareStatement(sql);
             preStmt.execute();
 
-            status = preStmt.getUpdateCount();
+            status = preStmt.getUpdateCount() >= 0;
             preStmt.close();
             this.closeConnection();
 
