@@ -20,13 +20,13 @@ public class FetchUserDbCmd extends UserOnlyCmd {
     private final static String KEY_CMD_NAME = "CMD_FETCHDB_USERS";
     private final static String KEY_CMD_DESC = "DESC_FETCHDB_USERS";
     private final static String KEY_PARAM_USER = "PARAM_MEMBER";
-    private final static String KEY_PARAM_USER_LABEL = "PARAM_MEMBER_LABEL";
+    private final static String KEY_PARAM_USER_DESC = "PARAM_MEMBER_DESC";
 
     public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String localUserParam = LOCAL.translate(KEY_PARAM_USER);
-        final String localUserLabel = LOCAL.translate(KEY_PARAM_USER_LABEL);
+        final String localUserLabel = LOCAL.translate(KEY_PARAM_USER_DESC);
 
         // Traduction
         jda.addEventListener(new FetchUserDbCmd(plugin));

@@ -79,7 +79,6 @@ public class LocalManager {
     }
 
     public final String translate(String key) {
-
         if (key.length() < 1) {
             final String msg = "Local key was empty for: " + key;
             SentryService.captureEx(new Exception(msg));

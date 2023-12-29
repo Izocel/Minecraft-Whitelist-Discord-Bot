@@ -86,7 +86,7 @@ INFO_USER_WAS_ACCEPTED: '✔️ **El jugador <@%s> ha sido aprobado bien por el 
   `%s`.**'
 INFO_USER_WAS_REJECTED: '❌ **El jugador <@%s> ha sido rechazado por el apodo: `%s`.**'
 INFO_REJECTED_USER: '**❌ Su registracion en el servidor ha sido rechazada.**'
-WARN_REGISTRATION_DELAY: ⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar
+WARN_REGISTERATION_DELAY: ⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar
   esta cuenta...
 WARN_ALREADY_REGISTERED: ⚠️ **Este apodo `%s` ya fue registrado por otro jugador**
 WARN_NOT_ACCEPTED_YET: ⚠️ **Esta cuenta `%s` no ha sido aceptada todavia por el servidor**
@@ -110,27 +110,31 @@ CMD_SERVER: servidor
 CMD_REGISTER: registrar
 CMD_LOOKUP: busqueda
 CMD_SETLOCAL: idioma
+CMD_REFERRAL: remisión
 CMD_FETCHDB_USERS: miembros
 CMD_REMOVE_DB_USERS: retirar
 PARAM_PJAVA: java
 PARAM_PBEDR: bedrock
-PARAM_REGISTR_LABELJ: Su pseudo Java
-PARAM_REGISTR_LABELB: Su pseudo Bedrock
-PARAM_LOOKUP_LABEL: El uuid o el apodo de búsqueda
+PARAM_REGISTER_DESCJ: Su pseudo Java
+PARAM_REGISTER_DESCB: Su pseudo Bedrock
+PARAM_LOOKUP_DESC: El uuid o el apodo de búsqueda
 PARAM_LOCAL_SETLOCAL: idioma
-PARAM_LOCAL_LABEL: 'Language disponible: [''FR, EN, ES'']'
+PARAM_LOCAL_DESC: 'Language disponible: [''FR, EN, ES'']'
 PARAM_MEMBER: miembro
-PARAM_MEMBER_LABEL: Un miembro del gremio
+PARAM_MEMBER_DESC: Un miembro del gremio
 PARAM_UUID: uuid
-PARAM_UUID_LABEL: Un uuid minecraft
+PARAM_UUID_DESC: Un uuid minecraft
+PARAM_REF_CODE: Código
+PARAM_REF_CODE_DESC: Un código de referencia único
 DESC_SERVER: Mostrar la información del servidor `Minecraft®`.
-DESC_REGISTR: Regístrarse en el servidor `Minecraft®`.
+DESC_REGISTER: Regístrarse en el servidor `Minecraft®`.
 DESC_LOOKUP: Encontrar información de jugador de Minecraft® por uuid o pseudo.
 DESC_SETLOCAL: |-
   Cambiar el idioma de visualización.
    FR: Francés, EN: Inglés, ES: Español.
 DESC_FETCHDB_USERS: Récuperer les infos sur un membre.
 DESC_REMOVE_DB_USERS: Eliminar todos los datos de un miembro y expulsarlo de Discord®.
+DESC_REFERRAL: Informar quién te invitó al servidor.
 TEXTONLY_CMD: ❌ Esta orden solo está disponible en los canales de texto.
 GUILDONLY_CMD: ❌ Esta orden solo está disponible en los canales de texto de los gremios
   que usan este plugin.

@@ -164,6 +164,16 @@ public abstract class BaseCmd extends ListenerAdapter {
         this.event.reply(msg).setEphemeral(true).submit(true);
     }
 
+    protected final net.dv8tion.jda.api.entities.User getUserParam(String paramTradKey) {
+        final OptionMapping option = event.getOption(LOCAL.translate(paramTradKey));
+        return option != null ? option.getAsUser() : null;
+    }
+
+    protected final Member getMemberParam(String paramTradKey) {
+        final OptionMapping option = event.getOption(LOCAL.translate(paramTradKey));
+        return option != null ? option.getAsMember() : null;
+    }
+
     protected final Boolean getBoolParam(String paramTradKey) {
         final OptionMapping option = event.getOption(LOCAL.translate(paramTradKey));
         return option != null ? option.getAsBoolean() : null;

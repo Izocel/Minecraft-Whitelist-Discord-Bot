@@ -85,7 +85,7 @@ INFO_USER_WAS_ACCEPTED: '✔️ **The player <@%s> was gently accepted for the p
 INFO_USER_WAS_REJECTED: '❌ **The player <@%s> was strongly refused for the pseudo:
   `%s`.**'
 INFO_REJECTED_USER: '**❌ Your registration on the server was rejected.**'
-WARN_REGISTRATION_DELAY: ⚠️ You're already registered, but the delay to confirm this
+WARN_REGISTERATION_DELAY: ⚠️ You're already registered, but the delay to confirm this
   account is overdue...
 WARN_ALREADY_REGISTERED: ⚠️ **This `%s` pseudo is already registered to another player**
 WARN_NOT_ACCEPTED_YET: ⚠️ **This `%s` account was not yet accepted on the server by
@@ -110,27 +110,31 @@ CMD_SERVER: server
 CMD_REGISTER: register
 CMD_LOOKUP: search
 CMD_SETLOCAL: language
+CMD_REFERRAL: referral
 CMD_FETCHDB_USERS: members
 CMD_REMOVE_DB_USERS: remove
 PARAM_PJAVA: java-pseudo
 PARAM_PBEDR: bedrock-pseudo
-PARAM_REGISTR_LABELJ: Your Java pseudo
-PARAM_REGISTR_LABELB: Your Bedrock pseudo
-PARAM_LOOKUP_LABEL: The uuid or pseudo to search for
+PARAM_REGISTER_DESCJ: Your Java pseudo
+PARAM_REGISTER_DESCB: Your Bedrock pseudo
+PARAM_LOOKUP_DESC: The uuid or pseudo to search for
 PARAM_LOCAL_SETLOCAL: language
-PARAM_LOCAL_LABEL: 'Available language: [''FR, EN, ES'']'
+PARAM_LOCAL_DESC: 'Available language: [''FR, EN, ES'']'
 PARAM_MEMBER: member
-PARAM_MEMBER_LABEL: A guild member
+PARAM_MEMBER_DESC: A guild member
 PARAM_UUID: uuid
-PARAM_UUID_LABEL: A Minecraft uuid
+PARAM_UUID_DESC: A Minecraft uuid
+PARAM_REF_CODE: Code
+PARAM_REF_CODE_DESC: A unique referral code
 DESC_SERVER: Show the `Minecraft®` server information.
-DESC_REGISTR: Register on the `Minecraft®` server.
+DESC_REGISTER: Register on the `Minecraft®` server.
 DESC_LOOKUP: Find `Minecraft®` players infos by uuid or pseudo.
 DESC_SETLOCAL: |-
   Change the display language.
    FR: francais, EN: english, ES: española.
 DESC_FETCHDB_USERS: Get info on a member.
 DESC_REMOVE_DB_USERS: Delete all of a member's data and kick them from Discord®.
+DESC_REFERRAL: Inform's who has invited you to the server.
 TEXTONLY_CMD: ❌ This command is available only through textual channels.
 GUILDONLY_CMD: ❌ This command is available only through textual guild channels using
   this.

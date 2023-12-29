@@ -13,12 +13,12 @@ public class LookupMcPlayerCommand extends BaseCmd {
 
     private final static String KEY_CMD_NAME = "CMD_LOOKUP";
     private final static String KEY_CMD_DESC = "DESC_LOOKUP";
-    private final static String KEY_PARAM_VALUE_LABEL = "PARAM_LOOKUP_LABEL";
+    private final static String KEY_PARAM_VALUE_DESC = "PARAM_LOOKUP_DESC";
 
     public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
-        final String valueLabel = LOCAL.translate(KEY_PARAM_VALUE_LABEL);
+        final String valueLabel = LOCAL.translate(KEY_PARAM_VALUE_DESC);
 
         jda.addEventListener(new LookupMcPlayerCommand(plugin));
         jda.upsertCommand(cmdName, cmdDesc)

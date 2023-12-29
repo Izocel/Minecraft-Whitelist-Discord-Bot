@@ -1,6 +1,5 @@
 package commands.discords;
 
-import dao.UsersDao;
 import main.WhitelistDmc;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -10,13 +9,13 @@ public class SetUserLanguageCmd extends UserOnlyCmd {
     private final static String KEY_CMD_NAME = "CMD_SETLOCAL";
     private final static String KEY_CMD_DESC = "DESC_SETLOCAL";
     private final static String KEY_PARAM_LANG = "PARAM_LOCAL_SETLOCAL";
-    private final static String KEY_PARAM_LANG_LABEL = "PARAM_LOCAL_LABEL";
+    private final static String KEY_PARAM_LANG_DESC = "PARAM_LOCAL_DESC";
 
     public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         final String localLangParam = LOCAL.translate(KEY_PARAM_LANG);
-        final String localLangLabel = LOCAL.translate(KEY_PARAM_LANG_LABEL);
+        final String localLangLabel = LOCAL.translate(KEY_PARAM_LANG_DESC);
 
         // Traduction
         jda.addEventListener(new SetUserLanguageCmd(plugin));

@@ -32,19 +32,19 @@ import java.util.UUID;
 public class RegisterCommand extends BaseCmd {
 
     private final static String KEY_CMD_NAME = "CMD_REGISTER";
-    private final static String KEY_CMD_DESC = "DESC_REGISTR";
+    private final static String KEY_CMD_DESC = "DESC_REGISTER";
     private final static String KEY_PARAM_JAVA = "PARAM_PJAVA";
     private final static String KEY_PARAM_BEDR = "PARAM_PBEDR";
-    private final static String KEY_PARAM_JAVA_LABEL = "PARAM_REGISTR_LABELJ";
-    private final static String KEY_PARAM_BEDR_LABEL = "PARAM_REGISTR_LABELB";
+    private final static String KEY_PARAM_JAVA_DESC = "PARAM_REGISTER_DESCJ";
+    private final static String KEY_PARAM_BEDR_DESC = "PARAM_REGISTER_DESCB";
 
     public static void REGISTER_CMD(JDA jda, WhitelistDmc plugin) {
         String cmdName = LOCAL.translate(KEY_CMD_NAME);
         String cmdDesc = LOCAL.translate(KEY_CMD_DESC);
         String paramJ = LOCAL.translate(KEY_PARAM_JAVA);
         String paramB = LOCAL.translate(KEY_PARAM_BEDR);
-        String paramLabelJ = LOCAL.translate(KEY_PARAM_JAVA_LABEL);
-        String paramLabelB = LOCAL.translate(KEY_PARAM_BEDR_LABEL);
+        String paramLabelJ = LOCAL.translate(KEY_PARAM_JAVA_DESC);
+        String paramLabelB = LOCAL.translate(KEY_PARAM_BEDR_DESC);
 
         jda.addEventListener(new RegisterCommand(plugin));
         jda.upsertCommand(cmdName, cmdDesc)
