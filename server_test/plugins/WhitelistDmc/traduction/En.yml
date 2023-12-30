@@ -85,7 +85,7 @@ INFO_USER_WAS_ACCEPTED: '✔️ **The player <@%s> was gently accepted for the p
 INFO_USER_WAS_REJECTED: '❌ **The player <@%s> was strongly refused for the pseudo:
   `%s`.**'
 INFO_REJECTED_USER: '**❌ Your registration on the server was rejected.**'
-WARN_REGISTERATION_DELAY: ⚠️ You're already registered, but the delay to confirm this
+WARN_REGISTRATION_DELAY: ⚠️ You're already registered, but the delay to confirm this
   account is overdue...
 WARN_ALREADY_REGISTERED: ⚠️ **This `%s` pseudo is already registered to another player**
 WARN_NOT_ACCEPTED_YET: ⚠️ **This `%s` account was not yet accepted on the server by

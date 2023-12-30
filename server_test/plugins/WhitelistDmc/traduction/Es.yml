@@ -86,7 +86,7 @@ INFO_USER_WAS_ACCEPTED: '✔️ **El jugador <@%s> ha sido aprobado bien por el 
   `%s`.**'
 INFO_USER_WAS_REJECTED: '❌ **El jugador <@%s> ha sido rechazado por el apodo: `%s`.**'
 INFO_REJECTED_USER: '**❌ Su registracion en el servidor ha sido rechazada.**'
-WARN_REGISTERATION_DELAY: ⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar
+WARN_REGISTRATION_DELAY: ⚠️ Estás registrado, pero ya pasó el tiempo límite para confirmar
   esta cuenta...
 WARN_ALREADY_REGISTERED: ⚠️ **Este apodo `%s` ya fue registrado por otro jugador**
 WARN_NOT_ACCEPTED_YET: ⚠️ **Esta cuenta `%s` no ha sido aceptada todavia por el servidor**

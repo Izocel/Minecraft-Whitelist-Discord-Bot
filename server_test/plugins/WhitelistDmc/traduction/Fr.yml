@@ -90,7 +90,7 @@ INFO_USER_WAS_ACCEPTED:
   `%s`.**"
 INFO_USER_WAS_REJECTED: "❌ **Le joueur <@%s> a bien été refusé pour le pseudo: `%s`.**"
 INFO_REJECTED_USER: "**❌ Votre enregistrement sur le serveur a été refusé.**"
-WARN_REGISTERATION_DELAY:
+WARN_REGISTRATION_DELAY:
   ⚠️ Vous êtes bien enregistré, mais le délai pour confirmer
   ce compte est dépassé...
 WARN_ALREADY_REGISTERED: ⚠️ **Ce pseudo `%s` est déjà enregistrer par un autre joueur**

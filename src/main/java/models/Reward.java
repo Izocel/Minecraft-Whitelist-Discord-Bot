@@ -53,7 +53,7 @@ public class Reward {
     public LinkedList<String> getItems() {
         LinkedList<String> itemList = new LinkedList<>();
         for (int i = 0; i < items.size(); i++) {
-            itemList.addLast(items.get(i).getAsString());
+            itemList.add(items.get(i).getAsString());
         }
 
         return itemList;
@@ -62,7 +62,7 @@ public class Reward {
     public LinkedList<String> getRecurseItems() {
         LinkedList<String> itemList = new LinkedList<>();
         for (int i = 0; i < recurseItems.size(); i++) {
-            itemList.addLast(recurseItems.get(i).getAsString());
+            itemList.add(recurseItems.get(i).getAsString());
         }
 
         return itemList;
